@@ -18,7 +18,7 @@ import java.util.*
 class EventDay(private var eventDate: Date) {
 
     init {
-        if (isDateInFuture()) {
+        if (EventDay.isDateInFuture(eventDate)) {
             Log.e(
                 EventDay::class.java.simpleName,
                 "Member variable EVENTDAY was in the future, it is now set to current date"
@@ -27,32 +27,49 @@ class EventDay(private var eventDate: Date) {
         }
     }
 
-    /**
-     * isDateInFuture checks if the member var eventDate is in the future (>currentDate)
-     * @return Boolean
-     */
-    private fun isDateInFuture(): Boolean {
-        return this.eventDate.after(Calendar.getInstance().time)
-    }
-
     companion object {
         /**
-         * parseDateToString parses the member variable EVENTDATE to a localized string in short format
-         * @param date
+         * parseLocalizedDateToString parses the member variable EVENTDATE to a localized string in short format
+         * @param date : Date
+         * @param locale : Locale = Locale.getDefault()
+         * @param format : Int = DateFormat.Short
          * @return String
          */
-        fun parseDateToString(date: Date): String {
-            return DateFormat.getDateInstance(DateFormat.SHORT).format(date)
+        @JvmStatic
+        fun parseDateToString(
+            date: Date,
+            locale: Locale = Locale.getDefault(),
+            format: Int = DateFormat.SHORT
+        ): String {
+            return DateFormat.getDateInstance(format, locale).format(date)
         }
 
         /**
          * parseStringToDate parses a string in localized short format to a date which has 00:00:00 as time
-         * @param date_string
+         * @param date_string : String
+         * @param locale : Locale = Locale.getDefault()
+         * @param format : Int = DateFormat.Short
          * @return Date
          */
-        fun parseStringToDate(date_string: String): Date {
-            val df = DateFormat.getDateInstance(DateFormat.SHORT)
+        @JvmStatic
+        fun parseStringToDate(
+            date_string: String,
+            locale: Locale = Locale.getDefault(),
+            format: Int = DateFormat.SHORT
+        ): Date {
+            val df = DateFormat.getDateInstance(format, locale)
             return df.parse(date_string)
+        }
+
+
+        /**
+         * isDateInFuture checks if the member var eventDate is in the future (>currentDate)
+         * @return Boolean
+         * @param Date
+         */
+        @JvmStatic
+        fun isDateInFuture(date: Date): Boolean {
+            return date.after(Calendar.getInstance().time)
         }
     }
 }
