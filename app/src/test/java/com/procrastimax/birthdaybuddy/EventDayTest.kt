@@ -9,13 +9,36 @@ import java.util.*
 class EventDayTest {
     @Test
     fun dateParsingTest() {
-        println(EventDay.parseStringToDate("13.2.19", Locale.GERMAN))
-        println(EventDay.parseDateToString(Calendar.getInstance().time, Locale.GERMAN, DateFormat.FULL))
         Assert.assertEquals("2/13/19", EventDay.parseDateToString(EventDay.parseStringToDate("2/13/19")))
     }
 
     @Test
     fun isInFutureTest() {
-        assert(!EventDay.isDateInFuture(EventDay.parseStringToDate("2/14/19")))
+        val currentDate = Calendar.getInstance().time
+        //86400000 is one day in ms
+        currentDate.time += 86400001
+
+        //primary constructor test
+        val event = EventDay(currentDate)
+
+        //setter test
+        event.eventDate = currentDate
+
+        assert(!EventDay.isDateInFuture(event.eventDate))
+    }
+
+    @Test
+    fun dateDifferenceInDaysTest() {
+        val calender = Calendar.getInstance()
+        calender.time = Calendar.getInstance().time
+        calender.set(Calendar.YEAR, Calendar.getInstance().get(Calendar.DAY_OF_YEAR) - 1)
+        calender.set(Calendar.DAY_OF_YEAR, Calendar.getInstance().get(Calendar.DAY_OF_YEAR) + 1)
+
+        val event = EventDay(calender.time)
+        Assert.assertEquals(1, event.getDaysUntil())
+
+        calender.set(Calendar.DAY_OF_YEAR, Calendar.getInstance().get(Calendar.DAY_OF_YEAR) - 1)
+        event.eventDate = calender.time
+        Assert.assertEquals(364, event.getDaysUntil())
     }
 }
