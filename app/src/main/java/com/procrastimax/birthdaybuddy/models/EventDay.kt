@@ -1,5 +1,6 @@
 package com.procrastimax.birthdaybuddy.models
 
+import android.util.EventLog
 import android.util.Log
 import java.text.DateFormat
 import java.time.Duration
@@ -21,16 +22,16 @@ open class EventDay(private var _eventDate: Date) {
     //short "hack" to make it possible to set a getter/setter for primary constructed class members
     // eventDate is used as an alibi member
     var eventDate: Date
-        get() = _eventDate
+        get() = EventDay.normalizeDate(_eventDate)
         set(value) {
             _eventDate = if (EventDay.isDateInFuture(value)) {
                 Log.e(
                     "EventDay",
                     "Member variable EVENTDAY was in the future, it is now set to current date"
                 )
-                Calendar.getInstance().time
+                EventDay.normalizeDate(Calendar.getInstance().time)
             } else {
-                value
+                EventDay.normalizeDate(value)
             }
         }
 
@@ -40,7 +41,9 @@ open class EventDay(private var _eventDate: Date) {
                 "EventDay",
                 "Member variable EVENTDAY was in the future, it is now set to current date"
             )
-            _eventDate = Calendar.getInstance().time
+            _eventDate = EventDay.normalizeDate(Calendar.getInstance().time)
+        } else {
+            _eventDate = EventDay.normalizeDate(_eventDate)
         }
     }
 
@@ -62,8 +65,27 @@ open class EventDay(private var _eventDate: Date) {
      */
     fun getDaysUntil(): Int {
         val dateInCurrentTimeContext = dateToCurrentTimeContext()
-        val dayDiff = dateInCurrentTimeContext.time - EventDay.normalizedDate(Calendar.getInstance().time).time
+        val dayDiff = dateInCurrentTimeContext.time - EventDay.normalizeDate(Calendar.getInstance().time).time
         return (dayDiff / (1000 * 60 * 60 * 24)).toInt()
+    }
+
+    /**
+     * getYearsSince returns the difference between the member var EVENTDATE and the current date in years
+     * This function respects the case, that a date which has not occurred in the current year, is decremented by one
+     *
+     * @return Int
+     */
+    fun getYearsSince(): Int {
+        val pastDateCal = Calendar.getInstance()
+        pastDateCal.time = this.eventDate
+
+        val currentCal = Calendar.getInstance()
+
+        return if (dateToCurrentYear().before(currentCal.time)) {
+            (currentCal.get(Calendar.YEAR) - pastDateCal.get(Calendar.YEAR))
+        } else {
+            (currentCal.get(Calendar.YEAR) - pastDateCal.get(Calendar.YEAR) - 1)
+        }
     }
 
     /**
@@ -81,14 +103,25 @@ open class EventDay(private var _eventDate: Date) {
         //this is needed to check if the date is this or next year
         //this is needed for calculating how many days until the event
         val dateInCurrentTimeContext = Calendar.getInstance()
-        dateInCurrentTimeContext.time = EventDay.normalizedDate(this._eventDate)
+        dateInCurrentTimeContext.time = this.eventDate
         dateInCurrentTimeContext.set(Calendar.YEAR, Calendar.getInstance().get(Calendar.YEAR))
 
         //if past date with current year is before current date then set year to next year
-        if (dateInCurrentTimeContext.time.before(EventDay.normalizedDate(Calendar.getInstance().time))) {
+        if (dateInCurrentTimeContext.time.before(EventDay.normalizeDate(Calendar.getInstance().time))) {
             dateInCurrentTimeContext.set(Calendar.YEAR, Calendar.getInstance().get(Calendar.YEAR) + 1)
         }
         return dateInCurrentTimeContext.time
+    }
+
+    /**
+     * dateToCurrentYear changes the year member var EVENTDATE to the current year
+     * @return Date
+     */
+    private fun dateToCurrentYear(): Date {
+        val dateInCurrentYear = Calendar.getInstance()
+        dateInCurrentYear.time = this.eventDate
+        dateInCurrentYear.set(Calendar.YEAR, Calendar.getInstance().get(Calendar.YEAR))
+        return dateInCurrentYear.time
     }
 
     companion object {
@@ -140,7 +173,7 @@ open class EventDay(private var _eventDate: Date) {
          * @return Date
          */
         @JvmStatic
-        private fun normalizedDate(date: Date): Date {
+        private fun normalizeDate(date: Date): Date {
             val normalizedDateCal = Calendar.getInstance()
             normalizedDateCal.time = date
             normalizedDateCal.set(Calendar.MILLISECOND, 0)
