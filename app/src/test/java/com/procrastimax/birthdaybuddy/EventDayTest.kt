@@ -3,7 +3,6 @@ package com.procrastimax.birthdaybuddy
 import com.procrastimax.birthdaybuddy.models.EventDay
 import org.junit.Assert
 import org.junit.Test
-import java.text.DateFormat
 import java.util.*
 
 class EventDayTest {
@@ -21,10 +20,8 @@ class EventDayTest {
         //primary constructor test
         val event = EventDay(currentDate)
 
-        //setter test
-        event.eventDate = currentDate
-
-        assert(!EventDay.isDateInFuture(event.eventDate))
+        //this almost always asserts to false, because if a future date is given, then the current is applied to the "future" date
+        Assert.assertEquals(false, EventDay.isDateInFuture(event.eventDate))
     }
 
     @Test

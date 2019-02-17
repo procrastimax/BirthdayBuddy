@@ -1,9 +1,7 @@
 package com.procrastimax.birthdaybuddy.models
 
-import android.util.EventLog
 import android.util.Log
 import java.text.DateFormat
-import java.time.Duration
 import java.util.*
 
 /**
@@ -36,14 +34,14 @@ open class EventDay(private var _eventDate: Date) {
         }
 
     init {
-        if (EventDay.isDateInFuture(_eventDate)) {
+       _eventDate = if (EventDay.isDateInFuture(_eventDate)) {
             Log.e(
                 "EventDay",
                 "Member variable EVENTDAY was in the future, it is now set to current date"
             )
-            _eventDate = EventDay.normalizeDate(Calendar.getInstance().time)
+            EventDay.normalizeDate(Calendar.getInstance().time)
         } else {
-            _eventDate = EventDay.normalizeDate(_eventDate)
+            EventDay.normalizeDate(_eventDate)
         }
     }
 
@@ -54,7 +52,8 @@ open class EventDay(private var _eventDate: Date) {
      * @param locale : Locale = Locale.getDefault()
      * @return String
      */
-    fun getEventDateAsString(format: Int = DateFormat.SHORT, locale: Locale = Locale.getDefault()): String {
+    @Override
+    fun toString(format: Int = DateFormat.SHORT, locale: Locale = Locale.getDefault()): String {
         return parseDateToString(this.eventDate, format, locale)
     }
 
@@ -183,5 +182,13 @@ open class EventDay(private var _eventDate: Date) {
             normalizedDateCal.set(Calendar.HOUR_OF_DAY, 0)
             return normalizedDateCal.time
         }
+
+        /**
+         * event_list singleton object list to store all occurring eventdate (birthdays, anniversaries, etc.)
+         * This is useful to make comparing of all objects (sorting) more easy, f.e. when you want to traverse all entries in event dates
+         * TODO: maybe make this to a map, use object type as key
+         * TODO: dont use this list as mutable, check objects before adding/modifying them in the list
+         */
+        var event_list: MutableList<EventDay> = emptyList<EventDay>().toMutableList()
     }
 }
