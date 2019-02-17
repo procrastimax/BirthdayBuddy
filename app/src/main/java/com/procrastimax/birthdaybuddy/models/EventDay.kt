@@ -12,6 +12,8 @@ import java.util.*
  * Can be used for other eventType classes f.e. birthdayEvent, anniversaryEvent, ...
  * The used date format used in the app is dd.MM.yyyy
  *
+ * TODO: add comparable/sortable functions
+ *
  * @param _eventDate The date of the event
  * @author Procrastimax
  */
@@ -23,7 +25,7 @@ open class EventDay(private var _eventDate: Date) {
         get() = EventDay.normalizeDate(_eventDate)
         set(value) {
             _eventDate = if (EventDay.isDateInFuture(value)) {
-                Log.e(
+                Log.d(
                     "EventDay",
                     "Member variable EVENTDAY was in the future, it is now set to current date"
                 )
@@ -35,7 +37,7 @@ open class EventDay(private var _eventDate: Date) {
 
     init {
        _eventDate = if (EventDay.isDateInFuture(_eventDate)) {
-            Log.e(
+            Log.d(
                 "EventDay",
                 "Member variable EVENTDAY was in the future, it is now set to current date"
             )
@@ -54,6 +56,10 @@ open class EventDay(private var _eventDate: Date) {
      */
     @Override
     fun toString(format: Int = DateFormat.SHORT, locale: Locale = Locale.getDefault()): String {
+        return dateToPrettyString(format, locale)
+    }
+
+    fun dateToPrettyString(format: Int = DateFormat.SHORT, locale: Locale = Locale.getDefault()): String {
         return parseDateToString(this.eventDate, format, locale)
     }
 
@@ -182,13 +188,5 @@ open class EventDay(private var _eventDate: Date) {
             normalizedDateCal.set(Calendar.HOUR_OF_DAY, 0)
             return normalizedDateCal.time
         }
-
-        /**
-         * event_list singleton object list to store all occurring eventdate (birthdays, anniversaries, etc.)
-         * This is useful to make comparing of all objects (sorting) more easy, f.e. when you want to traverse all entries in event dates
-         * TODO: maybe make this to a map, use object type as key
-         * TODO: dont use this list as mutable, check objects before adding/modifying them in the list
-         */
-        var event_list: MutableList<EventDay> = emptyList<EventDay>().toMutableList()
     }
 }

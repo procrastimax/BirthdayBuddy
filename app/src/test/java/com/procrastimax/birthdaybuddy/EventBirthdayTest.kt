@@ -27,7 +27,7 @@ class EventBirthdayTest {
         birthday_1.forename = "  "
         birthday_1.surname = ""
         Assert.assertEquals("-", birthday_1.forename)
-        Assert.assertEquals("-", birthday_1.surname)
+        Assert.assertEquals("0", birthday_1.surname)
 
         //no note was set, default is empty
         Assert.assertEquals("-", birthday_1.note)

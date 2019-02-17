@@ -3,13 +3,16 @@ package com.procrastimax.birthdaybuddy
 import android.os.Bundle
 import android.support.design.widget.Snackbar
 import android.support.v7.app.AppCompatActivity;
-import android.util.EventLog
 import android.view.Menu
 import android.view.MenuItem
+import android.widget.TextView
 import com.procrastimax.birthdaybuddy.models.EventBirthday
 import com.procrastimax.birthdaybuddy.models.EventDay
+import com.procrastimax.birthdaybuddy.models.EventHandler
 
 import kotlinx.android.synthetic.main.activity_main.*
+import java.text.DateFormat
+import java.util.*
 
 class MainActivity : AppCompatActivity() {
 
@@ -18,8 +21,31 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         setSupportActionBar(toolbar)
 
+        EventDataIO.registerIO(this.applicationContext)
+
+        val textView: TextView = findViewById<TextView>(R.id.textView)
+
+        textView.text = EventHandler.getEvents().toString()
+
         fab.setOnClickListener { view ->
-            Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+
+            EventHandler.addEvent(
+                EventBirthday(
+                    EventDay.parseStringToDate("06.02.00", DateFormat.SHORT, Locale.GERMAN),
+                    "Procrastimax",
+                    EventHandler.getLastIndex().toString(),
+                    false
+                )
+            )
+
+            EventDataIO.writeEventToFile(
+                EventHandler.getLastIndex(),
+                EventHandler.getValueToKey(EventHandler.getLastIndex())!!
+            )
+
+            textView.text = EventHandler.getEvents().toString()
+
+            Snackbar.make(view, "BirthdayEventAdded", Snackbar.LENGTH_LONG)
                 .setAction("Action", null).show()
         }
     }
