@@ -8,7 +8,7 @@ import android.view.MenuItem
 import android.widget.TextView
 import com.procrastimax.birthdaybuddy.models.EventBirthday
 import com.procrastimax.birthdaybuddy.models.EventDay
-import com.procrastimax.birthdaybuddy.models.EventHandler
+import com.procrastimax.birthdaybuddy.Handler.EventHandler
 
 import kotlinx.android.synthetic.main.activity_main.*
 import java.text.DateFormat
@@ -25,22 +25,19 @@ class MainActivity : AppCompatActivity() {
 
         val textView: TextView = findViewById<TextView>(R.id.textView)
 
-        textView.text = EventHandler.getEvents().toString()
+        //read from sharedpreferences
+        textView.text = EventDataIO.readAll().toString()
 
         fab.setOnClickListener { view ->
-
+            //directly write after adding
             EventHandler.addEvent(
                 EventBirthday(
                     EventDay.parseStringToDate("06.02.00", DateFormat.SHORT, Locale.GERMAN),
                     "Procrastimax",
                     EventHandler.getLastIndex().toString(),
                     false
-                )
-            )
-
-            EventDataIO.writeEventToFile(
-                EventHandler.getLastIndex(),
-                EventHandler.getValueToKey(EventHandler.getLastIndex())!!
+                ),
+                true
             )
 
             textView.text = EventHandler.getEvents().toString()

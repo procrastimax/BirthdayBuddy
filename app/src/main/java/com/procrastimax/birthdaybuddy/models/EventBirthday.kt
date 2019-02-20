@@ -27,6 +27,24 @@ class EventBirthday(
 ) :
     EventDay(_birthday) {
 
+    /**
+     * Identifier is an identifier for sorting
+     */
+    enum class Identifier : SortIdentifier{
+        Date{
+            override fun Identifier(): Int = 0
+        },
+        Forename{
+            override fun Identifier(): Int = 1
+        },
+        Surname{
+            override fun Identifier(): Int = 2
+        },
+        Note{
+            override fun Identifier(): Int = 3
+        },
+    }
+
     var forename: String
         get() = _forename
         set(value) {

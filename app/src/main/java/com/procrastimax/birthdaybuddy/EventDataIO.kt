@@ -5,7 +5,7 @@ import android.content.SharedPreferences
 import android.util.Log
 import com.procrastimax.birthdaybuddy.models.EventBirthday
 import com.procrastimax.birthdaybuddy.models.EventDay
-import com.procrastimax.birthdaybuddy.models.EventHandler
+import com.procrastimax.birthdaybuddy.Handler.EventHandler
 
 /**
  * DataHandler is a singleton and is used to store/read event data from shared preferences

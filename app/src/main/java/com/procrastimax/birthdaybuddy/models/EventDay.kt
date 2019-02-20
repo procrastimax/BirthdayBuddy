@@ -19,6 +19,15 @@ import java.util.*
  */
 open class EventDay(private var _eventDate: Date) {
 
+    /**
+     * Identifier is an identifier for sorting
+     */
+    enum class Identifier : SortIdentifier {
+        Date {
+            override fun Identifier(): Int = 0
+        }
+    }
+
     //short "hack" to make it possible to set a getter/setter for primary constructed class members
     // eventDate is used as an alibi member
     var eventDate: Date
@@ -48,15 +57,16 @@ open class EventDay(private var _eventDate: Date) {
     }
 
     /**
-     * getEventDateAsString returns the member var EVENTDATE as a formatted/localized string
-     *
-     * @param format : Int = DateFormat.Short
-     * @param locale : Locale = Locale.getDefault()
+     * toString returns EventDay as string representation
+     * This is "optimized" for Serialization, so THE FIRST WORD HAS TO BE THE TYPIFICATION f.e. "EventDay"
+     * returned string follows the pattern EVENTDATE
      * @return String
      */
-    @Override
-    fun toString(format: Int = DateFormat.SHORT, locale: Locale = Locale.getDefault()): String {
-        return dateToPrettyString(format, locale)
+    override fun toString(): String {
+        return "EventDay|${EventDay.parseDateToString(
+            this.eventDate,
+            DateFormat.SHORT
+        )}"
     }
 
     /**
