@@ -8,9 +8,12 @@ import com.procrastimax.birthdaybuddy.models.EventDay
 import com.procrastimax.birthdaybuddy.models.EventHandler
 
 /**
- * DataHandler is used to store/read event data from shared preferences
+ * DataHandler is a singleton and is used to store/read event data from shared preferences
+ * It stores all data in shared preferences and the has to be initialized by getting the main context
  *
- * TODO: maybe use this directly with the eventhandler
+ * All events are saved as an key, value pair. In which the key is an integer value and the value is a eventday
+ *
+ * TODO: maybe use this directly with the EventHandler
  * TODO: dont return null at any time
  */
 object EventDataIO {
@@ -21,11 +24,18 @@ object EventDataIO {
     //Key to handle wether the application already was launched or if the preference file is present
     private val preferenceInitString = "wasLaunchedBefore"
 
-    private lateinit var sharedPref : SharedPreferences
+    private lateinit var sharedPref: SharedPreferences
 
+    //Identifier string for types of Birthday
     private val type_birthday: String = "Birthday"
 
-    fun registerIO(context: Context){
+    /**
+     * registerIO has to be called before any io writing/reading is done
+     * This function has to get the main context to use shared preferences
+     *
+     * @param context : Context
+     */
+    fun registerIO(context: Context) {
         //TODO: change context mode
         sharedPref = context.getSharedPreferences(fileName, Context.MODE_MULTI_PROCESS)
 
@@ -37,12 +47,23 @@ object EventDataIO {
         }
     }
 
+    /**
+     * writeEventToFile writes a single event with a key to the shared preferences
+     * @param key : Int
+     * @param event : EventDay
+     */
     fun writeEventToFile(key: Int, event: EventDay) {
         val sharedPrefEditor = sharedPref.edit()
         sharedPrefEditor.putString(key.toString(), event.toString())
         sharedPrefEditor.apply()
     }
 
+    /**
+     * readEntryFromFile reads a single event entry by key
+     *
+     * @param key: Int
+     * @return EventDay?
+     */
     fun readEntryFromFile(key: Int): EventDay? {
         if (sharedPref.contains(key.toString())) {
             val eventday: String? = sharedPref.getString(key.toString(), "")
@@ -55,6 +76,9 @@ object EventDataIO {
         return null
     }
 
+    /**
+     * writeAll writes all events which are currently stored in the EventHandler-Map to the shared preferences
+     */
     fun writeAll() {
         val sharedPrefEdit = sharedPref.edit()
         sharedPrefEdit.clear()
@@ -66,6 +90,11 @@ object EventDataIO {
         sharedPrefEdit.apply()
     }
 
+    /**
+     * readAll reads all shared preferences and returns them as a Map<Int, EventDay>
+     *
+     * @return Map<Int, EventDay>
+     */
     fun readAll(): Map<Int, EventDay> {
         val tempMap: MutableMap<Int, EventDay> = emptyMap<Int, EventDay>().toMutableMap()
         sharedPref.all.forEach {
@@ -81,6 +110,13 @@ object EventDataIO {
         return tempMap
     }
 
+    /**
+     * convertStringToEventDay reads an string and returns a object of base class EventDay
+     * It can return derived types from EventDay with the typification string at the start of every string
+     *
+     * @param objectString : String
+     * @return EventDay?
+     */
     private fun convertStringToEventDay(objectString: String): EventDay? {
         val string_array = objectString.split("|")
 

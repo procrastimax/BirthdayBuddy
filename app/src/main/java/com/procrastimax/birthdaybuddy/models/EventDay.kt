@@ -36,7 +36,7 @@ open class EventDay(private var _eventDate: Date) {
         }
 
     init {
-       _eventDate = if (EventDay.isDateInFuture(_eventDate)) {
+        _eventDate = if (EventDay.isDateInFuture(_eventDate)) {
             Log.d(
                 "EventDay",
                 "Member variable EVENTDAY was in the future, it is now set to current date"
@@ -59,6 +59,14 @@ open class EventDay(private var _eventDate: Date) {
         return dateToPrettyString(format, locale)
     }
 
+    /**
+     * dateToPrettyString returns a string from the member var eventdate
+     * This string can be modified by format and locale
+     *
+     * @param format : Int = DateFormat.SHORT
+     * @param locale : Locale = Locale.getDefault()
+     * @return String
+     */
     fun dateToPrettyString(format: Int = DateFormat.SHORT, locale: Locale = Locale.getDefault()): String {
         return parseDateToString(this.eventDate, format, locale)
     }

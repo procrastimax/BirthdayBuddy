@@ -19,7 +19,12 @@ import java.util.Date
  *  @param isYearGiven : Boolean
  * @author Procrastimax
  */
-class EventBirthday(private var _birthday: Date, private var _forename: String, private var _surname: String = "0",  var isYearGiven : Boolean = true) :
+class EventBirthday(
+    private var _birthday: Date,
+    private var _forename: String,
+    private var _surname: String = "0",
+    var isYearGiven: Boolean = true
+) :
     EventDay(_birthday) {
 
     var forename: String
@@ -84,9 +89,5 @@ class EventBirthday(private var _birthday: Date, private var _forename: String, 
             this.eventDate,
             DateFormat.SHORT
         )}|${this.note}|${this.isYearGiven}"
-    }
-
-    fun getMututableStringSet() : MutableSet<String>{
-        return mutableSetOf(this.dateToPrettyString(),this.forename, this.forename, this.isYearGiven.toString())
     }
 }
