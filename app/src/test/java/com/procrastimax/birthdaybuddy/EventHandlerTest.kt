@@ -2,7 +2,7 @@ package com.procrastimax.birthdaybuddy
 
 import com.procrastimax.birthdaybuddy.models.EventBirthday
 import com.procrastimax.birthdaybuddy.models.EventDay
-import com.procrastimax.birthdaybuddy.Handler.EventHandler
+import com.procrastimax.birthdaybuddy.handler.EventHandler
 import org.junit.Assert
 import org.junit.Test
 import java.util.*

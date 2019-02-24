@@ -2,7 +2,7 @@ package com.procrastimax.birthdaybuddy.models
 
 import android.util.Log
 import java.text.DateFormat
-import java.util.Date
+import java.util.*
 
 /**
  * EventBirthday is model class to store basic data about a persons birthday
@@ -30,17 +30,17 @@ class EventBirthday(
     /**
      * Identifier is an identifier for sorting
      */
-    enum class Identifier : SortIdentifier{
-        Date{
+    enum class Identifier : SortIdentifier {
+        Date {
             override fun Identifier(): Int = 0
         },
-        Forename{
+        Forename {
             override fun Identifier(): Int = 1
         },
-        Surname{
+        Surname {
             override fun Identifier(): Int = 2
         },
-        Note{
+        Note {
             override fun Identifier(): Int = 3
         },
     }
@@ -94,6 +94,15 @@ class EventBirthday(
             Log.d("EventBirthday", "SURNAME is empty or blank")
             _surname = "-"
         }
+    }
+
+    /**
+     * getPrettyShortStringWithoutYear returns a localized date in very short format like 06.02 or 06/02
+     * @param locale : Locale = Locale.getDefault()
+     * @return String
+     */
+    fun getPrettyShortStringWithoutYear(locale : Locale = Locale.getDefault()) : String{
+        return this.dateToPrettyString(DateFormat.SHORT, locale).substring(0..4)
     }
 
     /**

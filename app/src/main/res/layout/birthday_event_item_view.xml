@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+
+    <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:srcCompat="@drawable/ic_birthday_person"
+            android:id="@+id/imageView"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginBottom="8dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:adjustViewBounds="false"
+            android:cropToPadding="false"/>
+
+    <TextView
+            android:text="Forename"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/tv_forename"
+            app:layout_constraintTop_toTopOf="@+id/imageView"
+            app:layout_constraintStart_toEndOf="@+id/imageView"
+            android:layout_marginStart="8dp"
+            android:textColor="@color/darkGrey"
+            android:textStyle="bold"
+            android:layout_marginTop="4dp"/>
+
+    <TextView
+            android:text="Surname"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/tv_surname"
+            app:layout_constraintBottom_toBottomOf="@+id/imageView"
+            app:layout_constraintStart_toStartOf="@+id/tv_forename"
+            app:layout_constraintEnd_toEndOf="@+id/tv_forename"
+            app:layout_constraintHorizontal_bias="0.0"
+            android:textColor="@color/brightGrey"
+            android:layout_marginBottom="4dp"/>
+
+    <TextView
+            android:text="@string/tv_date_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/tv_birthday_date_title"
+            app:layout_constraintEnd_toStartOf="@+id/tv_days_until_title"
+            android:layout_marginEnd="16dp"
+            app:layout_constraintTop_toTopOf="@+id/tv_forename"/>
+
+    <TextView
+            android:text="@string/tv_days_until_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/tv_days_until_title"
+            app:layout_constraintEnd_toStartOf="@+id/tv_years_since_title"
+            android:layout_marginEnd="16dp"
+            app:layout_constraintTop_toTopOf="@+id/tv_birthday_date_title"/>
+
+    <TextView
+            android:text="@string/tv_years_since_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/tv_years_since_title"
+            app:layout_constraintTop_toTopOf="@+id/tv_days_until_title"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginEnd="16dp"/>
+
+    <TextView
+            android:text="06.02."
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/tv_birthday_date_value"
+            app:layout_constraintEnd_toEndOf="@+id/tv_birthday_date_title"
+            app:layout_constraintStart_toStartOf="@+id/tv_birthday_date_title"
+            app:layout_constraintBottom_toBottomOf="@+id/tv_surname"/>
+
+    <TextView
+            android:text="123"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/tv_days_until_value"
+            app:layout_constraintEnd_toEndOf="@+id/tv_days_until_title"
+            app:layout_constraintStart_toStartOf="@+id/tv_days_until_title"
+            app:layout_constraintBottom_toBottomOf="@+id/tv_birthday_date_value"/>
+
+    <TextView
+            android:text="21"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/tv_years_since_value"
+            app:layout_constraintStart_toStartOf="@+id/tv_years_since_title"
+            app:layout_constraintEnd_toEndOf="@+id/tv_years_since_title"
+            app:layout_constraintBottom_toBottomOf="@+id/tv_days_until_value"/>
+</android.support.constraint.ConstraintLayout>

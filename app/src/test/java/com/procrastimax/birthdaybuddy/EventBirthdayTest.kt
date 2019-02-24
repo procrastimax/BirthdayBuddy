@@ -1,8 +1,10 @@
 package com.procrastimax.birthdaybuddy
 
 import com.procrastimax.birthdaybuddy.models.EventBirthday
+import com.procrastimax.birthdaybuddy.models.EventDay
 import org.junit.Assert
 import org.junit.Test
+import java.text.DateFormat
 import java.util.*
 
 class EventBirthdayTest {
@@ -34,5 +36,15 @@ class EventBirthdayTest {
 
         birthday_1.note = "Möchte ein Fahrrad haben."
         Assert.assertEquals("Möchte ein Fahrrad haben.", birthday_1.note)
+    }
+
+    @Test
+    fun returnVeryShortPrettyDateTest() {
+        val birthday = EventBirthday(
+            EventDay.parseStringToDate("06.02.00", DateFormat.SHORT, Locale.GERMAN),
+            "Maximilian",
+            "Mustermann"
+        )
+        Assert.assertEquals("06.02", birthday.getPrettyShortStringWithoutYear(Locale.GERMAN))
     }
 }

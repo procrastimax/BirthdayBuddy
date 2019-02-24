@@ -12,8 +12,6 @@ import java.util.*
  * Can be used for other eventType classes f.e. birthdayEvent, anniversaryEvent, ...
  * The used date format used in the app is dd.MM.yyyy
  *
- * TODO: add comparable/sortable functions
- *
  * @param _eventDate The date of the event
  * @author Procrastimax
  */

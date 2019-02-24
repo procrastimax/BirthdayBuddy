@@ -1,4 +1,4 @@
-package com.procrastimax.birthdaybuddy.Handler
+package com.procrastimax.birthdaybuddy.handler
 
 import android.util.Log
 import com.procrastimax.birthdaybuddy.EventDataIO
@@ -45,6 +45,13 @@ object EventHandler {
             val last_key = events.size
             events[last_key] = event
         }
+    }
+
+    /**
+     * addMap adds a map of <Int, EventDay> to this map
+     */
+    fun addMap(events : Map<Int, EventDay>){
+        this.events.putAll(events)
     }
 
     /**
@@ -169,7 +176,7 @@ object EventHandler {
      *
      * @param count : Int
      */
-    fun generateRandomEventDates(count: Int) {
+    fun generateRandomEventDates(count: Int, writeAfterAdd : Boolean = false) {
         for (i in 1..count) {
 
             val day: Int = (1..30).random()
@@ -183,18 +190,18 @@ object EventHandler {
                     "$day.$month.$year",
                     DateFormat.SHORT,
                     Locale.GERMAN
-                ), i.toString(), (i * i).toString(), isYearGiven
+                ), EventHandler.getLastIndex().toString(), (i * i).toString(), isYearGiven
             )
             if (isYearGiven) {
                 event.note = (day + month + i).toString()
             }
-            addEvent(event)
+            addEvent(event, true)
         }
     }
 
     /**
-     *
      * getSortValueListBy returns the map as a value list which is sorted by specific attributes given by an enum identifier
+     * If the identifier is unknown, than an empty value list is returned
      *
      * @param identifier : SortIdentifier
      * @return List<EventDay>

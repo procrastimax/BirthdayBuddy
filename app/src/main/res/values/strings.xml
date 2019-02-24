@@ -1,4 +1,10 @@
 <resources>
     <string name="app_name">BirthdayBuddy</string>
     <string name="action_settings">Settings</string>
+
+    <!-- birthday event view -->
+    <string name="tv_days_until_title">Days</string>
+    <string name="tv_years_since_title">Years</string>
+    <string name="tv_date_title">Date</string>
+    <string name="empty_value_field">-</string>
 </resources>
