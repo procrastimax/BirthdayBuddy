@@ -1,6 +1,5 @@
 package com.procrastimax.birthdaybuddy.views
 
-import android.app.Activity
 import android.content.Context
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
@@ -10,58 +9,103 @@ import android.widget.TextView
 import com.procrastimax.birthdaybuddy.R
 import com.procrastimax.birthdaybuddy.handler.EventHandler
 import com.procrastimax.birthdaybuddy.models.EventBirthday
+import com.procrastimax.birthdaybuddy.models.MonthDivider
 import kotlinx.android.synthetic.main.birthday_event_item_view.view.*
-import java.text.DateFormat
+import kotlinx.android.synthetic.main.event_month_view_divider.view.*
 
-class EventAdapter(val context: Context) : RecyclerView.Adapter<EventAdapter.EventViewHolder>() {
+class EventAdapter(private val context: Context) :
+    RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
-    class EventViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        init {
-            val tv_forename: TextView = itemView.findViewById(R.id.tv_forename)
-            val tv_surname: TextView = itemView.findViewById(R.id.tv_surname)
-            val tv_date_value: TextView = itemView.findViewById(R.id.tv_birthday_date_value)
-            val tv_days_until_value: TextView = itemView.findViewById(R.id.tv_days_until_value)
-            val tv_years_since_value: TextView = itemView.findViewById(R.id.tv_years_since_value)
+    class BirthdayEventViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        val tv_forename: TextView = itemView.findViewById(R.id.tv_forename)
+        val tv_surname: TextView = itemView.findViewById(R.id.tv_surname)
+        val tv_date_value: TextView = itemView.findViewById(R.id.tv_birthday_date_value)
+        val tv_days_until_value: TextView = itemView.findViewById(R.id.tv_days_until_value)
+        val tv_years_since_value: TextView = itemView.findViewById(R.id.tv_years_since_value)
+    }
+
+    class EventMonthDividerViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        //val tv_month_name: TextView = itemView.findViewById(R.id.tv_divider_description_month)
+    }
+
+    /**
+     * getItemViewType overrides the standard function
+     * it defines the different viewholder types used for the recycler view
+     * 0 - month description divider
+     * 1 - birthday event viewholder
+     *
+     * @param position: Int
+     * @return Int
+     */
+    override fun getItemViewType(position: Int): Int {
+        if (EventHandler.event_list[position] is MonthDivider) {
+            if (EventHandler.event_list.size - 1 == position) {
+                return -1
+            }
+            if (EventHandler.event_list.size - 1 > position && EventHandler.event_list[position + 1] is MonthDivider) {
+                return -1
+            } else return 0
+        } else return 1
+    }
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
+        // create a new view
+        when (viewType) {
+            0 -> {
+                val item_view =
+                    LayoutInflater.from(parent.context).inflate(R.layout.event_month_view_divider, parent, false)
+                return EventMonthDividerViewHolder(item_view)
+            }
+            1 -> {
+                val item_view =
+                    LayoutInflater.from(parent.context).inflate(R.layout.birthday_event_item_view, parent, false)
+                return BirthdayEventViewHolder(item_view)
+            }
+            else -> {
+                //Default is birthday event
+                val item_view = View(context)
+                return EventMonthDividerViewHolder(item_view)
+            }
         }
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): EventAdapter.EventViewHolder {
-        // create a new view
-        val item_view = LayoutInflater.from(parent.context).inflate(R.layout.birthday_event_item_view, parent, false)
-        return EventViewHolder(item_view)
-    }
-
     // Replace the contents of a view (invoked by the layout manager)
-    override fun onBindViewHolder(holder: EventViewHolder, position: Int) {
-        // - get element from your dataset at this position
+    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
+        // - get element from dataset at this position
         // - replace the contents of the view with that element
 
-        //check if not null
-        if (EventHandler.getValueToKey(position) != null) {
-            //check if is birthday event and if the year is given
-            if (EventHandler.getValueToKey(position) is EventBirthday) {
-                //set date
-                holder.itemView.tv_birthday_date_value.text =
-                    (EventHandler.getValueToKey(position) as EventBirthday).getPrettyShortStringWithoutYear()
+        when (holder.itemViewType) {
+            //EventMonthDividerViewHolder
+            0 -> {
+                holder.itemView.tv_divider_description_month.text =
+                    (EventHandler.event_list[position] as MonthDivider).month_name
+            }
+            //BirthdayEventViewHolder
+            1 -> {
+                //check if is birthday event and if the year is given
+                if (EventHandler.event_list[position] is EventBirthday) {
+                    //set date
+                    holder.itemView.tv_birthday_date_value.text =
+                        (EventHandler.event_list[position] as EventBirthday).getPrettyShortStringWithoutYear()
 
-                //set days until
-                holder.itemView.tv_days_until_value.text =
-                    EventHandler.getValueToKey(position)!!.getDaysUntil().toString()
+                    //set days until
+                    holder.itemView.tv_days_until_value.text =
+                        EventHandler.event_list[position].getDaysUntil().toString()
 
-                //set years since, if specified
-                if ((EventHandler.getValueToKey(position) as EventBirthday).isYearGiven) {
-                    holder.itemView.tv_years_since_value.text =
-                        EventHandler.getValueToKey(position)!!.getYearsSince().toString()
-                } else {
-                    holder.itemView.tv_years_since_value.text =  context.getString(R.string.empty_value_field)
+                    //set years since, if specified
+                    if ((EventHandler.event_list[position] as EventBirthday).isYearGiven) {
+                        holder.itemView.tv_years_since_value.text =
+                            EventHandler.event_list[position].getYearsSince().toString()
+                    } else {
+                        holder.itemView.tv_years_since_value.text = context.getString(R.string.empty_value_field)
+                    }
+
+                    //set forename
+                    holder.itemView.tv_forename.text = (EventHandler.event_list[position] as EventBirthday).forename
+
+                    //set surname
+                    holder.itemView.tv_surname.text = (EventHandler.event_list[position] as EventBirthday).surname
                 }
-
-                //set forename
-                holder.itemView.tv_forename.text = (EventHandler.getValueToKey(position) as EventBirthday).forename
-
-                //set surname
-                holder.itemView.tv_surname.text = (EventHandler.getValueToKey(position) as EventBirthday).surname
-
             }
         }
     }

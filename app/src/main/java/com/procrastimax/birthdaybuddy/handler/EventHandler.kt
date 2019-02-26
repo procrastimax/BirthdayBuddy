@@ -15,7 +15,8 @@ import java.util.*
  * THIS IS NOT AN ACTUAL EVENTHANDLER KNOWN FROM EVENT BASED PROGRAMMING
  */
 object EventHandler {
-    private var events: MutableMap<Int, EventDay> = emptyMap<Int, EventDay>().toMutableMap()
+    private var event_map: MutableMap<Int, EventDay> = emptyMap<Int, EventDay>().toMutableMap()
+    var event_list: List<EventDay> = emptyList()
 
     /**
      * addEvent adds a EventDay type to the map
@@ -27,31 +28,34 @@ object EventHandler {
 
     /**
      * addEvent adds a EventDay type to the map and has the possibility to write it to the shared prefernces after adding it
+     * this orders all events after the date automatically
+     * also updates the eventday list after every adding of a new event
      * @param event: EventDay
      * @param writeAfterAdd: Boolean
      */
     fun addEvent(event: EventDay, writeAfterAdd: Boolean) {
         //TODO: add event valdiation
-        if (!events.containsValue(event)) {
+        if (!event_map.containsValue(event)) {
             val last_key = getLastIndex()
 
-            events[last_key] = event
+            event_map[last_key] = event
 
             if (writeAfterAdd) {
                 EventDataIO.writeEventToFile(last_key, event)
             }
         } else {
             Log.d("EventHandler", "Event already in map when trying to add it")
-            val last_key = events.size
-            events[last_key] = event
+            event_map[getLastIndex()] = event
         }
+        event_list = getSortedListBy()
     }
 
     /**
      * addMap adds a map of <Int, EventDay> to this map
      */
-    fun addMap(events : Map<Int, EventDay>){
-        this.events.putAll(events)
+    fun addMap(events: Map<Int, EventDay>) {
+        this.event_map.putAll(events)
+        this.event_list = getSortedListBy()
     }
 
     /**
@@ -63,7 +67,7 @@ object EventHandler {
      */
     fun getKeyToValue(event: EventDay): Int {
         //TODO: this can be really slow
-        val entrySet = events.entries
+        val entrySet = event_map.entries
         entrySet.asIterable().forEach {
             if (it.value == event) {
                 return it.key
@@ -79,8 +83,8 @@ object EventHandler {
      * @return EventDay?
      */
     fun getValueToKey(key: Int): EventDay? {
-        if (events.contains(key)) {
-            return events[key]!!
+        if (event_map.contains(key)) {
+            return event_map[key]!!
         }
         return null
     }
@@ -92,8 +96,8 @@ object EventHandler {
      * @param event : EventDay
      */
     fun removeEventByEvent(event: EventDay) {
-        val entrySet = events.entries
-        events.remove(
+        val entrySet = event_map.entries
+        event_map.remove(
             getKeyToValue(
                 event
             )
@@ -106,14 +110,14 @@ object EventHandler {
      * @param key : Int
      */
     fun removeEventByKey(key: Int) {
-        events.remove(key)
+        event_map.remove(key)
     }
 
     /**
      * clearMap deletes all entries
      */
     fun clearMap() {
-        events.clear()
+        event_map.clear()
     }
 
     /**
@@ -123,7 +127,7 @@ object EventHandler {
      * @param event : EventDay
      */
     fun changeEventAt(key: Int, event: EventDay) {
-        events[key] = event
+        event_map[key] = event
     }
 
     /**
@@ -133,7 +137,7 @@ object EventHandler {
      * @return Boolean
      */
     fun containsValue(event: EventDay): Boolean {
-        return events.containsValue(event)
+        return event_map.containsValue(event)
     }
 
     /**
@@ -143,7 +147,7 @@ object EventHandler {
      * @return Boolean
      */
     fun containsKey(key: Int): Boolean {
-        return events.contains(key)
+        return event_map.contains(key)
     }
 
     /**
@@ -152,7 +156,7 @@ object EventHandler {
      * @return Map<Int, EventDay>
      */
     fun getEvents(): Map<Int, EventDay> {
-        return events
+        return event_map
     }
 
     /**
@@ -165,9 +169,9 @@ object EventHandler {
      * @return Int
      */
     fun getLastIndex(): Int {
-        return if (events.isEmpty()) {
+        return if (event_map.isEmpty()) {
             0
-        } else events.size
+        } else event_map.size
     }
 
     /**
@@ -176,7 +180,7 @@ object EventHandler {
      *
      * @param count : Int
      */
-    fun generateRandomEventDates(count: Int, writeAfterAdd : Boolean = false) {
+    fun generateRandomEventDates(count: Int, writeAfterAdd: Boolean = false) {
         for (i in 1..count) {
 
             val day: Int = (1..30).random()
@@ -195,7 +199,7 @@ object EventHandler {
             if (isYearGiven) {
                 event.note = (day + month + i).toString()
             }
-            addEvent(event, true)
+            addEvent(event, writeAfterAdd)
         }
     }
 
@@ -206,32 +210,11 @@ object EventHandler {
      * @param identifier : SortIdentifier
      * @return List<EventDay>
      */
-    fun getSortedValueListBy(identifier: SortIdentifier): List<EventDay> {
-        when (identifier) {
-            ///EventDay---------------------------------------
-            EventDay.Identifier.Date -> {
-                return this.events.values.toList().sortedBy { it.eventDate }
-            }
-            ///EventBirthday----------------------------------
-            EventBirthday.Identifier.Date -> {
-                return this.events.values.toList()
-                    .sortedWith(compareBy({ (it as EventBirthday).eventDate }, { (it as EventBirthday).forename }))
-            }
-            EventBirthday.Identifier.Forename -> {
-                return this.events.values.toList()
-                    .sortedWith(compareBy({ (it as EventBirthday).forename }, { (it as EventBirthday).eventDate }))
-            }
-            EventBirthday.Identifier.Surname -> {
-                return this.events.values.toList()
-                    .sortedWith(compareBy({ (it as EventBirthday).surname }, { (it as EventBirthday).eventDate }))
-            }
-            EventBirthday.Identifier.Note -> {
-                return this.events.values.toList()
-                    .sortedWith(compareBy({ (it as EventBirthday).note }, { (it as EventBirthday).eventDate }))
-            }
-            else -> {
-                return emptyList()
-            }
+    fun getSortedListBy(identifier: SortIdentifier = EventDay.Identifier.Date): List<EventDay> {
+        if (identifier == EventDay.Identifier.Date) {
+            return this.event_map.values.sorted().toList()
+        } else {
+            return emptyList()
         }
     }
 }

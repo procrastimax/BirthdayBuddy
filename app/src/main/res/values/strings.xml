@@ -7,4 +7,19 @@
     <string name="tv_years_since_title">Years</string>
     <string name="tv_date_title">Date</string>
     <string name="empty_value_field">-</string>
+
+    <string-array name="month_names">
+        <item>January</item>
+        <item>February</item>
+        <item>March</item>
+        <item>April</item>
+        <item>May</item>
+        <item>June</item>
+        <item>July</item>
+        <item>August</item>
+        <item>September</item>
+        <item>October</item>
+        <item>November</item>
+        <item>December</item>
+    </string-array>
 </resources>

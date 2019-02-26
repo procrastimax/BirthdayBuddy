@@ -8,13 +8,12 @@ import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.view.Menu
 import android.view.MenuItem
-import android.view.ViewDebug
+import com.procrastimax.birthdaybuddy.handler.EventHandler
 import com.procrastimax.birthdaybuddy.models.EventBirthday
 import com.procrastimax.birthdaybuddy.models.EventDay
-import com.procrastimax.birthdaybuddy.handler.EventHandler
+import com.procrastimax.birthdaybuddy.models.MonthDivider
 import com.procrastimax.birthdaybuddy.views.EventAdapter
 import com.procrastimax.birthdaybuddy.views.RecycleViewItemDivider
-
 import kotlinx.android.synthetic.main.activity_main.*
 import java.text.DateFormat
 import java.util.*
@@ -22,7 +21,8 @@ import java.util.*
 /**
  *
  * TODO:
- *  - bug when localization is changed after first start of app
+ *  - bug when localization is changed after first start of app -> add possibility to change all encodings at app start when error occurs
+ *  - dont show last seperation character in list view
  */
 class MainActivity : AppCompatActivity() {
 
@@ -48,10 +48,20 @@ class MainActivity : AppCompatActivity() {
 
         EventHandler.addMap(EventDataIO.readAll())
 
+        println(EventHandler.event_list)
+
         if (isFirstStart()) {
+            val month_begin_date = Calendar.getInstance()
+            month_begin_date.set(Calendar.YEAR, 1)
+            month_begin_date.set(Calendar.DAY_OF_MONTH, 1)
+            for (i in 0 until 12) {
+                month_begin_date.set(Calendar.MONTH, i)
+                EventHandler.addEvent(MonthDivider(month_begin_date.time, getMonthFromIndex(i)), true)
+            }
+
             EventHandler.addEvent(
                 EventBirthday(
-                    EventDay.parseStringToDate("06.02.00", DateFormat.SHORT, Locale.GERMAN),
+                    EventDay.parseStringToDate("06.02.00", DateFormat.SHORT),
                     "Procrastimax",
                     EventHandler.getLastIndex().toString(),
                     false
@@ -73,11 +83,21 @@ class MainActivity : AppCompatActivity() {
         fab.setOnClickListener { view ->
             //directly write after adding
             EventHandler.generateRandomEventDates(1, true)
-            recyclerView.adapter!!.notifyItemInserted(EventHandler.getLastIndex())
+            recyclerView.adapter!!.notifyDataSetChanged()
 
             Snackbar.make(view, "BirthdayEventAdded", Snackbar.LENGTH_LONG)
                 .setAction("Action", null).show()
         }
+    }
+
+    /**
+     * getMonthFromIndex returns a month name specified in the string resources by an index
+     * starts at 0 with january
+     * @param index: Int
+     * @return String
+     */
+    private fun getMonthFromIndex(index: Int): String {
+        return resources.getStringArray(R.array.month_names)[index]
     }
 
     private fun isFirstStart(): Boolean {
@@ -107,7 +127,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     companion object {
-        fun convertPxToDp(context: Context, dp : Float) : Float{
+        fun convertPxToDp(context: Context, dp: Float): Float {
             return dp * context.resources.displayMetrics.density
         }
     }

@@ -1,8 +1,8 @@
 package com.procrastimax.birthdaybuddy
 
+import com.procrastimax.birthdaybuddy.handler.EventHandler
 import com.procrastimax.birthdaybuddy.models.EventBirthday
 import com.procrastimax.birthdaybuddy.models.EventDay
-import com.procrastimax.birthdaybuddy.handler.EventHandler
 import org.junit.Assert
 import org.junit.Test
 import java.util.*
@@ -36,16 +36,20 @@ class EventHandlerTest {
     @Test
     fun testGetSortedValueList() {
         EventHandler.clearMap()
-        val event = EventDay(Calendar.getInstance().time)
+        val cal_1 = Calendar.getInstance()
+        cal_1.set(Calendar.DAY_OF_YEAR, 1)
+        val event = EventDay(cal_1.time)
+
         val event_count = 5
         //generate 5 random events
-        EventHandler.generateRandomEventDates(event_count)
+        EventHandler.generateRandomEventDates(event_count, false)
 
-        EventHandler.addEvent(event)
-        val sortList = EventHandler.getSortedValueListBy(EventDay.Identifier.Date)
+        EventHandler.addEvent(event, false)
+        val sortList = EventHandler.getSortedListBy(EventDay.Identifier.Date)
+
         println(sortList)
 
-        Assert.assertEquals(event, sortList.last())
+        Assert.assertEquals(event, sortList.first())
 
     }
 }

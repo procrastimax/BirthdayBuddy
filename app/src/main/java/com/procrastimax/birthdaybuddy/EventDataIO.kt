@@ -3,9 +3,10 @@ package com.procrastimax.birthdaybuddy
 import android.content.Context
 import android.content.SharedPreferences
 import android.util.Log
+import com.procrastimax.birthdaybuddy.handler.EventHandler
 import com.procrastimax.birthdaybuddy.models.EventBirthday
 import com.procrastimax.birthdaybuddy.models.EventDay
-import com.procrastimax.birthdaybuddy.handler.EventHandler
+import com.procrastimax.birthdaybuddy.models.MonthDivider
 
 /**
  * DataHandler is a singleton and is used to store/read event data from shared preferences
@@ -28,6 +29,7 @@ object EventDataIO {
 
     //Identifier string for types of Birthday
     private val type_birthday: String = "Birthday"
+    private val type_month_divider: String = "MonthDivider"
 
     /**
      * registerIO has to be called before any io writing/reading is done
@@ -130,6 +132,12 @@ object EventDataIO {
             val birthday = EventBirthday(EventDay.parseStringToDate(date), forename, surname, isyeargiven.toBoolean())
             birthday.note = note
             return birthday
+
+        } else if (string_array[0].equals(type_month_divider)) {
+            val date = string_array[1]
+            val month = string_array[2]
+            val month_div = MonthDivider(EventDay.parseStringToDate(date), month)
+            return month_div
         } else {
             return null
         }

@@ -15,7 +15,39 @@ import java.util.*
  * @param _eventDate The date of the event
  * @author Procrastimax
  */
-open class EventDay(private var _eventDate: Date) {
+open class EventDay(private var _eventDate: Date) : Comparable<EventDay> {
+
+    /**
+     * compareTo is the implementation of the comparable interface
+     * @param other : EventDay
+     * @return Int negative for if compares instance is less than, 0 for equal and positive value if compares instance is greater than this instance
+     */
+    override fun compareTo(other: EventDay): Int {
+        //TODO: add identifying for sorting
+
+        val cal_l = Calendar.getInstance()
+        cal_l.time = this.eventDate
+
+        val cal_r = Calendar.getInstance()
+        cal_r.time = other.eventDate
+
+        val days_of_year_l = cal_l.get(Calendar.DAY_OF_YEAR)
+        val days_of_year_r = cal_r.get(Calendar.DAY_OF_YEAR)
+
+        //if days of year less than days of year from other instace
+        if (days_of_year_l < days_of_year_r) return -1
+
+        //if days of years are equal, check year
+        else if (days_of_year_l == days_of_year_r) {
+            //if years of left instance is less than years of right, return negative value (-1)
+            if (cal_l.get(Calendar.YEAR) < cal_r.get(Calendar.YEAR)) {
+                return -1
+            } else if (cal_l.get(Calendar.YEAR) > cal_r.get(Calendar.YEAR)) {
+                return 1
+            } else return 0
+            //else the right value has to be smaller
+        } else return 1
+    }
 
     /**
      * Identifier is an identifier for sorting
@@ -88,6 +120,30 @@ open class EventDay(private var _eventDate: Date) {
         val dateInCurrentTimeContext = dateToCurrentTimeContext()
         val dayDiff = dateInCurrentTimeContext.time - EventDay.normalizeDate(Calendar.getInstance().time).time
         return (dayDiff / (1000 * 60 * 60 * 24)).toInt()
+    }
+
+    fun getYear(): Int {
+        val cal = Calendar.getInstance()
+        cal.time = this.eventDate
+        return cal.get(Calendar.YEAR)
+    }
+
+    fun getMonth(): Int {
+        val cal = Calendar.getInstance()
+        cal.time = this.eventDate
+        return cal.get(Calendar.MONTH)
+    }
+
+    fun getDayOfYear(): Int {
+        val cal = Calendar.getInstance()
+        cal.time = this.eventDate
+        return cal.get(Calendar.DAY_OF_YEAR)
+    }
+
+    fun getDayOfMonth(): Int {
+        val cal = Calendar.getInstance()
+        cal.time = this.eventDate
+        return cal.get(Calendar.DAY_OF_MONTH)
     }
 
     /**
