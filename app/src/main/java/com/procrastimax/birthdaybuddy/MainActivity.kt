@@ -2,18 +2,16 @@ package com.procrastimax.birthdaybuddy
 
 import android.content.Context
 import android.os.Bundle
-import android.support.design.widget.Snackbar
+import android.support.v4.app.FragmentTransaction
 import android.support.v7.app.AppCompatActivity
-import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.RecyclerView
 import android.view.Menu
 import android.view.MenuItem
+import android.view.ViewGroup
+import com.procrastimax.birthdaybuddy.fragments.EventListFragment
 import com.procrastimax.birthdaybuddy.handler.EventHandler
 import com.procrastimax.birthdaybuddy.models.EventBirthday
 import com.procrastimax.birthdaybuddy.models.EventDay
 import com.procrastimax.birthdaybuddy.models.MonthDivider
-import com.procrastimax.birthdaybuddy.views.EventAdapter
-import com.procrastimax.birthdaybuddy.views.RecycleViewItemDivider
 import kotlinx.android.synthetic.main.activity_main.*
 import java.text.DateFormat
 import java.util.*
@@ -21,14 +19,11 @@ import java.util.*
 /**
  *
  * TODO:
- *  - bug when localization is changed after first start of app -> add possibility to change all encodings at app start when error occurs
+ *  - bug when localization is changed after first start of app -> add possibility to change all encodings at app start when error occurs -> fix this by only use one format for saving
  *  - dont show last seperation character in list view
+ *  - dont draw item decoration on month divider
  */
 class MainActivity : AppCompatActivity() {
-
-    private lateinit var recyclerView: RecyclerView
-    private lateinit var viewAdapter: RecyclerView.Adapter<*>
-    private lateinit var viewManager: RecyclerView.LayoutManager
 
     private val settings_shared_pref_file_name = "com.procrasticmax.birthdaybuddy.settings_shared_pref"
     private val settings_shared_pref_isFirstStart = "isFirstStart"
@@ -39,10 +34,13 @@ class MainActivity : AppCompatActivity() {
         )
     }
 
+    private lateinit var application_container: ViewGroup
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         setSupportActionBar(toolbar)
+        changeToolbarState(Companion.ToolbarState.Default)
 
         EventDataIO.registerIO(this.applicationContext)
 
@@ -63,31 +61,16 @@ class MainActivity : AppCompatActivity() {
                 EventBirthday(
                     EventDay.parseStringToDate("06.02.00", DateFormat.SHORT),
                     "Procrastimax",
-                    EventHandler.getLastIndex().toString(),
+                    "Dev",
                     false
                 ),
                 true
             )
         }
 
-        viewManager = LinearLayoutManager(this)
-        viewAdapter = EventAdapter(this.applicationContext)
-
-        recyclerView = findViewById<RecyclerView>(R.id.recyclerView).apply {
-            setHasFixedSize(true)
-            layoutManager = viewManager
-            adapter = viewAdapter
-        }
-        recyclerView.addItemDecoration(RecycleViewItemDivider(this.applicationContext))
-
-        fab.setOnClickListener { view ->
-            //directly write after adding
-            EventHandler.generateRandomEventDates(1, true)
-            recyclerView.adapter!!.notifyDataSetChanged()
-
-            Snackbar.make(view, "BirthdayEventAdded", Snackbar.LENGTH_LONG)
-                .setAction("Action", null).show()
-        }
+        val ft: FragmentTransaction = supportFragmentManager.beginTransaction()
+        ft.add(R.id.fragment_placeholder, EventListFragment.newInstance())
+        ft.commit()
     }
 
     /**
@@ -110,9 +93,31 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    fun changeToolbarState(state: ToolbarState) {
+        when (state) {
+            Companion.ToolbarState.Default -> {
+                toolbar.removeAllViews()
+                supportActionBar!!.setDisplayShowTitleEnabled(true)
+            }
+
+            Companion.ToolbarState.AddBirthday -> {
+                toolbar.removeAllViews()
+                toolbar.addView(
+                    layoutInflater.inflate(
+                        R.layout.toolbar_add_birthday,
+                        findViewById(android.R.id.content),
+                        false
+                    )
+                )
+                setSupportActionBar(toolbar)
+                supportActionBar!!.setDisplayShowTitleEnabled(false)
+            }
+        }
+    }
+
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         // Inflate the menu; this adds items to the action bar if it is present.
-        menuInflater.inflate(R.menu.menu_main, menu)
+        //menuInflater.inflate(R.menu.menu_main, menu)
         return true
     }
 
@@ -129,6 +134,11 @@ class MainActivity : AppCompatActivity() {
     companion object {
         fun convertPxToDp(context: Context, dp: Float): Float {
             return dp * context.resources.displayMetrics.density
+        }
+
+        enum class ToolbarState {
+            Default,
+            AddBirthday
         }
     }
 }

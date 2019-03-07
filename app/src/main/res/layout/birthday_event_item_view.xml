@@ -52,6 +52,7 @@
             android:id="@+id/tv_birthday_date_title"
             app:layout_constraintEnd_toStartOf="@+id/tv_days_until_title"
             android:layout_marginEnd="16dp"
+            android:textColor="@color/brightGrey"
             app:layout_constraintTop_toTopOf="@+id/tv_forename"/>
 
     <TextView
@@ -61,6 +62,7 @@
             android:id="@+id/tv_days_until_title"
             app:layout_constraintEnd_toStartOf="@+id/tv_years_since_title"
             android:layout_marginEnd="16dp"
+            android:textColor="@color/brightGrey"
             app:layout_constraintTop_toTopOf="@+id/tv_birthday_date_title"/>
 
     <TextView
@@ -70,6 +72,7 @@
             android:id="@+id/tv_years_since_title"
             app:layout_constraintTop_toTopOf="@+id/tv_days_until_title"
             app:layout_constraintEnd_toEndOf="parent"
+            android:textColor="@color/brightGrey"
             android:layout_marginEnd="16dp"/>
 
     <TextView
@@ -79,6 +82,7 @@
             android:id="@+id/tv_birthday_date_value"
             app:layout_constraintEnd_toEndOf="@+id/tv_birthday_date_title"
             app:layout_constraintStart_toStartOf="@+id/tv_birthday_date_title"
+            android:textColor="@color/darkGrey"
             app:layout_constraintBottom_toBottomOf="@+id/tv_surname"/>
 
     <TextView
@@ -88,6 +92,7 @@
             android:id="@+id/tv_days_until_value"
             app:layout_constraintEnd_toEndOf="@+id/tv_days_until_title"
             app:layout_constraintStart_toStartOf="@+id/tv_days_until_title"
+            android:textColor="@color/darkGrey"
             app:layout_constraintBottom_toBottomOf="@+id/tv_birthday_date_value"/>
 
     <TextView
@@ -97,5 +102,6 @@
             android:id="@+id/tv_years_since_value"
             app:layout_constraintStart_toStartOf="@+id/tv_years_since_title"
             app:layout_constraintEnd_toEndOf="@+id/tv_years_since_title"
+            android:textColor="@color/darkGrey"
             app:layout_constraintBottom_toBottomOf="@+id/tv_days_until_value"/>
 </android.support.constraint.ConstraintLayout>

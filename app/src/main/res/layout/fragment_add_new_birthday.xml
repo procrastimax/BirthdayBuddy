@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                                             xmlns:app="http://schemas.android.com/apk/res-auto"
+                                             xmlns:tools="http://schemas.android.com/tools"
+                                             android:layout_width="match_parent"
+                                             android:layout_height="match_parent"
+                                             tools:context=".fragments.AddNewBirthdayFragment">
+
+
+    <ImageView
+            android:src="@drawable/ic_person_add_img"
+            android:layout_width="64dp"
+            android:layout_height="64dp"
+            android:id="@+id/btn_img_add"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginTop="24dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"/>
+
+    <EditText
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:inputType="textPersonName"
+            android:ems="10"
+            android:id="@+id/edit_add_fragment_forename"
+            android:layout_marginTop="32dp"
+            app:layout_constraintTop_toBottomOf="@+id/btn_img_add"
+            android:layout_marginEnd="8dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginStart="8dp"
+            app:layout_constraintStart_toStartOf="parent"
+            android:hint="Forename"/>
+
+    <EditText
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:inputType="textPersonName"
+            android:ems="10"
+            android:id="@+id/edit_add_fragment_surname"
+            android:layout_marginTop="8dp"
+            app:layout_constraintTop_toBottomOf="@+id/edit_add_fragment_forename"
+            app:layout_constraintEnd_toEndOf="@+id/edit_add_fragment_forename"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginStart="8dp"
+            android:hint="Surname"/>
+
+    <EditText
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:focusable="false"
+            android:id="@+id/edit_add_fragment_date"
+            android:layout_marginTop="8dp"
+            app:layout_constraintTop_toBottomOf="@+id/edit_add_fragment_surname"
+            android:layout_marginEnd="8dp"
+            app:layout_constraintStart_toStartOf="@+id/edit_add_fragment_surname"
+            android:hint="Date"
+            app:layout_constraintEnd_toStartOf="@+id/sw_is_year_given"/>
+
+    <EditText
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:inputType="textPersonName"
+            android:ems="10"
+            android:id="@+id/edit_add_fragment_note"
+            android:layout_marginTop="8dp"
+            app:layout_constraintTop_toBottomOf="@+id/edit_add_fragment_date"
+            app:layout_constraintEnd_toEndOf="@+id/sw_is_year_given"
+            app:layout_constraintStart_toStartOf="@+id/edit_add_fragment_date"
+            android:hint="Note"/>
+
+    <Switch
+            android:text="Year"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/sw_is_year_given"
+            app:layout_constraintEnd_toEndOf="@+id/edit_add_fragment_surname"
+            app:layout_constraintTop_toTopOf="@+id/edit_add_fragment_date"
+            app:layout_constraintBottom_toBottomOf="@+id/edit_add_fragment_date"
+            android:checked="true"
+            android:showText="false"
+            android:splitTrack="false"
+            />
+
+
+</android.support.constraint.ConstraintLayout>

@@ -18,6 +18,7 @@ class RecycleViewItemDivider(private val context: Context) : RecyclerView.ItemDe
 
         val childCount = parent.childCount
         for (i in 0 until childCount) {
+
             val child = parent.getChildAt(i)
 
             val params = child.layoutParams as RecyclerView.LayoutParams
@@ -28,5 +29,6 @@ class RecycleViewItemDivider(private val context: Context) : RecyclerView.ItemDe
             mDivider.setBounds(left, top, right, bottom)
             mDivider.draw(c)
         }
+
     }
 }

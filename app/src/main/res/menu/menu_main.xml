@@ -4,6 +4,7 @@
       tools:context="com.procrastimax.birthdaybuddy.MainActivity">
     <item android:id="@+id/action_settings"
           android:title="@string/action_settings"
+          android:actionLayout="@layout/toolbar_add_birthday"
           android:orderInCategory="100"
-          app:showAsAction="never"/>
+          app:showAsAction="collapseActionView"/>
 </menu>
