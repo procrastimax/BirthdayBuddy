@@ -23,6 +23,8 @@
         <item>December</item>
     </string-array>
 
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <!-- fragment add new birthday -->
+    <string name="future_birthday_error">You can\'t add future birthdays!</string>
+    <string name="empty_fields_error">Make sure to fill fields forename, surname and date!</string>
+    <string name="person_added_notification">%1$s\'s birthday added</string>
 </resources>

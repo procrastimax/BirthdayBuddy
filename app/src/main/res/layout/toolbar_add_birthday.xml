@@ -12,7 +12,7 @@
             android:layout_alignParentEnd="true"
             android:layout_alignParentStart="true"
             android:layout_alignParentTop="true"
-            android:textColor="@color/brightGrey"
+            android:textColor="@color/white"
             android:textSize="24sp"
             app:layout_constraintStart_toEndOf="@+id/btn_add_fragment_close"
             android:layout_marginStart="8dp"
@@ -31,7 +31,7 @@
             app:layout_constraintTop_toTopOf="@+id/tv_add_fragment_title"
             app:layout_constraintBottom_toBottomOf="@+id/tv_add_fragment_title"
             app:layout_constraintStart_toStartOf="parent"
-            android:tint="@color/white"
+            android:tint="@color/colorAccent"
             android:layout_marginStart="8dp"/>
 
     <ImageView
@@ -39,7 +39,7 @@
             android:layout_width="32dp"
             android:layout_height="32dp"
             android:id="@+id/btn_add_fragment_accept"
-            android:tint="@color/white"
+            android:tint="@color/colorAccent"
             app:layout_constraintTop_toTopOf="@+id/tv_add_fragment_title"
             app:layout_constraintBottom_toBottomOf="@+id/tv_add_fragment_title"
             app:layout_constraintEnd_toEndOf="parent"

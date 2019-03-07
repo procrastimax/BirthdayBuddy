@@ -5,20 +5,16 @@ import android.content.Context
 import android.os.Bundle
 import android.support.design.widget.Snackbar
 import android.support.v4.app.Fragment
-import android.text.InputType
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.EditText
-import android.widget.ImageView
-import android.widget.Switch
-import android.widget.Toast
+import android.widget.*
 import com.procrastimax.birthdaybuddy.MainActivity
 import com.procrastimax.birthdaybuddy.R
 import com.procrastimax.birthdaybuddy.handler.EventHandler
 import com.procrastimax.birthdaybuddy.models.EventBirthday
 import com.procrastimax.birthdaybuddy.models.EventDay
-import java.time.Year
+import java.text.DateFormat
 import java.util.*
 
 /**
@@ -35,8 +31,8 @@ class AddNewBirthdayFragment : Fragment() {
         view!!.findViewById<EditText>(R.id.edit_add_fragment_surname)
     }
 
-    val edit_date: EditText by lazy {
-        view!!.findViewById<EditText>(R.id.edit_add_fragment_date)
+    val edit_date: TextView by lazy {
+        view!!.findViewById<TextView>(R.id.edit_add_fragment_date)
     }
 
     val edit_note: EditText by lazy {
@@ -76,15 +72,22 @@ class AddNewBirthdayFragment : Fragment() {
         val acceptBtn = toolbar.findViewById<ImageView>(R.id.btn_add_fragment_accept)
         acceptBtn.setOnClickListener { acceptButtonPressed() }
 
-        // dont show softkeyboard on press
-        edit_date.inputType = InputType.TYPE_NULL
         edit_date.setOnClickListener {
             showDatePickerDialog()
         }
 
-        edit_date.setOnFocusChangeListener { v, hasFocus ->
-            if (hasFocus) {
-                showDatePickerDialog()
+        switch_isYearGiven.setOnCheckedChangeListener { _, isChecked ->
+            if (edit_date.text.isNotBlank()) {
+                if (isChecked) {
+                    val date = EventDay.parseStringToDate(
+                        edit_date.text.toString() + Calendar.getInstance().get(Calendar.YEAR),
+                        DateFormat.DATE_FIELD
+                    )
+                    edit_date.text = EventDay.parseDateToString(date, DateFormat.FULL)
+                } else {
+                    val date = EventDay.parseStringToDate(edit_date.text.toString(), DateFormat.FULL)
+                    edit_date.text = EventDay.parseDateToString(date, DateFormat.SHORT).substring(0..5)
+                }
             }
         }
     }
@@ -101,9 +104,21 @@ class AddNewBirthdayFragment : Fragment() {
                 c.set(Calendar.YEAR, year_)
                 c.set(Calendar.MONTH, monthOfYear)
                 c.set(Calendar.DAY_OF_MONTH, dayOfMonth)
-                //TODO: dont add future birthdays
-                edit_date.setText(EventDay.parseDateToString(c.time))
 
+                if (c.time.after(Calendar.getInstance().time) && switch_isYearGiven.isChecked) {
+                    Toast.makeText(
+                        view.context,
+                        context!!.resources.getText(R.string.future_birthday_error),
+                        Toast.LENGTH_LONG
+                    ).show()
+                } else {
+
+                    if (switch_isYearGiven.isChecked) {
+                        edit_date.text = EventDay.parseDateToString(c.time, DateFormat.FULL)
+                    } else {
+                        edit_date.text = EventDay.parseDateToString(c.time, DateFormat.DATE_FIELD).substring(0..5)
+                    }
+                }
             }, year, month, day)
         dpd.show()
     }
@@ -131,16 +146,32 @@ class AddNewBirthdayFragment : Fragment() {
         val isYearGiven = switch_isYearGiven.isChecked
 
         if (forename.isBlank() || surname.isBlank() || date.isBlank()) {
-            Toast.makeText(context, "Make sure to fill all empty fields!", Toast.LENGTH_LONG).show()
+            Toast.makeText(context, context!!.resources.getText(R.string.empty_fields_error), Toast.LENGTH_LONG).show()
         } else {
-            val birthday = EventBirthday(EventDay.parseStringToDate(date), forename, surname, isYearGiven)
+            val birthday: EventBirthday
+            if (switch_isYearGiven.isChecked) {
+                birthday =
+                    EventBirthday(EventDay.parseStringToDate(date, DateFormat.FULL), forename, surname, isYearGiven)
+            } else {
+                birthday = EventBirthday(
+                    EventDay.parseStringToDate(
+                        date + (Calendar.getInstance().get(Calendar.YEAR)-1),
+                        DateFormat.DATE_FIELD
+                    ), forename, surname, isYearGiven
+                )
+            }
+
             if (note.isNotBlank()) {
                 birthday.note = note
             }
             EventHandler.addEvent(birthday, true)
 
             //TODO: use resource string, add undo action
-            Snackbar.make(view!!, "$forename's Birthday added", Snackbar.LENGTH_LONG).show()
+            Snackbar.make(
+                view!!,
+                context!!.resources.getString(R.string.person_added_notification, forename),
+                Snackbar.LENGTH_LONG
+            ).show()
             closeButtonPressed()
         }
     }
