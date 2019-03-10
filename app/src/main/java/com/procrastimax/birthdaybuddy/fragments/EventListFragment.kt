@@ -2,6 +2,7 @@ package com.procrastimax.birthdaybuddy.fragments
 
 import android.os.Bundle
 import android.support.v4.app.Fragment
+import android.support.v4.content.ContextCompat
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
@@ -36,6 +37,9 @@ class EventListFragment : Fragment() {
         viewManager = LinearLayoutManager(view.context)
         viewAdapter = EventAdapter(view.context)
 
+        val toolbar = activity!!.findViewById<android.support.v7.widget.Toolbar>(R.id.toolbar)
+        toolbar.setBackgroundColor(ContextCompat.getColor(context!!, R.color.colorPrimary))
+
         recyclerView = view.findViewById<RecyclerView>(R.id.recyclerView).apply {
             setHasFixedSize(true)
             layoutManager = viewManager
@@ -45,7 +49,10 @@ class EventListFragment : Fragment() {
 
         fab.setOnClickListener {
             val ft = fragmentManager!!.beginTransaction()
-            ft.replace(R.id.fragment_placeholder, AddNewBirthdayFragment.newInstance())
+            ft.replace(
+                R.id.fragment_placeholder,
+                BirthdayInstanceFragment.newInstance()
+            )
             ft.addToBackStack(null)
             ft.commit()
         }

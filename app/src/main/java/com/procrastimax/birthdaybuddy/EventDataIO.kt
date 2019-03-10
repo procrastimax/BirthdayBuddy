@@ -61,6 +61,16 @@ object EventDataIO {
     }
 
     /**
+     * remoteEventFromFile removes an entry fro the shared preferences by using the key
+     * @param key : Int
+     */
+    fun remoteEventFromFile(key: Int) {
+        val sharedPrefEditor = sharedPref.edit()
+        sharedPrefEditor.remove(key.toString())
+        sharedPrefEditor.apply()
+    }
+
+    /**
      * readEntryFromFile reads a single event entry by key
      *
      * @param key: Int
@@ -130,7 +140,7 @@ object EventDataIO {
             val isyeargiven = string_array[5]
 
             val birthday = EventBirthday(EventDay.parseStringToDate(date), forename, surname, isyeargiven.toBoolean())
-            birthday.note = note
+            if(note != "null") birthday.note = note
             return birthday
 
         } else if (string_array[0].equals(type_month_divider)) {

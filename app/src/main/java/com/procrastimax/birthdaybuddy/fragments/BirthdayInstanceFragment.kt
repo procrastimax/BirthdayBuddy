@@ -5,6 +5,7 @@ import android.content.Context
 import android.os.Bundle
 import android.support.design.widget.Snackbar
 import android.support.v4.app.Fragment
+import android.support.v4.content.ContextCompat
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,14 +15,21 @@ import com.procrastimax.birthdaybuddy.R
 import com.procrastimax.birthdaybuddy.handler.EventHandler
 import com.procrastimax.birthdaybuddy.models.EventBirthday
 import com.procrastimax.birthdaybuddy.models.EventDay
+import kotlinx.android.synthetic.main.fragment_event_list.*
 import java.text.DateFormat
 import java.util.*
 
 /**
  * TODO:
  *  - move accept/close button in statusbar
+ *  - add animations for accept/close  button
+ *  - control beahaviour when hold in potrait mode
+ *  - add delete birthday button
  */
-class AddNewBirthdayFragment : Fragment() {
+class BirthdayInstanceFragment : Fragment() {
+
+    var isEditedBirthday: Boolean = false
+    var instanceID = -1
 
     val edit_forename: EditText by lazy {
         view!!.findViewById<EditText>(R.id.edit_add_fragment_forename)
@@ -43,7 +51,6 @@ class AddNewBirthdayFragment : Fragment() {
         view!!.findViewById<Switch>(R.id.sw_is_year_given)
     }
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
     }
@@ -59,13 +66,41 @@ class AddNewBirthdayFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        if (arguments != null) {
+            isEditedBirthday = true
+            //when no arguments are delivered
+            if (arguments!!.size() == 0) {
+
+            } else {
+                instanceID = (arguments!!.getInt("ID"))
+                val forname = (arguments!!.getString("FORENAME"))
+                val surname = (arguments!!.getString("SURNAME"))
+                val isYearGiven = (arguments!!.getString("ISYEARGIVEN")!!).toBoolean()
+                val date = EventDay.parseStringToDate(arguments!!.getString("DATE")!!)
+                val note = (arguments!!.getString("NOTE"))
+
+                if (isYearGiven) {
+                    edit_date.text = EventDay.parseDateToString(date, DateFormat.FULL)
+                } else {
+                    edit_date.text = EventDay.parseDateToString(date, DateFormat.DATE_FIELD).substring(0..5)
+                }
+
+                edit_surname.setText(surname)
+                edit_forename.setText(forname)
+                if (!note.isNullOrBlank()) {
+                    edit_note.setText(note)
+                }
+                switch_isYearGiven.isChecked = isYearGiven
+            }
+        }
+
         val toolbar = activity!!.findViewById<android.support.v7.widget.Toolbar>(R.id.toolbar)
 
         val closeBtn = toolbar.findViewById<ImageView>(R.id.btn_add_fragment_close)
 
+        toolbar.setBackgroundColor(ContextCompat.getColor(context!!, R.color.background_material_light))
+
         closeBtn.setOnClickListener {
-            context
-            println("pressed")
             closeButtonPressed()
         }
 
@@ -78,15 +113,29 @@ class AddNewBirthdayFragment : Fragment() {
 
         switch_isYearGiven.setOnCheckedChangeListener { _, isChecked ->
             if (edit_date.text.isNotBlank()) {
+                //year is given
                 if (isChecked) {
-                    val date = EventDay.parseStringToDate(
+
+                    var date = EventDay.parseStringToDate(
                         edit_date.text.toString() + Calendar.getInstance().get(Calendar.YEAR),
                         DateFormat.DATE_FIELD
                     )
+                    //if days of year from date without year is a bigger value than the current day of year, the date is in the future, so it has to be set to current day
+                    if (date.after(Calendar.getInstance().time)) {
+                        date = Calendar.getInstance().time
+                    }
                     edit_date.text = EventDay.parseDateToString(date, DateFormat.FULL)
+
+                    //year is not given
                 } else {
                     val date = EventDay.parseStringToDate(edit_date.text.toString(), DateFormat.FULL)
-                    edit_date.text = EventDay.parseDateToString(date, DateFormat.SHORT).substring(0..5)
+                    edit_date.text = EventDay.parseDateToString(date, DateFormat.DATE_FIELD).substring(0..5)
+                }
+            } else {
+                if (isChecked) {
+                    edit_date.hint = context!!.resources.getString(R.string.edit_date_hint_with_year)
+                } else {
+                    edit_date.hint = context!!.resources.getString(R.string.edit_date_hint_without_year)
                 }
             }
         }
@@ -155,7 +204,7 @@ class AddNewBirthdayFragment : Fragment() {
             } else {
                 birthday = EventBirthday(
                     EventDay.parseStringToDate(
-                        date + (Calendar.getInstance().get(Calendar.YEAR)-1),
+                        date + (Calendar.getInstance().get(Calendar.YEAR) - 1),
                         DateFormat.DATE_FIELD
                     ), forename, surname, isYearGiven
                 )
@@ -164,22 +213,37 @@ class AddNewBirthdayFragment : Fragment() {
             if (note.isNotBlank()) {
                 birthday.note = note
             }
-            EventHandler.addEvent(birthday, true)
 
-            //TODO: use resource string, add undo action
-            Snackbar.make(
-                view!!,
-                context!!.resources.getString(R.string.person_added_notification, forename),
-                Snackbar.LENGTH_LONG
-            ).show()
-            closeButtonPressed()
+            //new bithday entry, just add a new entry in map
+            if (!isEditedBirthday) {
+                EventHandler.addEvent(birthday, true)
+                //TODO: add undo action
+                Snackbar.make(
+                    view!!,
+                    context!!.resources.getString(R.string.person_added_notification, forename),
+                    Snackbar.LENGTH_LONG
+                ).show()
+                closeButtonPressed()
+
+                //already existant birthday entry, overwrite old entry in map
+            } else {
+                EventHandler.changeEventAt(instanceID, birthday, true)
+
+                //TODO: add undo action
+                Snackbar.make(
+                    view!!,
+                    context!!.resources.getString(R.string.person_changed_notification, forename),
+                    Snackbar.LENGTH_LONG
+                ).show()
+                closeButtonPressed()
+            }
         }
     }
 
     companion object {
         @JvmStatic
-        fun newInstance(): AddNewBirthdayFragment {
-            return AddNewBirthdayFragment()
+        fun newInstance(): BirthdayInstanceFragment {
+            return BirthdayInstanceFragment()
         }
     }
 }

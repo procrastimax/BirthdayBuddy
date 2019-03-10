@@ -27,4 +27,7 @@
     <string name="future_birthday_error">You can\'t add future birthdays!</string>
     <string name="empty_fields_error">Make sure to fill fields forename, surname and date!</string>
     <string name="person_added_notification">%1$s\'s birthday added</string>
+    <string name="person_changed_notification">%1$s\'s birthday changed</string>
+    <string name="edit_date_hint_with_year">Date with known year</string>
+    <string name="edit_date_hint_without_year">Date without known year</string>
 </resources>

@@ -126,8 +126,13 @@ object EventHandler {
      * @param key : Int
      * @param event : EventDay
      */
-    fun changeEventAt(key: Int, event: EventDay) {
+    fun changeEventAt(key: Int, event: EventDay, writeAfterChange: Boolean = false) {
         event_map[key] = event
+        event_list = getSortedListBy()
+        if (writeAfterChange) {
+            EventDataIO.remoteEventFromFile(key)
+            EventDataIO.writeEventToFile(key, event)
+        }
     }
 
     /**

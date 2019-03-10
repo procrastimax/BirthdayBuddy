@@ -22,6 +22,9 @@ import java.util.*
  *  - bug when localization is changed after first start of app -> add possibility to change all encodings at app start when error occurs -> fix this by only use one format for saving
  *  - dont show last seperation character in list view
  *  - dont draw item decoration on month divider
+ *  - add checking for existing forename/surname pair when adding a new birthday/event
+ *  - BUG: app closes when switched to potrait mode and changing fragments
+ *  - add long click for birthday event item
  */
 class MainActivity : AppCompatActivity() {
 
@@ -52,10 +55,12 @@ class MainActivity : AppCompatActivity() {
             val month_begin_date = Calendar.getInstance()
             month_begin_date.set(Calendar.YEAR, 1)
             month_begin_date.set(Calendar.DAY_OF_MONTH, 1)
-            for (i in 0 until 12) {
+
+            //TODO: show month dividers
+            /*for (i in 0 until 12) {
                 month_begin_date.set(Calendar.MONTH, i)
                 EventHandler.addEvent(MonthDivider(month_begin_date.time, getMonthFromIndex(i)), true)
-            }
+            }*/
 
             EventHandler.addEvent(
                 EventBirthday(
@@ -101,7 +106,9 @@ class MainActivity : AppCompatActivity() {
             }
 
             Companion.ToolbarState.AddBirthday -> {
-                toolbar.removeAllViews()
+                if (toolbar.childCount > 0) {
+                    toolbar.removeAllViews()
+                }
                 toolbar.addView(
                     layoutInflater.inflate(
                         R.layout.toolbar_add_birthday,

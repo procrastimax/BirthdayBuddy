@@ -67,19 +67,24 @@ class EventBirthday(
             }
         }
 
-    var note: String = ""
+    var note: String? = null
         get() {
-            return if (field.isEmpty() || field.isBlank()) {
+            if (field == null) {
+                return null
+            } else if (field!!.isEmpty() || field!!.isBlank()) {
                 Log.d("EventBirthday", "member var NOTE is blank/empty when trying to access it")
-                "-"
+                return null
             } else {
-                field.trim()
+                return field!!.trim()
             }
         }
         set(value) {
-            field = if (value.isBlank() || value.isEmpty()) {
-                Log.d("EventBirthday", "member variable SURNAME was set to an empty/blank value!")
-                "-"
+            if (value == null) {
+                Log.d("EventBirthday", "member variable NOTE was set to a null value!")
+                field = null
+            } else field = if (value.isBlank() || value.isEmpty()) {
+                Log.d("EventBirthday", "member variable NOTE was set to an empty/blank value!")
+                null
             } else {
                 value
             }

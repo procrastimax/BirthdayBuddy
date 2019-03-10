@@ -1,14 +1,18 @@
 package com.procrastimax.birthdaybuddy.views
 
 import android.content.Context
+import android.os.Bundle
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import com.procrastimax.birthdaybuddy.MainActivity
 import com.procrastimax.birthdaybuddy.R
+import com.procrastimax.birthdaybuddy.fragments.BirthdayInstanceFragment
 import com.procrastimax.birthdaybuddy.handler.EventHandler
 import com.procrastimax.birthdaybuddy.models.EventBirthday
+import com.procrastimax.birthdaybuddy.models.EventDay
 import com.procrastimax.birthdaybuddy.models.MonthDivider
 import kotlinx.android.synthetic.main.birthday_event_item_view.view.*
 import kotlinx.android.synthetic.main.event_month_view_divider.view.*
@@ -84,6 +88,54 @@ class EventAdapter(private val context: Context) :
             1 -> {
                 //check if is birthday event and if the year is given
                 if (EventHandler.event_list[position] is EventBirthday) {
+
+                    //set on click listener for item
+                    holder.itemView.setOnClickListener {
+                        val bundle = Bundle()
+                        //do this in more adaptable way
+                        bundle.putInt(
+                            "ID",
+                            position
+                        )
+
+                        bundle.putString(
+                            "DATE",
+                            EventDay.parseDateToString((EventHandler.event_list[position] as EventBirthday).eventDate)
+                        )
+
+                        bundle.putString(
+                            "FORENAME",
+                            (EventHandler.event_list[position] as EventBirthday).forename
+                        )
+
+                        bundle.putString(
+                            "SURNAME",
+                            (EventHandler.event_list[position] as EventBirthday).surname
+                        )
+
+                        bundle.putString(
+                            "ISYEARGIVEN",
+                            (EventHandler.event_list[position] as EventBirthday).isYearGiven.toString()
+                        )
+
+                        bundle.putString(
+                            "NOTE",
+                            (EventHandler.event_list[position] as EventBirthday).note
+                        )
+
+                        val ft = (context as MainActivity).supportFragmentManager.beginTransaction()
+
+                        // add arguments to fragment
+                        val newBirthdayFragment = BirthdayInstanceFragment.newInstance()
+                        newBirthdayFragment.arguments = bundle
+                        ft.replace(
+                            R.id.fragment_placeholder,
+                            newBirthdayFragment
+                        )
+                        ft.addToBackStack(null)
+                        ft.commit()
+
+                    }
                     //set date
                     holder.itemView.tv_birthday_date_value.text =
                         (EventHandler.event_list[position] as EventBirthday).getPrettyShortStringWithoutYear()
