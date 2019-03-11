@@ -1,7 +1,7 @@
 package com.procrastimax.birthdaybuddy.fragments
 
+import android.app.AlertDialog
 import android.app.DatePickerDialog
-import android.content.Context
 import android.os.Bundle
 import android.support.design.widget.Snackbar
 import android.support.v4.app.Fragment
@@ -15,7 +15,6 @@ import com.procrastimax.birthdaybuddy.R
 import com.procrastimax.birthdaybuddy.handler.EventHandler
 import com.procrastimax.birthdaybuddy.models.EventBirthday
 import com.procrastimax.birthdaybuddy.models.EventDay
-import kotlinx.android.synthetic.main.fragment_event_list.*
 import java.text.DateFormat
 import java.util.*
 
@@ -24,12 +23,11 @@ import java.util.*
  *  - move accept/close button in statusbar
  *  - add animations for accept/close  button
  *  - control beahaviour when hold in potrait mode
- *  - add delete birthday button
  */
 class BirthdayInstanceFragment : Fragment() {
 
     var isEditedBirthday: Boolean = false
-    var instanceID = -1
+    var itemID = -1
 
     val edit_forename: EditText by lazy {
         view!!.findViewById<EditText>(R.id.edit_add_fragment_forename)
@@ -51,6 +49,33 @@ class BirthdayInstanceFragment : Fragment() {
         view!!.findViewById<Switch>(R.id.sw_is_year_given)
     }
 
+    /**
+     * wasChangeMade checks wether a change to the edit fields was made or not
+     * @param event: EventBirthday
+     * @return Boolean
+     */
+    private fun wasChangeMade(event: EventBirthday): Boolean {
+        if (switch_isYearGiven.isChecked) {
+            if (edit_date.text != event.dateToPrettyString(DateFormat.FULL)) return true
+        } else {
+            if (edit_date.text != event.dateToPrettyString(DateFormat.DATE_FIELD).subSequence(0..5).toString()) return true
+        }
+
+        if (edit_note.text.isNotBlank() && event.note == null) {
+            return true
+        } else {
+            if (event.note != null) {
+                if (edit_note.text.toString() != event.note!!) return true
+            }
+        }
+
+        if (edit_forename.text.toString() != event.forename) return true
+        if (edit_surname.text.toString() != event.surname) return true
+        if (switch_isYearGiven.isChecked != event.isYearGiven) return true
+
+        return false
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
     }
@@ -66,39 +91,79 @@ class BirthdayInstanceFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        //retrieve fragment parameter when edited instance
         if (arguments != null) {
             isEditedBirthday = true
             //when no arguments are delivered
             if (arguments!!.size() == 0) {
 
             } else {
-                instanceID = (arguments!!.getInt("ID"))
-                val forname = (arguments!!.getString("FORENAME"))
-                val surname = (arguments!!.getString("SURNAME"))
-                val isYearGiven = (arguments!!.getString("ISYEARGIVEN")!!).toBoolean()
-                val date = EventDay.parseStringToDate(arguments!!.getString("DATE")!!)
-                val note = (arguments!!.getString("NOTE"))
+                itemID = (arguments!!.getInt(ITEM_ID_PARAM))
+                val birthday = EventHandler.event_list[itemID].second as EventBirthday
 
-                if (isYearGiven) {
-                    edit_date.text = EventDay.parseDateToString(date, DateFormat.FULL)
+                if (birthday.isYearGiven) {
+                    edit_date.text = EventDay.parseDateToString(birthday.eventDate, DateFormat.FULL)
                 } else {
-                    edit_date.text = EventDay.parseDateToString(date, DateFormat.DATE_FIELD).substring(0..5)
+                    edit_date.text =
+                        EventDay.parseDateToString(birthday.eventDate, DateFormat.DATE_FIELD).substring(0..5)
                 }
 
-                edit_surname.setText(surname)
-                edit_forename.setText(forname)
-                if (!note.isNullOrBlank()) {
-                    edit_note.setText(note)
+                edit_surname.setText(birthday.surname)
+                edit_forename.setText(birthday.forename)
+                if (!birthday.note.isNullOrBlank()) {
+                    edit_note.setText(birthday.note)
                 }
-                switch_isYearGiven.isChecked = isYearGiven
+                switch_isYearGiven.isChecked = birthday.isYearGiven
             }
+        }
+        //switch toolbar layout
+        if (isEditedBirthday) {
+            (context as MainActivity).changeToolbarState(MainActivity.Companion.ToolbarState.EditBirtday)
+
+        } else {
+            (context as MainActivity).changeToolbarState(MainActivity.Companion.ToolbarState.AddBirthday)
         }
 
         val toolbar = activity!!.findViewById<android.support.v7.widget.Toolbar>(R.id.toolbar)
 
         val closeBtn = toolbar.findViewById<ImageView>(R.id.btn_add_fragment_close)
 
-        toolbar.setBackgroundColor(ContextCompat.getColor(context!!, R.color.background_material_light))
+        toolbar.setBackgroundColor(ContextCompat.getColor(context!!, R.color.material_light_white_background))
+        toolbar.setContentInsetsAbsolute(0, 0)
+
+        //when edit instance birthday, than initialize delete btn
+        if (isEditedBirthday) {
+            val deleteBtn = toolbar.findViewById<ImageView>(R.id.btn_delete_birthday)
+            deleteBtn.setOnClickListener {
+
+
+                val alert_builder = AlertDialog.Builder(context)
+                alert_builder.setTitle(resources.getString(R.string.alert_dialog_title_delete_birthday))
+                alert_builder.setMessage(resources.getString(R.string.alert_dialog_body_message))
+
+                // Set a positive button and its click listener on alert dialog
+                alert_builder.setPositiveButton(resources.getString(R.string.alert_dialog_accept_delete_birthday)) { dialog, which ->
+                    // delete birthday on positive button
+                    Snackbar.make(
+                        view,
+                        resources.getString(R.string.person_deleted_notification, edit_forename.text),
+                        Snackbar.LENGTH_LONG
+                    ).show()
+                    EventHandler.removeEventByKey(EventHandler.event_list[itemID].first, true)
+                    closeButtonPressed()
+                }
+
+                // dont do anything on negative button
+                alert_builder.setNegativeButton(resources.getString(R.string.alert_dialog_dismiss_delete_birthday)) { dialog, which ->
+                }
+
+                // Finally, make the alert dialog using builder
+                val dialog: AlertDialog = alert_builder.create()
+
+                // Display the alert dialog on app interface
+                dialog.show()
+            }
+        }
 
         closeBtn.setOnClickListener {
             closeButtonPressed()
@@ -115,15 +180,11 @@ class BirthdayInstanceFragment : Fragment() {
             if (edit_date.text.isNotBlank()) {
                 //year is given
                 if (isChecked) {
-
                     var date = EventDay.parseStringToDate(
-                        edit_date.text.toString() + Calendar.getInstance().get(Calendar.YEAR),
+                        edit_date.text.toString() + (Calendar.getInstance().get(Calendar.YEAR)-1),
                         DateFormat.DATE_FIELD
                     )
-                    //if days of year from date without year is a bigger value than the current day of year, the date is in the future, so it has to be set to current day
-                    if (date.after(Calendar.getInstance().time)) {
-                        date = Calendar.getInstance().time
-                    }
+
                     edit_date.text = EventDay.parseDateToString(date, DateFormat.FULL)
 
                     //year is not given
@@ -143,6 +204,16 @@ class BirthdayInstanceFragment : Fragment() {
 
     private fun showDatePickerDialog() {
         val c = Calendar.getInstance()
+
+        //set calendar to the date which is stored in the edit field, when the edit is not empty
+        if (!edit_date.text.isNullOrBlank()) {
+            if (switch_isYearGiven.isChecked) {
+                c.time = EventDay.parseStringToDate(edit_date.text.toString(), DateFormat.FULL)
+            } else {
+                c.time = EventDay.parseStringToDate(edit_date.text.toString(), DateFormat.DATE_FIELD)
+            }
+        }
+
         val year = c.get(Calendar.YEAR)
         val month = c.get(Calendar.MONTH)
         val day = c.get(Calendar.DAY_OF_MONTH)
@@ -175,11 +246,6 @@ class BirthdayInstanceFragment : Fragment() {
     override fun onDetach() {
         super.onDetach()
         (context as MainActivity).changeToolbarState(MainActivity.Companion.ToolbarState.Default)
-    }
-
-    override fun onAttach(context: Context?) {
-        super.onAttach(context)
-        (context as MainActivity).changeToolbarState(MainActivity.Companion.ToolbarState.AddBirthday)
     }
 
     fun closeButtonPressed() {
@@ -216,7 +282,7 @@ class BirthdayInstanceFragment : Fragment() {
 
             //new bithday entry, just add a new entry in map
             if (!isEditedBirthday) {
-                EventHandler.addEvent(birthday, true)
+                EventHandler.addEvent(birthday, context!!, true)
                 //TODO: add undo action
                 Snackbar.make(
                     view!!,
@@ -227,14 +293,16 @@ class BirthdayInstanceFragment : Fragment() {
 
                 //already existant birthday entry, overwrite old entry in map
             } else {
-                EventHandler.changeEventAt(instanceID, birthday, true)
+                if (wasChangeMade(EventHandler.event_list[itemID].second as EventBirthday)) {
+                    EventHandler.changeEventAt(EventHandler.event_list[itemID].first, birthday, true)
 
-                //TODO: add undo action
-                Snackbar.make(
-                    view!!,
-                    context!!.resources.getString(R.string.person_changed_notification, forename),
-                    Snackbar.LENGTH_LONG
-                ).show()
+                    //TODO: add undo action
+                    Snackbar.make(
+                        view!!,
+                        context!!.resources.getString(R.string.person_changed_notification, forename),
+                        Snackbar.LENGTH_LONG
+                    ).show()
+                }
                 closeButtonPressed()
             }
         }

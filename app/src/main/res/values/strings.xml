@@ -1,6 +1,5 @@
 <resources>
     <string name="app_name">BirthdayBuddy</string>
-    <string name="action_settings">Settings</string>
 
     <!-- birthday event view -->
     <string name="tv_days_until_title">Days</string>
@@ -24,10 +23,29 @@
     </string-array>
 
     <!-- fragment add new birthday -->
+    <string name="toolbar_title_add_birthday">Add new birthday</string>
+    <string name="toolbar_title_edit_birthday">Edit birthday</string>
     <string name="future_birthday_error">You can\'t add future birthdays!</string>
     <string name="empty_fields_error">Make sure to fill fields forename, surname and date!</string>
     <string name="person_added_notification">%1$s\'s birthday added</string>
     <string name="person_changed_notification">%1$s\'s birthday changed</string>
+    <string name="person_deleted_notification">%1$s\'s birthday deleted</string>
     <string name="edit_date_hint_with_year">Date with known year</string>
     <string name="edit_date_hint_without_year">Date without known year</string>
+
+    <!-- alert dialog delete birthday -->
+    <string name="alert_dialog_title_delete_birthday">Delete birthday</string>
+    <string name="alert_dialog_body_message">Are you sure you want to delete this birthday?</string>
+    <string name="alert_dialog_accept_delete_birthday">Yes</string>
+    <string name="alert_dialog_dismiss_delete_birthday">No</string>
+
+    <!-- fragment show birthday -->
+    <string name="person_show_date">Born on %1$s</string>
+    <string name="person_no_note">No note was made</string>
+    <string name="person_note">Note: %1$s</string>
+
+    <string name="person_days_until">This is in %1$d days</string>
+    <string name="person_years_old">He is getting %1$d years old</string>
+    <string name="person_day_until">This is in %1$d day</string>
+    <string name="person_year_old">He is getting %1$d year old</string>
 </resources>

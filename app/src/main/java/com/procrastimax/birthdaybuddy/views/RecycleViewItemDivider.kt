@@ -5,6 +5,7 @@ import android.graphics.Canvas
 import android.graphics.drawable.Drawable
 import android.support.v4.content.ContextCompat
 import android.support.v7.widget.RecyclerView
+import android.view.View
 import com.procrastimax.birthdaybuddy.MainActivity
 import com.procrastimax.birthdaybuddy.R
 
@@ -21,14 +22,34 @@ class RecycleViewItemDivider(private val context: Context) : RecyclerView.ItemDe
 
             val child = parent.getChildAt(i)
 
-            val params = child.layoutParams as RecyclerView.LayoutParams
+            //dont render a decoration when the child after this is a month divider/ not-decoration-view
+            if (i < childCount - 1) {
+                val child_following = parent.getChildAt(i + 1)
+                if (!isDecorated(child_following, parent)) {
+                    continue
+                }
+            }
 
-            val top = child.bottom + params.bottomMargin
-            val bottom = top + mDivider.intrinsicHeight
+            if (isDecorated(child, parent)) {
+                val params = child.layoutParams as RecyclerView.LayoutParams
 
-            mDivider.setBounds(left, top, right, bottom)
-            mDivider.draw(c)
+                val top = child.bottom + params.bottomMargin
+                val bottom = top + mDivider.intrinsicHeight
+
+                mDivider.setBounds(left, top, right, bottom)
+                mDivider.draw(c)
+            }
         }
+    }
 
+    /**
+     * isDecorated check if the holder is a special type of holder and therefore should be decorated or not
+     * @param view: View
+     * @param parent: RecyclerView
+     * @return Boolean
+     */
+    private fun isDecorated(view: View, parent: RecyclerView): Boolean {
+        val holder: RecyclerView.ViewHolder = parent.getChildViewHolder(view)
+        return (holder is EventAdapter.BirthdayEventViewHolder)
     }
 }

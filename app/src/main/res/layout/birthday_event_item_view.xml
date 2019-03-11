@@ -6,7 +6,7 @@
         android:layout_height="wrap_content"
         android:focusable="true"
         android:clickable="true"
-        android:foreground="@drawable/ripple_recycler_view_item">
+        android:background="@drawable/ripple_recycler_view_item">
 
 
     <ImageView

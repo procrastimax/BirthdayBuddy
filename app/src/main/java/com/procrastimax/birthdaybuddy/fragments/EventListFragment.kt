@@ -39,6 +39,7 @@ class EventListFragment : Fragment() {
 
         val toolbar = activity!!.findViewById<android.support.v7.widget.Toolbar>(R.id.toolbar)
         toolbar.setBackgroundColor(ContextCompat.getColor(context!!, R.color.colorPrimary))
+        toolbar.setContentInsetsAbsolute(24, 0)
 
         recyclerView = view.findViewById<RecyclerView>(R.id.recyclerView).apply {
             setHasFixedSize(true)

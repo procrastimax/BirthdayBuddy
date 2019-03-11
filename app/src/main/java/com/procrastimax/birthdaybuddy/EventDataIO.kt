@@ -61,10 +61,10 @@ object EventDataIO {
     }
 
     /**
-     * remoteEventFromFile removes an entry fro the shared preferences by using the key
+     * removeEventFromFile removes an entry fro the shared preferences by using the key
      * @param key : Int
      */
-    fun remoteEventFromFile(key: Int) {
+    fun removeEventFromFile(key: Int) {
         val sharedPrefEditor = sharedPref.edit()
         sharedPrefEditor.remove(key.toString())
         sharedPrefEditor.apply()

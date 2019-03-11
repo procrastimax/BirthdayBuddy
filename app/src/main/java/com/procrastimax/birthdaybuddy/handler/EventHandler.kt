@@ -1,9 +1,11 @@
 package com.procrastimax.birthdaybuddy.handler
 
-import android.util.Log
+import android.content.Context
 import com.procrastimax.birthdaybuddy.EventDataIO
+import com.procrastimax.birthdaybuddy.R
 import com.procrastimax.birthdaybuddy.models.EventBirthday
 import com.procrastimax.birthdaybuddy.models.EventDay
+import com.procrastimax.birthdaybuddy.models.MonthDivider
 import com.procrastimax.birthdaybuddy.models.SortIdentifier
 import java.text.DateFormat
 import java.util.*
@@ -12,18 +14,44 @@ import java.util.*
  * EventHandler singleton object map to store all occurring eventdates (birthdays, anniversaries, etc.)
  * This is useful to compare all objects more easily, f.e. when you want to traverse all entries in event dates
  *
- * THIS IS NOT AN ACTUAL EVENTHANDLER KNOWN FROM EVENT BASED PROGRAMMING
+ * TODO:
+ *  - when item is deleted or changed, and no other item needs a month divider for this month, delete month divider
+ *  - rework whole month divider system
+ *
  */
 object EventHandler {
     private var event_map: MutableMap<Int, EventDay> = emptyMap<Int, EventDay>().toMutableMap()
-    var event_list: List<EventDay> = emptyList()
 
     /**
-     * addEvent adds a EventDay type to the map
-     * @param event: EventDay
+     * event_list a list used for sorted viewing of the maps content
+     * the data is stored in pairs of EventDay and the index of this dataset in the map as an int
      */
-    fun addEvent(event: EventDay) {
-        addEvent(event, false)
+    var event_list: List<Pair<Int, EventDay>> = emptyList()
+
+    /**
+     * month_divider_set_map is a map to track which month divider have already been added
+     */
+    val month_divider_map = mutableMapOf(
+        0 to false,
+        1 to false,
+        2 to false,
+        3 to false,
+        4 to false,
+        5 to false,
+        6 to false,
+        7 to false,
+        8 to false,
+        9 to false,
+        10 to false,
+        11 to false
+    )
+
+    fun validateMonthDivierMap() {
+        for (it in event_map) {
+            if (it.value is MonthDivider) {
+                month_divider_map[it.key] = true
+            }
+        }
     }
 
     /**
@@ -33,19 +61,38 @@ object EventHandler {
      * @param event: EventDay
      * @param writeAfterAdd: Boolean
      */
-    fun addEvent(event: EventDay, writeAfterAdd: Boolean) {
-        //TODO: add event valdiation
-        if (!event_map.containsValue(event)) {
-            val last_key = getLastIndex()
+    fun addEvent(event: EventDay, context: Context, writeAfterAdd: Boolean = false) {
+        if (event !is MonthDivider) {
+            //when the map entry for this event is false, add a month divider
+            if (month_divider_map[event.getMonth()] == false) {
+                val last_key = getLastIndex()
+                val month_begin_date = Calendar.getInstance()
+                month_begin_date.set(Calendar.YEAR, 1)
+                month_begin_date.set(Calendar.DAY_OF_MONTH, 1)
 
-            event_map[last_key] = event
+                month_begin_date.set(Calendar.MONTH, event.getMonth())
+                val monthDiv = MonthDivider(
+                    month_begin_date.time,
+                    context.resources.getStringArray(R.array.month_names)[event.getMonth()]
+                )
+                //add to this map where all events are stores in order to store in file
+                event_map[last_key] = monthDiv
 
-            if (writeAfterAdd) {
-                EventDataIO.writeEventToFile(last_key, event)
+                //overwrite current map for tracking already used month divs
+                month_divider_map[event.getMonth()] = true
+
+                if (writeAfterAdd) {
+                    EventDataIO.writeEventToFile(last_key, monthDiv)
+                }
             }
-        } else {
-            Log.d("EventHandler", "Event already in map when trying to add it")
-            event_map[getLastIndex()] = event
+        }
+
+        //TODO: add event valdiation
+        val last_key = getLastIndex()
+        event_map[last_key] = event
+
+        if (writeAfterAdd) {
+            EventDataIO.writeEventToFile(last_key, event)
         }
         event_list = getSortedListBy()
     }
@@ -95,13 +142,13 @@ object EventHandler {
      *
      * @param event : EventDay
      */
-    fun removeEventByEvent(event: EventDay) {
-        val entrySet = event_map.entries
-        event_map.remove(
-            getKeyToValue(
-                event
-            )
-        )
+    fun removeEventByEvent(event: EventDay, writeChange: Boolean = false) {
+        val key = getKeyToValue(event)
+        event_map.remove(key)
+        event_list = getSortedListBy()
+        if (writeChange) {
+            EventDataIO.removeEventFromFile(key)
+        }
     }
 
     /**
@@ -109,8 +156,12 @@ object EventHandler {
      *
      * @param key : Int
      */
-    fun removeEventByKey(key: Int) {
+    fun removeEventByKey(key: Int, writeChange: Boolean = false) {
         event_map.remove(key)
+        event_list = getSortedListBy()
+        if (writeChange) {
+            EventDataIO.removeEventFromFile(key)
+        }
     }
 
     /**
@@ -130,7 +181,7 @@ object EventHandler {
         event_map[key] = event
         event_list = getSortedListBy()
         if (writeAfterChange) {
-            EventDataIO.remoteEventFromFile(key)
+            EventDataIO.removeEventFromFile(key)
             EventDataIO.writeEventToFile(key, event)
         }
     }
@@ -185,7 +236,7 @@ object EventHandler {
      *
      * @param count : Int
      */
-    fun generateRandomEventDates(count: Int, writeAfterAdd: Boolean = false) {
+    fun generateRandomEventDates(count: Int, context: Context, writeAfterAdd: Boolean = false) {
         for (i in 1..count) {
 
             val day: Int = (1..30).random()
@@ -204,7 +255,7 @@ object EventHandler {
             if (isYearGiven) {
                 event.note = (day + month + i).toString()
             }
-            addEvent(event, writeAfterAdd)
+            addEvent(event, context, writeAfterAdd)
         }
     }
 
@@ -215,9 +266,9 @@ object EventHandler {
      * @param identifier : SortIdentifier
      * @return List<EventDay>
      */
-    fun getSortedListBy(identifier: SortIdentifier = EventDay.Identifier.Date): List<EventDay> {
+    fun getSortedListBy(identifier: SortIdentifier = EventDay.Identifier.Date): List<Pair<Int, EventDay>> {
         if (identifier == EventDay.Identifier.Date) {
-            return this.event_map.values.sorted().toList()
+            return this.event_map.toList().sortedBy { pair -> pair.second }
         } else {
             return emptyList()
         }

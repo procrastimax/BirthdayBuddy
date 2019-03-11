@@ -11,7 +11,6 @@ import com.procrastimax.birthdaybuddy.fragments.EventListFragment
 import com.procrastimax.birthdaybuddy.handler.EventHandler
 import com.procrastimax.birthdaybuddy.models.EventBirthday
 import com.procrastimax.birthdaybuddy.models.EventDay
-import com.procrastimax.birthdaybuddy.models.MonthDivider
 import kotlinx.android.synthetic.main.activity_main.*
 import java.text.DateFormat
 import java.util.*
@@ -45,22 +44,19 @@ class MainActivity : AppCompatActivity() {
         setSupportActionBar(toolbar)
         changeToolbarState(Companion.ToolbarState.Default)
 
+        //get application context
         EventDataIO.registerIO(this.applicationContext)
 
+        //read all data from shared prefs
         EventHandler.addMap(EventDataIO.readAll())
 
-        println(EventHandler.event_list)
+        //set month divier map from eventHandler
+        EventHandler.validateMonthDivierMap()
 
         if (isFirstStart()) {
             val month_begin_date = Calendar.getInstance()
             month_begin_date.set(Calendar.YEAR, 1)
             month_begin_date.set(Calendar.DAY_OF_MONTH, 1)
-
-            //TODO: show month dividers
-            /*for (i in 0 until 12) {
-                month_begin_date.set(Calendar.MONTH, i)
-                EventHandler.addEvent(MonthDivider(month_begin_date.time, getMonthFromIndex(i)), true)
-            }*/
 
             EventHandler.addEvent(
                 EventBirthday(
@@ -68,7 +64,7 @@ class MainActivity : AppCompatActivity() {
                     "Procrastimax",
                     "Dev",
                     false
-                ),
+                ), applicationContext,
                 true
             )
         }
@@ -119,12 +115,25 @@ class MainActivity : AppCompatActivity() {
                 setSupportActionBar(toolbar)
                 supportActionBar!!.setDisplayShowTitleEnabled(false)
             }
+            Companion.ToolbarState.EditBirtday -> {
+                if (toolbar.childCount > 0) {
+                    toolbar.removeAllViews()
+                }
+                toolbar.addView(
+                    layoutInflater.inflate(
+                        R.layout.toolbar_edit_birthday,
+                        findViewById(android.R.id.content),
+                        false
+                    )
+                )
+                setSupportActionBar(toolbar)
+                supportActionBar!!.setDisplayShowTitleEnabled(false)
+            }
         }
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         // Inflate the menu; this adds items to the action bar if it is present.
-        //menuInflater.inflate(R.menu.menu_main, menu)
         return true
     }
 
@@ -133,7 +142,7 @@ class MainActivity : AppCompatActivity() {
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         return when (item.itemId) {
-            R.id.action_settings -> true
+            // R.id.action_settings -> true
             else -> super.onOptionsItemSelected(item)
         }
     }
@@ -145,7 +154,8 @@ class MainActivity : AppCompatActivity() {
 
         enum class ToolbarState {
             Default,
-            AddBirthday
+            AddBirthday,
+            EditBirtday
         }
     }
 }

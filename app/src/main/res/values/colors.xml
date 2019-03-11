@@ -8,4 +8,6 @@
     <color name="darkGrey">#7a7a7c</color>
     <color name="white">#ecf0f1</color>
 
+    <color name="material_light_white_background">#fffafafa</color>
+
 </resources>

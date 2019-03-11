@@ -10,9 +10,10 @@ import android.widget.TextView
 import com.procrastimax.birthdaybuddy.MainActivity
 import com.procrastimax.birthdaybuddy.R
 import com.procrastimax.birthdaybuddy.fragments.BirthdayInstanceFragment
+import com.procrastimax.birthdaybuddy.fragments.ITEM_ID_PARAM
+import com.procrastimax.birthdaybuddy.fragments.ShowBirthdayEvent
 import com.procrastimax.birthdaybuddy.handler.EventHandler
 import com.procrastimax.birthdaybuddy.models.EventBirthday
-import com.procrastimax.birthdaybuddy.models.EventDay
 import com.procrastimax.birthdaybuddy.models.MonthDivider
 import kotlinx.android.synthetic.main.birthday_event_item_view.view.*
 import kotlinx.android.synthetic.main.event_month_view_divider.view.*
@@ -42,13 +43,8 @@ class EventAdapter(private val context: Context) :
      * @return Int
      */
     override fun getItemViewType(position: Int): Int {
-        if (EventHandler.event_list[position] is MonthDivider) {
-            if (EventHandler.event_list.size - 1 == position) {
-                return -1
-            }
-            if (EventHandler.event_list.size - 1 > position && EventHandler.event_list[position + 1] is MonthDivider) {
-                return -1
-            } else return 0
+        if (EventHandler.event_list[position].second is MonthDivider) {
+            return 0
         } else return 1
     }
 
@@ -82,45 +78,42 @@ class EventAdapter(private val context: Context) :
             //EventMonthDividerViewHolder
             0 -> {
                 holder.itemView.tv_divider_description_month.text =
-                    (EventHandler.event_list[position] as MonthDivider).month_name
+                    (EventHandler.event_list[position].second as MonthDivider).month_name
             }
             //BirthdayEventViewHolder
             1 -> {
                 //check if is birthday event and if the year is given
-                if (EventHandler.event_list[position] is EventBirthday) {
+                if (EventHandler.event_list[position].second is EventBirthday) {
 
+                    //TODO: make key names static
                     //set on click listener for item
                     holder.itemView.setOnClickListener {
                         val bundle = Bundle()
                         //do this in more adaptable way
                         bundle.putInt(
-                            "ID",
+                            ITEM_ID_PARAM,
                             position
                         )
 
-                        bundle.putString(
-                            "DATE",
-                            EventDay.parseDateToString((EventHandler.event_list[position] as EventBirthday).eventDate)
+                        val ft = (context as MainActivity).supportFragmentManager.beginTransaction()
+                        // add arguments to fragment
+                        val newBirthdayFragment = ShowBirthdayEvent.newInstance()
+                        newBirthdayFragment.arguments = bundle
+                        ft.replace(
+                            R.id.fragment_placeholder,
+                            newBirthdayFragment
                         )
+                        ft.addToBackStack(null)
+                        ft.commit()
 
-                        bundle.putString(
-                            "FORENAME",
-                            (EventHandler.event_list[position] as EventBirthday).forename
-                        )
+                    }
 
-                        bundle.putString(
-                            "SURNAME",
-                            (EventHandler.event_list[position] as EventBirthday).surname
-                        )
-
-                        bundle.putString(
-                            "ISYEARGIVEN",
-                            (EventHandler.event_list[position] as EventBirthday).isYearGiven.toString()
-                        )
-
-                        bundle.putString(
-                            "NOTE",
-                            (EventHandler.event_list[position] as EventBirthday).note
+                    holder.itemView.setOnLongClickListener {
+                        val bundle = Bundle()
+                        //do this in more adaptable way
+                        bundle.putInt(
+                            ITEM_ID_PARAM,
+                            position
                         )
 
                         val ft = (context as MainActivity).supportFragmentManager.beginTransaction()
@@ -134,29 +127,32 @@ class EventAdapter(private val context: Context) :
                         )
                         ft.addToBackStack(null)
                         ft.commit()
-
+                        true
                     }
+
                     //set date
                     holder.itemView.tv_birthday_date_value.text =
-                        (EventHandler.event_list[position] as EventBirthday).getPrettyShortStringWithoutYear()
+                        (EventHandler.event_list[position].second as EventBirthday).getPrettyShortStringWithoutYear()
 
                     //set days until
                     holder.itemView.tv_days_until_value.text =
-                        EventHandler.event_list[position].getDaysUntil().toString()
+                        EventHandler.event_list[position].second.getDaysUntil().toString()
 
                     //set years since, if specified
-                    if ((EventHandler.event_list[position] as EventBirthday).isYearGiven) {
+                    if ((EventHandler.event_list[position].second as EventBirthday).isYearGiven) {
                         holder.itemView.tv_years_since_value.text =
-                            EventHandler.event_list[position].getYearsSince().toString()
+                            EventHandler.event_list[position].second.getYearsSince().toString()
                     } else {
                         holder.itemView.tv_years_since_value.text = context.getString(R.string.empty_value_field)
                     }
 
                     //set forename
-                    holder.itemView.tv_forename.text = (EventHandler.event_list[position] as EventBirthday).forename
+                    holder.itemView.tv_forename.text =
+                        (EventHandler.event_list[position].second as EventBirthday).forename
 
                     //set surname
-                    holder.itemView.tv_surname.text = (EventHandler.event_list[position] as EventBirthday).surname
+                    holder.itemView.tv_surname.text =
+                        (EventHandler.event_list[position].second as EventBirthday).surname
                 }
             }
         }
