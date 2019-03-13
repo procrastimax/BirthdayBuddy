@@ -45,7 +45,7 @@
     <string name="person_note">Note: %1$s</string>
 
     <string name="person_days_until">This is in %1$d days</string>
-    <string name="person_years_old">He is getting %1$d years old</string>
+    <string name="person_years_old">The person is getting %1$d years old</string>
     <string name="person_day_until">This is in %1$d day</string>
-    <string name="person_year_old">He is getting %1$d year old</string>
+    <string name="person_year_old">The person is getting %1$d year old</string>
 </resources>

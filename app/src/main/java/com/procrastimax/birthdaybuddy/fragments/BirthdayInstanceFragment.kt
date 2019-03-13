@@ -181,7 +181,7 @@ class BirthdayInstanceFragment : Fragment() {
                 //year is given
                 if (isChecked) {
                     var date = EventDay.parseStringToDate(
-                        edit_date.text.toString() + (Calendar.getInstance().get(Calendar.YEAR)-1),
+                        edit_date.text.toString() + (Calendar.getInstance().get(Calendar.YEAR) - 1),
                         DateFormat.DATE_FIELD
                     )
 
@@ -210,7 +210,10 @@ class BirthdayInstanceFragment : Fragment() {
             if (switch_isYearGiven.isChecked) {
                 c.time = EventDay.parseStringToDate(edit_date.text.toString(), DateFormat.FULL)
             } else {
-                c.time = EventDay.parseStringToDate(edit_date.text.toString(), DateFormat.DATE_FIELD)
+                c.time = EventDay.parseStringToDate(
+                    edit_date.text.toString() + (Calendar.getInstance().get(Calendar.YEAR) - 1),
+                    DateFormat.DATE_FIELD
+                )
             }
         }
 
@@ -282,7 +285,7 @@ class BirthdayInstanceFragment : Fragment() {
 
             //new bithday entry, just add a new entry in map
             if (!isEditedBirthday) {
-                EventHandler.addEvent(birthday, context!!, true)
+                EventHandler.addEvent(birthday, true)
                 //TODO: add undo action
                 Snackbar.make(
                     view!!,
@@ -294,7 +297,7 @@ class BirthdayInstanceFragment : Fragment() {
                 //already existant birthday entry, overwrite old entry in map
             } else {
                 if (wasChangeMade(EventHandler.event_list[itemID].second as EventBirthday)) {
-                    EventHandler.changeEventAt(EventHandler.event_list[itemID].first, birthday, true)
+                    EventHandler.changeEventAt(EventHandler.event_list[itemID].first, birthday, context!!, true)
 
                     //TODO: add undo action
                     Snackbar.make(

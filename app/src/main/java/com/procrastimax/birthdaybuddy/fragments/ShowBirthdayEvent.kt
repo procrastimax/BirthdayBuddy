@@ -8,7 +8,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
-import com.procrastimax.birthdaybuddy.MainActivity
 import com.procrastimax.birthdaybuddy.R
 import com.procrastimax.birthdaybuddy.handler.EventHandler
 import com.procrastimax.birthdaybuddy.models.EventBirthday
@@ -17,7 +16,9 @@ import java.text.DateFormat
 const val ITEM_ID_PARAM = "ITEMID"
 
 /**
- * TODO: - add export possibility for contact info as plaintext
+ * TODO:
+ * - add export possibility for contact info as plaintext
+ * - add tiny animation for opening this fragment
  */
 class ShowBirthdayEvent : Fragment() {
 
@@ -100,7 +101,7 @@ class ShowBirthdayEvent : Fragment() {
 
     override fun onDetach() {
         super.onDetach()
-        (context as MainActivity).changeToolbarState(MainActivity.Companion.ToolbarState.Default)
+        //(context as MainActivity).changeToolbarState(MainActivity.Companion.ToolbarState.Default)
     }
 
     companion object {

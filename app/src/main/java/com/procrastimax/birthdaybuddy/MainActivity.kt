@@ -13,7 +13,6 @@ import com.procrastimax.birthdaybuddy.models.EventBirthday
 import com.procrastimax.birthdaybuddy.models.EventDay
 import kotlinx.android.synthetic.main.activity_main.*
 import java.text.DateFormat
-import java.util.*
 
 /**
  *
@@ -50,21 +49,14 @@ class MainActivity : AppCompatActivity() {
         //read all data from shared prefs
         EventHandler.addMap(EventDataIO.readAll())
 
-        //set month divier map from eventHandler
-        EventHandler.validateMonthDivierMap()
-
         if (isFirstStart()) {
-            val month_begin_date = Calendar.getInstance()
-            month_begin_date.set(Calendar.YEAR, 1)
-            month_begin_date.set(Calendar.DAY_OF_MONTH, 1)
-
             EventHandler.addEvent(
                 EventBirthday(
                     EventDay.parseStringToDate("06.02.00", DateFormat.SHORT),
                     "Procrastimax",
                     "Dev",
                     false
-                ), applicationContext,
+                ),
                 true
             )
         }

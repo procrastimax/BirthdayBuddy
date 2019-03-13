@@ -2,10 +2,8 @@ package com.procrastimax.birthdaybuddy.handler
 
 import android.content.Context
 import com.procrastimax.birthdaybuddy.EventDataIO
-import com.procrastimax.birthdaybuddy.R
 import com.procrastimax.birthdaybuddy.models.EventBirthday
 import com.procrastimax.birthdaybuddy.models.EventDay
-import com.procrastimax.birthdaybuddy.models.MonthDivider
 import com.procrastimax.birthdaybuddy.models.SortIdentifier
 import java.text.DateFormat
 import java.util.*
@@ -29,72 +27,22 @@ object EventHandler {
     var event_list: List<Pair<Int, EventDay>> = emptyList()
 
     /**
-     * month_divider_set_map is a map to track which month divider have already been added
-     */
-    val month_divider_map = mutableMapOf(
-        0 to false,
-        1 to false,
-        2 to false,
-        3 to false,
-        4 to false,
-        5 to false,
-        6 to false,
-        7 to false,
-        8 to false,
-        9 to false,
-        10 to false,
-        11 to false
-    )
-
-    fun validateMonthDivierMap() {
-        for (it in event_map) {
-            if (it.value is MonthDivider) {
-                month_divider_map[it.key] = true
-            }
-        }
-    }
-
-    /**
      * addEvent adds a EventDay type to the map and has the possibility to write it to the shared prefernces after adding it
      * this orders all events after the date automatically
      * also updates the eventday list after every adding of a new event
      * @param event: EventDay
      * @param writeAfterAdd: Boolean
+     * @param isAddingMonth: Boolean, dont call changedEventList when already checked for new months
      */
-    fun addEvent(event: EventDay, context: Context, writeAfterAdd: Boolean = false) {
-        if (event !is MonthDivider) {
-            //when the map entry for this event is false, add a month divider
-            if (month_divider_map[event.getMonth()] == false) {
-                val last_key = getLastIndex()
-                val month_begin_date = Calendar.getInstance()
-                month_begin_date.set(Calendar.YEAR, 1)
-                month_begin_date.set(Calendar.DAY_OF_MONTH, 1)
-
-                month_begin_date.set(Calendar.MONTH, event.getMonth())
-                val monthDiv = MonthDivider(
-                    month_begin_date.time,
-                    context.resources.getStringArray(R.array.month_names)[event.getMonth()]
-                )
-                //add to this map where all events are stores in order to store in file
-                event_map[last_key] = monthDiv
-
-                //overwrite current map for tracking already used month divs
-                month_divider_map[event.getMonth()] = true
-
-                if (writeAfterAdd) {
-                    EventDataIO.writeEventToFile(last_key, monthDiv)
-                }
-            }
-        }
-
+    fun addEvent(event: EventDay, writeAfterAdd: Boolean = false) {
         //TODO: add event valdiation
         val last_key = getLastIndex()
         event_map[last_key] = event
+        event_list = getSortedListBy()
 
         if (writeAfterAdd) {
             EventDataIO.writeEventToFile(last_key, event)
         }
-        event_list = getSortedListBy()
     }
 
     /**
@@ -177,7 +125,7 @@ object EventHandler {
      * @param key : Int
      * @param event : EventDay
      */
-    fun changeEventAt(key: Int, event: EventDay, writeAfterChange: Boolean = false) {
+    fun changeEventAt(key: Int, event: EventDay, context: Context, writeAfterChange: Boolean = false) {
         event_map[key] = event
         event_list = getSortedListBy()
         if (writeAfterChange) {
@@ -255,7 +203,7 @@ object EventHandler {
             if (isYearGiven) {
                 event.note = (day + month + i).toString()
             }
-            addEvent(event, context, writeAfterAdd)
+            addEvent(event, writeAfterAdd)
         }
     }
 

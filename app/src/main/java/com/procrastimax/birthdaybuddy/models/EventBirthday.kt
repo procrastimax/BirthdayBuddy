@@ -11,7 +11,10 @@ import java.util.*
  * Surname cant be null, if it shouldn't be set, use "0" to mark the surname as unwanted property when f.e. don't show it in UI
  * isYearGiven is flag to indicate wether the birthday-year is known/given
  *
- * TODO: Add a path/link to an image of the person
+ * TODO:
+ *  - Add a path/link to an image of the person
+ *  - what to do with unset note value
+ *  - add possiility for nicknames
  *
  *  @param _birthday : Date
  *  @param _forename : String
