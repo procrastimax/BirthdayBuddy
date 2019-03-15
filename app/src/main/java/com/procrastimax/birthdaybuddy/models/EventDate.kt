@@ -15,14 +15,14 @@ import java.util.*
  * @param _eventDate The date of the event
  * @author Procrastimax
  */
-open class EventDay(private var _eventDate: Date) : Comparable<EventDay> {
+open class EventDate(private var _eventDate: Date) : Comparable<EventDate> {
 
     /**
      * compareTo is the implementation of the comparable interface
      * @param other : EventDay
      * @return Int negative for if compares instance is less than, 0 for equal and positive value if compares instance is greater than this instance
      */
-    override fun compareTo(other: EventDay): Int {
+    override fun compareTo(other: EventDate): Int {
         //TODO: add identifying for sorting
 
         val cal_l = Calendar.getInstance()
@@ -61,28 +61,28 @@ open class EventDay(private var _eventDate: Date) : Comparable<EventDay> {
     //short "hack" to make it possible to set a getter/setter for primary constructed class members
     // eventDate is used as an alibi member
     var eventDate: Date
-        get() = EventDay.normalizeDate(_eventDate)
+        get() = EventDate.normalizeDate(_eventDate)
         set(value) {
-            _eventDate = if (EventDay.isDateInFuture(value)) {
+            _eventDate = if (EventDate.isDateInFuture(value)) {
                 Log.d(
                     "EventDay",
                     "Member variable EVENTDAY was in the future, it is now set to current date"
                 )
-                EventDay.normalizeDate(Calendar.getInstance().time)
+                EventDate.normalizeDate(Calendar.getInstance().time)
             } else {
-                EventDay.normalizeDate(value)
+                EventDate.normalizeDate(value)
             }
         }
 
     init {
-        _eventDate = if (EventDay.isDateInFuture(_eventDate)) {
+        _eventDate = if (EventDate.isDateInFuture(_eventDate)) {
             Log.d(
                 "EventDay",
                 "Member variable EVENTDAY was in the future, it is now set to current date"
             )
-            EventDay.normalizeDate(Calendar.getInstance().time)
+            EventDate.normalizeDate(Calendar.getInstance().time)
         } else {
-            EventDay.normalizeDate(_eventDate)
+            EventDate.normalizeDate(_eventDate)
         }
     }
 
@@ -93,7 +93,7 @@ open class EventDay(private var _eventDate: Date) : Comparable<EventDay> {
      * @return String
      */
     override fun toString(): String {
-        return "EventDay|${EventDay.parseDateToString(
+        return "EventDate|${Identifier.Date}::${EventDate.parseDateToString(
             this.eventDate,
             DateFormat.SHORT
         )}"
@@ -118,7 +118,7 @@ open class EventDay(private var _eventDate: Date) : Comparable<EventDay> {
      */
     fun getDaysUntil(): Int {
         val dateInCurrentTimeContext = dateToCurrentTimeContext()
-        val dayDiff = dateInCurrentTimeContext.time - EventDay.normalizeDate(Calendar.getInstance().time).time
+        val dayDiff = dateInCurrentTimeContext.time - EventDate.normalizeDate(Calendar.getInstance().time).time
         return (dayDiff / (1000 * 60 * 60 * 24)).toInt()
     }
 
@@ -184,7 +184,7 @@ open class EventDay(private var _eventDate: Date) : Comparable<EventDay> {
         dateInCurrentTimeContext.set(Calendar.YEAR, Calendar.getInstance().get(Calendar.YEAR))
 
         //if past date with current year is before current date then set year to next year
-        if (dateInCurrentTimeContext.time.before(EventDay.normalizeDate(Calendar.getInstance().time))) {
+        if (dateInCurrentTimeContext.time.before(EventDate.normalizeDate(Calendar.getInstance().time))) {
             dateInCurrentTimeContext.set(Calendar.YEAR, Calendar.getInstance().get(Calendar.YEAR) + 1)
         }
         return dateInCurrentTimeContext.time

@@ -10,7 +10,7 @@ import android.view.ViewGroup
 import com.procrastimax.birthdaybuddy.fragments.EventListFragment
 import com.procrastimax.birthdaybuddy.handler.EventHandler
 import com.procrastimax.birthdaybuddy.models.EventBirthday
-import com.procrastimax.birthdaybuddy.models.EventDay
+import com.procrastimax.birthdaybuddy.models.EventDate
 import kotlinx.android.synthetic.main.activity_main.*
 import java.text.DateFormat
 
@@ -52,7 +52,7 @@ class MainActivity : AppCompatActivity() {
         if (isFirstStart()) {
             EventHandler.addEvent(
                 EventBirthday(
-                    EventDay.parseStringToDate("06.02.00", DateFormat.SHORT),
+                    EventDate.parseStringToDate("06.02.00", DateFormat.SHORT),
                     "Procrastimax",
                     "Dev",
                     false

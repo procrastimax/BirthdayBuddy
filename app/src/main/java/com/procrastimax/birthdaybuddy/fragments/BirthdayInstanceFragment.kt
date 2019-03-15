@@ -14,7 +14,7 @@ import com.procrastimax.birthdaybuddy.MainActivity
 import com.procrastimax.birthdaybuddy.R
 import com.procrastimax.birthdaybuddy.handler.EventHandler
 import com.procrastimax.birthdaybuddy.models.EventBirthday
-import com.procrastimax.birthdaybuddy.models.EventDay
+import com.procrastimax.birthdaybuddy.models.EventDate
 import java.text.DateFormat
 import java.util.*
 
@@ -102,10 +102,10 @@ class BirthdayInstanceFragment : Fragment() {
                 val birthday = EventHandler.event_list[itemID].second as EventBirthday
 
                 if (birthday.isYearGiven) {
-                    edit_date.text = EventDay.parseDateToString(birthday.eventDate, DateFormat.FULL)
+                    edit_date.text = EventDate.parseDateToString(birthday.eventDate, DateFormat.FULL)
                 } else {
                     edit_date.text =
-                        EventDay.parseDateToString(birthday.eventDate, DateFormat.DATE_FIELD).substring(0..5)
+                        EventDate.parseDateToString(birthday.eventDate, DateFormat.DATE_FIELD).substring(0..5)
                 }
 
                 edit_surname.setText(birthday.surname)
@@ -180,17 +180,17 @@ class BirthdayInstanceFragment : Fragment() {
             if (edit_date.text.isNotBlank()) {
                 //year is given
                 if (isChecked) {
-                    var date = EventDay.parseStringToDate(
+                    var date = EventDate.parseStringToDate(
                         edit_date.text.toString() + (Calendar.getInstance().get(Calendar.YEAR) - 1),
                         DateFormat.DATE_FIELD
                     )
 
-                    edit_date.text = EventDay.parseDateToString(date, DateFormat.FULL)
+                    edit_date.text = EventDate.parseDateToString(date, DateFormat.FULL)
 
                     //year is not given
                 } else {
-                    val date = EventDay.parseStringToDate(edit_date.text.toString(), DateFormat.FULL)
-                    edit_date.text = EventDay.parseDateToString(date, DateFormat.DATE_FIELD).substring(0..5)
+                    val date = EventDate.parseStringToDate(edit_date.text.toString(), DateFormat.FULL)
+                    edit_date.text = EventDate.parseDateToString(date, DateFormat.DATE_FIELD).substring(0..5)
                 }
             } else {
                 if (isChecked) {
@@ -208,9 +208,9 @@ class BirthdayInstanceFragment : Fragment() {
         //set calendar to the date which is stored in the edit field, when the edit is not empty
         if (!edit_date.text.isNullOrBlank()) {
             if (switch_isYearGiven.isChecked) {
-                c.time = EventDay.parseStringToDate(edit_date.text.toString(), DateFormat.FULL)
+                c.time = EventDate.parseStringToDate(edit_date.text.toString(), DateFormat.FULL)
             } else {
-                c.time = EventDay.parseStringToDate(
+                c.time = EventDate.parseStringToDate(
                     edit_date.text.toString() + (Calendar.getInstance().get(Calendar.YEAR) - 1),
                     DateFormat.DATE_FIELD
                 )
@@ -237,9 +237,9 @@ class BirthdayInstanceFragment : Fragment() {
                 } else {
 
                     if (switch_isYearGiven.isChecked) {
-                        edit_date.text = EventDay.parseDateToString(c.time, DateFormat.FULL)
+                        edit_date.text = EventDate.parseDateToString(c.time, DateFormat.FULL)
                     } else {
-                        edit_date.text = EventDay.parseDateToString(c.time, DateFormat.DATE_FIELD).substring(0..5)
+                        edit_date.text = EventDate.parseDateToString(c.time, DateFormat.DATE_FIELD).substring(0..5)
                     }
                 }
             }, year, month, day)
@@ -269,10 +269,10 @@ class BirthdayInstanceFragment : Fragment() {
             val birthday: EventBirthday
             if (switch_isYearGiven.isChecked) {
                 birthday =
-                    EventBirthday(EventDay.parseStringToDate(date, DateFormat.FULL), forename, surname, isYearGiven)
+                    EventBirthday(EventDate.parseStringToDate(date, DateFormat.FULL), forename, surname, isYearGiven)
             } else {
                 birthday = EventBirthday(
-                    EventDay.parseStringToDate(
+                    EventDate.parseStringToDate(
                         date + (Calendar.getInstance().get(Calendar.YEAR) - 1),
                         DateFormat.DATE_FIELD
                     ), forename, surname, isYearGiven

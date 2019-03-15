@@ -14,7 +14,9 @@ import java.util.*
  * TODO:
  *  - Add a path/link to an image of the person
  *  - what to do with unset note value
- *  - add possiility for nicknames
+ *  - add possibility for nicknames
+ *  - add possibility for favorites
+ *  - rework note working
  *
  *  @param _birthday : Date
  *  @param _forename : String
@@ -25,10 +27,10 @@ import java.util.*
 class EventBirthday(
     private var _birthday: Date,
     private var _forename: String,
-    private var _surname: String = "0",
+    private var _surname: String,
     var isYearGiven: Boolean = true
 ) :
-    EventDay(_birthday) {
+    EventDate(_birthday) {
 
     /**
      * Identifier is an identifier for sorting
@@ -43,8 +45,11 @@ class EventBirthday(
         Surname {
             override fun Identifier(): Int = 2
         },
-        Note {
+        IsYearGiven {
             override fun Identifier(): Int = 3
+        },
+        Note {
+            override fun Identifier(): Int = 4
         },
     }
 
@@ -99,7 +104,7 @@ class EventBirthday(
             _forename = "-"
         }
         if (_surname.isBlank() || _surname.isEmpty()) {
-            Log.d("EventBirthday", "SURNAME is empty or blank")
+            Log.d("EventBirthday", "SURNAMSE is empty or blank")
             _surname = "-"
         }
     }
@@ -121,9 +126,9 @@ class EventBirthday(
      * @return String
      */
     override fun toString(): String {
-        return "Birthday|${this._forename}|${this._surname}|${EventDay.parseDateToString(
+        return "Birthday|${Identifier.Forename}::${this._forename}|${Identifier.Surname}::${this._surname}|${Identifier.Date}::${EventDate.parseDateToString(
             this.eventDate,
             DateFormat.SHORT
-        )}|${this.note}|${this.isYearGiven}"
+        )}|${Identifier.Note}::${this.note}|${Identifier.IsYearGiven}::${this.isYearGiven}"
     }
 }

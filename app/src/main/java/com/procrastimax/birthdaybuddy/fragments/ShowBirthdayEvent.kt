@@ -67,12 +67,12 @@ class ShowBirthdayEvent : Fragment() {
                 date = birthdayEvent.dateToPrettyString(DateFormat.FULL)
 
                 //show adapted string for first birthday of a person, 1 year, not 1 years
-                if (birthdayEvent.getYearsSince() + 1 == 1) {
-                    tv_years_old.text = resources.getString(R.string.person_year_old, birthdayEvent.getYearsSince() + 1)
-                } else {
-                    tv_years_old.text =
-                        resources.getString(R.string.person_years_old, birthdayEvent.getYearsSince() + 1)
-                }
+                tv_years_old.text = resources.getQuantityString(
+                    R.plurals.person_years_old,
+                    birthdayEvent.getYearsSince() + 1,
+                    birthdayEvent.forename,
+                    birthdayEvent.getYearsSince() + 1
+                )
 
             } else {
                 date = birthdayEvent.dateToPrettyString(DateFormat.DATE_FIELD).subSequence(0..5).toString()

@@ -4,8 +4,9 @@ import android.content.Context
 import android.content.SharedPreferences
 import android.util.Log
 import com.procrastimax.birthdaybuddy.handler.EventHandler
+import com.procrastimax.birthdaybuddy.models.EventAnniversary
 import com.procrastimax.birthdaybuddy.models.EventBirthday
-import com.procrastimax.birthdaybuddy.models.EventDay
+import com.procrastimax.birthdaybuddy.models.EventDate
 import com.procrastimax.birthdaybuddy.models.MonthDivider
 
 /**
@@ -14,7 +15,6 @@ import com.procrastimax.birthdaybuddy.models.MonthDivider
  *
  * All events are saved as an key, value pair. In which the key is an integer value and the value is a eventday
  *
- * TODO: maybe use this directly with the EventHandler
  * TODO: dont return null at any time
  */
 object EventDataIO {
@@ -30,6 +30,7 @@ object EventDataIO {
     //Identifier string for types of Birthday
     private val type_birthday: String = "Birthday"
     private val type_month_divider: String = "MonthDivider"
+    private val type_anniversary: String = "Anniversary"
 
     /**
      * registerIO has to be called before any io writing/reading is done
@@ -54,7 +55,7 @@ object EventDataIO {
      * @param key : Int
      * @param event : EventDay
      */
-    fun writeEventToFile(key: Int, event: EventDay) {
+    fun writeEventToFile(key: Int, event: EventDate) {
         val sharedPrefEditor = sharedPref.edit()
         sharedPrefEditor.putString(key.toString(), event.toString())
         sharedPrefEditor.apply()
@@ -76,11 +77,11 @@ object EventDataIO {
      * @param key: Int
      * @return EventDay?
      */
-    fun readEntryFromFile(key: Int): EventDay? {
+    fun readEntryFromFile(key: Int): EventDate? {
         if (sharedPref.contains(key.toString())) {
             val eventday: String? = sharedPref.getString(key.toString(), "")
             if (!eventday.isNullOrEmpty()) {
-                return convertStringToEventDay(eventday)
+                return convertStringToEventDate(eventday)
             } else {
                 return null
             }
@@ -107,12 +108,12 @@ object EventDataIO {
      *
      * @return Map<Int, EventDay>
      */
-    fun readAll(): Map<Int, EventDay> {
-        val tempMap: MutableMap<Int, EventDay> = emptyMap<Int, EventDay>().toMutableMap()
+    fun readAll(): Map<Int, EventDate> {
+        val tempMap: MutableMap<Int, EventDate> = emptyMap<Int, EventDate>().toMutableMap()
         sharedPref.all.forEach {
             if (!it.key.equals(preferenceInitString)) {
                 if (it.value is String) {
-                    val event = convertStringToEventDay(it.value as String)
+                    val event = convertStringToEventDate(it.value as String)
                     if (event != null) {
                         tempMap[it.key.toInt()] = event
                     }
@@ -129,27 +130,101 @@ object EventDataIO {
      * @param objectString : String
      * @return EventDay?
      */
-    private fun convertStringToEventDay(objectString: String): EventDay? {
+    private fun convertStringToEventDate(objectString: String): EventDate? {
         val string_array = objectString.split("|")
 
-        if (string_array[0].equals(type_birthday)) {
-            val forename = string_array[1]
-            val surname = string_array[2]
-            val date = string_array[3]
-            val note = string_array[4]
-            val isyeargiven = string_array[5]
+        if (string_array[0] == type_birthday) {
 
-            val birthday = EventBirthday(EventDay.parseStringToDate(date), forename, surname, isyeargiven.toBoolean())
-            if(note != "null") birthday.note = note
+            var forename: String = "-"
+            var surname: String = "-"
+            var date: String = "-"
+            var note: String = "-"
+            var isyeargiven: Boolean = false
+
+            for (i in 1 until string_array.size) {
+                val property = string_array[i].split("::")
+
+                //use identifier
+                when (property[0]) {
+                    EventBirthday.Identifier.Date.toString() -> {
+                        date = property[1]
+                    }
+                    EventBirthday.Identifier.Forename.toString() -> {
+                        forename = property[1]
+                    }
+                    EventBirthday.Identifier.Surname.toString() -> {
+                        surname = property[1]
+                    }
+                    EventBirthday.Identifier.Note.toString() -> {
+                        note = property[1]
+                    }
+                    EventBirthday.Identifier.IsYearGiven.toString() -> {
+                        isyeargiven = property[1].toBoolean()
+                    }
+                    else ->
+                        Log.w("EventDataIO", "Could not find identifier when trying to parse EventBirthday")
+                }
+            }
+
+            val birthday = EventBirthday(EventDate.parseStringToDate(date), forename, surname, isyeargiven)
+            if (note != "null") birthday.note = note
             return birthday
 
-        } else if (string_array[0].equals(type_month_divider)) {
-            val date = string_array[1]
-            val month = string_array[2]
-            val month_div = MonthDivider(EventDay.parseStringToDate(date), month)
-            return month_div
-        } else {
-            return null
+        } else if (string_array[0] == type_month_divider) {
+
+            var date: String = "-"
+            var month: String = "-"
+
+            for (i in 1 until string_array.size) {
+                val property = string_array[i].split("::")
+
+                //use identifier
+                when (property[0].toInt()) {
+                    MonthDivider.Identifier.Date.ordinal -> {
+                        date = property[1]
+                    }
+                    MonthDivider.Identifier.MonthName.ordinal -> {
+                        month = property[1]
+                    }
+                    else ->
+                        Log.w("EventDataIO", "Could not find identifier when trying to parse EventMonthDivider")
+                }
+            }
+            return MonthDivider(EventDate.parseStringToDate(date), month)
+
+        } else if (string_array[0] == type_anniversary) {
+            var date = "-"
+            var name = "-"
+            var note = "null"
+            var hasStartYear = false
+
+            for (i in 1 until string_array.size) {
+                val property = string_array[i].split("::")
+
+                //use identifier
+                when (property[0].toInt()) {
+                    EventAnniversary.Identifier.Date.ordinal -> {
+                        date = property[1]
+                    }
+                    EventAnniversary.Identifier.Name.ordinal -> {
+                        name = property[1]
+                    }
+                    EventAnniversary.Identifier.HasStartYear.ordinal -> {
+                        hasStartYear = property[1].toBoolean()
+                    }
+                    EventAnniversary.Identifier.Note.ordinal -> {
+                        note = property[1]
+                    }
+                    else ->
+                        Log.w("EventDataIO", "Could not find identifier when trying to parse EventAnniversary")
+                }
+                val anniversary = EventAnniversary(EventDate.parseStringToDate(date), name, hasStartYear)
+                if (note != "null") {
+                    anniversary.note = note
+                }
+                return anniversary
+            }
         }
+        return null
     }
 }

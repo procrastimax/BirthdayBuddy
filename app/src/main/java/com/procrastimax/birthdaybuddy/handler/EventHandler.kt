@@ -3,7 +3,7 @@ package com.procrastimax.birthdaybuddy.handler
 import android.content.Context
 import com.procrastimax.birthdaybuddy.EventDataIO
 import com.procrastimax.birthdaybuddy.models.EventBirthday
-import com.procrastimax.birthdaybuddy.models.EventDay
+import com.procrastimax.birthdaybuddy.models.EventDate
 import com.procrastimax.birthdaybuddy.models.SortIdentifier
 import java.text.DateFormat
 import java.util.*
@@ -13,18 +13,19 @@ import java.util.*
  * This is useful to compare all objects more easily, f.e. when you want to traverse all entries in event dates
  *
  * TODO:
- *  - when item is deleted or changed, and no other item needs a month divider for this month, delete month divider
  *  - rework whole month divider system
+ *      - when item is deleted or changed, and no other item needs a month divider for this month, delete month divider
+ *  - save events in more map like way, so later adding of properties likes nicknames/favorites are easier to parse
  *
  */
 object EventHandler {
-    private var event_map: MutableMap<Int, EventDay> = emptyMap<Int, EventDay>().toMutableMap()
+    private var event_map: MutableMap<Int, EventDate> = emptyMap<Int, EventDate>().toMutableMap()
 
     /**
      * event_list a list used for sorted viewing of the maps content
      * the data is stored in pairs of EventDay and the index of this dataset in the map as an int
      */
-    var event_list: List<Pair<Int, EventDay>> = emptyList()
+    var event_list: List<Pair<Int, EventDate>> = emptyList()
 
     /**
      * addEvent adds a EventDay type to the map and has the possibility to write it to the shared prefernces after adding it
@@ -34,7 +35,7 @@ object EventHandler {
      * @param writeAfterAdd: Boolean
      * @param isAddingMonth: Boolean, dont call changedEventList when already checked for new months
      */
-    fun addEvent(event: EventDay, writeAfterAdd: Boolean = false) {
+    fun addEvent(event: EventDate, writeAfterAdd: Boolean = false) {
         //TODO: add event valdiation
         val last_key = getLastIndex()
         event_map[last_key] = event
@@ -48,7 +49,7 @@ object EventHandler {
     /**
      * addMap adds a map of <Int, EventDay> to this map
      */
-    fun addMap(events: Map<Int, EventDay>) {
+    fun addMap(events: Map<Int, EventDate>) {
         this.event_map.putAll(events)
         this.event_list = getSortedListBy()
     }
@@ -60,7 +61,7 @@ object EventHandler {
      * @param event : Eventday
      * @return Int
      */
-    fun getKeyToValue(event: EventDay): Int {
+    fun getKeyToValue(event: EventDate): Int {
         //TODO: this can be really slow
         val entrySet = event_map.entries
         entrySet.asIterable().forEach {
@@ -77,7 +78,7 @@ object EventHandler {
      * @param key : Int
      * @return EventDay?
      */
-    fun getValueToKey(key: Int): EventDay? {
+    fun getValueToKey(key: Int): EventDate? {
         if (event_map.contains(key)) {
             return event_map[key]!!
         }
@@ -90,7 +91,7 @@ object EventHandler {
      *
      * @param event : EventDay
      */
-    fun removeEventByEvent(event: EventDay, writeChange: Boolean = false) {
+    fun removeEventByEvent(event: EventDate, writeChange: Boolean = false) {
         val key = getKeyToValue(event)
         event_map.remove(key)
         event_list = getSortedListBy()
@@ -125,7 +126,7 @@ object EventHandler {
      * @param key : Int
      * @param event : EventDay
      */
-    fun changeEventAt(key: Int, event: EventDay, context: Context, writeAfterChange: Boolean = false) {
+    fun changeEventAt(key: Int, event: EventDate, context: Context, writeAfterChange: Boolean = false) {
         event_map[key] = event
         event_list = getSortedListBy()
         if (writeAfterChange) {
@@ -140,7 +141,7 @@ object EventHandler {
      * @param event: EventDay
      * @return Boolean
      */
-    fun containsValue(event: EventDay): Boolean {
+    fun containsValue(event: EventDate): Boolean {
         return event_map.containsValue(event)
     }
 
@@ -159,7 +160,7 @@ object EventHandler {
      *
      * @return Map<Int, EventDay>
      */
-    fun getEvents(): Map<Int, EventDay> {
+    fun getEvents(): Map<Int, EventDate> {
         return event_map
     }
 
@@ -194,7 +195,7 @@ object EventHandler {
             val isYearGiven: Boolean = random.nextBoolean()
 
             val event = EventBirthday(
-                EventDay.parseStringToDate(
+                EventDate.parseStringToDate(
                     "$day.$month.$year",
                     DateFormat.SHORT,
                     Locale.GERMAN
@@ -214,8 +215,8 @@ object EventHandler {
      * @param identifier : SortIdentifier
      * @return List<EventDay>
      */
-    fun getSortedListBy(identifier: SortIdentifier = EventDay.Identifier.Date): List<Pair<Int, EventDay>> {
-        if (identifier == EventDay.Identifier.Date) {
+    fun getSortedListBy(identifier: SortIdentifier = EventDate.Identifier.Date): List<Pair<Int, EventDate>> {
+        if (identifier == EventDate.Identifier.Date) {
             return this.event_map.toList().sortedBy { pair -> pair.second }
         } else {
             return emptyList()
