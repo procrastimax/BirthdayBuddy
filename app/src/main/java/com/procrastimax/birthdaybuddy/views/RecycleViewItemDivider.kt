@@ -50,6 +50,6 @@ class RecycleViewItemDivider(private val context: Context) : RecyclerView.ItemDe
      */
     private fun isDecorated(view: View, parent: RecyclerView): Boolean {
         val holder: RecyclerView.ViewHolder = parent.getChildViewHolder(view)
-        return (holder is EventAdapter.BirthdayEventViewHolder)
+        return (holder is EventAdapter.BirthdayEventViewHolder || holder is EventAdapter.EventAnniversaryViewHolder)
     }
 }

@@ -175,7 +175,7 @@ open class EventDate(private var _eventDate: Date) : Comparable<EventDate> {
      *
      * @return Date
      */
-    private fun dateToCurrentTimeContext(): Date {
+    fun dateToCurrentTimeContext(): Date {
         //get instance of calender, assign the past date to it, and change year to current year
         //this is needed to check if the date is this or next year
         //this is needed for calculating how many days until the event
@@ -253,11 +253,8 @@ open class EventDate(private var _eventDate: Date) : Comparable<EventDate> {
         private fun normalizeDate(date: Date): Date {
             val normalizedDateCal = Calendar.getInstance()
             normalizedDateCal.time = date
-            normalizedDateCal.set(Calendar.MILLISECOND, 0)
-            normalizedDateCal.set(Calendar.SECOND, 0)
-            normalizedDateCal.set(Calendar.MINUTE, 0)
-            normalizedDateCal.set(Calendar.HOUR, 0)
-            normalizedDateCal.set(Calendar.HOUR_OF_DAY, 0)
+            //set to mid day, so when sorting with monthdivider on same date, month divider are always in front
+            normalizedDateCal.set(Calendar.HOUR_OF_DAY, 12)
             return normalizedDateCal.time
         }
     }

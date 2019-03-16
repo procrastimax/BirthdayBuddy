@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                                             xmlns:app="http://schemas.android.com/apk/res-auto"
+                                             android:layout_width="match_parent"
+                                             android:layout_height="?attr/actionBarSize">
+
+    <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/tv_add_fragment_title"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:textColor="@color/colorPrimaryDark"
+            android:textSize="24sp"
+            app:layout_constraintStart_toEndOf="@+id/btn_edit_event_close"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
+            app:layout_constraintEnd_toStartOf="@+id/btn_edit_event_accept"
+            app:layout_constraintTop_toTopOf="@+id/btn_edit_event_close"
+            app:layout_constraintBottom_toBottomOf="@+id/btn_edit_event_close"/>
+
+    <ImageView
+            android:src="@drawable/ic_close"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:id="@+id/btn_edit_event_close"
+            android:clickable="true"
+            android:focusable="true"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            android:tint="@color/colorAccent"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
+            app:layout_constraintDimensionRatio="1:1"/>
+
+    <ImageView
+            android:src="@drawable/ic_done"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:id="@+id/btn_edit_event_accept"
+            android:tint="@color/colorAccent"
+            android:clickable="true"
+            android:focusable="true"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginEnd="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
+            app:layout_constraintDimensionRatio="1:1"/>
+
+</android.support.constraint.ConstraintLayout>

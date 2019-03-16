@@ -6,46 +6,54 @@ import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import com.procrastimax.birthdaybuddy.MainActivity
 import com.procrastimax.birthdaybuddy.R
-import com.procrastimax.birthdaybuddy.fragments.BirthdayInstanceFragment
-import com.procrastimax.birthdaybuddy.fragments.ITEM_ID_PARAM
-import com.procrastimax.birthdaybuddy.fragments.ShowBirthdayEvent
+import com.procrastimax.birthdaybuddy.fragments.*
 import com.procrastimax.birthdaybuddy.handler.EventHandler
+import com.procrastimax.birthdaybuddy.models.EventAnniversary
 import com.procrastimax.birthdaybuddy.models.EventBirthday
 import com.procrastimax.birthdaybuddy.models.MonthDivider
+import kotlinx.android.synthetic.main.anniversary_event_item_view.view.*
 import kotlinx.android.synthetic.main.birthday_event_item_view.view.*
 import kotlinx.android.synthetic.main.event_month_view_divider.view.*
 
 class EventAdapter(private val context: Context) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
-    class BirthdayEventViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val tv_forename: TextView = itemView.findViewById(R.id.tv_forename)
-        val tv_surname: TextView = itemView.findViewById(R.id.tv_surname)
-        val tv_date_value: TextView = itemView.findViewById(R.id.tv_birthday_date_value)
-        val tv_days_until_value: TextView = itemView.findViewById(R.id.tv_days_until_value)
-        val tv_years_since_value: TextView = itemView.findViewById(R.id.tv_years_since_value)
-    }
+    class BirthdayEventViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
 
-    class EventMonthDividerViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        //val tv_month_name: TextView = itemView.findViewById(R.id.tv_divider_description_month)
-    }
+    class EventMonthDividerViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
+
+    class EventAnniversaryViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
 
     /**
      * getItemViewType overrides the standard function
      * it defines the different viewholder types used for the recycler view
      * 0 - month description divider
      * 1 - birthday event viewholder
+     * 2 - anniversary event viewholder
      *
      * @param position: Int
      * @return Int
      */
     override fun getItemViewType(position: Int): Int {
-        if (EventHandler.event_list[position].second is MonthDivider) {
-            return 0
-        } else return 1
+        when (EventHandler.event_list[position].second) {
+            is MonthDivider -> {
+                if (position < EventHandler.event_list.size - 1) {
+                    if (EventHandler.event_list[position + 1].second !is MonthDivider) {
+                        return 0
+                    }
+                }
+                return -1
+            }
+            is EventBirthday -> {
+                return 1
+            }
+            is EventAnniversary -> {
+                return 2
+            }
+        }
+        return -1
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
@@ -60,6 +68,11 @@ class EventAdapter(private val context: Context) :
                 val item_view =
                     LayoutInflater.from(parent.context).inflate(R.layout.birthday_event_item_view, parent, false)
                 return BirthdayEventViewHolder(item_view)
+            }
+            2 -> {
+                val item_view =
+                    LayoutInflater.from(parent.context).inflate(R.layout.anniversary_event_item_view, parent, false)
+                return EventAnniversaryViewHolder(item_view)
             }
             else -> {
                 //Default is birthday event
@@ -85,7 +98,6 @@ class EventAdapter(private val context: Context) :
                 //check if is birthday event and if the year is given
                 if (EventHandler.event_list[position].second is EventBirthday) {
 
-                    //TODO: make key names static
                     //set on click listener for item
                     holder.itemView.setOnClickListener {
                         val bundle = Bundle()
@@ -94,7 +106,6 @@ class EventAdapter(private val context: Context) :
                             ITEM_ID_PARAM,
                             position
                         )
-
                         val ft = (context as MainActivity).supportFragmentManager.beginTransaction()
                         // add arguments to fragment
                         val newBirthdayFragment = ShowBirthdayEvent.newInstance()
@@ -105,7 +116,6 @@ class EventAdapter(private val context: Context) :
                         )
                         ft.addToBackStack(null)
                         ft.commit()
-
                     }
 
                     holder.itemView.setOnLongClickListener {
@@ -131,28 +141,99 @@ class EventAdapter(private val context: Context) :
                     }
 
                     //set date
-                    holder.itemView.tv_birthday_date_value.text =
+                    holder.itemView.tv_birthday_event_item_date_value.text =
                         (EventHandler.event_list[position].second as EventBirthday).getPrettyShortStringWithoutYear()
 
                     //set days until
-                    holder.itemView.tv_days_until_value.text =
+                    holder.itemView.tv_birthday_event_item_days_until_value.text =
                         EventHandler.event_list[position].second.getDaysUntil().toString()
 
                     //set years since, if specified
                     if ((EventHandler.event_list[position].second as EventBirthday).isYearGiven) {
-                        holder.itemView.tv_years_since_value.text =
+                        holder.itemView.tv_birthday_event_item_years_since_value.text =
                             EventHandler.event_list[position].second.getYearsSince().toString()
                     } else {
-                        holder.itemView.tv_years_since_value.text = context.getString(R.string.empty_value_field)
+                        holder.itemView.tv_birthday_event_item_years_since_value.text =
+                            "-"
                     }
 
                     //set forename
-                    holder.itemView.tv_forename.text =
+                    holder.itemView.tv_birthday_event_item_forename.text =
                         (EventHandler.event_list[position].second as EventBirthday).forename
 
                     //set surname
-                    holder.itemView.tv_surname.text =
+                    holder.itemView.tv_birthday_event_item_surname.text =
                         (EventHandler.event_list[position].second as EventBirthday).surname
+                }
+            }
+            //anniversary item view holder
+            2 -> {
+                //check if is birthday event and if the year is given
+                if (EventHandler.event_list[position].second is EventAnniversary) {
+
+                    //set on click listener for item
+                    holder.itemView.setOnClickListener {
+                        val bundle = Bundle()
+                        //do this in more adaptable way
+                        bundle.putInt(
+                            ITEM_ID_PARAM,
+                            position
+                        )
+
+                        val ft = (context as MainActivity).supportFragmentManager.beginTransaction()
+                        // add arguments to fragment
+                        val newAnniversaryFragment = ShowAnniversaryEvent.newInstance()
+                        newAnniversaryFragment.arguments = bundle
+                        ft.replace(
+                            R.id.fragment_placeholder,
+                            newAnniversaryFragment
+                        )
+                        ft.addToBackStack(null)
+                        ft.commit()
+                    }
+
+                    holder.itemView.setOnLongClickListener {
+                        val bundle = Bundle()
+                        //do this in more adaptable way
+                        bundle.putInt(
+                            ITEM_ID_PARAM,
+                            position
+                        )
+
+                        val ft = (context as MainActivity).supportFragmentManager.beginTransaction()
+
+                        // add arguments to fragment
+                        val newAnniversaryFragment = AnniversaryInstanceFragment.newInstance()
+                        newAnniversaryFragment.arguments = bundle
+                        ft.replace(
+                            R.id.fragment_placeholder,
+                            newAnniversaryFragment
+                        )
+                        ft.addToBackStack(null)
+                        ft.commit()
+                        true
+                    }
+
+                    //set date
+                    holder.itemView.tv_anniversary_item_date_value.text =
+                        (EventHandler.event_list[position].second as EventAnniversary).getPrettyShortStringWithoutYear()
+
+                    //set days until
+                    holder.itemView.tv_days_until_anniversary_value.text =
+                        EventHandler.event_list[position].second.getDaysUntil().toString()
+
+                    //set years since, if specified
+                    if ((EventHandler.event_list[position].second as EventAnniversary).hasStartYear) {
+                        holder.itemView.tv_years_since_anniversary_value.text =
+                            EventHandler.event_list[position].second.getYearsSince().toString()
+                    } else {
+                        holder.itemView.tv_years_since_anniversary_value.text =
+                            "-"
+                    }
+
+                    //set forename
+                    holder.itemView.tv_anniversary_item_name.text =
+                        (EventHandler.event_list[position].second as EventAnniversary).name
                 }
             }
         }

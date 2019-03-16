@@ -1,0 +1,99 @@
+<resources>
+    <string name="app_name">BirthdayBuddy</string>
+
+    <string-array name="month_names">
+        <item>Januar</item>
+        <item>Februar</item>
+        <item>März</item>
+        <item>April</item>
+        <item>Mai</item>
+        <item>Juni</item>
+        <item>Juli</item>
+        <item>August</item>
+        <item>September</item>
+        <item>Oktober</item>
+        <item>November</item>
+        <item>Dezember</item>
+    </string-array>
+
+    <!-- BIRTHDAY -->
+    <!-- birthday event view -->
+    <string name="tv_birthday_days_until_title">Tage</string>
+    <string name="tv_birthday_years_since_title">Jahre</string>
+    <string name="tv_birthday_date_title">Datum</string>
+    <string name="tv_birthday_forename_title">Vorname</string>
+    <string name="tv_birthday_surname_title">Nachname</string>
+
+    <!-- fragment add new birthday -->
+    <string name="toolbar_title_add_birthday">Geburtstag hinzufügen</string>
+    <string name="toolbar_title_edit_birthday">Geburtstag bearbeiten</string>
+    <string name="future_birthday_error">Du kannst keine zukünftigen Geburtstage hinzufügen!</string>
+    <string name="empty_fields_error">Fülle zuerst alle leeren Felder aus! (Vorname, Nachname, Datum)</string>
+    <string name="person_added_notification">%1$ss Geburtstag hinzugefügt</string>
+    <string name="person_changed_notification">%1$ss Geburtstag geändert</string>
+    <string name="person_deleted_notification">%1$ss Geburtstag gelöscht</string>
+    <string name="edit_birthday_date_hint_with_year">Datum mit Jahresangabe</string>
+    <string name="edit_birthday_date_hint_without_year">Datum ohne Jahresangabe</string>
+    <string name="edit_birthday_forename_hint">Vorname</string>
+    <string name="edit_birthday_surname_hint">Nachname</string>
+    <string name="edit_birthday_note_hint">Notiz</string>
+    <string name="sw_birthday_date_with_year_title">Jahr</string>
+    <string name="btn_birthday_delete">Lösche Geburtstag</string>
+
+    <!-- alert dialog delete birthday -->
+    <string name="alert_dialog_title_delete_birthday">Lösche Geburtstag</string>
+    <string name="alert_dialog_body_message">Bist du dir sicher, dass du diesen Geburtstag löschen willst?</string>
+    <string name="alert_dialog_accept_delete">Ja</string>
+    <string name="alert_dialog_dismiss_delete">Nein</string>
+
+    <!-- fragment show birthday -->
+    <string name="person_show_date">Geboren am %1$s</string>
+    <string name="person_no_note">Es wurde keine Notiz gemacht</string>
+    <string name="person_note">Notiz: %1$s</string>
+    <plurals name="person_days_until">
+        <item quantity="one">%1$ss Geburtstag ist in %2$d Tag\nam %3$s</item>
+        <item quantity="other">%1$ss Geburtstag ist in %2$d Tagen\nam %3$s</item>
+    </plurals>
+    <plurals name="person_years_old">
+        <item quantity="one">%1$s wird %2$d Jahre alt</item>
+        <item quantity="other">%1$s wird %2$d Jahre alt</item>
+    </plurals>
+
+
+    <!-- ANNIVERSARY -->
+    <!-- anniversary event view -->
+    <string name="tv_anniversary_days_until_title">Tage</string>
+    <string name="tv_anniversary_years_since_title">Jahre</string>
+    <string name="tv_anniversary_date_title">Datum</string>
+
+    <!-- fragment add new anniversary -->
+    <string name="toolbar_title_add_anniversary">Jahrestag hinzufügen</string>
+    <string name="toolbar_title_edit_anniversary">Bearbeite Jahrestag</string>
+    <string name="future_anniversary_error">Du kannst keine zukünftigen Jahrestage hinzufügen!</string>
+    <string name="empty_fields_error_anniversary">Fülle zuerst alle leeren Felder aus! (Name, Datum)</string>
+    <string name="anniversary_added_notification">%1$s hinzugefügt</string>
+    <string name="anniversary_changed_notification">%1$s bearbeitet</string>
+    <string name="anniversary_deleted_notification">%1$s gelöscht</string>
+    <string name="edit_anniversary_date_hint_with_year">Datum mit Jahresangabe</string>
+    <string name="edit_anniversary_date_hint_without_year">Datum ohne Jahresangabe</string>
+    <string name="edit_anniversary_name_hint">Jahrestagbezeichnung</string>
+    <string name="edit_anniversary_note_hint">Notiz</string>
+    <string name="sw_anniversary_date_with_year_title">Jahr</string>
+    <string name="btn_anniversary_delete">Lösche Jahrestag</string>
+
+    <!-- alert dialog delete anniversary -->
+    <string name="alert_dialog_title_delete_anniversary">Lösche Jahrestag</string>
+    <string name="alert_dialog_body_message_anniversary">Bist du sicher, dass du diesen Jahrestag löschen möchtest?</string>
+    <!-- fragment show birthday -->
+    <plurals name="anniversary_show_date">
+        <item quantity="one">Das ist in %1$d Tag\nam %2$</item>
+        <item quantity="other">Das ist in %1$d Tagen\nam %2$s</item>
+    </plurals>
+    <string name="anniversary_no_note">Es wurde keine Notiz gemacht</string>
+    <string name="anniversary_note">Notiz: %1$s</string>
+    <plurals name="anniversary_years">
+        <item quantity="one">Seit %1$d Jahr</item>
+        <item quantity="other">Seit %1$d Jahren</item>
+    </plurals>
+
+</resources>

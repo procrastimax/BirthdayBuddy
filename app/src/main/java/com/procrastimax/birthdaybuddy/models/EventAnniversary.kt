@@ -8,7 +8,7 @@ import java.util.*
  * TODO:
  * - rework note workings (null)
  */
-class EventAnniversary(private var _eventDate: Date, private var _name: String, private var hasStartYear: Boolean) :
+class EventAnniversary(private var _eventDate: Date, private var _name: String, var hasStartYear: Boolean) :
     EventDate(_eventDate) {
 
     /**

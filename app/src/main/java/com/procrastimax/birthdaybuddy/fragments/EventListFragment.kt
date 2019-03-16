@@ -19,6 +19,8 @@ class EventListFragment : Fragment() {
     private lateinit var viewAdapter: RecyclerView.Adapter<*>
     private lateinit var viewManager: RecyclerView.LayoutManager
 
+    private var isFABOpen = false
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
     }
@@ -47,8 +49,22 @@ class EventListFragment : Fragment() {
             adapter = viewAdapter
         }
         recyclerView.addItemDecoration(RecycleViewItemDivider(view.context))
+        recyclerView.setPadding(
+            recyclerView.paddingLeft,
+            recyclerView.paddingTop,
+            recyclerView.paddingRight,
+            (resources.getDimension(R.dimen.fab_margin) + resources.getDimension(R.dimen.fab_size_bigger)).toInt()
+        )
 
-        fab.setOnClickListener {
+        fab_show_fab_menu.setOnClickListener {
+            if (isFABOpen) {
+                closeFABMenu()
+            } else {
+                showFABMenu()
+            }
+        }
+
+        fab_add_birthday.setOnClickListener {
             val ft = fragmentManager!!.beginTransaction()
             ft.replace(
                 R.id.fragment_placeholder,
@@ -56,7 +72,38 @@ class EventListFragment : Fragment() {
             )
             ft.addToBackStack(null)
             ft.commit()
+            closeFABMenu()
         }
+
+        fab_add_anniversary.setOnClickListener {
+            val ft = fragmentManager!!.beginTransaction()
+            ft.replace(
+                R.id.fragment_placeholder,
+                AnniversaryInstanceFragment.newInstance()
+            )
+            ft.addToBackStack(null)
+            ft.commit()
+            closeFABMenu()
+        }
+    }
+
+    private fun showFABMenu() {
+        isFABOpen = true
+        fab_add_birthday.show()
+        fab_add_anniversary.show()
+        fab_add_birthday.animate().translationY(-resources.getDimension(R.dimen.standard_55))
+        fab_add_anniversary.animate().translationY(-resources.getDimension(R.dimen.standard_105))
+
+        fab_show_fab_menu.animate().rotationBy(45.0f)
+    }
+
+    private fun closeFABMenu() {
+        isFABOpen = false
+        fab_add_birthday.hide()
+        fab_add_anniversary.hide()
+        fab_add_birthday.animate().translationY(0.toFloat())
+        fab_add_anniversary.animate().translationY(0.toFloat())
+        fab_show_fab_menu.animate().rotationBy(-45.0f)
     }
 
     companion object {

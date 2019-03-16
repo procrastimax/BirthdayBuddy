@@ -39,8 +39,7 @@ object EventDataIO {
      * @param context : Context
      */
     fun registerIO(context: Context) {
-        //TODO: change context mode
-        sharedPref = context.getSharedPreferences(fileName, Context.MODE_MULTI_PROCESS)
+        sharedPref = context.getSharedPreferences(fileName, Context.MODE_PRIVATE)
 
         if (!sharedPref.contains("wasLaunchedBefore")) {
             Log.d("EventDataIO", "shared pref files didnt exist before")
@@ -179,11 +178,11 @@ object EventDataIO {
                 val property = string_array[i].split("::")
 
                 //use identifier
-                when (property[0].toInt()) {
-                    MonthDivider.Identifier.Date.ordinal -> {
+                when (property[0]) {
+                    MonthDivider.Identifier.Date.toString() -> {
                         date = property[1]
                     }
-                    MonthDivider.Identifier.MonthName.ordinal -> {
+                    MonthDivider.Identifier.MonthName.toString() -> {
                         month = property[1]
                     }
                     else ->
@@ -202,28 +201,28 @@ object EventDataIO {
                 val property = string_array[i].split("::")
 
                 //use identifier
-                when (property[0].toInt()) {
-                    EventAnniversary.Identifier.Date.ordinal -> {
+                when (property[0]) {
+                    EventAnniversary.Identifier.Date.toString() -> {
                         date = property[1]
                     }
-                    EventAnniversary.Identifier.Name.ordinal -> {
+                    EventAnniversary.Identifier.Name.toString() -> {
                         name = property[1]
                     }
-                    EventAnniversary.Identifier.HasStartYear.ordinal -> {
+                    EventAnniversary.Identifier.HasStartYear.toString() -> {
                         hasStartYear = property[1].toBoolean()
                     }
-                    EventAnniversary.Identifier.Note.ordinal -> {
+                    EventAnniversary.Identifier.Note.toString() -> {
                         note = property[1]
                     }
                     else ->
                         Log.w("EventDataIO", "Could not find identifier when trying to parse EventAnniversary")
                 }
-                val anniversary = EventAnniversary(EventDate.parseStringToDate(date), name, hasStartYear)
-                if (note != "null") {
-                    anniversary.note = note
-                }
-                return anniversary
             }
+            val anniversary = EventAnniversary(EventDate.parseStringToDate(date), name, hasStartYear)
+            if (note != "null") {
+                anniversary.note = note
+            }
+            return anniversary
         }
         return null
     }

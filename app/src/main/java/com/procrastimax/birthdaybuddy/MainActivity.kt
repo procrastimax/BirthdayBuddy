@@ -3,21 +3,25 @@ package com.procrastimax.birthdaybuddy
 import android.content.Context
 import android.os.Bundle
 import android.support.v4.app.FragmentTransaction
+import android.support.v4.content.ContextCompat
 import android.support.v7.app.AppCompatActivity
 import android.view.Menu
 import android.view.MenuItem
-import android.view.ViewGroup
 import com.procrastimax.birthdaybuddy.fragments.EventListFragment
 import com.procrastimax.birthdaybuddy.handler.EventHandler
 import com.procrastimax.birthdaybuddy.models.EventBirthday
 import com.procrastimax.birthdaybuddy.models.EventDate
+import com.procrastimax.birthdaybuddy.models.MonthDivider
 import kotlinx.android.synthetic.main.activity_main.*
 import java.text.DateFormat
+import java.util.*
 
 /**
  *
  * TODO:
+ *  - workout different localizations, f.e. curently the dates include substrings for german locales like .substring(0..5) => obviously dont do this
  *  - bug when localization is changed after first start of app -> add possibility to change all encodings at app start when error occurs -> fix this by only use one format for saving
+ *  - when language of devices changes, month divider names should also change -> save localization and compare to last start?
  *  - dont show last seperation character in list view
  *  - dont draw item decoration on month divider
  *  - add checking for existing forename/surname pair when adding a new birthday/event
@@ -35,8 +39,6 @@ class MainActivity : AppCompatActivity() {
         )
     }
 
-    private lateinit var application_container: ViewGroup
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -50,9 +52,18 @@ class MainActivity : AppCompatActivity() {
         EventHandler.addMap(EventDataIO.readAll())
 
         if (isFirstStart()) {
+            val cal = Calendar.getInstance()
+            cal.set(Calendar.YEAR, 1)
+            cal.set(Calendar.DAY_OF_MONTH, 1)
+            cal.set(Calendar.HOUR_OF_DAY, 1)
+            for (i in 0 until 12) {
+                cal.set(Calendar.MONTH, i)
+                EventHandler.addEvent(MonthDivider(cal.time, resources.getStringArray(R.array.month_names)[i]), true)
+            }
+
             EventHandler.addEvent(
                 EventBirthday(
-                    EventDate.parseStringToDate("06.02.00", DateFormat.SHORT),
+                    EventDate.parseStringToDate("06.02.00", DateFormat.SHORT, Locale.GERMAN),
                     "Procrastimax",
                     "Dev",
                     false
@@ -92,32 +103,45 @@ class MainActivity : AppCompatActivity() {
                 toolbar.removeAllViews()
                 supportActionBar!!.setDisplayShowTitleEnabled(true)
             }
-
-            Companion.ToolbarState.AddBirthday -> {
+            Companion.ToolbarState.EditEvent -> {
                 if (toolbar.childCount > 0) {
                     toolbar.removeAllViews()
                 }
                 toolbar.addView(
                     layoutInflater.inflate(
-                        R.layout.toolbar_add_birthday,
+                        R.layout.toolbar_edit_event,
                         findViewById(android.R.id.content),
                         false
                     )
                 )
+                toolbar.setBackgroundColor(
+                    ContextCompat.getColor(
+                        applicationContext,
+                        R.color.material_light_white_background
+                    )
+                )
+                toolbar.setContentInsetsAbsolute(0, 0)
                 setSupportActionBar(toolbar)
                 supportActionBar!!.setDisplayShowTitleEnabled(false)
             }
-            Companion.ToolbarState.EditBirtday -> {
+            Companion.ToolbarState.ShowEvent -> {
                 if (toolbar.childCount > 0) {
                     toolbar.removeAllViews()
                 }
                 toolbar.addView(
                     layoutInflater.inflate(
-                        R.layout.toolbar_edit_birthday,
+                        R.layout.toolbar_show_event,
                         findViewById(android.R.id.content),
                         false
                     )
                 )
+                toolbar.setBackgroundColor(
+                    ContextCompat.getColor(
+                        applicationContext,
+                        R.color.colorPrimary
+                    )
+                )
+                toolbar.setContentInsetsAbsolute(0, 0)
                 setSupportActionBar(toolbar)
                 supportActionBar!!.setDisplayShowTitleEnabled(false)
             }
@@ -146,8 +170,8 @@ class MainActivity : AppCompatActivity() {
 
         enum class ToolbarState {
             Default,
-            AddBirthday,
-            EditBirtday
+            EditEvent,
+            ShowEvent
         }
     }
 }

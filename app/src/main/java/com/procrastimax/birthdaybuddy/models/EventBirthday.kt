@@ -17,6 +17,7 @@ import java.util.*
  *  - add possibility for nicknames
  *  - add possibility for favorites
  *  - rework note working
+ *  - function to return forename or nickname
  *
  *  @param _birthday : Date
  *  @param _forename : String
