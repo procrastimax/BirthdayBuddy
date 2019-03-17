@@ -5,13 +5,13 @@
                                              android:layout_width="match_parent"
                                              android:layout_height="match_parent"
                                              tools:context=".fragments.ShowAnniversaryEvent">
-    
+
     <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/tv_show_anniversary_name"
             app:layout_constraintStart_toStartOf="parent"
-            android:layout_marginStart="8dp"
+            android:layout_marginStart="16dp"
             android:layout_marginTop="32dp"
             app:layout_constraintTop_toTopOf="parent"
             android:textSize="@dimen/larg_text_size"

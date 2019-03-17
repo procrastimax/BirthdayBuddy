@@ -20,6 +20,8 @@ import kotlinx.android.synthetic.main.event_month_view_divider.view.*
 class EventAdapter(private val context: Context) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
+    var isClickable: Boolean = true
+
     class BirthdayEventViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
 
     class EventMonthDividerViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
@@ -100,43 +102,47 @@ class EventAdapter(private val context: Context) :
 
                     //set on click listener for item
                     holder.itemView.setOnClickListener {
-                        val bundle = Bundle()
-                        //do this in more adaptable way
-                        bundle.putInt(
-                            ITEM_ID_PARAM,
-                            position
-                        )
-                        val ft = (context as MainActivity).supportFragmentManager.beginTransaction()
-                        // add arguments to fragment
-                        val newBirthdayFragment = ShowBirthdayEvent.newInstance()
-                        newBirthdayFragment.arguments = bundle
-                        ft.replace(
-                            R.id.fragment_placeholder,
-                            newBirthdayFragment
-                        )
-                        ft.addToBackStack(null)
-                        ft.commit()
+                        if (isClickable) {
+                            val bundle = Bundle()
+                            //do this in more adaptable way
+                            bundle.putInt(
+                                ITEM_ID_PARAM,
+                                position
+                            )
+                            val ft = (context as MainActivity).supportFragmentManager.beginTransaction()
+                            // add arguments to fragment
+                            val newBirthdayFragment = ShowBirthdayEvent.newInstance()
+                            newBirthdayFragment.arguments = bundle
+                            ft.replace(
+                                R.id.fragment_placeholder,
+                                newBirthdayFragment
+                            )
+                            ft.addToBackStack(null)
+                            ft.commit()
+                        }
                     }
 
                     holder.itemView.setOnLongClickListener {
-                        val bundle = Bundle()
-                        //do this in more adaptable way
-                        bundle.putInt(
-                            ITEM_ID_PARAM,
-                            position
-                        )
+                        if (isClickable) {
+                            val bundle = Bundle()
+                            //do this in more adaptable way
+                            bundle.putInt(
+                                ITEM_ID_PARAM,
+                                position
+                            )
 
-                        val ft = (context as MainActivity).supportFragmentManager.beginTransaction()
+                            val ft = (context as MainActivity).supportFragmentManager.beginTransaction()
 
-                        // add arguments to fragment
-                        val newBirthdayFragment = BirthdayInstanceFragment.newInstance()
-                        newBirthdayFragment.arguments = bundle
-                        ft.replace(
-                            R.id.fragment_placeholder,
-                            newBirthdayFragment
-                        )
-                        ft.addToBackStack(null)
-                        ft.commit()
+                            // add arguments to fragment
+                            val newBirthdayFragment = BirthdayInstanceFragment.newInstance()
+                            newBirthdayFragment.arguments = bundle
+                            ft.replace(
+                                R.id.fragment_placeholder,
+                                newBirthdayFragment
+                            )
+                            ft.addToBackStack(null)
+                            ft.commit()
+                        }
                         true
                     }
 
@@ -173,44 +179,48 @@ class EventAdapter(private val context: Context) :
 
                     //set on click listener for item
                     holder.itemView.setOnClickListener {
-                        val bundle = Bundle()
-                        //do this in more adaptable way
-                        bundle.putInt(
-                            ITEM_ID_PARAM,
-                            position
-                        )
+                        if (isClickable) {
+                            val bundle = Bundle()
+                            //do this in more adaptable way
+                            bundle.putInt(
+                                ITEM_ID_PARAM,
+                                position
+                            )
 
-                        val ft = (context as MainActivity).supportFragmentManager.beginTransaction()
-                        // add arguments to fragment
-                        val newAnniversaryFragment = ShowAnniversaryEvent.newInstance()
-                        newAnniversaryFragment.arguments = bundle
-                        ft.replace(
-                            R.id.fragment_placeholder,
-                            newAnniversaryFragment
-                        )
-                        ft.addToBackStack(null)
-                        ft.commit()
+                            val ft = (context as MainActivity).supportFragmentManager.beginTransaction()
+                            // add arguments to fragment
+                            val newAnniversaryFragment = ShowAnniversaryEvent.newInstance()
+                            newAnniversaryFragment.arguments = bundle
+                            ft.replace(
+                                R.id.fragment_placeholder,
+                                newAnniversaryFragment
+                            )
+                            ft.addToBackStack(null)
+                            ft.commit()
+                        }
                     }
 
                     holder.itemView.setOnLongClickListener {
-                        val bundle = Bundle()
-                        //do this in more adaptable way
-                        bundle.putInt(
-                            ITEM_ID_PARAM,
-                            position
-                        )
+                        if (isClickable) {
+                            val bundle = Bundle()
+                            //do this in more adaptable way
+                            bundle.putInt(
+                                ITEM_ID_PARAM,
+                                position
+                            )
 
-                        val ft = (context as MainActivity).supportFragmentManager.beginTransaction()
+                            val ft = (context as MainActivity).supportFragmentManager.beginTransaction()
 
-                        // add arguments to fragment
-                        val newAnniversaryFragment = AnniversaryInstanceFragment.newInstance()
-                        newAnniversaryFragment.arguments = bundle
-                        ft.replace(
-                            R.id.fragment_placeholder,
-                            newAnniversaryFragment
-                        )
-                        ft.addToBackStack(null)
-                        ft.commit()
+                            // add arguments to fragment
+                            val newAnniversaryFragment = AnniversaryInstanceFragment.newInstance()
+                            newAnniversaryFragment.arguments = bundle
+                            ft.replace(
+                                R.id.fragment_placeholder,
+                                newAnniversaryFragment
+                            )
+                            ft.addToBackStack(null)
+                            ft.commit()
+                        }
                         true
                     }
 

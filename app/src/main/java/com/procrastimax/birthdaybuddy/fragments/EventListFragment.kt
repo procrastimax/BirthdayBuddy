@@ -1,6 +1,7 @@
 package com.procrastimax.birthdaybuddy.fragments
 
 import android.os.Bundle
+import android.support.constraint.ConstraintLayout
 import android.support.v4.app.Fragment
 import android.support.v4.content.ContextCompat
 import android.support.v7.widget.LinearLayoutManager
@@ -36,6 +37,10 @@ class EventListFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        isFABOpen = false
+
+        fab_layout_add_anniversary.visibility = ConstraintLayout.INVISIBLE
+        fab_layout_add_birthday.visibility = ConstraintLayout.INVISIBLE
         viewManager = LinearLayoutManager(view.context)
         viewAdapter = EventAdapter(view.context)
 
@@ -65,6 +70,7 @@ class EventListFragment : Fragment() {
         }
 
         fab_add_birthday.setOnClickListener {
+            closeFABMenu(true)
             val ft = fragmentManager!!.beginTransaction()
             ft.replace(
                 R.id.fragment_placeholder,
@@ -72,10 +78,10 @@ class EventListFragment : Fragment() {
             )
             ft.addToBackStack(null)
             ft.commit()
-            closeFABMenu()
         }
 
         fab_add_anniversary.setOnClickListener {
+            closeFABMenu(true)
             val ft = fragmentManager!!.beginTransaction()
             ft.replace(
                 R.id.fragment_placeholder,
@@ -83,27 +89,58 @@ class EventListFragment : Fragment() {
             )
             ft.addToBackStack(null)
             ft.commit()
-            closeFABMenu()
         }
     }
 
     private fun showFABMenu() {
         isFABOpen = true
-        fab_add_birthday.show()
-        fab_add_anniversary.show()
-        fab_add_birthday.animate().translationY(-resources.getDimension(R.dimen.standard_55))
-        fab_add_anniversary.animate().translationY(-resources.getDimension(R.dimen.standard_105))
+        fab_show_fab_menu.isClickable = false
+        //show layouts
+        fab_layout_add_anniversary.visibility = ConstraintLayout.VISIBLE
+        fab_layout_add_birthday.visibility = ConstraintLayout.VISIBLE
 
-        fab_show_fab_menu.animate().rotationBy(45.0f)
+        this.recyclerView.animate().alpha(0.15f)
+
+        //move layouts
+        fab_layout_add_birthday.animate().translationYBy(-resources.getDimension(R.dimen.standard_55))
+        fab_layout_add_anniversary.animate().translationYBy(-resources.getDimension(R.dimen.standard_105))
+        fab_show_fab_menu.animate().rotationBy(45.0f).withEndAction {
+            fab_show_fab_menu.isClickable = true
+        }
+        (this.recyclerView.adapter as EventAdapter).isClickable = false
     }
 
-    private fun closeFABMenu() {
+    /**
+     * @param immediateAction : Boolean indicates wether an action should take place after the animation
+     */
+    private fun closeFABMenu(immediateAction: Boolean = false) {
         isFABOpen = false
-        fab_add_birthday.hide()
-        fab_add_anniversary.hide()
-        fab_add_birthday.animate().translationY(0.toFloat())
-        fab_add_anniversary.animate().translationY(0.toFloat())
-        fab_show_fab_menu.animate().rotationBy(-45.0f)
+        //show layouts
+        if (!immediateAction) {
+            fab_show_fab_menu.isClickable = false
+        }
+
+        this.recyclerView.animate().alpha(1.0f)
+
+        fab_layout_add_birthday.animate().translationYBy(resources.getDimension(R.dimen.standard_55)).withEndAction {
+            if (!immediateAction) {
+                fab_layout_add_birthday.visibility = ConstraintLayout.INVISIBLE
+            }
+        }
+
+        fab_layout_add_anniversary.animate().translationYBy(resources.getDimension(R.dimen.standard_105))
+            .withEndAction {
+                if (!immediateAction) {
+                    fab_layout_add_anniversary.visibility = ConstraintLayout.INVISIBLE
+                }
+            }
+
+        fab_show_fab_menu.animate().rotationBy(-45.0f).withEndAction {
+            if (!immediateAction) {
+                fab_show_fab_menu.isClickable = true
+            }
+        }
+        (this.recyclerView.adapter as EventAdapter).isClickable = true
     }
 
     companion object {

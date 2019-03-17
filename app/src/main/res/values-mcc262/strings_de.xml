@@ -59,6 +59,19 @@
         <item quantity="other">%1$s wird %2$d Jahre alt</item>
     </plurals>
 
+    <!-- sharing strings birthday -->
+    <string name="share_birthday_name">%1$s %2$s</string>
+    <string name="share_birthday_date_next">Hat Geburtstag am %1$s</string>
+    <string name="share_birthday_date_start">Wurde geboren am %1$s</string>
+    <plurals name="share_birthday_days">
+        <item quantity="one">In %1$d Tag</item>
+        <item quantity="other">In %1$d Tagen</item>
+    </plurals>
+    <plurals name="share_birthday_year">
+        <item quantity="one">Ist %1$d Jahr alt</item>
+        <item quantity="other">Ist %1$d Jahre alt</item>
+    </plurals>
+
 
     <!-- ANNIVERSARY -->
     <!-- anniversary event view -->
@@ -95,5 +108,25 @@
         <item quantity="one">Seit %1$d Jahr</item>
         <item quantity="other">Seit %1$d Jahren</item>
     </plurals>
+
+    <!-- sharing strings anniversary -->
+    <string name="share_anniversary_name">%1$s</string>
+    <string name="share_anniversary_date_next">Nächstes Mal am %1$s</string>
+    <string name="share_anniversary_date_start">Erste Mal am %1$s</string>
+    <plurals name="share_anniversary_days">
+        <item quantity="one">In %1$d Tag</item>
+        <item quantity="other">In %1$d Tagen</item>
+    </plurals>
+    <plurals name="share_anniversary_year">
+        <item quantity="one">Seit %1$d Jahr</item>
+        <item quantity="other">Seit %1$d Jahren</item>
+    </plurals>
+
+
+    <!-- globals -->
+    <string name="fab_event_list_birthday_title">Neuer Geburtstag</string>
+    <string name="fab_event_list_anniversary_title">Neuer Jahrestag</string>
+
+    <string name="intent_share_chooser_title">Wähle eine App zum teilen</string>
 
 </resources>

@@ -1,14 +1,14 @@
 package com.procrastimax.birthdaybuddy
 
-import com.procrastimax.birthdaybuddy.models.EventDay
+import com.procrastimax.birthdaybuddy.models.EventDate
 import org.junit.Assert
 import org.junit.Test
 import java.util.*
 
-class EventDayTest {
+class EventDateTest {
     @Test
     fun dateParsingTest() {
-        Assert.assertEquals("2/13/19", EventDay.parseDateToString(EventDay.parseStringToDate("2/13/19")))
+        Assert.assertEquals("2/13/19", EventDate.parseDateToString(EventDate.parseStringToDate("2/13/19")))
     }
 
     @Test
@@ -18,10 +18,10 @@ class EventDayTest {
         currentDate.time += 86400001
 
         //primary constructor test
-        val event = EventDay(currentDate)
+        val event = EventDate(currentDate)
 
         //this almost always asserts to false, because if a future date is given, then the current is applied to the "future" date
-        Assert.assertEquals(false, EventDay.isDateInFuture(event.eventDate))
+        Assert.assertEquals(false, EventDate.isDateInFuture(event.eventDate))
     }
 
     @Test
@@ -31,12 +31,12 @@ class EventDayTest {
         calender.set(Calendar.YEAR, Calendar.getInstance().get(Calendar.DAY_OF_YEAR) - 1)
         calender.set(Calendar.DAY_OF_YEAR, Calendar.getInstance().get(Calendar.DAY_OF_YEAR) + 1)
 
-        val event = EventDay(calender.time)
+        val event = EventDate(calender.time)
         Assert.assertEquals(1, event.getDaysUntil())
 
         calender.set(Calendar.DAY_OF_YEAR, Calendar.getInstance().get(Calendar.DAY_OF_YEAR) - 1)
         event.eventDate = calender.time
-        Assert.assertEquals(364, event.getDaysUntil())
+        Assert.assertEquals(365, event.getDaysUntil())
     }
 
     @Test
@@ -46,7 +46,7 @@ class EventDayTest {
         cal_1.set(Calendar.YEAR, Calendar.getInstance().get(Calendar.YEAR) - 5)
         cal_1.set(Calendar.DAY_OF_YEAR, Calendar.getInstance().get(Calendar.DAY_OF_YEAR) - 1)
 
-        val event = EventDay(cal_1.time)
+        val event = EventDate(cal_1.time)
         Assert.assertEquals(5, event.getYearsSince())
 
         //date 5years in the past but day of year is ahead

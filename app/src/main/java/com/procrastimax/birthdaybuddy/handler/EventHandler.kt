@@ -41,6 +41,8 @@ object EventHandler {
         event_map[last_key] = event
         event_list = getSortedListBy()
 
+        println(event_list)
+
         if (writeAfterAdd) {
             EventDataIO.writeEventToFile(last_key, event)
         }
@@ -129,6 +131,9 @@ object EventHandler {
     fun changeEventAt(key: Int, event: EventDate, context: Context, writeAfterChange: Boolean = false) {
         event_map[key] = event
         event_list = getSortedListBy()
+
+        println(event_list)
+
         if (writeAfterChange) {
             EventDataIO.removeEventFromFile(key)
             EventDataIO.writeEventToFile(key, event)

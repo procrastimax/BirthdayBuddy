@@ -129,7 +129,7 @@ class EventBirthday(
     override fun toString(): String {
         return "Birthday|${Identifier.Forename}::${this._forename}|${Identifier.Surname}::${this._surname}|${Identifier.Date}::${EventDate.parseDateToString(
             this.eventDate,
-            DateFormat.SHORT
+            DateFormat.DEFAULT
         )}|${Identifier.Note}::${this.note}|${Identifier.IsYearGiven}::${this.isYearGiven}"
     }
 }

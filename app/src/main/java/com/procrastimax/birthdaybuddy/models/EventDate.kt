@@ -95,7 +95,7 @@ open class EventDate(private var _eventDate: Date) : Comparable<EventDate> {
     override fun toString(): String {
         return "EventDate|${Identifier.Date}::${EventDate.parseDateToString(
             this.eventDate,
-            DateFormat.SHORT
+            DateFormat.DEFAULT
         )}"
     }
 
@@ -119,7 +119,7 @@ open class EventDate(private var _eventDate: Date) : Comparable<EventDate> {
     fun getDaysUntil(): Int {
         val dateInCurrentTimeContext = dateToCurrentTimeContext()
         val dayDiff = dateInCurrentTimeContext.time - EventDate.normalizeDate(Calendar.getInstance().time).time
-        return (dayDiff / (1000 * 60 * 60 * 24)).toInt()
+        return (dayDiff / (1000 * 60 * 60 * 24)).toInt() + 1
     }
 
     fun getYear(): Int {
@@ -212,7 +212,7 @@ open class EventDate(private var _eventDate: Date) : Comparable<EventDate> {
         @JvmStatic
         fun parseDateToString(
             date: Date,
-            format: Int = DateFormat.SHORT,
+            format: Int = DateFormat.DEFAULT,
             locale: Locale = Locale.getDefault()
         ): String {
             return DateFormat.getDateInstance(format, locale).format(date)
@@ -228,7 +228,7 @@ open class EventDate(private var _eventDate: Date) : Comparable<EventDate> {
         @JvmStatic
         fun parseStringToDate(
             date_string: String,
-            format: Int = DateFormat.SHORT,
+            format: Int = DateFormat.DEFAULT,
             locale: Locale = Locale.getDefault()
         ): Date {
             return DateFormat.getDateInstance(format, locale).parse(date_string)

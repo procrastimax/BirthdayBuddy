@@ -19,30 +19,84 @@
             app:layout_constraintVertical_bias="0.0"/>
 
 
-    <android.support.design.widget.FloatingActionButton
-            android:id="@+id/fab_add_anniversary"
-            android:layout_width="@dimen/fab_size_smaller"
-            android:layout_height="@dimen/fab_size_smaller"
-            app:fabCustomSize="@dimen/fab_size_smaller"
-            android:layout_gravity="bottom|end"
-            app:srcCompat="@drawable/ic_date_range"
+    <android.support.constraint.ConstraintLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:id="@+id/fab_layout_add_anniversary"
             app:layout_constraintEnd_toEndOf="@+id/fab_show_fab_menu"
             app:layout_constraintStart_toStartOf="@+id/fab_show_fab_menu"
-            app:layout_constraintBottom_toBottomOf="@+id/fab_show_fab_menu"
-            app:layout_constraintTop_toTopOf="@+id/fab_show_fab_menu"/>
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintTop_toTopOf="@+id/fab_show_fab_menu"
+            app:layout_constraintBottom_toBottomOf="@+id/fab_show_fab_menu">
 
-    <android.support.design.widget.FloatingActionButton
-            android:id="@+id/fab_add_birthday"
-            android:layout_width="@dimen/fab_size_smaller"
-            android:layout_height="@dimen/fab_size_smaller"
-            app:fabCustomSize="@dimen/fab_size_smaller"
-            android:layout_gravity="center"
-            android:foregroundGravity="center"
-            app:srcCompat="@drawable/ic_person_add"
-            app:layout_constraintEnd_toEndOf="@+id/fab_add_anniversary"
-            app:layout_constraintStart_toStartOf="@+id/fab_add_anniversary"
+        <TextView
+                android:text="@string/fab_event_list_anniversary_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/tv_fab_layout_new_anniversary"
+                app:layout_constraintEnd_toStartOf="@+id/fab_add_anniversary"
+                app:layout_constraintBottom_toBottomOf="@+id/fab_add_anniversary"
+                app:layout_constraintTop_toTopOf="@+id/fab_add_anniversary"
+                app:layout_constraintStart_toStartOf="parent"
+                android:layout_marginEnd="8dp"
+                android:textColor="@color/colorPrimaryDark"/>
+
+        <android.support.design.widget.FloatingActionButton
+                android:id="@+id/fab_add_anniversary"
+                android:layout_width="@dimen/fab_size_smaller"
+                android:layout_height="@dimen/fab_size_smaller"
+                app:fabCustomSize="@dimen/fab_size_smaller"
+                android:layout_gravity="bottom|end"
+                app:srcCompat="@drawable/ic_date_range"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginBottom="8dp"/>
+    </android.support.constraint.ConstraintLayout>
+
+    <android.support.constraint.ConstraintLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+
+            android:id="@+id/fab_layout_add_birthday"
+            app:layout_constraintEnd_toEndOf="@+id/fab_show_fab_menu"
+            app:layout_constraintStart_toStartOf="@+id/fab_show_fab_menu"
+            app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintBottom_toBottomOf="@+id/fab_show_fab_menu"
-            app:layout_constraintTop_toTopOf="@+id/fab_show_fab_menu"/>
+            app:layout_constraintTop_toTopOf="@+id/fab_show_fab_menu">
+
+        <TextView
+                android:text="@string/fab_event_list_birthday_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/tv_fab_layout_new_birthday"
+                app:layout_constraintTop_toTopOf="@+id/fab_add_birthday"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/fab_add_birthday"
+                android:layout_marginEnd="8dp"
+                app:layout_constraintBottom_toBottomOf="@+id/fab_add_birthday"
+                android:textColor="@color/colorPrimaryDark"
+                />
+
+        <android.support.design.widget.FloatingActionButton
+                android:id="@+id/fab_add_birthday"
+                android:layout_width="@dimen/fab_size_smaller"
+                android:layout_height="@dimen/fab_size_smaller"
+                app:fabCustomSize="@dimen/fab_size_smaller"
+                android:layout_gravity="center"
+                android:foregroundGravity="center"
+                app:srcCompat="@drawable/ic_person_add"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginBottom="8dp"/>
+    </android.support.constraint.ConstraintLayout>
 
     <android.support.design.widget.FloatingActionButton
             android:id="@+id/fab_show_fab_menu"
@@ -52,7 +106,7 @@
             android:layout_gravity="bottom|end"
             app:srcCompat="@drawable/ic_add_white"
             app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginEnd="16dp"
-            android:layout_marginBottom="16dp"
+            android:layout_marginEnd="24dp"
+            android:layout_marginBottom="24dp"
             app:layout_constraintBottom_toBottomOf="@+id/recyclerView"/>
 </android.support.constraint.ConstraintLayout>
