@@ -132,6 +132,7 @@ object EventDataIO {
     private fun convertStringToEventDate(objectString: String): EventDate? {
         val string_array = objectString.split("|")
 
+        // BIRTHDAY EVENT
         if (string_array[0] == type_birthday) {
 
             var forename: String = "-"
@@ -139,6 +140,7 @@ object EventDataIO {
             var date: String = "-"
             var note: String = "-"
             var isyeargiven: Boolean = false
+            var avatarImageURI: String = "-"
 
             for (i in 1 until string_array.size) {
                 val property = string_array[i].split("::")
@@ -160,6 +162,9 @@ object EventDataIO {
                     EventBirthday.Identifier.IsYearGiven.toString() -> {
                         isyeargiven = property[1].toBoolean()
                     }
+                    EventBirthday.Identifier.AvatarUri.toString() -> {
+                        avatarImageURI = property[1]
+                    }
                     else ->
                         Log.w("EventDataIO", "Could not find identifier when trying to parse EventBirthday")
                 }
@@ -167,8 +172,11 @@ object EventDataIO {
 
             val birthday = EventBirthday(EventDate.parseStringToDate(date), forename, surname, isyeargiven)
             if (note != "null") birthday.note = note
+            if (avatarImageURI != "null") birthday.avatarImageUri = avatarImageURI
+
             return birthday
 
+            // MONTH DIVIDER
         } else if (string_array[0] == type_month_divider) {
 
             var date: String = "-"
@@ -191,6 +199,7 @@ object EventDataIO {
             }
             return MonthDivider(EventDate.parseStringToDate(date), month)
 
+            // ANNIVERSARY EVENT
         } else if (string_array[0] == type_anniversary) {
             var date = "-"
             var name = "-"

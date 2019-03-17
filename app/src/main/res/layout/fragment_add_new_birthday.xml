@@ -16,14 +16,16 @@
                 android:orientation="vertical">
 
             <ImageView
-                    android:src="@drawable/ic_person_add_img"
-                    android:layout_width="64dp"
-                    android:layout_height="64dp"
-                    android:id="@+id/btn_img_add"
-                    app:layout_constraintStart_toStartOf="parent"
-                    android:layout_marginTop="24dp"
+                    android:layout_height="96dp"
+                    android:id="@+id/iv_add_avatar_btn"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginStart="8dp"
+                    app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"/>
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:srcCompat="@drawable/ic_add_a_photo"
+                    android:layout_width="96dp"/>
 
             <EditText
                     android:layout_width="0dp"
@@ -32,7 +34,7 @@
                     android:ems="10"
                     android:id="@+id/edit_add_fragment_forename"
                     android:layout_marginTop="24dp"
-                    app:layout_constraintTop_toBottomOf="@+id/btn_img_add"
+                    app:layout_constraintTop_toBottomOf="@+id/iv_add_avatar_btn"
                     android:layout_marginEnd="8dp"
                     app:layout_constraintEnd_toEndOf="parent"
                     android:layout_marginStart="8dp"

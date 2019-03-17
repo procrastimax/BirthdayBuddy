@@ -1,8 +1,12 @@
 package com.procrastimax.birthdaybuddy.fragments
 
+import android.app.Activity
 import android.app.AlertDialog
 import android.app.DatePickerDialog
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
+import android.provider.MediaStore
 import android.support.design.widget.Snackbar
 import android.support.v4.app.Fragment
 import android.view.LayoutInflater
@@ -18,16 +22,20 @@ import kotlinx.android.synthetic.main.fragment_add_new_birthday.*
 import java.text.DateFormat
 import java.util.*
 
+
 /**
  * TODO:
  *  - move accept/close button in statusbar
  *  - add animations for accept/close  button
- *  - control beahaviour when hold in potrait mode
+ *  - control behaviour when hold in portrait mode
  */
 class BirthdayInstanceFragment : Fragment() {
 
     var isEditedBirthday: Boolean = false
     var itemID = -1
+    var birthday_avatar_uri: String? = null
+    val REQUEST_IMAGE_GET = 1
+    var avatar_img_was_edited = false
 
     val edit_forename: EditText by lazy {
         view!!.findViewById<EditText>(R.id.edit_add_fragment_forename)
@@ -72,6 +80,7 @@ class BirthdayInstanceFragment : Fragment() {
         if (edit_forename.text.toString() != event.forename) return true
         if (edit_surname.text.toString() != event.surname) return true
         if (switch_isYearGiven.isChecked != event.isYearGiven) return true
+        if (avatar_img_was_edited) return true
 
         return false
     }
@@ -118,6 +127,11 @@ class BirthdayInstanceFragment : Fragment() {
         }
 
         (context as MainActivity).changeToolbarState(MainActivity.Companion.ToolbarState.EditEvent)
+
+        //add image from gallery
+        iv_add_avatar_btn.setOnClickListener {
+            getImageFromFiles()
+        }
 
         val toolbar = activity!!.findViewById<android.support.v7.widget.Toolbar>(R.id.toolbar)
         val closeBtn = toolbar.findViewById<ImageView>(R.id.btn_edit_event_close)
@@ -242,6 +256,38 @@ class BirthdayInstanceFragment : Fragment() {
         dpd.show()
     }
 
+    private fun getImageFromFiles(): String {
+
+        val intent = Intent(Intent.ACTION_OPEN_DOCUMENT).apply {
+            type = "image/*"
+        }
+        intent.addFlags(
+            Intent.FLAG_GRANT_READ_URI_PERMISSION or Intent.FLAG_GRANT_WRITE_URI_PERMISSION or Intent.FLAG_GRANT_PERSISTABLE_URI_PERMISSION
+                    or Intent.FLAG_GRANT_PREFIX_URI_PERMISSION
+        )
+        if (intent.resolveActivity(context!!.packageManager) != null) {
+            startActivityForResult(intent, REQUEST_IMAGE_GET)
+        }
+        return "0"
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == REQUEST_IMAGE_GET && resultCode == Activity.RESULT_OK) {
+            //val thumbnail: Bitmap = data!!.getParcelableExtra("data")
+            val fullPhotoUri: Uri = data!!.data!!
+
+            val take_flags =
+                (data.flags and (Intent.FLAG_GRANT_READ_URI_PERMISSION or Intent.FLAG_GRANT_WRITE_URI_PERMISSION))
+            context!!.contentResolver.takePersistableUriPermission(fullPhotoUri, take_flags)
+
+            val bitmap = MediaStore.Images.Media.getBitmap(context!!.contentResolver, fullPhotoUri)
+            iv_add_avatar_btn.setImageDrawable(MainActivity.getCircularDrawable(bitmap, resources, 96))
+            birthday_avatar_uri = fullPhotoUri.toString()
+            avatar_img_was_edited = true
+        }
+    }
+
     override fun onDetach() {
         super.onDetach()
         (context as MainActivity).changeToolbarState(MainActivity.Companion.ToolbarState.Default)
@@ -261,6 +307,8 @@ class BirthdayInstanceFragment : Fragment() {
         if (forename.isBlank() || surname.isBlank() || date.isBlank()) {
             Toast.makeText(context, context!!.resources.getText(R.string.empty_fields_error), Toast.LENGTH_LONG).show()
         } else {
+
+            //create new instance from edit fields
             val birthday: EventBirthday
             if (switch_isYearGiven.isChecked) {
                 birthday =
@@ -273,9 +321,12 @@ class BirthdayInstanceFragment : Fragment() {
                     ), forename, surname, isYearGiven
                 )
             }
-
             if (note.isNotBlank()) {
                 birthday.note = note
+            }
+
+            if (birthday_avatar_uri != null) {
+                birthday.avatarImageUri = birthday_avatar_uri
             }
 
             //new bithday entry, just add a new entry in map

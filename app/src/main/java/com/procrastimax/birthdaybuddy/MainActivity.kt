@@ -1,9 +1,14 @@
 package com.procrastimax.birthdaybuddy
 
 import android.content.Context
+import android.content.res.Resources
+import android.graphics.Bitmap
+import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.support.v4.app.FragmentTransaction
 import android.support.v4.content.ContextCompat
+import android.support.v4.graphics.drawable.RoundedBitmapDrawable
+import android.support.v4.graphics.drawable.RoundedBitmapDrawableFactory
 import android.support.v7.app.AppCompatActivity
 import android.view.Menu
 import android.view.MenuItem
@@ -15,6 +20,7 @@ import com.procrastimax.birthdaybuddy.models.MonthDivider
 import kotlinx.android.synthetic.main.activity_main.*
 import java.text.DateFormat
 import java.util.*
+
 
 /**
  *
@@ -172,6 +178,14 @@ class MainActivity : AppCompatActivity() {
             Default,
             EditEvent,
             ShowEvent
+        }
+
+        fun getCircularDrawable(bitmap: Bitmap, resources: Resources, scale: Int): Drawable {
+            //TODO: change hardcoded numbers to some math
+            val scaled_bitmap = Bitmap.createScaledBitmap(bitmap, scale * 3, scale * 3, false)
+            val rounded_bmp: RoundedBitmapDrawable = RoundedBitmapDrawableFactory.create(resources, scaled_bitmap)
+            rounded_bmp.isCircular = true
+            return rounded_bmp
         }
     }
 }

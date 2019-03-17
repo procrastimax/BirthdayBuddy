@@ -1,7 +1,9 @@
 package com.procrastimax.birthdaybuddy.views
 
 import android.content.Context
+import android.net.Uri
 import android.os.Bundle
+import android.provider.MediaStore
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
@@ -16,6 +18,7 @@ import com.procrastimax.birthdaybuddy.models.MonthDivider
 import kotlinx.android.synthetic.main.anniversary_event_item_view.view.*
 import kotlinx.android.synthetic.main.birthday_event_item_view.view.*
 import kotlinx.android.synthetic.main.event_month_view_divider.view.*
+
 
 class EventAdapter(private val context: Context) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
@@ -90,11 +93,13 @@ class EventAdapter(private val context: Context) :
         // - replace the contents of the view with that element
 
         when (holder.itemViewType) {
+
             //EventMonthDividerViewHolder
             0 -> {
                 holder.itemView.tv_divider_description_month.text =
                     (EventHandler.event_list[position].second as MonthDivider).month_name
             }
+
             //BirthdayEventViewHolder
             1 -> {
                 //check if is birthday event and if the year is given
@@ -170,8 +175,24 @@ class EventAdapter(private val context: Context) :
                     //set surname
                     holder.itemView.tv_birthday_event_item_surname.text =
                         (EventHandler.event_list[position].second as EventBirthday).surname
+
+                    val avatarUri = (EventHandler.event_list[position].second as EventBirthday).avatarImageUri
+
+                    if (avatarUri != null && avatarUri != "-") {
+
+                        val bitmap = MediaStore.Images.Media.getBitmap(context.contentResolver, Uri.parse(avatarUri))
+
+                        holder.itemView.iv_birthday_event_item_image.setImageDrawable(
+                            MainActivity.getCircularDrawable(
+                                bitmap,
+                                context.resources,
+                                48
+                            )
+                        )
+                    }
                 }
             }
+
             //anniversary item view holder
             2 -> {
                 //check if is birthday event and if the year is given

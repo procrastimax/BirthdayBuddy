@@ -87,6 +87,7 @@ open class EventDate(private var _eventDate: Date) : Comparable<EventDate> {
     }
 
     /**
+     * TODO: only save not null member vars
      * toString returns EventDay as string representation
      * This is "optimized" for Serialization, so THE FIRST WORD HAS TO BE THE TYPIFICATION f.e. "EventDay"
      * returned string follows the pattern EVENTDATE

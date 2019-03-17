@@ -52,6 +52,9 @@ class EventBirthday(
         Note {
             override fun Identifier(): Int = 4
         },
+        AvatarUri {
+            override fun Identifier(): Int = 5
+        }
     }
 
     var forename: String
@@ -77,27 +80,8 @@ class EventBirthday(
         }
 
     var note: String? = null
-        get() {
-            if (field == null) {
-                return null
-            } else if (field!!.isEmpty() || field!!.isBlank()) {
-                Log.d("EventBirthday", "member var NOTE is blank/empty when trying to access it")
-                return null
-            } else {
-                return field!!.trim()
-            }
-        }
-        set(value) {
-            if (value == null) {
-                Log.d("EventBirthday", "member variable NOTE was set to a null value!")
-                field = null
-            } else field = if (value.isBlank() || value.isEmpty()) {
-                Log.d("EventBirthday", "member variable NOTE was set to an empty/blank value!")
-                null
-            } else {
-                value
-            }
-        }
+
+    var avatarImageUri: String? = null
 
     init {
         if (_forename.isBlank() || _forename.isEmpty()) {
@@ -121,6 +105,7 @@ class EventBirthday(
     }
 
     /**
+     * TODO: only save not null member vars
      * toString returns EventBirthday as string representation
      * This is "optimized" for Serialization, so THE FIRST WORD HAS TO BE THE TYPIFICATION f.e. "Birthday"
      * returned string follows the pattern TYPE|FORENAME|SURNAME|EVENTDATE|NOTE|ISYEARGIVEN
@@ -130,6 +115,6 @@ class EventBirthday(
         return "Birthday|${Identifier.Forename}::${this._forename}|${Identifier.Surname}::${this._surname}|${Identifier.Date}::${EventDate.parseDateToString(
             this.eventDate,
             DateFormat.DEFAULT
-        )}|${Identifier.Note}::${this.note}|${Identifier.IsYearGiven}::${this.isYearGiven}"
+        )}|${Identifier.Note}::${this.note}|${Identifier.IsYearGiven}::${this.isYearGiven}|${Identifier.AvatarUri}::${this.avatarImageUri}"
     }
 }

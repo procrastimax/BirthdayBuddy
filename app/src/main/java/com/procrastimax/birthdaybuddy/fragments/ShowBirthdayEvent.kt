@@ -2,7 +2,9 @@ package com.procrastimax.birthdaybuddy.fragments
 
 
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
+import android.provider.MediaStore
 import android.support.v4.app.Fragment
 import android.support.v4.content.ContextCompat
 import android.view.LayoutInflater
@@ -14,6 +16,7 @@ import com.procrastimax.birthdaybuddy.R
 import com.procrastimax.birthdaybuddy.handler.EventHandler
 import com.procrastimax.birthdaybuddy.models.EventBirthday
 import com.procrastimax.birthdaybuddy.models.EventDate
+import kotlinx.android.synthetic.main.fragment_add_new_birthday.*
 import kotlinx.android.synthetic.main.fragment_show_birthday_event.*
 import java.text.DateFormat
 
@@ -135,6 +138,21 @@ class ShowBirthdayEvent : Fragment() {
                 this.tv_show_birthday_note.text = context!!.resources.getString(R.string.person_no_note)
                 this.tv_show_birthday_note.textSize = 0.0f
                 this.tv_show_birthday_note.setTextColor(ContextCompat.getColor(context!!, R.color.brightGrey))
+            }
+
+            val avatarUri = (EventHandler.event_list[item_id].second as EventBirthday).avatarImageUri
+
+            if (avatarUri != null && avatarUri != "-") {
+
+                val bitmap = MediaStore.Images.Media.getBitmap(context!!.contentResolver, Uri.parse(avatarUri))
+
+                iv_avatar.setImageDrawable(
+                    MainActivity.getCircularDrawable(
+                        bitmap,
+                        context!!.resources,
+                        96
+                    )
+                )
             }
         }
     }
