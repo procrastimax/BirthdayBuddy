@@ -7,6 +7,8 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
+import android.support.constraint.ConstraintLayout
+import android.support.design.widget.BottomSheetDialog
 import android.support.design.widget.Snackbar
 import android.support.v4.app.Fragment
 import android.view.LayoutInflater
@@ -15,6 +17,7 @@ import android.view.ViewGroup
 import android.widget.*
 import com.procrastimax.birthdaybuddy.MainActivity
 import com.procrastimax.birthdaybuddy.R
+import com.procrastimax.birthdaybuddy.handler.DrawableHandler
 import com.procrastimax.birthdaybuddy.handler.EventHandler
 import com.procrastimax.birthdaybuddy.models.EventBirthday
 import com.procrastimax.birthdaybuddy.models.EventDate
@@ -130,7 +133,36 @@ class BirthdayInstanceFragment : Fragment() {
 
         //add image from gallery
         iv_add_avatar_btn.setOnClickListener {
-            getImageFromFiles()
+            val view_ = layoutInflater.inflate(R.layout.fragment_bottom_sheet_dialog, null)
+
+            val dialog = BottomSheetDialog(context!!)
+            dialog.setContentView(view_)
+
+            val layout_choose_img = dialog.findViewById<ConstraintLayout>(R.id.layout_bottom_sheet_choose)
+            val layout_take_new_img = dialog.findViewById<ConstraintLayout>(R.id.layout_bottom_sheet_take_new)
+            val layout_delete_img = dialog.findViewById<ConstraintLayout>(R.id.layout_bottom_sheet_delete)
+
+            dialog.show()
+
+            //when clicked, that an image from a file should be taken
+            if (layout_choose_img != null) {
+                layout_choose_img.setOnClickListener {
+                    dialog.hide()
+                    getImageFromFiles()
+                }
+            }
+
+            if (layout_delete_img != null) {
+                layout_delete_img.setOnClickListener {
+                    dialog.hide()
+                    if ((this.birthday_avatar_uri != null) || ((EventHandler.event_list[itemID].second as EventBirthday).avatarImageUri != null)) {
+                        this.iv_add_avatar_btn.setImageResource(R.drawable.ic_person_add_img)
+                        this.avatar_img_was_edited = true
+                        this.birthday_avatar_uri = null
+                        DrawableHandler.removeDrawable(EventHandler.event_list[itemID].first)
+                    }
+                }
+            }
         }
 
         val toolbar = activity!!.findViewById<android.support.v7.widget.Toolbar>(R.id.toolbar)
@@ -142,6 +174,7 @@ class BirthdayInstanceFragment : Fragment() {
         if (isEditedBirthday) {
             title.text = resources.getText(R.string.toolbar_title_edit_birthday)
             btn_birthday_add_fragment_delete.visibility = Button.VISIBLE
+            //delete functionality
             btn_birthday_add_fragment_delete.setOnClickListener {
                 val alert_builder = AlertDialog.Builder(context)
                 alert_builder.setTitle(resources.getString(R.string.alert_dialog_title_delete_birthday))
@@ -169,6 +202,12 @@ class BirthdayInstanceFragment : Fragment() {
                 // Display the alert dialog on app interface
                 dialog.show()
             }
+
+            //load maybe already existent avatar photo
+            if ((EventHandler.event_list[itemID].second as EventBirthday).avatarImageUri != null) {
+                iv_add_avatar_btn.setImageDrawable(DrawableHandler.getDrawableAt((EventHandler.event_list[itemID].first)))
+            }
+
         } else {
             title.text = resources.getText(R.string.toolbar_title_add_birthday)
             btn_birthday_add_fragment_delete.visibility = Button.INVISIBLE
@@ -226,7 +265,6 @@ class BirthdayInstanceFragment : Fragment() {
                 )
             }
         }
-
         val year = c.get(Calendar.YEAR)
         val month = c.get(Calendar.MONTH)
         val day = c.get(Calendar.DAY_OF_MONTH)
@@ -281,8 +319,10 @@ class BirthdayInstanceFragment : Fragment() {
                 (data.flags and (Intent.FLAG_GRANT_READ_URI_PERMISSION or Intent.FLAG_GRANT_WRITE_URI_PERMISSION))
             context!!.contentResolver.takePersistableUriPermission(fullPhotoUri, take_flags)
 
+            //TODO: dont run bmp loading on ui thread
             val bitmap = MediaStore.Images.Media.getBitmap(context!!.contentResolver, fullPhotoUri)
-            iv_add_avatar_btn.setImageDrawable(MainActivity.getCircularDrawable(bitmap, resources, 96))
+            this.iv_add_avatar_btn.setImageDrawable(DrawableHandler.getCircularDrawable(bitmap, resources))
+
             birthday_avatar_uri = fullPhotoUri.toString()
             avatar_img_was_edited = true
         }
@@ -331,7 +371,7 @@ class BirthdayInstanceFragment : Fragment() {
 
             //new bithday entry, just add a new entry in map
             if (!isEditedBirthday) {
-                EventHandler.addEvent(birthday, true)
+                EventHandler.addEvent(birthday, context!!, true)
                 //TODO: add undo action
                 Snackbar.make(
                     view!!,

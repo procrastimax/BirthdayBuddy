@@ -1,9 +1,7 @@
 package com.procrastimax.birthdaybuddy.views
 
 import android.content.Context
-import android.net.Uri
 import android.os.Bundle
-import android.provider.MediaStore
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
@@ -11,6 +9,7 @@ import android.view.ViewGroup
 import com.procrastimax.birthdaybuddy.MainActivity
 import com.procrastimax.birthdaybuddy.R
 import com.procrastimax.birthdaybuddy.fragments.*
+import com.procrastimax.birthdaybuddy.handler.DrawableHandler
 import com.procrastimax.birthdaybuddy.handler.EventHandler
 import com.procrastimax.birthdaybuddy.models.EventAnniversary
 import com.procrastimax.birthdaybuddy.models.EventBirthday
@@ -179,16 +178,11 @@ class EventAdapter(private val context: Context) :
                     val avatarUri = (EventHandler.event_list[position].second as EventBirthday).avatarImageUri
 
                     if (avatarUri != null && avatarUri != "-") {
-
-                        val bitmap = MediaStore.Images.Media.getBitmap(context.contentResolver, Uri.parse(avatarUri))
-
                         holder.itemView.iv_birthday_event_item_image.setImageDrawable(
-                            MainActivity.getCircularDrawable(
-                                bitmap,
-                                context.resources,
-                                48
-                            )
+                            DrawableHandler.getDrawableAt(EventHandler.event_list[position].first)
                         )
+                    } else {
+                        holder.itemView.iv_birthday_event_item_image.setImageResource(R.drawable.ic_birthday_person)
                     }
                 }
             }

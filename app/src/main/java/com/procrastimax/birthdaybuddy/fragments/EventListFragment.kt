@@ -22,10 +22,6 @@ class EventListFragment : Fragment() {
 
     private var isFABOpen = false
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-    }
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -99,14 +95,27 @@ class EventListFragment : Fragment() {
         fab_layout_add_anniversary.visibility = ConstraintLayout.VISIBLE
         fab_layout_add_birthday.visibility = ConstraintLayout.VISIBLE
 
-        this.recyclerView.animate().alpha(0.15f)
+        this.recyclerView.animate().alpha(0.15f).apply {
+            duration = 200
+        }
 
         //move layouts
-        fab_layout_add_birthday.animate().translationYBy(-resources.getDimension(R.dimen.standard_55))
-        fab_layout_add_anniversary.animate().translationYBy(-resources.getDimension(R.dimen.standard_105))
-        fab_show_fab_menu.animate().rotationBy(45.0f).withEndAction {
-            fab_show_fab_menu.isClickable = true
+        fab_layout_add_birthday.animate().translationYBy(-resources.getDimension(R.dimen.standard_55)).apply {
+            duration = 100
         }
+
+        fab_layout_add_anniversary.animate().translationYBy(-resources.getDimension(R.dimen.standard_105)).apply {
+            duration = 100
+        }
+
+        fab_show_fab_menu.animate().duration = 100
+        //some fancy overrotated animation
+        fab_show_fab_menu.animate().rotationBy(75.0f).withEndAction {
+            fab_show_fab_menu.animate().rotationBy(-30.0f).withEndAction {
+                fab_show_fab_menu.isClickable = true
+            }
+        }
+        //disable all click events on eventview adapter
         (this.recyclerView.adapter as EventAdapter).isClickable = false
     }
 

@@ -40,6 +40,10 @@
     <string name="sw_birthday_date_with_year_title">Year</string>
     <string name="btn_birthday_delete">Delete birthday</string>
 
+    <string name="avatar_btn_clicked_menu_item_select_photo">Choose photo from gallery</string>
+    <string name="avatar_btn_clicked_menu_item_take_new_photo">Take new photo</string>
+    <string name="avatar_btn_clicked_menu_item_delete_photo">Delete photo</string>
+
     <!-- alert dialog delete birthday -->
     <string name="alert_dialog_title_delete_birthday">Delete birthday</string>
     <string name="alert_dialog_body_message">Are you sure you want to delete this birthday?</string>
@@ -71,7 +75,6 @@
         <item quantity="one">Is %1$d year old</item>
         <item quantity="other">Is %1$d years old</item>
     </plurals>
-
 
 
     <!-- ANNIVERSARY -->
@@ -123,8 +126,6 @@
         <item quantity="one">Since %1$d year</item>
         <item quantity="other">Since %1$d years</item>
     </plurals>
-
-
 
 
     <!-- globals -->

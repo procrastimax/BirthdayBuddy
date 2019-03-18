@@ -237,7 +237,7 @@ class AnniversaryInstanceFragment : Fragment() {
 
             //new bithday entry, just add a new entry in map
             if (!isEditAnnversary) {
-                EventHandler.addEvent(anniversary, true)
+                EventHandler.addEvent(anniversary, context!!, true)
                 //TODO: add undo action
                 Snackbar.make(
                     view!!,

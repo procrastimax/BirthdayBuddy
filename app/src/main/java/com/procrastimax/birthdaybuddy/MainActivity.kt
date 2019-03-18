@@ -1,23 +1,22 @@
 package com.procrastimax.birthdaybuddy
 
 import android.content.Context
-import android.content.res.Resources
-import android.graphics.Bitmap
-import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.support.v4.app.FragmentTransaction
 import android.support.v4.content.ContextCompat
-import android.support.v4.graphics.drawable.RoundedBitmapDrawable
-import android.support.v4.graphics.drawable.RoundedBitmapDrawableFactory
 import android.support.v7.app.AppCompatActivity
 import android.view.Menu
 import android.view.MenuItem
+import android.widget.ProgressBar
 import com.procrastimax.birthdaybuddy.fragments.EventListFragment
+import com.procrastimax.birthdaybuddy.handler.DrawableHandler
 import com.procrastimax.birthdaybuddy.handler.EventHandler
 import com.procrastimax.birthdaybuddy.models.EventBirthday
 import com.procrastimax.birthdaybuddy.models.EventDate
 import com.procrastimax.birthdaybuddy.models.MonthDivider
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.content_main.*
+import kotlinx.android.synthetic.main.fragment_event_list.*
 import java.text.DateFormat
 import java.util.*
 
@@ -51,7 +50,7 @@ class MainActivity : AppCompatActivity() {
         setSupportActionBar(toolbar)
         changeToolbarState(Companion.ToolbarState.Default)
 
-        //get application context
+        //get application context and set shared pref context
         EventDataIO.registerIO(this.applicationContext)
 
         //read all data from shared prefs
@@ -64,7 +63,11 @@ class MainActivity : AppCompatActivity() {
             cal.set(Calendar.HOUR_OF_DAY, 1)
             for (i in 0 until 12) {
                 cal.set(Calendar.MONTH, i)
-                EventHandler.addEvent(MonthDivider(cal.time, resources.getStringArray(R.array.month_names)[i]), true)
+                EventHandler.addEvent(
+                    MonthDivider(cal.time, resources.getStringArray(R.array.month_names)[i]),
+                    this.applicationContext,
+                    true
+                )
             }
 
             EventHandler.addEvent(
@@ -74,6 +77,7 @@ class MainActivity : AppCompatActivity() {
                     "Dev",
                     false
                 ),
+                this.applicationContext,
                 true
             )
         }
@@ -81,6 +85,15 @@ class MainActivity : AppCompatActivity() {
         val ft: FragmentTransaction = supportFragmentManager.beginTransaction()
         ft.add(R.id.fragment_placeholder, EventListFragment.newInstance())
         ft.commit()
+
+        Thread(Runnable {
+            //import all drawables
+            DrawableHandler.loadAllDrawables(this.applicationContext)
+            runOnUiThread {
+                recyclerView.adapter!!.notifyDataSetChanged()
+                progress_bar_main.visibility = ProgressBar.GONE
+            }
+        }).start()
     }
 
     /**
@@ -178,14 +191,6 @@ class MainActivity : AppCompatActivity() {
             Default,
             EditEvent,
             ShowEvent
-        }
-
-        fun getCircularDrawable(bitmap: Bitmap, resources: Resources, scale: Int): Drawable {
-            //TODO: change hardcoded numbers to some math
-            val scaled_bitmap = Bitmap.createScaledBitmap(bitmap, scale * 3, scale * 3, false)
-            val rounded_bmp: RoundedBitmapDrawable = RoundedBitmapDrawableFactory.create(resources, scaled_bitmap)
-            rounded_bmp.isCircular = true
-            return rounded_bmp
         }
     }
 }

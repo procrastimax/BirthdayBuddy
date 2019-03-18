@@ -1,6 +1,7 @@
 package com.procrastimax.birthdaybuddy.handler
 
 import android.content.Context
+import android.net.Uri
 import com.procrastimax.birthdaybuddy.EventDataIO
 import com.procrastimax.birthdaybuddy.models.EventBirthday
 import com.procrastimax.birthdaybuddy.models.EventDate
@@ -35,13 +36,17 @@ object EventHandler {
      * @param writeAfterAdd: Boolean
      * @param isAddingMonth: Boolean, dont call changedEventList when already checked for new months
      */
-    fun addEvent(event: EventDate, writeAfterAdd: Boolean = false) {
+    fun addEvent(event: EventDate, context: Context, writeAfterAdd: Boolean = false) {
         //TODO: add event valdiation
         val last_key = getLastIndex()
         event_map[last_key] = event
         event_list = getSortedListBy()
 
-        println(event_list)
+        if (event is EventBirthday) {
+            if ((event).avatarImageUri != null) {
+                DrawableHandler.addDrawable(last_key, Uri.parse((event).avatarImageUri), context)
+            }
+        }
 
         if (writeAfterAdd) {
             EventDataIO.writeEventToFile(last_key, event)
@@ -108,8 +113,14 @@ object EventHandler {
      * @param key : Int
      */
     fun removeEventByKey(key: Int, writeChange: Boolean = false) {
+        if (event_map[key] is EventBirthday) {
+            if ((event_map[key] as EventBirthday).avatarImageUri != null) {
+                DrawableHandler.removeDrawable(key)
+            }
+        }
         event_map.remove(key)
         event_list = getSortedListBy()
+
         if (writeChange) {
             EventDataIO.removeEventFromFile(key)
         }
@@ -132,7 +143,11 @@ object EventHandler {
         event_map[key] = event
         event_list = getSortedListBy()
 
-        println(event_list)
+        if (event is EventBirthday) {
+            if ((event).avatarImageUri != null) {
+                DrawableHandler.addDrawable(key, Uri.parse((event).avatarImageUri), context)
+            }
+        }
 
         if (writeAfterChange) {
             EventDataIO.removeEventFromFile(key)
@@ -209,7 +224,7 @@ object EventHandler {
             if (isYearGiven) {
                 event.note = (day + month + i).toString()
             }
-            addEvent(event, writeAfterAdd)
+            addEvent(event, context, writeAfterAdd)
         }
     }
 

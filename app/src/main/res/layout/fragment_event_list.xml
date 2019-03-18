@@ -35,12 +35,13 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/tv_fab_layout_new_anniversary"
+                android:background="@drawable/fab_menu_text_view_shape"
                 app:layout_constraintEnd_toStartOf="@+id/fab_add_anniversary"
                 app:layout_constraintBottom_toBottomOf="@+id/fab_add_anniversary"
                 app:layout_constraintTop_toTopOf="@+id/fab_add_anniversary"
                 app:layout_constraintStart_toStartOf="parent"
                 android:layout_marginEnd="8dp"
-                android:textColor="@color/colorPrimaryDark"/>
+                android:textColor="@color/white"/>
 
         <android.support.design.widget.FloatingActionButton
                 android:id="@+id/fab_add_anniversary"
@@ -73,13 +74,14 @@
                 android:text="@string/fab_event_list_birthday_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:background="@drawable/fab_menu_text_view_shape"
                 android:id="@+id/tv_fab_layout_new_birthday"
                 app:layout_constraintTop_toTopOf="@+id/fab_add_birthday"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/fab_add_birthday"
                 android:layout_marginEnd="8dp"
                 app:layout_constraintBottom_toBottomOf="@+id/fab_add_birthday"
-                android:textColor="@color/colorPrimaryDark"
+                android:textColor="@color/white"
                 />
 
         <android.support.design.widget.FloatingActionButton
