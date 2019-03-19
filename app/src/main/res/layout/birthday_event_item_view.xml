@@ -12,6 +12,7 @@
     <ImageView
             android:layout_width="48dp"
             android:layout_height="48dp"
+            android:tint="@color/brightGrey"
             app:srcCompat="@drawable/ic_birthday_person"
             android:id="@+id/iv_birthday_event_item_image"
             app:layout_constraintStart_toStartOf="parent"

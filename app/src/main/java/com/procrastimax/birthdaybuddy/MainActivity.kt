@@ -5,8 +5,6 @@ import android.os.Bundle
 import android.support.v4.app.FragmentTransaction
 import android.support.v4.content.ContextCompat
 import android.support.v7.app.AppCompatActivity
-import android.view.Menu
-import android.view.MenuItem
 import android.widget.ProgressBar
 import com.procrastimax.birthdaybuddy.fragments.EventListFragment
 import com.procrastimax.birthdaybuddy.handler.DrawableHandler
@@ -27,7 +25,7 @@ import java.util.*
  *  - workout different localizations, f.e. curently the dates include substrings for german locales like .substring(0..5) => obviously dont do this
  *  - bug when localization is changed after first start of app -> add possibility to change all encodings at app start when error occurs -> fix this by only use one format for saving
  *  - when language of devices changes, month divider names should also change -> save localization and compare to last start?
- *  - dont show last seperation character in list view
+ *  - dont show last seperation character in list view ( -> first point)
  *  - dont draw item decoration on month divider
  *  - add checking for existing forename/surname pair when adding a new birthday/event
  *  - BUG: app closes when switched to potrait mode and changing fragments
@@ -83,7 +81,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         val ft: FragmentTransaction = supportFragmentManager.beginTransaction()
-        ft.add(R.id.fragment_placeholder, EventListFragment.newInstance())
+        ft.add(R.id.fragment_placeholder, EventListFragment.newInstance(), EventListFragment.EVENT_LIST_FRAGMENT_TAG)
         ft.commit()
 
         Thread(Runnable {
@@ -164,21 +162,6 @@ class MainActivity : AppCompatActivity() {
                 setSupportActionBar(toolbar)
                 supportActionBar!!.setDisplayShowTitleEnabled(false)
             }
-        }
-    }
-
-    override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        return true
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        return when (item.itemId) {
-            // R.id.action_settings -> true
-            else -> super.onOptionsItemSelected(item)
         }
     }
 

@@ -168,8 +168,13 @@ class EventAdapter(private val context: Context) :
                     }
 
                     //set forename
-                    holder.itemView.tv_birthday_event_item_forename.text =
-                        (EventHandler.event_list[position].second as EventBirthday).forename
+                    if ((EventHandler.event_list[position].second as EventBirthday).nickname != null) {
+                        holder.itemView.tv_birthday_event_item_forename.text =
+                            "${(EventHandler.event_list[position].second as EventBirthday).forename} \"${(EventHandler.event_list[position].second as EventBirthday).nickname}\""
+                    } else {
+                        holder.itemView.tv_birthday_event_item_forename.text =
+                            (EventHandler.event_list[position].second as EventBirthday).forename
+                    }
 
                     //set surname
                     holder.itemView.tv_birthday_event_item_surname.text =

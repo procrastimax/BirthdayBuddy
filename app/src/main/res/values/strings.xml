@@ -35,6 +35,7 @@
     <string name="edit_birthday_date_hint_with_year">Date with known year</string>
     <string name="edit_birthday_date_hint_without_year">Date without known year</string>
     <string name="edit_birthday_forename_hint">Forename</string>
+    <string name="edit_birthday_nickname_hint">Nickname</string>
     <string name="edit_birthday_surname_hint">Surname</string>
     <string name="edit_birthday_note_hint">Note</string>
     <string name="sw_birthday_date_with_year_title">Year</string>
@@ -131,6 +132,8 @@
     <!-- globals -->
     <string name="fab_event_list_birthday_title">New birthday</string>
     <string name="fab_event_list_anniversary_title">New anniversary</string>
+
+    <string name="snackbar_undo_action_title">Undo</string>
 
     <string name="intent_share_chooser_title">Choose your app to share</string>
 

@@ -54,6 +54,9 @@ class EventBirthday(
         },
         AvatarUri {
             override fun Identifier(): Int = 5
+        },
+        Nickname {
+            override fun Identifier(): Int = 6
         }
     }
 
@@ -81,6 +84,8 @@ class EventBirthday(
 
     var note: String? = null
 
+    var nickname: String? = null
+
     var avatarImageUri: String? = null
 
     init {
@@ -89,7 +94,7 @@ class EventBirthday(
             _forename = "-"
         }
         if (_surname.isBlank() || _surname.isEmpty()) {
-            Log.d("EventBirthday", "SURNAMSE is empty or blank")
+            Log.d("EventBirthday", "SURNAME is empty or blank")
             _surname = "-"
         }
     }
@@ -112,9 +117,9 @@ class EventBirthday(
      * @return String
      */
     override fun toString(): String {
-        return "Birthday|${Identifier.Forename}::${this._forename}|${Identifier.Surname}::${this._surname}|${Identifier.Date}::${EventDate.parseDateToString(
+        return "Birthday||${Identifier.Forename}::${this._forename}||${Identifier.Surname}::${this._surname}||${Identifier.Date}::${EventDate.parseDateToString(
             this.eventDate,
             DateFormat.DEFAULT
-        )}|${Identifier.Note}::${this.note}|${Identifier.IsYearGiven}::${this.isYearGiven}|${Identifier.AvatarUri}::${this.avatarImageUri}"
+        )}||${Identifier.Note}::${this.note}||${Identifier.IsYearGiven}::${this.isYearGiven}||${Identifier.AvatarUri}::${this.avatarImageUri}||${Identifier.Nickname}::${this.nickname}"
     }
 }

@@ -67,7 +67,8 @@ class ShowAnniversaryEvent : Fragment() {
                 newAnniversaryFragment.arguments = bundle
                 ft.replace(
                     R.id.fragment_placeholder,
-                    newAnniversaryFragment
+                    newAnniversaryFragment,
+                    AnniversaryInstanceFragment.ANNIVERSARY_INSTANCE_FRAGMENT_TAG
                 )
                 ft.addToBackStack(null)
                 ft.commit()
@@ -170,6 +171,10 @@ class ShowAnniversaryEvent : Fragment() {
     }
 
     companion object {
+
+        val SHOW_ANNIVERSARY_FRAGMENT_TAG = "SHOW_ANNIVERSARY"
+
+
         @JvmStatic
         fun newInstance(): ShowAnniversaryEvent {
             return ShowAnniversaryEvent()

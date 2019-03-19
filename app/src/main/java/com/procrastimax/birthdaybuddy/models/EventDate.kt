@@ -94,7 +94,7 @@ open class EventDate(private var _eventDate: Date) : Comparable<EventDate> {
      * @return String
      */
     override fun toString(): String {
-        return "EventDate|${Identifier.Date}::${EventDate.parseDateToString(
+        return "EventDate||${Identifier.Date}::${EventDate.parseDateToString(
             this.eventDate,
             DateFormat.DEFAULT
         )}"

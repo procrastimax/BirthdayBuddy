@@ -1,5 +1,6 @@
 package com.procrastimax.birthdaybuddy.fragments
 
+import android.content.Context
 import android.os.Bundle
 import android.support.constraint.ConstraintLayout
 import android.support.v4.app.Fragment
@@ -153,6 +154,9 @@ class EventListFragment : Fragment() {
     }
 
     companion object {
+
+        val EVENT_LIST_FRAGMENT_TAG = "EVENT_LIST"
+
         @JvmStatic
         fun newInstance(): EventListFragment {
             return EventListFragment()

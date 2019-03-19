@@ -13,6 +13,7 @@ import com.procrastimax.birthdaybuddy.models.EventBirthday
 /**
  * TODO:
  * -> throw error/ catch case that wrong image path or image was deleted
+ * -> or when the persistance of the uri access is denied/deleted
  */
 object DrawableHandler {
 

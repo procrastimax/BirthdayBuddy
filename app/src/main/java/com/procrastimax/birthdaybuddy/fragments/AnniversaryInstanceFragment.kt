@@ -15,6 +15,7 @@ import com.procrastimax.birthdaybuddy.handler.EventHandler
 import com.procrastimax.birthdaybuddy.models.EventAnniversary
 import com.procrastimax.birthdaybuddy.models.EventDate
 import kotlinx.android.synthetic.main.fragment_anniversary_instance.*
+import kotlinx.android.synthetic.main.fragment_event_list.*
 import java.text.DateFormat
 import java.util.*
 
@@ -97,14 +98,29 @@ class AnniversaryInstanceFragment : Fragment() {
                 alert_builder.setTitle(resources.getString(R.string.alert_dialog_title_delete_anniversary))
                 alert_builder.setMessage(resources.getString(R.string.alert_dialog_body_message_anniversary))
 
+                val anniversary_temp = EventHandler.event_list[itemID].second
+                val context_temp = context
+
                 // Set a positive button and its click listener on alert dialog
                 alert_builder.setPositiveButton(resources.getString(R.string.alert_dialog_accept_delete)) { dialog, which ->
                     // delete anniversary on positive button
-                    Snackbar.make(
-                        view,
-                        resources.getString(R.string.anniversary_deleted_notification, edit_name.text),
-                        Snackbar.LENGTH_LONG
-                    ).show()
+                    Snackbar
+                        .make(
+                            view,
+                            resources.getString(R.string.anniversary_deleted_notification, edit_name.text),
+                            Snackbar.LENGTH_LONG
+                        )
+                        .setAction(R.string.snackbar_undo_action_title, View.OnClickListener {
+                            EventHandler.addEvent(anniversary_temp, context_temp!!, true)
+                            //get last fragment in stack list, which should be eventlistfragment, so we can update the recycler view
+                            val fragment =
+                                (context_temp as MainActivity).supportFragmentManager.fragments[(context_temp).supportFragmentManager.backStackEntryCount]
+                            if (fragment is EventListFragment) {
+                                fragment.recyclerView.adapter!!.notifyDataSetChanged()
+                            }
+                        })
+                        .show()
+
                     EventHandler.removeEventByKey(EventHandler.event_list[itemID].first, true)
                     closeButtonPressed()
                 }
@@ -216,7 +232,8 @@ class AnniversaryInstanceFragment : Fragment() {
         val isYearGiven = switch_isYearGiven.isChecked
 
         if (name.isBlank() || date.isBlank()) {
-            Toast.makeText(context, context!!.resources.getText(R.string.empty_fields_error), Toast.LENGTH_LONG).show()
+            Toast.makeText(context, context!!.resources.getText(R.string.empty_fields_error), Toast.LENGTH_LONG)
+                .show()
         } else {
             val anniversary: EventAnniversary
             if (switch_isYearGiven.isChecked) {
@@ -238,20 +255,21 @@ class AnniversaryInstanceFragment : Fragment() {
             //new bithday entry, just add a new entry in map
             if (!isEditAnnversary) {
                 EventHandler.addEvent(anniversary, context!!, true)
-                //TODO: add undo action
-                Snackbar.make(
-                    view!!,
-                    context!!.resources.getString(R.string.anniversary_added_notification, name),
-                    Snackbar.LENGTH_LONG
-                ).show()
+
+                Snackbar
+                    .make(
+                        view!!,
+                        context!!.resources.getString(R.string.anniversary_added_notification, name),
+                        Snackbar.LENGTH_LONG
+                    )
+                    .show()
+
                 closeButtonPressed()
 
                 //already existant birthday entry, overwrite old entry in map
             } else {
                 if (wasChangeMade(EventHandler.event_list[itemID].second as EventAnniversary)) {
                     EventHandler.changeEventAt(EventHandler.event_list[itemID].first, anniversary, context!!, true)
-
-                    //TODO: add undo action
                     Snackbar.make(
                         view!!,
                         context!!.resources.getString(R.string.anniversary_changed_notification, name),
@@ -290,6 +308,9 @@ class AnniversaryInstanceFragment : Fragment() {
     }
 
     companion object {
+
+        val ANNIVERSARY_INSTANCE_FRAGMENT_TAG = "ANNIVERSARY_INSTANCE"
+
         @JvmStatic
         fun newInstance(): AnniversaryInstanceFragment {
             return AnniversaryInstanceFragment()

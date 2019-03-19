@@ -7,7 +7,7 @@
     <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:tint="#B9B9B9"
+            android:tint="@color/brightGrey"
             app:srcCompat="@drawable/ic_date_range"
             android:id="@+id/iv_anniversary_item"
             android:layout_marginTop="8dp"

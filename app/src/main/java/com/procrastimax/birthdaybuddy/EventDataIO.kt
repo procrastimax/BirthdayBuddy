@@ -32,6 +32,9 @@ object EventDataIO {
     private val type_month_divider: String = "MonthDivider"
     private val type_anniversary: String = "Anniversary"
 
+    public val divider_chars_properties = "||"
+    public val divider_chars_values = "::"
+
     /**
      * registerIO has to be called before any io writing/reading is done
      * This function has to get the main context to use shared preferences
@@ -125,12 +128,13 @@ object EventDataIO {
     /**
      * convertStringToEventDay reads an string and returns a object of base class EventDay
      * It can return derived types from EventDay with the typification string at the start of every string
-     *
+     *  TODO:
+     *      -> do parsing with identifiers on a more dynamic way
      * @param objectString : String
      * @return EventDay?
      */
     private fun convertStringToEventDate(objectString: String): EventDate? {
-        val string_array = objectString.split("|")
+        val string_array = objectString.split(divider_chars_properties)
 
         // BIRTHDAY EVENT
         if (string_array[0] == type_birthday) {
@@ -138,12 +142,13 @@ object EventDataIO {
             var forename: String = "-"
             var surname: String = "-"
             var date: String = "-"
-            var note: String = "-"
+            var note: String? = null
             var isyeargiven: Boolean = false
             var avatarImageURI: String = "-"
+            var nickname: String? = null
 
             for (i in 1 until string_array.size) {
-                val property = string_array[i].split("::")
+                val property = string_array[i].split(divider_chars_values)
 
                 //use identifier
                 when (property[0]) {
@@ -165,15 +170,18 @@ object EventDataIO {
                     EventBirthday.Identifier.AvatarUri.toString() -> {
                         avatarImageURI = property[1]
                     }
+                    EventBirthday.Identifier.Nickname.toString() -> {
+                        nickname = property[1]
+                    }
                     else ->
                         Log.w("EventDataIO", "Could not find identifier when trying to parse EventBirthday")
                 }
             }
 
             val birthday = EventBirthday(EventDate.parseStringToDate(date), forename, surname, isyeargiven)
-            if (note != "null") birthday.note = note
+            if (note != null && note != "null") birthday.note = note
             if (avatarImageURI != "null") birthday.avatarImageUri = avatarImageURI
-
+            if (nickname != null && nickname != "null") birthday.nickname = nickname
             return birthday
 
             // MONTH DIVIDER
@@ -183,7 +191,7 @@ object EventDataIO {
             var month: String = "-"
 
             for (i in 1 until string_array.size) {
-                val property = string_array[i].split("::")
+                val property = string_array[i].split(divider_chars_values)
 
                 //use identifier
                 when (property[0]) {
@@ -207,7 +215,7 @@ object EventDataIO {
             var hasStartYear = false
 
             for (i in 1 until string_array.size) {
-                val property = string_array[i].split("::")
+                val property = string_array[i].split(divider_chars_values)
 
                 //use identifier
                 when (property[0]) {

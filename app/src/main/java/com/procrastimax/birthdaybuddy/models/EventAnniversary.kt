@@ -81,9 +81,9 @@ class EventAnniversary(private var _eventDate: Date, private var _name: String, 
      * @return String
      */
     override fun toString(): String {
-        return "Anniversary|${Identifier.Name}::${this._name}|${Identifier.Date}::${EventDate.parseDateToString(
+        return "Anniversary||${Identifier.Name}::${this._name}||${Identifier.Date}::${EventDate.parseDateToString(
             this.eventDate,
             DateFormat.DEFAULT
-        )}|${Identifier.Note}::${this.note}|${Identifier.HasStartYear}::${this.hasStartYear}"
+        )}||${Identifier.Note}::${this.note}||${Identifier.HasStartYear}::${this.hasStartYear}"
     }
 }

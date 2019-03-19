@@ -51,7 +51,7 @@ class ShowBirthdayEvent : Fragment() {
         }
 
         shareBtn.setOnClickListener {
-            shareAnniversary()
+            shareBirthday()
         }
 
         if (arguments != null) {
@@ -70,7 +70,8 @@ class ShowBirthdayEvent : Fragment() {
                 newBirthdayFragment.arguments = bundle
                 ft.replace(
                     R.id.fragment_placeholder,
-                    newBirthdayFragment
+                    newBirthdayFragment,
+                    BirthdayInstanceFragment.BIRTHDAY_INSTANCE_FRAGMENT_TAG
                 )
                 ft.addToBackStack(null)
                 ft.commit()
@@ -85,7 +86,13 @@ class ShowBirthdayEvent : Fragment() {
             (context as MainActivity).supportFragmentManager.popBackStack()
         } else {
             val birthdayEvent = EventHandler.event_list[id].second as EventBirthday
-            this.tv_show_birthday_forename.text = birthdayEvent.forename
+
+            if (birthdayEvent.nickname != null) {
+                this.tv_show_birthday_forename.text = "${birthdayEvent.forename} \"${birthdayEvent.nickname}\""
+            } else {
+                this.tv_show_birthday_forename.text = birthdayEvent.forename
+            }
+
             this.tv_show_birthday_surname.text = birthdayEvent.surname
 
             val date: String
@@ -148,7 +155,7 @@ class ShowBirthdayEvent : Fragment() {
         }
     }
 
-    private fun shareAnniversary() {
+    private fun shareBirthday() {
         if (EventHandler.event_list[item_id].second is EventBirthday) {
             val birthday = EventHandler.event_list[item_id].second as EventBirthday
 
@@ -202,6 +209,9 @@ class ShowBirthdayEvent : Fragment() {
     }
 
     companion object {
+
+        val SHOW_BIRTHDAY_FRAGMENT_TAG = "SHOW_BIRTHDAY"
+
         @JvmStatic
         fun newInstance(): ShowBirthdayEvent {
             return ShowBirthdayEvent()
