@@ -2,6 +2,7 @@
 <android.support.constraint.ConstraintLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:focusable="true"
@@ -35,6 +36,19 @@
             android:textColor="@color/darkGrey"
             android:textStyle="bold"
             android:layout_marginTop="4dp"/>
+
+    <TextView
+            android:text="@string/tv_birthday_nickname_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/tv_birthday_event_item_nickname"
+            android:textColor="@color/darkGrey"
+            android:textStyle="bold"
+            app:layout_constraintTop_toTopOf="@+id/iv_birthday_event_item_image"
+            app:layout_constraintBottom_toBottomOf="@+id/iv_birthday_event_item_image"
+            app:layout_constraintStart_toEndOf="@+id/iv_birthday_event_item_image"
+            android:visibility="gone"
+            android:layout_marginStart="8dp"/>
 
     <TextView
             android:text="@string/tv_birthday_surname_title"

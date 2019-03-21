@@ -35,11 +35,11 @@
                     android:id="@+id/edit_add_fragment_forename"
                     android:layout_marginTop="24dp"
                     app:layout_constraintTop_toBottomOf="@+id/iv_add_avatar_btn"
-                    android:layout_marginEnd="8dp"
-                    app:layout_constraintEnd_toEndOf="parent"
                     android:layout_marginStart="8dp"
                     app:layout_constraintStart_toStartOf="parent"
-                    android:hint="@string/edit_birthday_forename_hint"/>
+                    android:hint="@string/edit_birthday_forename_hint"
+                    app:layout_constraintEnd_toStartOf="@+id/cb_nickname"
+                    android:layout_marginEnd="8dp"/>
 
             <EditText
                     android:layout_width="0dp"
@@ -49,9 +49,11 @@
                     android:id="@+id/edit_add_fragment_nickname"
                     android:hint="@string/edit_birthday_nickname_hint"
                     android:layout_marginTop="8dp"
+                    android:visibility="gone"
                     app:layout_constraintTop_toBottomOf="@+id/edit_add_fragment_forename"
                     app:layout_constraintStart_toStartOf="@+id/edit_add_fragment_forename"
-                    app:layout_constraintEnd_toEndOf="@+id/edit_add_fragment_forename"/>
+                    app:layout_constraintEnd_toEndOf="@+id/cb_nickname"
+                    />
 
             <EditText
                     android:layout_width="0dp"
@@ -61,9 +63,10 @@
                     android:id="@+id/edit_add_fragment_surname"
                     android:layout_marginTop="8dp"
                     app:layout_constraintTop_toBottomOf="@+id/edit_add_fragment_nickname"
-                    app:layout_constraintEnd_toEndOf="@+id/edit_add_fragment_forename"
+                    app:layout_constraintEnd_toEndOf="@+id/cb_nickname"
                     app:layout_constraintStart_toStartOf="@+id/edit_add_fragment_forename"
-                    android:hint="@string/edit_birthday_surname_hint"/>
+                    android:hint="@string/edit_birthday_surname_hint"
+                    />
 
             <TextView
                     android:layout_width="0dp"
@@ -115,6 +118,20 @@
                     android:layout_marginBottom="24dp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     style="@style/Widget.AppCompat.Button.Colored"/>
+
+            <CheckBox
+                    android:text="@string/cb_nickname_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/cb_nickname"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    android:layout_marginEnd="8dp"
+                    app:layout_constraintTop_toTopOf="@+id/edit_add_fragment_forename"
+                    app:layout_constraintBottom_toBottomOf="@+id/edit_add_fragment_forename"
+                    android:checked="false"
+                    android:gravity="center_horizontal|center_vertical"
+                    />
+
         </android.support.constraint.ConstraintLayout>
     </ScrollView>
 

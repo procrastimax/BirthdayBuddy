@@ -6,6 +6,7 @@ import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import com.procrastimax.birthdaybuddy.MainActivity
 import com.procrastimax.birthdaybuddy.R
 import com.procrastimax.birthdaybuddy.fragments.*
@@ -167,18 +168,37 @@ class EventAdapter(private val context: Context) :
                             "-"
                     }
 
-                    //set forename
+
+                    //if a birthday has a nickname, only show nickname
                     if ((EventHandler.event_list[position].second as EventBirthday).nickname != null) {
-                        holder.itemView.tv_birthday_event_item_forename.text =
-                            "${(EventHandler.event_list[position].second as EventBirthday).forename} \"${(EventHandler.event_list[position].second as EventBirthday).nickname}\""
+
+                        //set forename and surname invisible
+                        holder.itemView.tv_birthday_event_item_forename.visibility = TextView.GONE
+                        holder.itemView.tv_birthday_event_item_surname.visibility = TextView.GONE
+
+                        //set nickname textview visible
+                        holder.itemView.tv_birthday_event_item_nickname.visibility = TextView.VISIBLE
+
+                        //set nickname textview text
+                        holder.itemView.tv_birthday_event_item_nickname.text =
+                            (EventHandler.event_list[position].second as EventBirthday).nickname
+
                     } else {
+
+                        //set forename and surname invisible
+                        holder.itemView.tv_birthday_event_item_forename.visibility = TextView.VISIBLE
+                        holder.itemView.tv_birthday_event_item_surname.visibility = TextView.VISIBLE
+
+                        //set nickname textview visible
+                        holder.itemView.tv_birthday_event_item_nickname.visibility = TextView.GONE
+
                         holder.itemView.tv_birthday_event_item_forename.text =
                             (EventHandler.event_list[position].second as EventBirthday).forename
-                    }
 
-                    //set surname
-                    holder.itemView.tv_birthday_event_item_surname.text =
-                        (EventHandler.event_list[position].second as EventBirthday).surname
+                        //set surname
+                        holder.itemView.tv_birthday_event_item_surname.text =
+                            (EventHandler.event_list[position].second as EventBirthday).surname
+                    }
 
                     val avatarUri = (EventHandler.event_list[position].second as EventBirthday).avatarImageUri
 

@@ -189,7 +189,9 @@ class BirthdayInstanceFragment : EventInstanceFragment() {
                 }
 
                 if (!birthday.nickname.isNullOrBlank()) {
+                    cb_nickname.isChecked = true
                     edit_nickname.setText(birthday.nickname)
+                    edit_nickname.visibility = EditText.VISIBLE
                 }
 
                 title.text = resources.getText(R.string.toolbar_title_edit_birthday)
@@ -283,6 +285,14 @@ class BirthdayInstanceFragment : EventInstanceFragment() {
                         this.birthday_avatar_uri = null
                     }
                 }
+            }
+        }
+
+        cb_nickname.setOnCheckedChangeListener { buttonView, isChecked ->
+            if (isChecked) {
+                edit_nickname.visibility = EditText.VISIBLE
+            } else {
+                edit_nickname.visibility = EditText.GONE
             }
         }
 
