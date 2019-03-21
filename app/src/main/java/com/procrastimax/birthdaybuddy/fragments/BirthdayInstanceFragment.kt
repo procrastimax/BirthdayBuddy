@@ -21,6 +21,7 @@ import com.procrastimax.birthdaybuddy.handler.DrawableHandler
 import com.procrastimax.birthdaybuddy.handler.EventHandler
 import com.procrastimax.birthdaybuddy.models.EventBirthday
 import com.procrastimax.birthdaybuddy.models.EventDate
+import kotlinx.android.synthetic.main.content_main.*
 import kotlinx.android.synthetic.main.fragment_add_new_birthday.*
 import kotlinx.android.synthetic.main.fragment_event_list.*
 import java.text.DateFormat
@@ -189,7 +190,7 @@ class BirthdayInstanceFragment : EventInstanceFragment() {
                 }
 
                 if (!birthday.nickname.isNullOrBlank()) {
-                    cb_nickname.isChecked = true
+                    //cb_nickname.isChecked = true
                     edit_nickname.setText(birthday.nickname)
                     edit_nickname.visibility = EditText.VISIBLE
                 }
@@ -238,19 +239,21 @@ class BirthdayInstanceFragment : EventInstanceFragment() {
                     dialog.show()
                 }
 
-                //load maybe already existent avatar photo
-                if ((EventHandler.event_list[itemID].second as EventBirthday).avatarImageUri != null) {
-                    iv_add_avatar_btn.setImageDrawable(DrawableHandler.getDrawableAt((EventHandler.event_list[itemID].first)))
+                if ((context as MainActivity).isLoading) {
+                    this.iv_add_avatar_btn.setImageResource(R.drawable.ic_person_add_img)
+                    this.iv_add_avatar_btn.isEnabled = false
+                } else {
+                    this.updateAvatarImage()
                 }
-
             }
         } else {
             title.text = resources.getText(R.string.toolbar_title_add_birthday)
             btn_birthday_add_fragment_delete.visibility = Button.INVISIBLE
+            (context as MainActivity).progress_bar_main.visibility = ProgressBar.GONE
         }
 
         //add image from gallery
-        iv_add_avatar_btn.setOnClickListener {
+        this.iv_add_avatar_btn.setOnClickListener {
             val view_ = layoutInflater.inflate(R.layout.fragment_bottom_sheet_dialog, null)
 
             val dialog = BottomSheetDialog(context!!)
@@ -288,13 +291,13 @@ class BirthdayInstanceFragment : EventInstanceFragment() {
             }
         }
 
-        cb_nickname.setOnCheckedChangeListener { buttonView, isChecked ->
+        /*cb_nickname.setOnCheckedChangeListener { _, isChecked ->
             if (isChecked) {
                 edit_nickname.visibility = EditText.VISIBLE
             } else {
                 edit_nickname.visibility = EditText.GONE
             }
-        }
+        }*/
 
         edit_date.setOnClickListener {
             showDatePickerDialog()
@@ -461,8 +464,12 @@ class BirthdayInstanceFragment : EventInstanceFragment() {
                 birthday.note = note
             }
 
+            //if (nickname.isNotBlank() && cb_nickname.isChecked) {
             if (nickname.isNotBlank()) {
                 birthday.nickname = nickname
+            } else {
+                birthday.nickname = null
+                edit_nickname.text.clear()
             }
 
             if (birthday_avatar_uri != null) {
@@ -490,6 +497,16 @@ class BirthdayInstanceFragment : EventInstanceFragment() {
                     ).show()
                 }
                 closeBtnPressed()
+            }
+        }
+    }
+
+    fun updateAvatarImage() {
+        if (this.iv_add_avatar_btn != null && this.itemID >= 0) {
+            //load maybe already existent avatar photo
+            if ((EventHandler.event_list[itemID].second as EventBirthday).avatarImageUri != null) {
+                this.iv_add_avatar_btn.setImageDrawable(DrawableHandler.getDrawableAt((EventHandler.event_list[itemID].first)))
+                this.iv_add_avatar_btn.isEnabled = true
             }
         }
     }

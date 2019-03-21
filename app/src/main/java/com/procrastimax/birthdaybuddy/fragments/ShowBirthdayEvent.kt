@@ -15,6 +15,7 @@ import com.procrastimax.birthdaybuddy.handler.DrawableHandler
 import com.procrastimax.birthdaybuddy.handler.EventHandler
 import com.procrastimax.birthdaybuddy.models.EventBirthday
 import com.procrastimax.birthdaybuddy.models.EventDate
+import kotlinx.android.synthetic.main.fragment_add_new_birthday.*
 import kotlinx.android.synthetic.main.fragment_show_birthday_event.*
 import java.text.DateFormat
 
@@ -138,9 +139,16 @@ class ShowBirthdayEvent : ShowEventFragment() {
             val avatarUri = (EventHandler.event_list[item_id].second as EventBirthday).avatarImageUri
 
             if (avatarUri != null && avatarUri != "-") {
-                iv_avatar.setImageDrawable(
-                    DrawableHandler.getDrawableAt(EventHandler.event_list[item_id].first)
-                )
+                updateAvatarImage()
+            }
+        }
+    }
+
+    fun updateAvatarImage() {
+        if (this.iv_avatar != null && this.item_id >= 0) {
+            //load maybe already existent avatar photo
+            if ((EventHandler.event_list[item_id].second as EventBirthday).avatarImageUri != null) {
+                iv_avatar.setImageDrawable(DrawableHandler.getDrawableAt((EventHandler.event_list[item_id].first)))
             }
         }
     }

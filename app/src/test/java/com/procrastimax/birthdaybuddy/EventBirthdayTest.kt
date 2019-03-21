@@ -10,12 +10,32 @@ import java.util.*
 class EventBirthdayTest {
 
     @Test
-    fun constructorTest() {
-        val birthday_1 = EventBirthday(Calendar.getInstance().time, "Maximilian", "Mustermann")
-        Assert.assertEquals("MaximilianMustermann", birthday_1.forename + birthday_1.surname)
+    fun birthdayToStringTest() {
+        val birthday = EventBirthday(
+            EventDate.parseStringToDate("06.02.00", DateFormat.DEFAULT, Locale.GERMAN),
+            "Maximilian",
+            "Mustermann"
+        )
 
-        val birthday_2 = EventBirthday(Calendar.getInstance().time, "", "   ")
-        Assert.assertEquals("--", birthday_2.forename + birthday_2.surname)
+        birthday.nickname = "procrastimax"
+        Assert.assertEquals(
+            "Birthday||Forename::Maximilian||Surname::Mustermann||Date::Feb 6, 0001||IsYearGiven::true||Nickname::procrastimax",
+            birthday.toString()
+        )
+
+        val birthday2 = EventBirthday(
+            EventDate.parseStringToDate("06.02.00", DateFormat.DEFAULT, Locale.GERMAN),
+            "Maximilian",
+            "Mustermann"
+        )
+
+        birthday2.nickname = "procrastimax"
+        birthday2.note = "nothing"
+        Assert.assertEquals(
+            "Birthday||Forename::Maximilian||Surname::Mustermann||Date::Feb 6, 0001||IsYearGiven::true||Note::nothing||Nickname::procrastimax",
+            birthday2.toString()
+        )
+
     }
 
     @Test
@@ -32,7 +52,7 @@ class EventBirthdayTest {
         Assert.assertEquals("0", birthday_1.surname)
 
         //no note was set, default is empty
-        Assert.assertEquals("-", birthday_1.note)
+        Assert.assertEquals(null, birthday_1.note)
 
         birthday_1.note = "Möchte ein Fahrrad haben."
         Assert.assertEquals("Möchte ein Fahrrad haben.", birthday_1.note)

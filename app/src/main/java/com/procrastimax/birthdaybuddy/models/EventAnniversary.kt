@@ -1,6 +1,7 @@
 package com.procrastimax.birthdaybuddy.models
 
 import android.util.Log
+import com.procrastimax.birthdaybuddy.EventDataIO
 import java.text.DateFormat
 import java.util.*
 
@@ -77,13 +78,22 @@ class EventAnniversary(private var _eventDate: Date, private var _name: String, 
     /**
      * toString returns EventBirthday as string representation
      * This is "optimized" for Serialization, so THE FIRST WORD HAS TO BE THE TYPIFICATION f.e. "Birthday"
-     * returned string follows the pattern TYPE|FORENAME|SURNAME|EVENTDATE|NOTE|ISYEARGIVEN
+     * returned string follows the pattern TYPE|FORENAME|SURNAME|EVENTDATE|ISYEARGIVEN|NOTE
      * @return String
      */
     override fun toString(): String {
-        return "Anniversary||${Identifier.Name}::${this._name}||${Identifier.Date}::${EventDate.parseDateToString(
-            this.eventDate,
-            DateFormat.DEFAULT
-        )}||${Identifier.Note}::${this.note}||${Identifier.HasStartYear}::${this.hasStartYear}"
+        return "Anniversary${EventDataIO.divider_chars_properties}" +
+                "${Identifier.Name}${EventDataIO.divider_chars_values}${this._name}" +
+                "${EventDataIO.divider_chars_properties}${Identifier.Date}${EventDataIO.divider_chars_values}${EventDate.parseDateToString(
+                    this.eventDate,
+                    DateFormat.DEFAULT
+                )}${EventDataIO.divider_chars_properties}" +
+                "${Identifier.HasStartYear}${EventDataIO.divider_chars_values}${this.hasStartYear}" +
+                "${
+                EventDate.getStringFromValue(
+                    Identifier.Note,
+                    this.note
+                )
+                }"
     }
 }

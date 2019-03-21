@@ -202,7 +202,7 @@ class EventAdapter(private val context: Context) :
 
                     val avatarUri = (EventHandler.event_list[position].second as EventBirthday).avatarImageUri
 
-                    if (avatarUri != null && avatarUri != "-") {
+                    if (avatarUri != null && avatarUri != "-" && !(context as MainActivity).isLoading) {
                         holder.itemView.iv_birthday_event_item_image.setImageDrawable(
                             DrawableHandler.getDrawableAt(EventHandler.event_list[position].first)
                         )

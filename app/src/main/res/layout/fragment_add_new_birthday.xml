@@ -33,13 +33,13 @@
                     android:inputType="textPersonName"
                     android:maxLength="30"
                     android:id="@+id/edit_add_fragment_forename"
-                    android:layout_marginTop="24dp"
-                    app:layout_constraintTop_toBottomOf="@+id/iv_add_avatar_btn"
                     android:layout_marginStart="8dp"
                     app:layout_constraintStart_toStartOf="parent"
                     android:hint="@string/edit_birthday_forename_hint"
-                    app:layout_constraintEnd_toStartOf="@+id/cb_nickname"
-                    android:layout_marginEnd="8dp"/>
+                    android:layout_marginEnd="8dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    android:layout_marginTop="16dp"
+                    app:layout_constraintTop_toBottomOf="@+id/iv_add_avatar_btn"/>
 
             <EditText
                     android:layout_width="0dp"
@@ -48,12 +48,11 @@
                     android:maxLength="15"
                     android:id="@+id/edit_add_fragment_nickname"
                     android:hint="@string/edit_birthday_nickname_hint"
+                    android:visibility="visible"
                     android:layout_marginTop="8dp"
-                    android:visibility="gone"
-                    app:layout_constraintTop_toBottomOf="@+id/edit_add_fragment_forename"
-                    app:layout_constraintStart_toStartOf="@+id/edit_add_fragment_forename"
-                    app:layout_constraintEnd_toEndOf="@+id/cb_nickname"
-                    />
+                    app:layout_constraintTop_toBottomOf="@+id/edit_add_fragment_surname"
+                    app:layout_constraintStart_toStartOf="@+id/edit_add_fragment_surname"
+                    app:layout_constraintEnd_toEndOf="@+id/edit_add_fragment_surname"/>
 
             <EditText
                     android:layout_width="0dp"
@@ -62,8 +61,8 @@
                     android:maxLength="30"
                     android:id="@+id/edit_add_fragment_surname"
                     android:layout_marginTop="8dp"
-                    app:layout_constraintTop_toBottomOf="@+id/edit_add_fragment_nickname"
-                    app:layout_constraintEnd_toEndOf="@+id/cb_nickname"
+                    app:layout_constraintTop_toBottomOf="@+id/edit_add_fragment_forename"
+                    app:layout_constraintEnd_toEndOf="@+id/edit_add_fragment_forename"
                     app:layout_constraintStart_toStartOf="@+id/edit_add_fragment_forename"
                     android:hint="@string/edit_birthday_surname_hint"
                     />
@@ -73,38 +72,25 @@
                     android:layout_height="wrap_content"
                     android:id="@+id/edit_add_fragment_date"
                     android:layout_marginTop="8dp"
-                    app:layout_constraintTop_toBottomOf="@+id/edit_add_fragment_surname"
-                    android:layout_marginEnd="8dp"
-                    app:layout_constraintStart_toStartOf="@+id/edit_add_fragment_surname"
                     android:textSize="@dimen/larger_text_size"
                     android:hint="@string/edit_birthday_date_hint_with_year"
+                    style="@android:style/Widget.Holo.Light.Spinner"
+                    app:layout_constraintStart_toStartOf="@+id/edit_add_fragment_surname"
+                    android:layout_marginEnd="8dp"
                     app:layout_constraintEnd_toStartOf="@+id/sw_is_year_given"
-                    style="@android:style/Widget.Holo.Light.Spinner"/>
-
-            <EditText
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:inputType="textPersonName"
-                    android:maxLength="50"
-                    android:id="@+id/edit_add_fragment_note"
-                    android:layout_marginTop="8dp"
-                    app:layout_constraintTop_toBottomOf="@+id/edit_add_fragment_date"
-                    app:layout_constraintEnd_toEndOf="@+id/sw_is_year_given"
-                    app:layout_constraintStart_toStartOf="@+id/edit_add_fragment_date"
-                    android:hint="@string/edit_birthday_note_hint"/>
+                    app:layout_constraintTop_toBottomOf="@+id/edit_add_fragment_nickname"/>
 
             <Switch
                     android:text="@string/sw_birthday_date_with_year_title"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:id="@+id/sw_is_year_given"
-                    app:layout_constraintEnd_toEndOf="@+id/edit_add_fragment_surname"
-                    app:layout_constraintTop_toTopOf="@+id/edit_add_fragment_date"
-                    app:layout_constraintBottom_toBottomOf="@+id/edit_add_fragment_date"
                     android:checked="true"
                     android:showText="false"
                     android:splitTrack="false"
-                    />
+                    app:layout_constraintTop_toTopOf="@+id/edit_add_fragment_date"
+                    app:layout_constraintBottom_toBottomOf="@+id/edit_add_fragment_date"
+                    app:layout_constraintEnd_toEndOf="@+id/edit_add_fragment_nickname"/>
 
             <Button
                     android:text="@string/btn_birthday_delete"
@@ -119,18 +105,17 @@
                     app:layout_constraintBottom_toBottomOf="parent"
                     style="@style/Widget.AppCompat.Button.Colored"/>
 
-            <CheckBox
-                    android:text="@string/cb_nickname_title"
-                    android:layout_width="wrap_content"
+            <EditText
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:id="@+id/cb_nickname"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    android:layout_marginEnd="8dp"
-                    app:layout_constraintTop_toTopOf="@+id/edit_add_fragment_forename"
-                    app:layout_constraintBottom_toBottomOf="@+id/edit_add_fragment_forename"
-                    android:checked="false"
-                    android:gravity="center_horizontal|center_vertical"
-                    />
+                    android:inputType="textMultiLine"
+                    android:ems="10"
+                    android:id="@+id/edit_add_fragment_note"
+                    android:layout_marginTop="8dp"
+                    app:layout_constraintTop_toBottomOf="@+id/edit_add_fragment_date"
+                    app:layout_constraintEnd_toEndOf="@+id/sw_is_year_given"
+                    app:layout_constraintStart_toStartOf="@+id/edit_add_fragment_date"
+                    android:hint="@string/edit_anniversary_note_hint"/>
 
         </android.support.constraint.ConstraintLayout>
     </ScrollView>

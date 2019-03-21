@@ -1,5 +1,6 @@
 package com.procrastimax.birthdaybuddy.models
 
+import com.procrastimax.birthdaybuddy.EventDataIO
 import java.text.DateFormat
 import java.util.*
 
@@ -18,9 +19,9 @@ class MonthDivider(date: Date, val month_name: String) : EventDate(date) {
     }
 
     override fun toString(): String {
-        return "MonthDivider||${Identifier.Date}::${EventDate.parseDateToString(
+        return "MonthDivider${EventDataIO.divider_chars_properties}${Identifier.Date}${EventDataIO.divider_chars_values}${EventDate.parseDateToString(
             this.eventDate,
             DateFormat.DEFAULT
-        )}||${Identifier.MonthName}::$month_name"
+        )}${EventDataIO.divider_chars_properties}${Identifier.MonthName}${EventDataIO.divider_chars_values}$month_name"
     }
 }

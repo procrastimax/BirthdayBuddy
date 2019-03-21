@@ -3,12 +3,15 @@ package com.procrastimax.birthdaybuddy
 import com.procrastimax.birthdaybuddy.models.EventDate
 import org.junit.Assert
 import org.junit.Test
+import java.text.DateFormat
 import java.util.*
 
 class EventDateTest {
+
     @Test
-    fun dateParsingTest() {
-        Assert.assertEquals("2/13/19", EventDate.parseDateToString(EventDate.parseStringToDate("2/13/19")))
+    fun dateToString() {
+        val date = EventDate(EventDate.parseStringToDate("06.02.01", DateFormat.DEFAULT, Locale.GERMAN))
+        Assert.assertEquals("EventDate||Date::Feb 6, 0001", date.toString())
     }
 
     @Test

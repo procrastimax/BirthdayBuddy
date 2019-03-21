@@ -6,7 +6,9 @@ import android.support.v4.app.FragmentTransaction
 import android.support.v4.content.ContextCompat
 import android.support.v7.app.AppCompatActivity
 import android.widget.ProgressBar
+import com.procrastimax.birthdaybuddy.fragments.BirthdayInstanceFragment
 import com.procrastimax.birthdaybuddy.fragments.EventListFragment
+import com.procrastimax.birthdaybuddy.fragments.ShowBirthdayEvent
 import com.procrastimax.birthdaybuddy.handler.DrawableHandler
 import com.procrastimax.birthdaybuddy.handler.EventHandler
 import com.procrastimax.birthdaybuddy.models.EventBirthday
@@ -14,7 +16,9 @@ import com.procrastimax.birthdaybuddy.models.EventDate
 import com.procrastimax.birthdaybuddy.models.MonthDivider
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.content_main.*
+import kotlinx.android.synthetic.main.fragment_add_new_birthday.*
 import kotlinx.android.synthetic.main.fragment_event_list.*
+import kotlinx.android.synthetic.main.fragment_show_birthday_event.*
 import java.text.DateFormat
 import java.util.*
 
@@ -42,10 +46,13 @@ class MainActivity : AppCompatActivity() {
         )
     }
 
+    var isLoading: Boolean = true
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         setSupportActionBar(toolbar)
+
         changeToolbarState(Companion.ToolbarState.Default)
 
         //get application context and set shared pref context
@@ -84,11 +91,34 @@ class MainActivity : AppCompatActivity() {
         ft.add(R.id.fragment_placeholder, EventListFragment.newInstance(), EventListFragment.EVENT_LIST_FRAGMENT_TAG)
         ft.commit()
 
+        //start loading bitmap drawables in other thread to not block ui
         Thread(Runnable {
+            isLoading = true
             //import all drawables
             DrawableHandler.loadAllDrawables(this.applicationContext)
+            isLoading = false
+
             runOnUiThread {
-                recyclerView.adapter!!.notifyDataSetChanged()
+                if (recyclerView != null) {
+                    recyclerView.adapter!!.notifyDataSetChanged()
+                }
+
+                //update avatar images from other fragments, when all drawables have been loaded
+                if (supportFragmentManager.backStackEntryCount > 0) {
+                    val current_fragment =
+                        supportFragmentManager.fragments[supportFragmentManager.backStackEntryCount - 1]
+
+                    //current fragment is ShowBirthdayEvent fragment
+                    if (current_fragment is ShowBirthdayEvent) {
+                        (current_fragment).updateAvatarImage()
+
+                        //current fragment is BirthdayInstanceFragment
+                    } else if (current_fragment is BirthdayInstanceFragment) {
+                        (current_fragment).updateAvatarImage()
+                        (current_fragment).iv_add_avatar_btn.isEnabled = true
+                    }
+                }
+
                 progress_bar_main.visibility = ProgressBar.GONE
             }
         }).start()
@@ -120,6 +150,7 @@ class MainActivity : AppCompatActivity() {
                 toolbar.removeAllViews()
                 supportActionBar!!.setDisplayShowTitleEnabled(true)
             }
+
             Companion.ToolbarState.EditEvent -> {
                 if (toolbar.childCount > 0) {
                     toolbar.removeAllViews()
@@ -141,6 +172,7 @@ class MainActivity : AppCompatActivity() {
                 setSupportActionBar(toolbar)
                 supportActionBar!!.setDisplayShowTitleEnabled(false)
             }
+
             Companion.ToolbarState.ShowEvent -> {
                 if (toolbar.childCount > 0) {
                     toolbar.removeAllViews()

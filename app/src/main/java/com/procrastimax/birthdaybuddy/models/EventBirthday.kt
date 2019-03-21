@@ -1,6 +1,7 @@
 package com.procrastimax.birthdaybuddy.models
 
 import android.util.Log
+import com.procrastimax.birthdaybuddy.EventDataIO
 import java.text.DateFormat
 import java.util.*
 
@@ -88,17 +89,6 @@ class EventBirthday(
 
     var avatarImageUri: String? = null
 
-    init {
-        if (_forename.isBlank() || _forename.isEmpty()) {
-            Log.d("EventBirthday", "FORENAME is empty or blank")
-            _forename = "-"
-        }
-        if (_surname.isBlank() || _surname.isEmpty()) {
-            Log.d("EventBirthday", "SURNAME is empty or blank")
-            _surname = "-"
-        }
-    }
-
     /**
      * getPrettyShortStringWithoutYear returns a localized date in very short format like 06.02 or 06/02
      * TODO: dont do it this way, get default locale date seperation symbol
@@ -113,13 +103,24 @@ class EventBirthday(
      * TODO: only save not null member vars
      * toString returns EventBirthday as string representation
      * This is "optimized" for Serialization, so THE FIRST WORD HAS TO BE THE TYPIFICATION f.e. "Birthday"
-     * returned string follows the pattern TYPE|FORENAME|SURNAME|EVENTDATE|NOTE|ISYEARGIVEN
+     * returned string follows the pattern TYPE|FORENAME|SURNAME|EVENTDATE|ISYEARGIVEN|NOTE|AVATARURI|NICKNAME
      * @return String
      */
     override fun toString(): String {
-        return "Birthday||${Identifier.Forename}::${this._forename}||${Identifier.Surname}::${this._surname}||${Identifier.Date}::${EventDate.parseDateToString(
-            this.eventDate,
-            DateFormat.DEFAULT
-        )}||${Identifier.Note}::${this.note}||${Identifier.IsYearGiven}::${this.isYearGiven}||${Identifier.AvatarUri}::${this.avatarImageUri}||${Identifier.Nickname}::${this.nickname}"
+
+        return "Birthday${EventDataIO.divider_chars_properties}${Identifier.Forename}${EventDataIO.divider_chars_values}${this._forename}${EventDataIO.divider_chars_properties}" +
+                "${Identifier.Surname}${EventDataIO.divider_chars_values}${this._surname}${EventDataIO.divider_chars_properties}" +
+                "${Identifier.Date}${EventDataIO.divider_chars_values}${EventDate.parseDateToString(
+                    this.eventDate,
+                    DateFormat.DEFAULT
+                )}" +
+                "${EventDataIO.divider_chars_properties}${Identifier.IsYearGiven}${EventDataIO.divider_chars_values}${this.isYearGiven}" +
+                "${EventDate.getStringFromValue(
+                    Identifier.Note,
+                    this.note
+                )}${EventDate.getStringFromValue(
+                    Identifier.AvatarUri,
+                    this.avatarImageUri
+                )}${EventDate.getStringFromValue(Identifier.Nickname, this.nickname)}"
     }
 }

@@ -9,6 +9,11 @@
         tools:showIn="@layout/activity_main"
         tools:context=".MainActivity">
 
+    <FrameLayout
+            android:id="@+id/fragment_placeholder"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+    </FrameLayout>
 
     <ProgressBar
             style="?android:attr/progressBarStyle"
@@ -20,12 +25,6 @@
             app:layout_constraintStart_toStartOf="@+id/fragment_placeholder"
             app:layout_constraintTop_toTopOf="@+id/fragment_placeholder"
             app:layout_constraintBottom_toBottomOf="@+id/fragment_placeholder"
-            app:layout_constraintVertical_bias="0.25"/>
+            app:layout_constraintVertical_bias="0.32999998"/>
 
-    <FrameLayout
-            android:id="@+id/fragment_placeholder"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-    </FrameLayout>
 </android.support.constraint.ConstraintLayout>

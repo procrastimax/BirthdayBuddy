@@ -1,6 +1,7 @@
 package com.procrastimax.birthdaybuddy.models
 
 import android.util.Log
+import com.procrastimax.birthdaybuddy.EventDataIO
 import java.text.DateFormat
 import java.util.*
 
@@ -94,9 +95,11 @@ open class EventDate(private var _eventDate: Date) : Comparable<EventDate> {
      * @return String
      */
     override fun toString(): String {
-        return "EventDate||${Identifier.Date}::${EventDate.parseDateToString(
-            this.eventDate,
-            DateFormat.DEFAULT
+        return "EventDate${getStringFromValue(
+            Identifier.Date, EventDate.parseDateToString(
+                this.eventDate,
+                DateFormat.DEFAULT
+            )
         )}"
     }
 
@@ -251,12 +254,24 @@ open class EventDate(private var _eventDate: Date) : Comparable<EventDate> {
          * @return Date
          */
         @JvmStatic
-        private fun normalizeDate(date: Date): Date {
+        fun normalizeDate(date: Date): Date {
             val normalizedDateCal = Calendar.getInstance()
             normalizedDateCal.time = date
             //set to mid day, so when sorting with monthdivider on same date, month divider are always in front
             normalizedDateCal.set(Calendar.HOUR_OF_DAY, 12)
             return normalizedDateCal.time
+        }
+
+        /**
+         * getStringFromValue is a function to turn a value with an identifier to a string
+         * When the value is null, like a null note in birthdays, then return null string
+         */
+        @JvmStatic
+        fun <T> getStringFromValue(identifier: SortIdentifier, value: T): String {
+            if (value != null) {
+                return "${EventDataIO.divider_chars_properties}${identifier}${EventDataIO.divider_chars_values}${value}"
+
+            } else return ""
         }
     }
 }
