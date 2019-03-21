@@ -17,13 +17,12 @@ import kotlinx.android.synthetic.main.fragment_show_anniversary_event.*
 import java.text.DateFormat
 
 /**
+ * ShowAnniversaryEvent is a fragment to show all known data from an instance of EventBirthday
+ *
  * TODO:
- * - add export possibility for contact info as plaintext
  * - add tiny animation for opening this fragment
  */
-class ShowAnniversaryEvent : Fragment() {
-
-    var item_id: Int = -1
+class ShowAnniversaryEvent : ShowEventFragment() {
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -36,26 +35,13 @@ class ShowAnniversaryEvent : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        (context as MainActivity).changeToolbarState(MainActivity.Companion.ToolbarState.ShowEvent)
-        val toolbar = activity!!.findViewById<android.support.v7.widget.Toolbar>(R.id.toolbar)
-        val closeBtn = toolbar.findViewById<ImageView>(R.id.iv_toolbar_show_event_back)
-        val editBtn = toolbar.findViewById<ImageView>(R.id.iv_toolbar_show_event_edit)
-        val shareBtn = toolbar.findViewById<ImageView>(R.id.iv_toolbar_show_event_share)
-
-        closeBtn.setOnClickListener {
-            closeButtonPressed()
-        }
-
-        shareBtn.setOnClickListener {
-            shareAnniversary()
-        }
-
         if (arguments != null) {
             item_id = arguments!!.getInt(ITEM_ID_PARAM)
 
+            val editBtn: ImageView = toolbar.findViewById<ImageView>(R.id.iv_toolbar_show_event_edit)
+
             editBtn.setOnClickListener {
                 val bundle = Bundle()
-                //do this in more adaptable way
                 bundle.putInt(
                     ITEM_ID_PARAM,
                     item_id
@@ -73,16 +59,19 @@ class ShowAnniversaryEvent : Fragment() {
                 ft.addToBackStack(null)
                 ft.commit()
             }
-            updateUI(item_id)
+            updateUI()
         }
     }
 
-    private fun updateUI(id: Int) {
+    /**
+     * updateUI updates all TextViews and other views to the current instance(Anniversary, Birthday) data
+     */
+    override fun updateUI() {
         //dont update ui when wrong item id / or deleted item
-        if (EventHandler.event_list[id].second !is EventAnniversary) {
+        if (EventHandler.event_list[item_id].second !is EventAnniversary) {
             (context as MainActivity).supportFragmentManager.popBackStack()
         } else {
-            val anniversaryEvent = EventHandler.event_list[id].second as EventAnniversary
+            val anniversaryEvent = EventHandler.event_list[item_id].second as EventAnniversary
             //set name of anniversary
             this.tv_show_anniversary_name.text = anniversaryEvent.name
 
@@ -119,7 +108,11 @@ class ShowAnniversaryEvent : Fragment() {
         }
     }
 
-    private fun shareAnniversary() {
+    /**
+     * shareEvent a function which is called after the share button has been pressed
+     * It provides a simple intent to share data as plain text in other apps
+     */
+    override fun shareEvent() {
         if (EventHandler.event_list[item_id].second is EventAnniversary) {
             val anniversary = EventHandler.event_list[item_id].second as EventAnniversary
 
@@ -161,20 +154,15 @@ class ShowAnniversaryEvent : Fragment() {
         }
     }
 
-    override fun onDetach() {
-        super.onDetach()
-        (context as MainActivity).changeToolbarState(MainActivity.Companion.ToolbarState.Default)
-    }
-
-    fun closeButtonPressed() {
-        (context as MainActivity).onBackPressed()
-    }
-
     companion object {
-
+        /**
+         * SHOW_ANNIVERSARY_FRAGMENT_TAG is the fragments tag as a string
+         */
         val SHOW_ANNIVERSARY_FRAGMENT_TAG = "SHOW_ANNIVERSARY"
 
-
+        /**
+         * newInstance returns a new instance of this fragment
+         */
         @JvmStatic
         fun newInstance(): ShowAnniversaryEvent {
             return ShowAnniversaryEvent()

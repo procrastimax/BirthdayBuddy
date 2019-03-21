@@ -19,29 +19,57 @@ import kotlinx.android.synthetic.main.fragment_event_list.*
 import java.text.DateFormat
 import java.util.*
 
-class AnniversaryInstanceFragment : Fragment() {
+/**
+ * AnniversaryInstanceFragment is a fragment class for adding/editing an instance of EventAnniversary
+ * This fragment shows up, when the users wants to add a new EventAnniversary or edit an existing one
+ * The fragment consists of several TextEdits to manage user data input
+ *
+ * This class inherits from android.support.v4.app.Fragment
+ */
+class AnniversaryInstanceFragment : EventInstanceFragment() {
 
-    var isEditAnnversary = false
+    /**
+     * isEditAnniversary is a boolean flag to indicate wether this fragment is intended to edit or add an instance of EventAnniversary
+     * this is later used to fill TextEdits with existing data of an EventAnniversary instance
+     */
+    var isEditAnniversary = false
+
+    /**
+     * itemID is the id the EventAnniversary has in the EventHandler - eventlist
+     * In other words this id is the index of the clicked item from the EventListFragment recyclerview
+     */
     var itemID = -1
 
+    /**
+     * edit_name is the TextEdit used for editing/ showing the name of the anniversary
+     * It is lazy initialized
+     */
     val edit_name: EditText by lazy {
         view!!.findViewById<EditText>(R.id.edit_add_fragment_name_anniversary)
     }
 
+    /**
+     * edit_date is the TextEdit used for editing/ showing the date of the anniversary
+     * It is lazy initialized
+     */
     val edit_date: TextView by lazy {
         view!!.findViewById<TextView>(R.id.edit_add_fragment_date_anniversary)
     }
 
+    /**
+     * edit_note is the TextEdit used for editing/ showing the note of the anniversary
+     * It is lazy initialized
+     */
     val edit_note: EditText by lazy {
         view!!.findViewById<EditText>(R.id.edit_add_fragment_note_anniversary)
     }
 
+    /**
+     * switch_isYearGiven is the Switch to indicate wether the user wants to provide a date with a year or without a year
+     * It is lazy initialized
+     */
     val switch_isYearGiven: Switch by lazy {
         view!!.findViewById<Switch>(R.id.sw_is_year_given_anniversary)
-    }
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
     }
 
     override fun onCreateView(
@@ -57,11 +85,8 @@ class AnniversaryInstanceFragment : Fragment() {
 
         //retrieve fragment parameter when edited instance
         if (arguments != null) {
-            isEditAnnversary = true
-            //when no arguments are delivered
-            if (arguments!!.size() == 0) {
-
-            } else {
+            isEditAnniversary = true
+            if (arguments!!.size() > 0) {
                 itemID = (arguments!!.getInt(ITEM_ID_PARAM))
                 val anniversary = EventHandler.event_list[itemID].second as EventAnniversary
 
@@ -77,71 +102,54 @@ class AnniversaryInstanceFragment : Fragment() {
                     edit_note.setText(anniversary.note)
                 }
                 switch_isYearGiven.isChecked = anniversary.hasStartYear
-            }
-        }
 
-        (context as MainActivity).changeToolbarState(MainActivity.Companion.ToolbarState.EditEvent)
+                title.text = resources.getText(R.string.toolbar_title_edit_anniversary)
+                btn_fragment_anniversary_instance_delete.visibility = Button.VISIBLE
+                btn_fragment_anniversary_instance_delete.setOnClickListener {
 
-        val toolbar = activity!!.findViewById<android.support.v7.widget.Toolbar>(R.id.toolbar)
-        val title = toolbar.findViewById<TextView>(R.id.tv_add_fragment_title)
-        val closeBtn = toolbar.findViewById<ImageView>(R.id.btn_edit_event_close)
-        val acceptBtn = toolbar.findViewById<ImageView>(R.id.btn_edit_event_accept)
+                    val alert_builder = AlertDialog.Builder(context)
+                    alert_builder.setTitle(resources.getString(R.string.alert_dialog_title_delete_anniversary))
+                    alert_builder.setMessage(resources.getString(R.string.alert_dialog_body_message_anniversary))
 
+                    val anniversary_temp = EventHandler.event_list[itemID].second
+                    val context_temp = context
 
-        //when edit instance anniversary, than initialize delete btn
-        if (isEditAnnversary) {
-            title.text = resources.getText(R.string.toolbar_title_edit_anniversary)
-            btn_fragment_anniversary_instance_delete.visibility = Button.VISIBLE
-            btn_fragment_anniversary_instance_delete.setOnClickListener {
+                    // Set a positive button and its click listener on alert dialog
+                    alert_builder.setPositiveButton(resources.getString(R.string.alert_dialog_accept_delete)) { dialog, which ->
+                        // delete anniversary on positive button
+                        Snackbar
+                            .make(
+                                view,
+                                resources.getString(R.string.anniversary_deleted_notification, edit_name.text),
+                                Snackbar.LENGTH_LONG
+                            )
+                            .setAction(R.string.snackbar_undo_action_title, View.OnClickListener {
+                                EventHandler.addEvent(anniversary_temp, context_temp!!, true)
+                                //get last fragment in stack list, which should be eventlistfragment, so we can update the recycler view
+                                val fragment =
+                                    (context_temp as MainActivity).supportFragmentManager.fragments[(context_temp).supportFragmentManager.backStackEntryCount]
+                                if (fragment is EventListFragment) {
+                                    fragment.recyclerView.adapter!!.notifyDataSetChanged()
+                                }
+                            })
+                            .show()
 
-                val alert_builder = AlertDialog.Builder(context)
-                alert_builder.setTitle(resources.getString(R.string.alert_dialog_title_delete_anniversary))
-                alert_builder.setMessage(resources.getString(R.string.alert_dialog_body_message_anniversary))
-
-                val anniversary_temp = EventHandler.event_list[itemID].second
-                val context_temp = context
-
-                // Set a positive button and its click listener on alert dialog
-                alert_builder.setPositiveButton(resources.getString(R.string.alert_dialog_accept_delete)) { dialog, which ->
-                    // delete anniversary on positive button
-                    Snackbar
-                        .make(
-                            view,
-                            resources.getString(R.string.anniversary_deleted_notification, edit_name.text),
-                            Snackbar.LENGTH_LONG
-                        )
-                        .setAction(R.string.snackbar_undo_action_title, View.OnClickListener {
-                            EventHandler.addEvent(anniversary_temp, context_temp!!, true)
-                            //get last fragment in stack list, which should be eventlistfragment, so we can update the recycler view
-                            val fragment =
-                                (context_temp as MainActivity).supportFragmentManager.fragments[(context_temp).supportFragmentManager.backStackEntryCount]
-                            if (fragment is EventListFragment) {
-                                fragment.recyclerView.adapter!!.notifyDataSetChanged()
-                            }
-                        })
-                        .show()
-
-                    EventHandler.removeEventByKey(EventHandler.event_list[itemID].first, true)
-                    closeButtonPressed()
+                        EventHandler.removeEventByKey(EventHandler.event_list[itemID].first, true)
+                        closeBtnPressed()
+                    }
+                    // dont do anything on negative button
+                    alert_builder.setNegativeButton(resources.getString(R.string.alert_dialog_dismiss_delete)) { dialog, which ->
+                    }
+                    // Finally, make the alert dialog using builder
+                    val dialog: AlertDialog = alert_builder.create()
+                    // Display the alert dialog on app interface
+                    dialog.show()
                 }
-                // dont do anything on negative button
-                alert_builder.setNegativeButton(resources.getString(R.string.alert_dialog_dismiss_delete)) { dialog, which ->
-                }
-                // Finally, make the alert dialog using builder
-                val dialog: AlertDialog = alert_builder.create()
-                // Display the alert dialog on app interface
-                dialog.show()
             }
         } else {
             title.text = resources.getText(R.string.toolbar_title_add_anniversary)
             btn_fragment_anniversary_instance_delete.visibility = Button.INVISIBLE
         }
-
-        closeBtn.setOnClickListener {
-            closeButtonPressed()
-        }
-
-        acceptBtn.setOnClickListener { acceptButtonPressed() }
 
         edit_date.setOnClickListener {
             showDatePickerDialog()
@@ -155,7 +163,6 @@ class AnniversaryInstanceFragment : Fragment() {
                         edit_date.text.toString() + (Calendar.getInstance().get(Calendar.YEAR) - 1),
                         DateFormat.DATE_FIELD
                     )
-
                     edit_date.text = EventDate.parseDateToString(date, DateFormat.FULL)
 
                     //year is not given
@@ -173,6 +180,10 @@ class AnniversaryInstanceFragment : Fragment() {
         }
     }
 
+    /**
+     * showDatePickerDialog shows a standard android date picker dialog
+     * The choosen date in the dialog is set to the edit_date field
+     */
     private fun showDatePickerDialog() {
         val c = Calendar.getInstance()
 
@@ -216,16 +227,10 @@ class AnniversaryInstanceFragment : Fragment() {
         dpd.show()
     }
 
-    override fun onDetach() {
-        super.onDetach()
-        (context as MainActivity).changeToolbarState(MainActivity.Companion.ToolbarState.Default)
-    }
-
-    fun closeButtonPressed() {
-        (context as MainActivity).onBackPressed()
-    }
-
-    fun acceptButtonPressed() {
+    /**
+     * acceptBtnPressed is a function which is called when the toolbars accept button is pressed
+     */
+    override fun acceptBtnPressed() {
         val name = edit_name.text.toString()
         val date = edit_date.text.toString()
         val note = edit_note.text.toString()
@@ -253,7 +258,7 @@ class AnniversaryInstanceFragment : Fragment() {
             }
 
             //new bithday entry, just add a new entry in map
-            if (!isEditAnnversary) {
+            if (!isEditAnniversary) {
                 EventHandler.addEvent(anniversary, context!!, true)
 
                 Snackbar
@@ -263,8 +268,7 @@ class AnniversaryInstanceFragment : Fragment() {
                         Snackbar.LENGTH_LONG
                     )
                     .show()
-
-                closeButtonPressed()
+                closeBtnPressed()
 
                 //already existant birthday entry, overwrite old entry in map
             } else {
@@ -276,15 +280,16 @@ class AnniversaryInstanceFragment : Fragment() {
                         Snackbar.LENGTH_LONG
                     ).show()
                 }
-                closeButtonPressed()
+                closeBtnPressed()
             }
         }
     }
 
     /**
      * wasChangeMade checks wether a change to the edit fields was made or not
-     * @param event: EventBirthday
-     * @return Boolean
+     * This is used to avoid unnecessary operations
+     * @param event: EventAnniversary, is the comparative object to check against the TextEdit fields
+     * @return Boolean, returns false if nothing has changed
      */
     private fun wasChangeMade(event: EventAnniversary): Boolean {
         if (switch_isYearGiven.isChecked) {
@@ -300,17 +305,21 @@ class AnniversaryInstanceFragment : Fragment() {
                 if (edit_note.text.toString() != event.note!!) return true
             }
         }
-
         if (edit_name.text.toString() != event.name) return true
         if (switch_isYearGiven.isChecked != event.hasStartYear) return true
-
+        //if nothing has changed return false
         return false
     }
 
     companion object {
-
+        /**
+         * ANNIVERSARY_INSTANCE is the fragments tag as String
+         */
         val ANNIVERSARY_INSTANCE_FRAGMENT_TAG = "ANNIVERSARY_INSTANCE"
 
+        /**
+         * newInstance returns a new instance of AnniversaryInstanceFragment
+         */
         @JvmStatic
         fun newInstance(): AnniversaryInstanceFragment {
             return AnniversaryInstanceFragment()

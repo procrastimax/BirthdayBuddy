@@ -18,16 +18,14 @@ import com.procrastimax.birthdaybuddy.models.EventDate
 import kotlinx.android.synthetic.main.fragment_show_birthday_event.*
 import java.text.DateFormat
 
-const val ITEM_ID_PARAM = "ITEMID"
 
 /**
+ * ShowBirthdayEvent is a fragment to show all known data from a instance of EventBirthday
+ *
  * TODO:
- * - add export possibility for contact info as plaintext
  * - add tiny animation for opening this fragment
  */
-class ShowBirthdayEvent : Fragment() {
-
-    var item_id: Int = -1
+class ShowBirthdayEvent : ShowEventFragment() {
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -40,22 +38,11 @@ class ShowBirthdayEvent : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        (context as MainActivity).changeToolbarState(MainActivity.Companion.ToolbarState.ShowEvent)
-        val toolbar = activity!!.findViewById<android.support.v7.widget.Toolbar>(R.id.toolbar)
-        val closeBtn = toolbar.findViewById<ImageView>(R.id.iv_toolbar_show_event_back)
-        val editBtn = toolbar.findViewById<ImageView>(R.id.iv_toolbar_show_event_edit)
-        val shareBtn = toolbar.findViewById<ImageView>(R.id.iv_toolbar_show_event_share)
-
-        closeBtn.setOnClickListener {
-            closeButtonPressed()
-        }
-
-        shareBtn.setOnClickListener {
-            shareBirthday()
-        }
-
+        //to show the information about the instance, the fragment has to be bundled with an argument
         if (arguments != null) {
             item_id = arguments!!.getInt(ITEM_ID_PARAM)
+
+            val editBtn: ImageView = toolbar.findViewById<ImageView>(R.id.iv_toolbar_show_event_edit)
 
             editBtn.setOnClickListener {
                 val bundle = Bundle()
@@ -76,16 +63,19 @@ class ShowBirthdayEvent : Fragment() {
                 ft.addToBackStack(null)
                 ft.commit()
             }
-            updateUI(item_id)
+            updateUI()
         }
     }
 
-    private fun updateUI(id: Int) {
+    /**
+     * updateUI updates all TextViews and other views to the current instance(Anniversary, Birthday) data
+     */
+    override fun updateUI() {
         //dont update ui when wrong item id / or deleted item
-        if (EventHandler.event_list[id].second !is EventBirthday) {
+        if (EventHandler.event_list[item_id].second !is EventBirthday) {
             (context as MainActivity).supportFragmentManager.popBackStack()
         } else {
-            val birthdayEvent = EventHandler.event_list[id].second as EventBirthday
+            val birthdayEvent = EventHandler.event_list[item_id].second as EventBirthday
 
             if (birthdayEvent.nickname != null) {
                 this.tv_show_birthday_forename.text = "${birthdayEvent.forename} \"${birthdayEvent.nickname}\""
@@ -155,12 +145,16 @@ class ShowBirthdayEvent : Fragment() {
         }
     }
 
-    private fun shareBirthday() {
+    /**
+     * shareEvent a function which is called after the share button has been pressed
+     * It provides a simple intent to share data as plain text in other apps
+     */
+    override fun shareEvent() {
         if (EventHandler.event_list[item_id].second is EventBirthday) {
             val birthday = EventHandler.event_list[item_id].second as EventBirthday
 
             val intent = Intent(Intent.ACTION_SEND)
-            intent.setType("text/plain")
+            intent.type = "text/plain"
             var shareBirthdayMsg: String
             // forename/ surname
             shareBirthdayMsg =
@@ -199,19 +193,16 @@ class ShowBirthdayEvent : Fragment() {
         }
     }
 
-    override fun onDetach() {
-        super.onDetach()
-        (context as MainActivity).changeToolbarState(MainActivity.Companion.ToolbarState.Default)
-    }
-
-    fun closeButtonPressed() {
-        (context as MainActivity).onBackPressed()
-    }
-
     companion object {
 
+        /**
+         * SHOW_BIRTHDAY_FRAGMENT_TAG is the fragments tag as a string
+         */
         val SHOW_BIRTHDAY_FRAGMENT_TAG = "SHOW_BIRTHDAY"
 
+        /**
+         * newInstance returns a new instance of EventBirthday
+         */
         @JvmStatic
         fun newInstance(): ShowBirthdayEvent {
             return ShowBirthdayEvent()

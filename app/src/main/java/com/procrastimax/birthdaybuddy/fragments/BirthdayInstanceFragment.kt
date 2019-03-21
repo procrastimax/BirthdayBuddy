@@ -28,52 +28,99 @@ import java.util.*
 
 
 /**
+ *
+ * BirthdayInstanceFragment is a fragment class for adding/editing an instance of EventBirthday
+ * This fragment shows up, when the users wants to add a new EventBirthday or edit an existing one
+ * The fragment consists of several TextEdits to manage user data input
+ *
+ * This class inherits from android.support.v4.app.Fragment
+ *
  * TODO:
- *  - move accept/close button in statusbar
  *  - add animations for accept/close  button
  *  - control behaviour when hold in portrait mode
  *
  *  - add possibility to take new pictures with camera
  */
-class BirthdayInstanceFragment : Fragment() {
+class BirthdayInstanceFragment : EventInstanceFragment() {
 
+    /**
+     * isEditedBirthday is a boolean flag to indicate wether this fragment is in "edit" mode aka. the user wants to edit an existing instance of EventBirthday
+     */
     var isEditedBirthday: Boolean = false
+
+    /**
+     * itemID is the index of the clicked item in EventListFragments recyclerview, this is handy to get the birthday instance from the EventHandler
+     */
     var itemID = -1
+
+    /**
+     * birthday_avatar_uri is a string to store the user picked image for the avatar
+     */
     var birthday_avatar_uri: String? = null
+
+    /**
+     * avatar_img_was_edited is a boolean flag to store the information wether the avatar img has been changed
+     */
     var avatar_img_was_edited = false
 
-    //intent codes
+    /**
+     * REQUEST_IMAGE_GET is an intent code used for open the photo gallery
+     */
     val REQUEST_IMAGE_GET = 1
-    val REQUEST_IMAGE_CAPTURE = 2
 
+    /**
+     * edit_forename is the TextEdit used for editing/ showing the forename of the birthday
+     * It is lazy initialized
+     */
     val edit_forename: EditText by lazy {
         view!!.findViewById<EditText>(R.id.edit_add_fragment_forename)
     }
 
+    /**
+     * edit_nickname is the TextEdit used for editing/ showing the nickname of the birthday
+     * It is lazy initialized
+     */
     val edit_nickname: EditText by lazy {
         view!!.findViewById<EditText>(R.id.edit_add_fragment_nickname)
     }
 
+    /**
+     * edit_surname is the TextEdit used for editing/ showing the surname of the birthday
+     * It is lazy initialized
+     */
     val edit_surname: EditText by lazy {
         view!!.findViewById<EditText>(R.id.edit_add_fragment_surname)
     }
 
+    /**
+     * edit_date is the TextEdit used for editing/ showing the date of the birthday
+     * It is lazy initialized
+     */
     val edit_date: TextView by lazy {
         view!!.findViewById<TextView>(R.id.edit_add_fragment_date)
     }
 
+    /**
+     * edit_note is the TextEdit used for editing/ showing the note of the birthday
+     * It is lazy initialized
+     */
     val edit_note: EditText by lazy {
         view!!.findViewById<EditText>(R.id.edit_add_fragment_note)
     }
 
+    /**
+     * switch_isYearGiven is the Switch to indicate wether the user wants to provide a date with a year or without a year
+     * It is lazy initialized
+     */
     val switch_isYearGiven: Switch by lazy {
         view!!.findViewById<Switch>(R.id.sw_is_year_given)
     }
 
     /**
      * wasChangeMade checks wether a change to the edit fields was made or not
-     * @param event: EventBirthday
-     * @return Boolean
+     * This is used to avoid unnecessary operations
+     * @param event: EventBirthday, is the comparative object to check against the TextEdit fields
+     * @return Boolean, returns false if nothing has changed
      */
     private fun wasChangeMade(event: EventBirthday): Boolean {
         if (switch_isYearGiven.isChecked) {
@@ -106,10 +153,6 @@ class BirthdayInstanceFragment : Fragment() {
         return false
     }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-    }
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -125,9 +168,7 @@ class BirthdayInstanceFragment : Fragment() {
         if (arguments != null) {
             isEditedBirthday = true
             //when no arguments are delivered
-            if (arguments!!.size() == 0) {
-
-            } else {
+            if (arguments!!.size() > 0) {
                 itemID = (arguments!!.getInt(ITEM_ID_PARAM))
                 val birthday = EventHandler.event_list[itemID].second as EventBirthday
 
@@ -150,10 +191,61 @@ class BirthdayInstanceFragment : Fragment() {
                 if (!birthday.nickname.isNullOrBlank()) {
                     edit_nickname.setText(birthday.nickname)
                 }
-            }
-        }
 
-        (context as MainActivity).changeToolbarState(MainActivity.Companion.ToolbarState.EditEvent)
+                title.text = resources.getText(R.string.toolbar_title_edit_birthday)
+                btn_birthday_add_fragment_delete.visibility = Button.VISIBLE
+                //delete functionality
+                btn_birthday_add_fragment_delete.setOnClickListener {
+                    val alert_builder = AlertDialog.Builder(context)
+                    alert_builder.setTitle(resources.getString(R.string.alert_dialog_title_delete_birthday))
+                    alert_builder.setMessage(resources.getString(R.string.alert_dialog_body_message))
+
+                    val context_temp = context
+                    val birthday_temp = EventHandler.event_list[itemID].second
+
+                    // Set a positive button and its click listener on alert dialog
+                    alert_builder.setPositiveButton(resources.getString(R.string.alert_dialog_accept_delete)) { dialog, which ->
+                        // delete birthday on positive button
+                        Snackbar.make(
+                            view,
+                            resources.getString(R.string.person_deleted_notification, edit_forename.text),
+                            Snackbar.LENGTH_LONG
+                        )
+                            .setAction(R.string.snackbar_undo_action_title, View.OnClickListener {
+                                EventHandler.addEvent(birthday_temp, context_temp!!, true)
+                                //get last fragment in stack list, which should be eventlistfragment, so we can update the recycler view
+                                val fragment =
+                                    (context_temp as MainActivity).supportFragmentManager.fragments[(context_temp).supportFragmentManager.backStackEntryCount]
+                                if (fragment is EventListFragment) {
+                                    fragment.recyclerView.adapter!!.notifyDataSetChanged()
+                                }
+                            })
+                            .show()
+                        EventHandler.removeEventByKey(EventHandler.event_list[itemID].first, true)
+                        closeBtnPressed()
+                    }
+
+                    // dont do anything on negative button
+                    alert_builder.setNegativeButton(resources.getString(R.string.alert_dialog_dismiss_delete)) { dialog, which ->
+                    }
+
+                    // Finally, make the alert dialog using builder
+                    val dialog: AlertDialog = alert_builder.create()
+
+                    // Display the alert dialog on app interface
+                    dialog.show()
+                }
+
+                //load maybe already existent avatar photo
+                if ((EventHandler.event_list[itemID].second as EventBirthday).avatarImageUri != null) {
+                    iv_add_avatar_btn.setImageDrawable(DrawableHandler.getDrawableAt((EventHandler.event_list[itemID].first)))
+                }
+
+            }
+        } else {
+            title.text = resources.getText(R.string.toolbar_title_add_birthday)
+            btn_birthday_add_fragment_delete.visibility = Button.INVISIBLE
+        }
 
         //add image from gallery
         iv_add_avatar_btn.setOnClickListener {
@@ -194,77 +286,8 @@ class BirthdayInstanceFragment : Fragment() {
             }
         }
 
-        val toolbar = activity!!.findViewById<android.support.v7.widget.Toolbar>(R.id.toolbar)
-        val closeBtn = toolbar.findViewById<ImageView>(R.id.btn_edit_event_close)
-        val acceptBtn = toolbar.findViewById<ImageView>(R.id.btn_edit_event_accept)
-        val title = toolbar.findViewById<TextView>(R.id.tv_add_fragment_title)
-
-        closeBtn.setOnClickListener {
-            closeButtonPressed()
-        }
-
-        acceptBtn.setOnClickListener {
-            acceptButtonPressed()
-        }
-
         edit_date.setOnClickListener {
             showDatePickerDialog()
-        }
-
-        //make delete button invisible/or not
-        if (isEditedBirthday) {
-            title.text = resources.getText(R.string.toolbar_title_edit_birthday)
-            btn_birthday_add_fragment_delete.visibility = Button.VISIBLE
-            //delete functionality
-            btn_birthday_add_fragment_delete.setOnClickListener {
-                val alert_builder = AlertDialog.Builder(context)
-                alert_builder.setTitle(resources.getString(R.string.alert_dialog_title_delete_birthday))
-                alert_builder.setMessage(resources.getString(R.string.alert_dialog_body_message))
-
-                val context_temp = context
-                val birthday_temp = EventHandler.event_list[itemID].second
-
-                // Set a positive button and its click listener on alert dialog
-                alert_builder.setPositiveButton(resources.getString(R.string.alert_dialog_accept_delete)) { dialog, which ->
-                    // delete birthday on positive button
-                    Snackbar.make(
-                        view,
-                        resources.getString(R.string.person_deleted_notification, edit_forename.text),
-                        Snackbar.LENGTH_LONG
-                    )
-                        .setAction(R.string.snackbar_undo_action_title, View.OnClickListener {
-                            EventHandler.addEvent(birthday_temp, context_temp!!, true)
-                            //get last fragment in stack list, which should be eventlistfragment, so we can update the recycler view
-                            val fragment =
-                                (context_temp as MainActivity).supportFragmentManager.fragments[(context_temp).supportFragmentManager.backStackEntryCount]
-                            if (fragment is EventListFragment) {
-                                fragment.recyclerView.adapter!!.notifyDataSetChanged()
-                            }
-                        })
-                        .show()
-                    EventHandler.removeEventByKey(EventHandler.event_list[itemID].first, true)
-                    closeButtonPressed()
-                }
-
-                // dont do anything on negative button
-                alert_builder.setNegativeButton(resources.getString(R.string.alert_dialog_dismiss_delete)) { dialog, which ->
-                }
-
-                // Finally, make the alert dialog using builder
-                val dialog: AlertDialog = alert_builder.create()
-
-                // Display the alert dialog on app interface
-                dialog.show()
-            }
-
-            //load maybe already existent avatar photo
-            if ((EventHandler.event_list[itemID].second as EventBirthday).avatarImageUri != null) {
-                iv_add_avatar_btn.setImageDrawable(DrawableHandler.getDrawableAt((EventHandler.event_list[itemID].first)))
-            }
-
-        } else {
-            title.text = resources.getText(R.string.toolbar_title_add_birthday)
-            btn_birthday_add_fragment_delete.visibility = Button.INVISIBLE
         }
 
         switch_isYearGiven.setOnCheckedChangeListener { _, isChecked ->
@@ -294,6 +317,9 @@ class BirthdayInstanceFragment : Fragment() {
         }
     }
 
+    /**
+     * showDatePickerDialog shows a dialog to let the user pick a date for the edit_date
+     */
     private fun showDatePickerDialog() {
         val c = Calendar.getInstance()
 
@@ -344,8 +370,11 @@ class BirthdayInstanceFragment : Fragment() {
         dpd.show()
     }
 
+    /**
+     * getImageFromFiles opens an intent to request a photo from the gallery
+     * This function is called after the user clicks on the iv_add_avatar_btn
+     */
     private fun getImageFromFiles(): String {
-
         val intent = Intent(Intent.ACTION_OPEN_DOCUMENT).apply {
             type = "image/*"
         }
@@ -359,11 +388,13 @@ class BirthdayInstanceFragment : Fragment() {
         return "0"
     }
 
+    /**
+     * onActivityResult is the result of the gallery intent from above, here the uri of the photo is processed
+     */
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         //handle image/photo file choosing
         if (requestCode == REQUEST_IMAGE_GET && resultCode == Activity.RESULT_OK) {
-            //val thumbnail: Bitmap = data!!.getParcelableExtra("data")
             val fullPhotoUri: Uri = data!!.data!!
 
             val take_flags =
@@ -382,16 +413,10 @@ class BirthdayInstanceFragment : Fragment() {
         }
     }
 
-    override fun onDetach() {
-        super.onDetach()
-        (context as MainActivity).changeToolbarState(MainActivity.Companion.ToolbarState.Default)
-    }
-
-    fun closeButtonPressed() {
-        (context as MainActivity).onBackPressed()
-    }
-
-    fun acceptButtonPressed() {
+    /**
+     * acceptBtnPressed is a function which is called when the toolbars accept button is pressed
+     */
+    override fun acceptBtnPressed() {
         val forename = edit_forename.text.toString()
         val surname = edit_surname.text.toString()
         val date = edit_date.text.toString()
@@ -442,7 +467,7 @@ class BirthdayInstanceFragment : Fragment() {
                     context!!.resources.getString(R.string.person_added_notification, forename),
                     Snackbar.LENGTH_LONG
                 ).show()
-                closeButtonPressed()
+                closeBtnPressed()
 
                 //already existant birthday entry, overwrite old entry in map
             } else {
@@ -454,15 +479,20 @@ class BirthdayInstanceFragment : Fragment() {
                         Snackbar.LENGTH_LONG
                     ).show()
                 }
-                closeButtonPressed()
+                closeBtnPressed()
             }
         }
     }
 
     companion object {
-
+        /**
+         * BIRTHDAY_INSTANCE_FRAGMENT_TAG is the fragments tag as String
+         */
         val BIRTHDAY_INSTANCE_FRAGMENT_TAG = "BIRTHDAY_INSTANCE"
 
+        /**
+         * newInstance returns a new instance of BirthdayInstanceFragment
+         */
         @JvmStatic
         fun newInstance(): BirthdayInstanceFragment {
             return BirthdayInstanceFragment()
