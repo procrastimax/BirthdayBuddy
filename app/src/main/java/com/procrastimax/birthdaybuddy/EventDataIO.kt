@@ -144,7 +144,7 @@ object EventDataIO {
             var date: String = "-"
             var note: String? = null
             var isyeargiven: Boolean = false
-            var avatarImageURI: String = "-"
+            var avatarImageURI: String? = null
             var nickname: String? = null
 
             for (i in 1 until string_array.size) {
@@ -179,9 +179,9 @@ object EventDataIO {
             }
 
             val birthday = EventBirthday(EventDate.parseStringToDate(date), forename, surname, isyeargiven)
-            if (note != null && note != "null") birthday.note = note
-            if (avatarImageURI != "null") birthday.avatarImageUri = avatarImageURI
-            if (nickname != null && nickname != "null") birthday.nickname = nickname
+            if (note != null) birthday.note = note
+            if (avatarImageURI != null) birthday.avatarImageUri = avatarImageURI
+            if (nickname != null) birthday.nickname = nickname
             return birthday
 
             // MONTH DIVIDER

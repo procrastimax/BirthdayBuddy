@@ -7,6 +7,7 @@ import android.view.View
 import android.widget.ImageView
 import com.procrastimax.birthdaybuddy.MainActivity
 import com.procrastimax.birthdaybuddy.R
+import kotlinx.android.synthetic.main.activity_main.*
 
 const val ITEM_ID_PARAM = "ITEMID"
 
@@ -34,6 +35,7 @@ abstract class ShowEventFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         (context as MainActivity).changeToolbarState(MainActivity.Companion.ToolbarState.ShowEvent)
+
 
         val closeBtn: ImageView = toolbar.findViewById<ImageView>(R.id.iv_toolbar_show_event_back)
 

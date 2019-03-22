@@ -25,6 +25,9 @@
     <string name="tv_birthday_surname_title">Surname</string>
     <string name="tv_birthday_nickname_title">Nickname</string>
 
+    <string name="alert_dialog_missing_avatar_img_title">Error when trying to load image!</string>
+    <string name="alert_dialog_missing_avatar_img_text">There occurred an error when trying to load an avatar image.\nMaybe you deleted or moved an existing image from your galleries?\nThe image reference is going to be deleted.</string>
+
     <!-- fragment add new birthday -->
     <string name="toolbar_title_add_birthday">Add new birthday</string>
     <string name="toolbar_title_edit_birthday">Edit birthday</string>

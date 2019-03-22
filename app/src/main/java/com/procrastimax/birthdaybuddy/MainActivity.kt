@@ -4,6 +4,7 @@ import android.content.Context
 import android.os.Bundle
 import android.support.v4.app.FragmentTransaction
 import android.support.v4.content.ContextCompat
+import android.support.v4.view.ViewCompat
 import android.support.v7.app.AppCompatActivity
 import android.widget.ProgressBar
 import com.procrastimax.birthdaybuddy.fragments.BirthdayInstanceFragment
@@ -20,6 +21,9 @@ import kotlinx.android.synthetic.main.fragment_add_new_birthday.*
 import kotlinx.android.synthetic.main.fragment_event_list.*
 import java.text.DateFormat
 import java.util.*
+import android.support.design.widget.AppBarLayout
+import android.support.design.widget.CoordinatorLayout
+import kotlinx.android.synthetic.main.fragment_show_birthday_event.*
 
 
 /**
@@ -51,8 +55,6 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         setSupportActionBar(toolbar)
-
-        changeToolbarState(Companion.ToolbarState.Default)
 
         //get application context and set shared pref context
         EventDataIO.registerIO(this.applicationContext)
@@ -94,10 +96,15 @@ class MainActivity : AppCompatActivity() {
         Thread(Runnable {
             isLoading = true
             //import all drawables
-            DrawableHandler.loadAllDrawables(this.applicationContext)
+            val success = DrawableHandler.loadAllDrawables(this.applicationContext)
             isLoading = false
 
             runOnUiThread {
+
+                if(success == false){
+                    DrawableHandler.showMissingImageAlertDialog(this)
+                }
+
                 if (recyclerView != null) {
                     recyclerView.adapter!!.notifyDataSetChanged()
                 }
@@ -146,11 +153,31 @@ class MainActivity : AppCompatActivity() {
     fun changeToolbarState(state: ToolbarState) {
         when (state) {
             Companion.ToolbarState.Default -> {
-                toolbar.removeAllViews()
-                supportActionBar!!.setDisplayShowTitleEnabled(true)
+
+                if (toolbar.childCount > 0) {
+                    toolbar.removeAllViews()
+                }
+                toolbar.addView(
+                    layoutInflater.inflate(
+                        R.layout.toolbar_default,
+                        findViewById(android.R.id.content),
+                        false
+                    )
+                )
+                toolbar.setBackgroundColor(
+                    ContextCompat.getColor(
+                        applicationContext,
+                        R.color.colorPrimary
+                    )
+                )
+
+                closeAppBar(false)
+                lockAppBar()
             }
 
             Companion.ToolbarState.EditEvent -> {
+                lockAppBar()
+
                 if (toolbar.childCount > 0) {
                     toolbar.removeAllViews()
                 }
@@ -167,9 +194,9 @@ class MainActivity : AppCompatActivity() {
                         R.color.material_light_white_background
                     )
                 )
-                toolbar.setContentInsetsAbsolute(0, 0)
-                setSupportActionBar(toolbar)
-                supportActionBar!!.setDisplayShowTitleEnabled(false)
+
+                closeAppBar(false)
+                lockAppBar()
             }
 
             Companion.ToolbarState.ShowEvent -> {
@@ -183,17 +210,47 @@ class MainActivity : AppCompatActivity() {
                         false
                     )
                 )
-                toolbar.setBackgroundColor(
-                    ContextCompat.getColor(
-                        applicationContext,
-                        R.color.colorPrimary
-                    )
+                toolbar.setBackgroundResource(
+                    android.R.color.transparent
                 )
-                toolbar.setContentInsetsAbsolute(0, 0)
-                setSupportActionBar(toolbar)
-                supportActionBar!!.setDisplayShowTitleEnabled(false)
+
+                closeAppBar(false)
+                lockAppBar()
             }
         }
+    }
+
+    fun closeAppBar(animated: Boolean = true) {
+        this.app_bar.setExpanded(false, animated)
+    }
+
+    fun openAppBar(animated: Boolean = true) {
+        this.app_bar.setExpanded(true, animated)
+    }
+
+
+    fun lockAppBar() {
+
+        val params = app_bar.layoutParams as CoordinatorLayout.LayoutParams
+        params.behavior = AppBarLayout.Behavior()
+        val behavior = params.behavior as AppBarLayout.Behavior
+        behavior.setDragCallback(object : AppBarLayout.Behavior.DragCallback() {
+            override fun canDrag(appBarLayout: AppBarLayout): Boolean {
+                return false
+            }
+        })
+    }
+
+    fun unlockAppBar() {
+
+        val params = app_bar.layoutParams as CoordinatorLayout.LayoutParams
+        params.behavior = AppBarLayout.Behavior()
+        val behavior = params.behavior as AppBarLayout.Behavior
+        behavior.setDragCallback(object : AppBarLayout.Behavior.DragCallback() {
+            override fun canDrag(appBarLayout: AppBarLayout): Boolean {
+                return true
+            }
+        })
     }
 
     companion object {

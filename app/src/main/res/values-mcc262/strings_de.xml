@@ -25,6 +25,9 @@
     <string name="tv_birthday_surname_title">Nachname</string>
     <string name="tv_birthday_nickname_title">Spitzname</string>
 
+    <string name="alert_dialog_missing_avatar_img_title">Fehler beim Laden der Bilder!</string>
+    <string name="alert_dialog_missing_avatar_img_text">Es trat ein Fehler während des Ladens der Bilder auf!\nMöglicherweise wurde eines der Bilder aus der Gallerie gelöscht/ verschoben oder umbenannt?\nDie Referenz auf dieses Bild wurde gelöscht!</string>
+
     <!-- fragment add new birthday -->
     <string name="toolbar_title_add_birthday">Geburtstag hinzufügen</string>
     <string name="toolbar_title_edit_birthday">Geburtstag bearbeiten</string>

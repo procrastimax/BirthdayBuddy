@@ -6,10 +6,13 @@ import android.content.DialogInterface
 import android.content.res.Resources
 import android.graphics.Bitmap
 import android.graphics.drawable.Drawable
+import android.net.MailTo
 import android.net.Uri
 import android.provider.MediaStore
 import android.support.v4.graphics.drawable.RoundedBitmapDrawable
 import android.support.v4.graphics.drawable.RoundedBitmapDrawableFactory
+import com.procrastimax.birthdaybuddy.MainActivity
+import com.procrastimax.birthdaybuddy.R
 import com.procrastimax.birthdaybuddy.models.EventBirthday
 
 /**
@@ -29,7 +32,8 @@ object DrawableHandler {
      * @param context : Context
      * @param scale : Int
      */
-    fun addDrawable(index: Int, uri: Uri, context: Context, scale: Int = 64) {
+    fun addDrawable(index: Int, uri: Uri, context: Context, scale: Int = 64): Boolean {
+        var success = true
         //is valid index in EventHandler map
         if (EventHandler.containsKey(index)) {
             if ((EventHandler.getValueToKey(index) is EventBirthday) && (EventHandler.getValueToKey(index) as EventBirthday).avatarImageUri != null) {
@@ -37,17 +41,21 @@ object DrawableHandler {
 
                     //TODO: dont load whole bitmap, load compressed bitmap
                     val bitmap =
-                        getScaledBitmap(MediaStore.Images.Media.getBitmap(context.contentResolver, uri), 64 * 3)
+                        getScaledBitmap(MediaStore.Images.Media.getBitmap(context.contentResolver, uri), 64 * 4)
                     drawable_map[index] = getCircularDrawable(bitmap, context.resources)
 
                     //catch any exception, not nice but mostly like a filenotfound exception, when an image was deleted or moved
                     //when this exception is catched, then delete uri reference in EventDatee instance +  inform the user
                 } catch (e: Exception) {
-                    (EventHandler.getValueToKey(index) as EventBirthday).avatarImageUri = null
-                    //showMissingImageAlertDialog(context)
+                    val birthday = (EventHandler.getValueToKey(index) as EventBirthday)
+                    birthday.avatarImageUri = null
+                    EventHandler.removeEventByKey(index, true)
+                    EventHandler.addEvent(birthday, context, true)
+                    success = false
                 }
             }
         }
+        return success
     }
 
     fun removeDrawable(index: Int) {
@@ -59,12 +67,14 @@ object DrawableHandler {
     /**
      * loadAllDrawables iterates through eventhandler eventlist and loads all drawables into this map
      */
-    fun loadAllDrawables(context: Context) {
+    fun loadAllDrawables(context: Context): Boolean {
+        var success = true
         for (it in EventHandler.event_list) {
             if ((it.second is EventBirthday) && (it.second as EventBirthday).avatarImageUri != null) {
-                addDrawable(it.first, Uri.parse((it.second as EventBirthday).avatarImageUri), context)
+                success = addDrawable(it.first, Uri.parse((it.second as EventBirthday).avatarImageUri), context)
             }
         }
+        return success
     }
 
     fun getDrawableAt(index: Int): Drawable? {
@@ -72,20 +82,6 @@ object DrawableHandler {
             return drawable_map[index]
         }
         return null
-    }
-
-    private fun showMissingImageAlertDialog(context: Context) {
-        AlertDialog.Builder(context)
-            .setTitle("Error when trying to load image")
-            .setMessage("There occured an error when trying to import an avatar image!")
-            // Specifying a listener allows you to take an action before dismissing the dialog.
-            // The dialog is automatically dismissed when a dialog button is clicked.
-            .setPositiveButton(android.R.string.ok, DialogInterface.OnClickListener { dialog, which ->
-                // Continue with delete operation
-                dialog.dismiss()
-            })
-            .setIcon(android.R.drawable.ic_dialog_alert)
-            .show()
     }
 
     /**
@@ -148,5 +144,16 @@ object DrawableHandler {
             RoundedBitmapDrawableFactory.create(resources, getSquaredBitmap(bitmap))
         rounded_bmp.isCircular = true
         return rounded_bmp
+    }
+
+    fun showMissingImageAlertDialog(context: Context) {
+        val builder = AlertDialog.Builder(context)
+        builder.setTitle(R.string.alert_dialog_missing_avatar_img_title)
+        builder.setMessage(R.string.alert_dialog_missing_avatar_img_text)
+        builder.setPositiveButton(android.R.string.ok, DialogInterface.OnClickListener { dialog, which ->
+            dialog.dismiss()
+        })
+        builder.setIcon(R.drawable.ic_error_outline)
+        builder.show()
     }
 }

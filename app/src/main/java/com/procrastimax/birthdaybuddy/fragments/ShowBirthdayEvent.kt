@@ -4,6 +4,7 @@ package com.procrastimax.birthdaybuddy.fragments
 import android.content.Intent
 import android.os.Bundle
 import android.support.v4.content.ContextCompat
+import android.support.v4.view.ViewCompat
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,6 +15,7 @@ import com.procrastimax.birthdaybuddy.handler.DrawableHandler
 import com.procrastimax.birthdaybuddy.handler.EventHandler
 import com.procrastimax.birthdaybuddy.models.EventBirthday
 import com.procrastimax.birthdaybuddy.models.EventDate
+import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_show_birthday_event.*
 import java.text.DateFormat
 
@@ -36,6 +38,9 @@ class ShowBirthdayEvent : ShowEventFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        (context as MainActivity).unlockAppBar()
+        (context as MainActivity).openAppBar(true)
 
         //to show the information about the instance, the fragment has to be bundled with an argument
         if (arguments != null) {
@@ -134,20 +139,18 @@ class ShowBirthdayEvent : ShowEventFragment() {
                 this.tv_show_birthday_note.setTextColor(ContextCompat.getColor(context!!, R.color.brightGrey))
             }
 
-            val avatarUri = (EventHandler.event_list[item_id].second as EventBirthday).avatarImageUri
-
-            if (avatarUri != null && avatarUri != "-") {
-                updateAvatarImage()
-            }
+            updateAvatarImage()
         }
     }
 
     fun updateAvatarImage() {
-        if (this.iv_avatar != null && this.item_id >= 0) {
+        if (this.iv_avatar != null && this.item_id >= 0 && (context as MainActivity).collapse_toolbar_image_view != null) {
             //load maybe already existent avatar photo
             if ((EventHandler.event_list[item_id].second as EventBirthday).avatarImageUri != null) {
-                iv_avatar.setImageDrawable(DrawableHandler.getDrawableAt((EventHandler.event_list[item_id].first)))
+                (context as MainActivity).collapse_toolbar_image_view.setImageDrawable(DrawableHandler.getDrawableAt((EventHandler.event_list[item_id].first)))
+                return
             }
+            (context as MainActivity).collapse_toolbar_image_view.setImageResource(R.drawable.ic_birthday_person)
         }
     }
 

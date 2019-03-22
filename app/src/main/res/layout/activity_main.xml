@@ -6,19 +6,43 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/main_layout"
+        android:fitsSystemWindows="true"
         tools:context=".MainActivity">
 
     <android.support.design.widget.AppBarLayout
-            android:layout_height="wrap_content"
+            android:layout_height="300dp"
             android:layout_width="match_parent"
+            android:fitsSystemWindows="true"
+            app:expanded="false"
+            android:id="@+id/app_bar"
             android:theme="@style/AppTheme.AppBarOverlay">
 
-        <android.support.v7.widget.Toolbar
-                android:id="@+id/toolbar"
+        <android.support.design.widget.CollapsingToolbarLayout
                 android:layout_width="match_parent"
-                android:layout_height="?attr/actionBarSize"
-                android:background="?attr/colorPrimary"
-                app:popupTheme="@style/AppTheme.PopupOverlay"/>
+                android:layout_height="match_parent"
+                app:layout_scrollFlags="scroll|exitUntilCollapsed|snap"
+                app:contentScrim="@color/colorPrimary"
+                android:id="@+id/collapse_toolbar"
+                android:fitsSystemWindows="true">
+
+            <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:id="@+id/collapse_toolbar_image_view"
+                    android:src="@drawable/ic_birthday_person"
+                    android:paddingBottom="?attr/actionBarSize"
+                    app:layout_collapseMode="parallax"/>
+
+            <android.support.v7.widget.Toolbar
+                    android:id="@+id/toolbar"
+                    android:layout_gravity="bottom"
+                    android:gravity="bottom"
+                    android:layout_width="match_parent"
+                    android:background="#ffffffff"
+                    android:layout_height="?attr/actionBarSize"
+                    app:popupTheme="@style/AppTheme.PopupOverlay"/>
+
+        </android.support.design.widget.CollapsingToolbarLayout>
 
     </android.support.design.widget.AppBarLayout>
 
