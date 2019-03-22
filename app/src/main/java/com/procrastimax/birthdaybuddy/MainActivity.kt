@@ -4,7 +4,6 @@ import android.content.Context
 import android.os.Bundle
 import android.support.v4.app.FragmentTransaction
 import android.support.v4.content.ContextCompat
-import android.support.v4.view.ViewCompat
 import android.support.v7.app.AppCompatActivity
 import android.widget.ProgressBar
 import com.procrastimax.birthdaybuddy.fragments.BirthdayInstanceFragment
@@ -23,8 +22,6 @@ import java.text.DateFormat
 import java.util.*
 import android.support.design.widget.AppBarLayout
 import android.support.design.widget.CoordinatorLayout
-import kotlinx.android.synthetic.main.fragment_show_birthday_event.*
-
 
 /**
  *
@@ -33,10 +30,10 @@ import kotlinx.android.synthetic.main.fragment_show_birthday_event.*
  *  - bug when localization is changed after first start of app -> add possibility to change all encodings at app start when error occurs -> fix this by only use one format for saving
  *  - when language of devices changes, month divider names should also change -> save localization and compare to last start?
  *  - dont show last seperation character in list view ( -> first point)
- *  - dont draw item decoration on month divider
  *  - add checking for existing forename/surname pair when adding a new birthday/event
  *  - BUG: app closes when switched to potrait mode and changing fragments
- *  - add long click for birthday event item
+ *  - maybe delete all vector darwables and use android defaults in library, to save memory space
+ *  - maybe change collapsable toolbar to invisible, and change with standard toolbar
  */
 class MainActivity : AppCompatActivity() {
 
@@ -101,7 +98,7 @@ class MainActivity : AppCompatActivity() {
 
             runOnUiThread {
 
-                if(success == false){
+                if (success == false) {
                     DrawableHandler.showMissingImageAlertDialog(this)
                 }
 

@@ -38,7 +38,6 @@ object DrawableHandler {
         if (EventHandler.containsKey(index)) {
             if ((EventHandler.getValueToKey(index) is EventBirthday) && (EventHandler.getValueToKey(index) as EventBirthday).avatarImageUri != null) {
                 try {
-
                     //TODO: dont load whole bitmap, load compressed bitmap
                     val bitmap =
                         getScaledBitmap(MediaStore.Images.Media.getBitmap(context.contentResolver, uri), 64 * 4)
@@ -56,6 +55,19 @@ object DrawableHandler {
             }
         }
         return success
+    }
+
+    fun loadSquaredDrawable(index: Int, uri: Uri, context: Context, scale: Int = 64): Bitmap? {
+        if (EventHandler.containsKey(index)) {
+            if ((EventHandler.getValueToKey(index) is EventBirthday) && (EventHandler.getValueToKey(index) as EventBirthday).avatarImageUri != null) {
+                // we mostly dont need a try catch here, because this function should only be called after all drawables have once been loaded into the map
+                //TODO: dont load whole bitmap, load compressed bitmap
+                val bitmap =
+                    getScaledBitmap(MediaStore.Images.Media.getBitmap(context.contentResolver, uri), scale)
+                return bitmap
+            }
+        }
+        return null
     }
 
     fun removeDrawable(index: Int) {

@@ -22,6 +22,7 @@
                 android:layout_height="match_parent"
                 app:layout_scrollFlags="scroll|exitUntilCollapsed|snap"
                 app:contentScrim="@color/colorPrimary"
+                app:expandedTitleGravity="top|left"
                 android:id="@+id/collapse_toolbar"
                 android:fitsSystemWindows="true">
 
@@ -30,13 +31,12 @@
                     android:layout_height="match_parent"
                     android:id="@+id/collapse_toolbar_image_view"
                     android:src="@drawable/ic_birthday_person"
-                    android:paddingBottom="?attr/actionBarSize"
-                    app:layout_collapseMode="parallax"/>
+                    app:layout_collapseMode="parallax"
+                    android:scaleType="centerCrop"/>
 
             <android.support.v7.widget.Toolbar
                     android:id="@+id/toolbar"
                     android:layout_gravity="bottom"
-                    android:gravity="bottom"
                     android:layout_width="match_parent"
                     android:background="#ffffffff"
                     android:layout_height="?attr/actionBarSize"
