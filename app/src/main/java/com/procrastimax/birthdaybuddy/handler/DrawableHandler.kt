@@ -2,6 +2,7 @@ package com.procrastimax.birthdaybuddy.handler
 
 import android.app.AlertDialog
 import android.content.Context
+import android.content.DialogInterface
 import android.content.res.Resources
 import android.graphics.Bitmap
 import android.graphics.drawable.Drawable
@@ -10,7 +11,6 @@ import android.provider.MediaStore
 import android.support.v4.graphics.drawable.RoundedBitmapDrawable
 import android.support.v4.graphics.drawable.RoundedBitmapDrawableFactory
 import com.procrastimax.birthdaybuddy.models.EventBirthday
-import android.content.DialogInterface
 
 /**
  * TODO:

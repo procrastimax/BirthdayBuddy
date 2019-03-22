@@ -35,7 +35,7 @@
                     android:layout_height="wrap_content"
                     android:id="@+id/edit_add_fragment_date_anniversary"
                     android:textSize="@dimen/larger_text_size"
-                    android:hint="@string/edit_anniversary_date_hint_with_year"
+                    android:hint="@string/anniversary_instance_fragment_date_edit_hint"
                     style="@android:style/Widget.Holo.Light.Spinner"
                     app:layout_constraintStart_toStartOf="@+id/edit_add_fragment_name_anniversary"
                     android:layout_marginTop="16dp"

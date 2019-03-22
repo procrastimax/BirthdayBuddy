@@ -10,7 +10,6 @@ import android.provider.MediaStore
 import android.support.constraint.ConstraintLayout
 import android.support.design.widget.BottomSheetDialog
 import android.support.design.widget.Snackbar
-import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -240,7 +239,7 @@ class BirthdayInstanceFragment : EventInstanceFragment() {
                 }
 
                 if ((context as MainActivity).isLoading) {
-                    this.iv_add_avatar_btn.setImageResource(R.drawable.ic_person_add_img)
+                    this.iv_add_avatar_btn.setImageResource(R.drawable.ic_birthday_person)
                     this.iv_add_avatar_btn.isEnabled = false
                 } else {
                     this.updateAvatarImage()
@@ -250,10 +249,19 @@ class BirthdayInstanceFragment : EventInstanceFragment() {
             title.text = resources.getText(R.string.toolbar_title_add_birthday)
             btn_birthday_add_fragment_delete.visibility = Button.INVISIBLE
             (context as MainActivity).progress_bar_main.visibility = ProgressBar.GONE
+            edit_date.hint = resources.getString(
+                R.string.birthday_instance_fragment_date_edit_hint,
+                EventDate.parseDateToString(Calendar.getInstance().time, DateFormat.FULL)
+            )
+
+        }
+
+        edit_date.setOnClickListener {
+            showDatePickerDialog()
         }
 
         //add image from gallery
-        this.iv_add_avatar_btn.setOnClickListener {
+        this.frame_layout_add_avatar_image.setOnClickListener {
             val view_ = layoutInflater.inflate(R.layout.fragment_bottom_sheet_dialog, null)
 
             val dialog = BottomSheetDialog(context!!)
@@ -276,31 +284,17 @@ class BirthdayInstanceFragment : EventInstanceFragment() {
             if (layout_delete_img != null) {
                 layout_delete_img.setOnClickListener {
                     dialog.dismiss()
-                    if (itemID >= 0) {
-                        if ((this.birthday_avatar_uri != null) && ((EventHandler.event_list[itemID].second as EventBirthday).avatarImageUri != null)) {
-                            this.iv_add_avatar_btn.setImageResource(R.drawable.ic_person_add_img)
-                            this.avatar_img_was_edited = true
-                            this.birthday_avatar_uri = null
-                            DrawableHandler.removeDrawable(EventHandler.event_list[itemID].first)
-                        }
+                    if (isEditedBirthday && this.birthday_avatar_uri != null && (EventHandler.event_list[itemID].second as EventBirthday).avatarImageUri != null) {
+                        this.iv_add_avatar_btn.setImageResource(R.drawable.ic_birthday_person)
+                        this.avatar_img_was_edited = true
+                        this.birthday_avatar_uri = null
+                        DrawableHandler.removeDrawable(EventHandler.event_list[itemID].first)
                     } else {
-                        this.iv_add_avatar_btn.setImageResource(R.drawable.ic_person_add_img)
+                        this.iv_add_avatar_btn.setImageResource(R.drawable.ic_birthday_person)
                         this.birthday_avatar_uri = null
                     }
                 }
             }
-        }
-
-        /*cb_nickname.setOnCheckedChangeListener { _, isChecked ->
-            if (isChecked) {
-                edit_nickname.visibility = EditText.VISIBLE
-            } else {
-                edit_nickname.visibility = EditText.GONE
-            }
-        }*/
-
-        edit_date.setOnClickListener {
-            showDatePickerDialog()
         }
 
         switch_isYearGiven.setOnCheckedChangeListener { _, isChecked ->
@@ -321,10 +315,19 @@ class BirthdayInstanceFragment : EventInstanceFragment() {
                 }
             } else {
                 if (isChecked) {
-                    edit_date.hint = context!!.resources.getString(R.string.edit_birthday_date_hint_with_year)
+                    edit_date.hint = resources.getString(
+                        R.string.birthday_instance_fragment_date_edit_hint,
+                        EventDate.parseDateToString(Calendar.getInstance().time, DateFormat.FULL)
+                    )
                 } else {
                     edit_date.hint =
-                        context!!.resources.getString(R.string.edit_birthday_date_hint_without_year)
+                        resources.getString(
+                            R.string.birthday_instance_fragment_date_edit_hint,
+                            EventDate.parseDateToString(
+                                Calendar.getInstance().time,
+                                DateFormat.DATE_FIELD
+                            ).substring(0..5)
+                        )
                 }
             }
         }

@@ -29,12 +29,11 @@
     <string name="toolbar_title_add_birthday">Add new birthday</string>
     <string name="toolbar_title_edit_birthday">Edit birthday</string>
     <string name="future_birthday_error">You can\'t add future birthdays!</string>
+    <string name="birthday_instance_fragment_date_edit_hint">Date: %1$s</string>
     <string name="empty_fields_error">Make sure to fill fields forename, surname and date!</string>
     <string name="person_added_notification">%1$s\'s birthday added</string>
     <string name="person_changed_notification">%1$s\'s birthday changed</string>
     <string name="person_deleted_notification">%1$s\'s birthday deleted</string>
-    <string name="edit_birthday_date_hint_with_year">Date with known year</string>
-    <string name="edit_birthday_date_hint_without_year">Date without known year</string>
     <string name="edit_birthday_forename_hint">Forename</string>
     <string name="edit_birthday_nickname_hint">Nickname</string>
     <string name="edit_birthday_surname_hint">Surname</string>
@@ -89,13 +88,12 @@
     <!-- fragment add new anniversary -->
     <string name="toolbar_title_add_anniversary">Add new anniversary</string>
     <string name="toolbar_title_edit_anniversary">Edit anniversary</string>
+    <string name="anniversary_instance_fragment_date_edit_hint">Date: %1$s</string>
     <string name="future_anniversary_error">You can\'t add future anniversary!</string>
     <string name="empty_fields_error_anniversary">Make sure to fill fields name and date!</string>
     <string name="anniversary_added_notification">%1$s added</string>
     <string name="anniversary_changed_notification">%1$s changed</string>
     <string name="anniversary_deleted_notification">%1$s deleted</string>
-    <string name="edit_anniversary_date_hint_with_year">Date with known year</string>
-    <string name="edit_anniversary_date_hint_without_year">Date without known year</string>
     <string name="edit_anniversary_name_hint">Anniversary name</string>
     <string name="edit_anniversary_note_hint">Note</string>
     <string name="sw_anniversary_date_with_year_title">Year</string>

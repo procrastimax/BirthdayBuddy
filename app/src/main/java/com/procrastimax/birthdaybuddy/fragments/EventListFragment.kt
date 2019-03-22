@@ -1,6 +1,5 @@
 package com.procrastimax.birthdaybuddy.fragments
 
-import android.content.Context
 import android.os.Bundle
 import android.support.constraint.ConstraintLayout
 import android.support.v4.app.Fragment
@@ -11,9 +10,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.procrastimax.birthdaybuddy.R
+import com.procrastimax.birthdaybuddy.handler.EventHandler
 import com.procrastimax.birthdaybuddy.views.EventAdapter
 import com.procrastimax.birthdaybuddy.views.RecycleViewItemDivider
 import kotlinx.android.synthetic.main.fragment_event_list.*
+import java.util.*
 
 class EventListFragment : Fragment() {
 
@@ -49,6 +50,7 @@ class EventListFragment : Fragment() {
             setHasFixedSize(true)
             layoutManager = viewManager
             adapter = viewAdapter
+            scrollToPosition(traverseForFirstMonthEntry())
         }
         recyclerView.addItemDecoration(RecycleViewItemDivider(view.context))
         recyclerView.setPadding(
@@ -109,7 +111,7 @@ class EventListFragment : Fragment() {
             duration = 100
         }
 
-        fab_show_fab_menu.animate().duration = 100
+        fab_show_fab_menu.animate().duration = 75
         //some fancy overrotated animation
         fab_show_fab_menu.animate().rotationBy(75.0f).withEndAction {
             fab_show_fab_menu.animate().rotationBy(-30.0f).withEndAction {
@@ -151,6 +153,19 @@ class EventListFragment : Fragment() {
             }
         }
         (this.recyclerView.adapter as EventAdapter).isClickable = true
+    }
+
+    /**
+     * traverseForFirstMonthEntry is a function to get the position of the month item position of the current month
+     * TODO: maybe there is a better way to find the current month item, but for small records this may work out well
+     */
+    private fun traverseForFirstMonthEntry(): Int {
+        val currentMonth = Calendar.getInstance().get(Calendar.MONTH)
+        for (i in 0 until EventHandler.event_list.size) {
+            if (EventHandler.event_list[i].second.getMonth() == currentMonth)
+                return i
+        }
+        return 0
     }
 
     companion object {

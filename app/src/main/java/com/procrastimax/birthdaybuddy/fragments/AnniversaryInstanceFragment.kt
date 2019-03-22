@@ -4,7 +4,6 @@ import android.app.AlertDialog
 import android.app.DatePickerDialog
 import android.os.Bundle
 import android.support.design.widget.Snackbar
-import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,6 +13,7 @@ import com.procrastimax.birthdaybuddy.R
 import com.procrastimax.birthdaybuddy.handler.EventHandler
 import com.procrastimax.birthdaybuddy.models.EventAnniversary
 import com.procrastimax.birthdaybuddy.models.EventDate
+import kotlinx.android.synthetic.main.content_main.*
 import kotlinx.android.synthetic.main.fragment_anniversary_instance.*
 import kotlinx.android.synthetic.main.fragment_event_list.*
 import java.text.DateFormat
@@ -149,6 +149,11 @@ class AnniversaryInstanceFragment : EventInstanceFragment() {
         } else {
             title.text = resources.getText(R.string.toolbar_title_add_anniversary)
             btn_fragment_anniversary_instance_delete.visibility = Button.INVISIBLE
+            (context as MainActivity).progress_bar_main.visibility = ProgressBar.GONE
+            edit_date.hint = resources.getString(
+                R.string.anniversary_instance_fragment_date_edit_hint,
+                EventDate.parseDateToString(Calendar.getInstance().time, DateFormat.FULL)
+            )
         }
 
         edit_date.setOnClickListener {
@@ -172,9 +177,15 @@ class AnniversaryInstanceFragment : EventInstanceFragment() {
                 }
             } else {
                 if (isChecked) {
-                    edit_date.hint = context!!.resources.getString(R.string.edit_anniversary_date_hint_with_year)
+                    edit_date.hint = resources.getString(
+                        R.string.anniversary_instance_fragment_date_edit_hint,
+                        EventDate.parseDateToString(Calendar.getInstance().time, DateFormat.FULL)
+                    )
                 } else {
-                    edit_date.hint = context!!.resources.getString(R.string.edit_anniversary_date_hint_without_year)
+                    edit_date.hint = resources.getString(
+                        R.string.anniversary_instance_fragment_date_edit_hint,
+                        EventDate.parseDateToString(Calendar.getInstance().time, DateFormat.DATE_FIELD).substring(0..5)
+                    )
                 }
             }
         }
@@ -216,7 +227,6 @@ class AnniversaryInstanceFragment : EventInstanceFragment() {
                         Toast.LENGTH_LONG
                     ).show()
                 } else {
-
                     if (switch_isYearGiven.isChecked) {
                         edit_date.text = EventDate.parseDateToString(c.time, DateFormat.FULL)
                     } else {

@@ -18,7 +18,6 @@ import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.content_main.*
 import kotlinx.android.synthetic.main.fragment_add_new_birthday.*
 import kotlinx.android.synthetic.main.fragment_event_list.*
-import kotlinx.android.synthetic.main.fragment_show_birthday_event.*
 import java.text.DateFormat
 import java.util.*
 

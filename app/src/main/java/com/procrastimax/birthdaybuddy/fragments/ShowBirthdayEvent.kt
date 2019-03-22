@@ -3,7 +3,6 @@ package com.procrastimax.birthdaybuddy.fragments
 
 import android.content.Intent
 import android.os.Bundle
-import android.support.v4.app.Fragment
 import android.support.v4.content.ContextCompat
 import android.view.LayoutInflater
 import android.view.View
@@ -15,7 +14,6 @@ import com.procrastimax.birthdaybuddy.handler.DrawableHandler
 import com.procrastimax.birthdaybuddy.handler.EventHandler
 import com.procrastimax.birthdaybuddy.models.EventBirthday
 import com.procrastimax.birthdaybuddy.models.EventDate
-import kotlinx.android.synthetic.main.fragment_add_new_birthday.*
 import kotlinx.android.synthetic.main.fragment_show_birthday_event.*
 import java.text.DateFormat
 

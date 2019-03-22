@@ -1,9 +1,5 @@
 package com.procrastimax.birthdaybuddy
 
-import com.procrastimax.birthdaybuddy.handler.EventHandler
-import com.procrastimax.birthdaybuddy.models.EventBirthday
-import com.procrastimax.birthdaybuddy.models.EventDate
-import org.junit.Assert
 import org.junit.Test
 
 class EventHandlerTest {

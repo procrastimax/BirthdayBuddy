@@ -23,6 +23,7 @@
     <string name="tv_birthday_date_title">Datum</string>
     <string name="tv_birthday_forename_title">Vorname</string>
     <string name="tv_birthday_surname_title">Nachname</string>
+    <string name="tv_birthday_nickname_title">Spitzname</string>
 
     <!-- fragment add new birthday -->
     <string name="toolbar_title_add_birthday">Geburtstag hinzufügen</string>
@@ -32,13 +33,13 @@
     <string name="person_added_notification">%1$ss Geburtstag hinzugefügt</string>
     <string name="person_changed_notification">%1$ss Geburtstag geändert</string>
     <string name="person_deleted_notification">%1$ss Geburtstag gelöscht</string>
-    <string name="edit_birthday_date_hint_with_year">Datum mit Jahresangabe</string>
-    <string name="edit_birthday_date_hint_without_year">Datum ohne Jahresangabe</string>
     <string name="edit_birthday_forename_hint">Vorname</string>
     <string name="edit_birthday_surname_hint">Nachname</string>
+    <string name="edit_birthday_nickname_hint">Spitzname</string>
     <string name="edit_birthday_note_hint">Notiz</string>
     <string name="sw_birthday_date_with_year_title">Jahr</string>
     <string name="btn_birthday_delete">Lösche Geburtstag</string>
+    <string name="cb_nickname_title">Spitzname</string>
 
     <!-- alert dialog delete birthday -->
     <string name="alert_dialog_title_delete_birthday">Lösche Geburtstag</string>
@@ -87,8 +88,6 @@
     <string name="anniversary_added_notification">%1$s hinzugefügt</string>
     <string name="anniversary_changed_notification">%1$s bearbeitet</string>
     <string name="anniversary_deleted_notification">%1$s gelöscht</string>
-    <string name="edit_anniversary_date_hint_with_year">Datum mit Jahresangabe</string>
-    <string name="edit_anniversary_date_hint_without_year">Datum ohne Jahresangabe</string>
     <string name="edit_anniversary_name_hint">Jahrestagbezeichnung</string>
     <string name="edit_anniversary_note_hint">Notiz</string>
     <string name="sw_anniversary_date_with_year_title">Jahr</string>
@@ -126,6 +125,8 @@
     <!-- globals -->
     <string name="fab_event_list_birthday_title">Neuer Geburtstag</string>
     <string name="fab_event_list_anniversary_title">Neuer Jahrestag</string>
+
+    <string name="snackbar_undo_action_title">RÜCKGÄNGIG</string>
 
     <string name="intent_share_chooser_title">Wähle eine App zum teilen</string>
 
