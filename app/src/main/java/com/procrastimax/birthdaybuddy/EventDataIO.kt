@@ -32,8 +32,8 @@ object EventDataIO {
     private val type_month_divider: String = "MonthDivider"
     private val type_anniversary: String = "Anniversary"
 
-    public val divider_chars_properties = "||"
-    public val divider_chars_values = "::"
+    val divider_chars_properties = "||"
+    val divider_chars_values = "::"
 
     /**
      * registerIO has to be called before any io writing/reading is done
@@ -99,8 +99,9 @@ object EventDataIO {
         sharedPrefEdit.clear()
         sharedPrefEdit.putBoolean(preferenceInitString, true)
 
-        EventHandler.getEvents().forEach {
-            sharedPrefEdit.putString(it.key.toString(), it.value.toString())
+        for (i in 0 until EventHandler.getList().size) {
+            sharedPrefEdit.putString(i.toString(), EventHandler.getList()[i].second.toString())
+
         }
         sharedPrefEdit.apply()
     }
@@ -110,19 +111,18 @@ object EventDataIO {
      *
      * @return Map<Int, EventDay>
      */
-    fun readAll(): Map<Int, EventDate> {
-        val tempMap: MutableMap<Int, EventDate> = emptyMap<Int, EventDate>().toMutableMap()
+    fun readAll(context: Context) {
         sharedPref.all.forEach {
-            if (!it.key.equals(preferenceInitString)) {
+            if (it.key != preferenceInitString) {
                 if (it.value is String) {
                     val event = convertStringToEventDate(it.value as String)
+
                     if (event != null) {
-                        tempMap[it.key.toInt()] = event
+                        EventHandler.addEvent(event, context)
                     }
                 }
             }
         }
-        return tempMap
     }
 
     /**

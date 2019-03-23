@@ -20,13 +20,18 @@ import java.util.*
  *
  */
 object EventHandler {
-    private var event_map: MutableMap<Int, EventDate> = emptyMap<Int, EventDate>().toMutableMap()
+
+    private var id_counter = 0
+
+    fun getIDCounter(): Int {
+        return this.id_counter
+    }
 
     /**
      * event_list a list used for sorted viewing of the maps content
      * the data is stored in pairs of EventDay and the index of this dataset in the map as an int
      */
-    var event_list: List<Pair<Int, EventDate>> = emptyList()
+    private var event_list: MutableList<Pair<Int, EventDate>> = emptyList<Pair<Int, EventDate>>().toMutableList()
 
     /**
      * addEvent adds a EventDay type to the map and has the possibility to write it to the shared prefernces after adding it
@@ -37,46 +42,26 @@ object EventHandler {
      * @param isAddingMonth: Boolean, dont call changedEventList when already checked for new months
      */
     fun addEvent(event: EventDate, context: Context, writeAfterAdd: Boolean = false) {
-        //TODO: add event valdiation
-        val last_key = getLastIndex()
-        event_map[last_key] = event
-        event_list = getSortedListBy()
+
+        this.event_list.add(Pair(id_counter, event))
 
         if (event is EventBirthday) {
-            if ((event).avatarImageUri != null) {
-                DrawableHandler.addDrawable(last_key, Uri.parse((event).avatarImageUri), context)
+            if (event.avatarImageUri != null) {
+                DrawableHandler.addDrawable(id_counter, getLastIndex(), Uri.parse(event.avatarImageUri), context)
             }
         }
+
+        this.event_list = getSortedListBy(this.event_list).toMutableList()
+
+        id_counter++
 
         if (writeAfterAdd) {
-            EventDataIO.writeEventToFile(last_key, event)
+            EventDataIO.writeAll()
         }
     }
 
-    /**
-     * addMap adds a map of <Int, EventDay> to this map
-     */
-    fun addMap(events: Map<Int, EventDate>) {
-        this.event_map.putAll(events)
-        this.event_list = getSortedListBy()
-    }
-
-    /**
-     * getKeyToValue searches for the key to an given event
-     * This should work, because every event should be unique
-     *
-     * @param event : Eventday
-     * @return Int
-     */
-    fun getKeyToValue(event: EventDate): Int {
-        //TODO: this can be really slow
-        val entrySet = event_map.entries
-        entrySet.asIterable().forEach {
-            if (it.value == event) {
-                return it.key
-            }
-        }
-        return -1
+    fun addList(list: List<Pair<Int, EventDate>>) {
+        this.event_list = getSortedListBy(list).toMutableList()
     }
 
     /**
@@ -85,26 +70,10 @@ object EventHandler {
      * @param key : Int
      * @return EventDay?
      */
-    fun getValueToKey(key: Int): EventDate? {
-        if (event_map.contains(key)) {
-            return event_map[key]!!
-        }
+    fun getValueToIndex(key: Int): EventDate? {
+        if (containsIndex(key))
+            return event_list[key].second
         return null
-    }
-
-    /**
-     * removeEventByEvent removes an event from the map by using a value
-     * It uses the getKeyToValue function
-     *
-     * @param event : EventDay
-     */
-    fun removeEventByEvent(event: EventDate, writeChange: Boolean = false) {
-        val key = getKeyToValue(event)
-        event_map.remove(key)
-        event_list = getSortedListBy()
-        if (writeChange) {
-            EventDataIO.removeEventFromFile(key)
-        }
     }
 
     /**
@@ -113,24 +82,19 @@ object EventHandler {
      * @param key : Int
      */
     fun removeEventByKey(key: Int, writeChange: Boolean = false) {
-        if (event_map[key] is EventBirthday) {
-            if ((event_map[key] as EventBirthday).avatarImageUri != null) {
-                DrawableHandler.removeDrawable(key)
+
+        if (event_list[key].second is EventBirthday) {
+            if ((event_list[key].second as EventBirthday).avatarImageUri != null) {
+                DrawableHandler.removeDrawable(event_list[key].first)
             }
         }
-        event_map.remove(key)
-        event_list = getSortedListBy()
+
+        event_list.removeAt(key)
+        this.event_list = this.getSortedListBy(this.event_list).toMutableList()
 
         if (writeChange) {
-            EventDataIO.removeEventFromFile(key)
+            EventDataIO.writeAll()
         }
-    }
-
-    /**
-     * clearMap deletes all entries
-     */
-    fun clearMap() {
-        event_map.clear()
     }
 
     /**
@@ -140,29 +104,20 @@ object EventHandler {
      * @param event : EventDay
      */
     fun changeEventAt(key: Int, event: EventDate, context: Context, writeAfterChange: Boolean = false) {
-        event_map[key] = event
-        event_list = getSortedListBy()
+        val id_cnt = event_list[key].first
+        event_list[key] = Pair(id_cnt, event)
 
         if (event is EventBirthday) {
             if ((event).avatarImageUri != null) {
-                DrawableHandler.addDrawable(key, Uri.parse((event).avatarImageUri), context)
+                DrawableHandler.addDrawable(event_list[key].first, key, Uri.parse((event).avatarImageUri), context)
             }
         }
 
-        if (writeAfterChange) {
-            EventDataIO.removeEventFromFile(key)
-            EventDataIO.writeEventToFile(key, event)
-        }
-    }
+        this.event_list = getSortedListBy(this.event_list).toMutableList()
 
-    /**
-     * containsValue checks if the given event is present in the map
-     *
-     * @param event: EventDay
-     * @return Boolean
-     */
-    fun containsValue(event: EventDate): Boolean {
-        return event_map.containsValue(event)
+        if (writeAfterChange) {
+            EventDataIO.writeAll()
+        }
     }
 
     /**
@@ -171,17 +126,9 @@ object EventHandler {
      * @param key: Int
      * @return Boolean
      */
-    fun containsKey(key: Int): Boolean {
-        return event_map.contains(key)
-    }
+    fun containsIndex(key: Int): Boolean {
+        return (event_list.getOrNull(key) != null)
 
-    /**
-     * getEvents returns all events as Map<Int, EventDay>
-     *
-     * @return Map<Int, EventDay>
-     */
-    fun getEvents(): Map<Int, EventDate> {
-        return event_map
     }
 
     /**
@@ -194,9 +141,7 @@ object EventHandler {
      * @return Int
      */
     fun getLastIndex(): Int {
-        return if (event_map.isEmpty()) {
-            0
-        } else event_map.size
+        return event_list.size
     }
 
     /**
@@ -228,6 +173,10 @@ object EventHandler {
         }
     }
 
+    fun getList(): List<Pair<Int, EventDate>> {
+        return this.event_list
+    }
+
     /**
      * getSortValueListBy returns the map as a value list which is sorted by specific attributes given by an enum identifier
      * If the identifier is unknown, than an empty value list is returned
@@ -235,9 +184,12 @@ object EventHandler {
      * @param identifier : SortIdentifier
      * @return List<EventDay>
      */
-    fun getSortedListBy(identifier: SortIdentifier = EventDate.Identifier.Date): List<Pair<Int, EventDate>> {
+    fun getSortedListBy(
+        list: List<Pair<Int, EventDate>>,
+        identifier: SortIdentifier = EventDate.Identifier.Date
+    ): List<Pair<Int, EventDate>> {
         if (identifier == EventDate.Identifier.Date) {
-            return this.event_map.toList().sortedBy { pair -> pair.second }
+            return list.sortedBy { it.second.getDayOfYear() }
         } else {
             return emptyList()
         }

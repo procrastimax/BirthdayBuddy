@@ -6,12 +6,10 @@ import android.content.DialogInterface
 import android.content.res.Resources
 import android.graphics.Bitmap
 import android.graphics.drawable.Drawable
-import android.net.MailTo
 import android.net.Uri
 import android.provider.MediaStore
 import android.support.v4.graphics.drawable.RoundedBitmapDrawable
 import android.support.v4.graphics.drawable.RoundedBitmapDrawableFactory
-import com.procrastimax.birthdaybuddy.MainActivity
 import com.procrastimax.birthdaybuddy.R
 import com.procrastimax.birthdaybuddy.models.EventBirthday
 
@@ -32,34 +30,35 @@ object DrawableHandler {
      * @param context : Context
      * @param scale : Int
      */
-    fun addDrawable(index: Int, uri: Uri, context: Context, scale: Int = 64): Boolean {
+    fun addDrawable(id: Int, index: Int, uri: Uri, context: Context, scale: Int = 64): Boolean {
         var success = true
         //is valid index in EventHandler map
-        if (EventHandler.containsKey(index)) {
-            if ((EventHandler.getValueToKey(index) is EventBirthday) && (EventHandler.getValueToKey(index) as EventBirthday).avatarImageUri != null) {
-                try {
-                    //TODO: dont load whole bitmap, load compressed bitmap
-                    val bitmap =
-                        getScaledBitmap(MediaStore.Images.Media.getBitmap(context.contentResolver, uri), 64 * 4)
-                    drawable_map[index] = getCircularDrawable(bitmap, context.resources)
 
-                    //catch any exception, not nice but mostly like a filenotfound exception, when an image was deleted or moved
-                    //when this exception is catched, then delete uri reference in EventDatee instance +  inform the user
-                } catch (e: Exception) {
-                    val birthday = (EventHandler.getValueToKey(index) as EventBirthday)
-                    birthday.avatarImageUri = null
-                    EventHandler.removeEventByKey(index, true)
-                    EventHandler.addEvent(birthday, context, true)
-                    success = false
-                }
-            }
+        try {
+            //TODO: dont load whole bitmap, load compressed bitmap
+            val bitmap =
+                getScaledBitmap(MediaStore.Images.Media.getBitmap(context.contentResolver, uri), 64 * 4)
+            drawable_map[id] = getCircularDrawable(bitmap, context.resources)
+
+            //catch any exception, not nice but mostly like a filenotfound exception, when an image was deleted or moved
+            //when this exception is catched, then delete uri reference in EventDatee instance +  inform the user
+        } catch (e: Exception) {
+            println(e)
+            val birthday = EventHandler.getList().last().second as EventBirthday
+            birthday.avatarImageUri = null
+            val list = EventHandler.getList()
+            val lastIndex = EventHandler.getList().lastIndex
+            println("list: " + list)
+            println("last index: " + lastIndex)
+            EventHandler.changeEventAt(EventHandler.getList().lastIndex, birthday, context, true)
+            success = false
         }
         return success
     }
 
     fun loadSquaredDrawable(index: Int, uri: Uri, context: Context, scale: Int = 64): Bitmap? {
-        if (EventHandler.containsKey(index)) {
-            if ((EventHandler.getValueToKey(index) is EventBirthday) && (EventHandler.getValueToKey(index) as EventBirthday).avatarImageUri != null) {
+        if (EventHandler.containsIndex(index)) {
+            if ((EventHandler.getValueToIndex(index) is EventBirthday) && (EventHandler.getValueToIndex(index) as EventBirthday).avatarImageUri != null) {
                 // we mostly dont need a try catch here, because this function should only be called after all drawables have once been loaded into the map
                 //TODO: dont load whole bitmap, load compressed bitmap
                 val bitmap =
@@ -71,7 +70,7 @@ object DrawableHandler {
     }
 
     fun removeDrawable(index: Int) {
-        if (EventHandler.containsKey(index)) {
+        if (EventHandler.containsIndex(index)) {
             drawable_map.toMutableMap().remove(index)
         }
     }
@@ -81,9 +80,16 @@ object DrawableHandler {
      */
     fun loadAllDrawables(context: Context): Boolean {
         var success = true
-        for (it in EventHandler.event_list) {
-            if ((it.second is EventBirthday) && (it.second as EventBirthday).avatarImageUri != null) {
-                success = addDrawable(it.first, Uri.parse((it.second as EventBirthday).avatarImageUri), context)
+
+        for (i in 0 until EventHandler.getList().size) {
+            if ((EventHandler.getList()[i].second is EventBirthday) && ((EventHandler.getList()[i].second as EventBirthday).avatarImageUri != null)) {
+                success =
+                    addDrawable(
+                        EventHandler.getList()[i].first,
+                        i,
+                        Uri.parse((EventHandler.getList()[i].second as EventBirthday).avatarImageUri),
+                        context
+                    )
             }
         }
         return success

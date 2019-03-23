@@ -170,7 +170,7 @@ class BirthdayInstanceFragment : EventInstanceFragment() {
             //when no arguments are delivered
             if (arguments!!.size() > 0) {
                 itemID = (arguments!!.getInt(ITEM_ID_PARAM))
-                val birthday = EventHandler.event_list[itemID].second as EventBirthday
+                val birthday = EventHandler.getList()[itemID].second as EventBirthday
 
                 if (birthday.isYearGiven) {
                     edit_date.text = EventDate.parseDateToString(birthday.eventDate, DateFormat.FULL)
@@ -203,7 +203,7 @@ class BirthdayInstanceFragment : EventInstanceFragment() {
                     alert_builder.setMessage(resources.getString(R.string.alert_dialog_body_message))
 
                     val context_temp = context
-                    val birthday_temp = EventHandler.event_list[itemID].second
+                    val birthday_pair_temp = EventHandler.getList()[itemID]
 
                     // Set a positive button and its click listener on alert dialog
                     alert_builder.setPositiveButton(resources.getString(R.string.alert_dialog_accept_delete)) { dialog, which ->
@@ -214,7 +214,7 @@ class BirthdayInstanceFragment : EventInstanceFragment() {
                             Snackbar.LENGTH_LONG
                         )
                             .setAction(R.string.snackbar_undo_action_title, View.OnClickListener {
-                                EventHandler.addEvent(birthday_temp, context_temp!!, true)
+                                EventHandler.addEvent(birthday_pair_temp.second, this.context!!, true)
                                 //get last fragment in stack list, which should be eventlistfragment, so we can update the recycler view
                                 val fragment =
                                     (context_temp as MainActivity).supportFragmentManager.fragments[(context_temp).supportFragmentManager.backStackEntryCount]
@@ -223,7 +223,7 @@ class BirthdayInstanceFragment : EventInstanceFragment() {
                                 }
                             })
                             .show()
-                        EventHandler.removeEventByKey(EventHandler.event_list[itemID].first, true)
+                        EventHandler.removeEventByKey(itemID, true)
                         closeBtnPressed()
                     }
 
@@ -284,11 +284,11 @@ class BirthdayInstanceFragment : EventInstanceFragment() {
             if (layout_delete_img != null) {
                 layout_delete_img.setOnClickListener {
                     dialog.dismiss()
-                    if (isEditedBirthday && this.birthday_avatar_uri != null && (EventHandler.event_list[itemID].second as EventBirthday).avatarImageUri != null) {
+                    if (isEditedBirthday && this.birthday_avatar_uri != null && (EventHandler.getList()[itemID].second as EventBirthday).avatarImageUri != null) {
                         this.iv_add_avatar_btn.setImageResource(R.drawable.ic_birthday_person)
                         this.avatar_img_was_edited = true
                         this.birthday_avatar_uri = null
-                        DrawableHandler.removeDrawable(EventHandler.event_list[itemID].first)
+                        DrawableHandler.removeDrawable(itemID)
                     } else {
                         this.iv_add_avatar_btn.setImageResource(R.drawable.ic_birthday_person)
                         this.birthday_avatar_uri = null
@@ -481,7 +481,7 @@ class BirthdayInstanceFragment : EventInstanceFragment() {
 
             //new bithday entry, just add a new entry in map
             if (!isEditedBirthday) {
-                EventHandler.addEvent(birthday, context!!, true)
+                EventHandler.addEvent(birthday, this.context!!, true)
                 Snackbar.make(
                     view!!,
                     context!!.resources.getString(R.string.person_added_notification, forename),
@@ -491,8 +491,8 @@ class BirthdayInstanceFragment : EventInstanceFragment() {
 
                 //already existant birthday entry, overwrite old entry in map
             } else {
-                if (wasChangeMade(EventHandler.event_list[itemID].second as EventBirthday)) {
-                    EventHandler.changeEventAt(EventHandler.event_list[itemID].first, birthday, context!!, true)
+                if (wasChangeMade(EventHandler.getList()[itemID].second as EventBirthday)) {
+                    EventHandler.changeEventAt(itemID, birthday, context!!, true)
                     Snackbar.make(
                         view!!,
                         context!!.resources.getString(R.string.person_changed_notification, forename),
@@ -507,8 +507,8 @@ class BirthdayInstanceFragment : EventInstanceFragment() {
     fun updateAvatarImage() {
         if (this.iv_add_avatar_btn != null && this.itemID >= 0) {
             //load maybe already existent avatar photo
-            if ((EventHandler.event_list[itemID].second as EventBirthday).avatarImageUri != null) {
-                this.iv_add_avatar_btn.setImageDrawable(DrawableHandler.getDrawableAt((EventHandler.event_list[itemID].first)))
+            if ((EventHandler.getList()[itemID].second as EventBirthday).avatarImageUri != null) {
+                this.iv_add_avatar_btn.setImageDrawable(DrawableHandler.getDrawableAt(EventHandler.getList()[itemID].first))
                 this.iv_add_avatar_btn.isEnabled = true
             }
         }

@@ -2,7 +2,6 @@ package com.procrastimax.birthdaybuddy.fragments
 
 
 import android.content.Intent
-import android.graphics.drawable.BitmapDrawable
 import android.net.Uri
 import android.os.Bundle
 import android.support.v4.content.ContextCompat
@@ -79,10 +78,10 @@ class ShowBirthdayEvent : ShowEventFragment() {
      */
     override fun updateUI() {
         //dont update ui when wrong item id / or deleted item
-        if (EventHandler.event_list[item_id].second !is EventBirthday) {
+        if (EventHandler.getList()[item_id].second !is EventBirthday) {
             (context as MainActivity).supportFragmentManager.popBackStack()
         } else {
-            val birthdayEvent = EventHandler.event_list[item_id].second as EventBirthday
+            val birthdayEvent = EventHandler.getList()[item_id].second as EventBirthday
 
             if (birthdayEvent.nickname != null) {
                 this.tv_show_birthday_forename.text = "${birthdayEvent.forename} \"${birthdayEvent.nickname}\""
@@ -149,11 +148,11 @@ class ShowBirthdayEvent : ShowEventFragment() {
     fun updateAvatarImage() {
         if (this.iv_avatar != null && this.item_id >= 0 && (context as MainActivity).collapse_toolbar_image_view != null) {
             //load maybe already existent avatar photo
-            if ((EventHandler.event_list[item_id].second as EventBirthday).avatarImageUri != null) {
+            if ((EventHandler.getList()[item_id].second as EventBirthday).avatarImageUri != null) {
 
                 val bitmap = DrawableHandler.loadSquaredDrawable(
-                    EventHandler.event_list[item_id].first,
-                    Uri.parse((EventHandler.event_list[item_id].second as EventBirthday).avatarImageUri),
+                    item_id,
+                    Uri.parse((EventHandler.getList()[item_id].second as EventBirthday).avatarImageUri),
                     this.context!!,
                     (context as MainActivity).collapse_toolbar.width
                 )
@@ -174,8 +173,8 @@ class ShowBirthdayEvent : ShowEventFragment() {
      * It provides a simple intent to share data as plain text in other apps
      */
     override fun shareEvent() {
-        if (EventHandler.event_list[item_id].second is EventBirthday) {
-            val birthday = EventHandler.event_list[item_id].second as EventBirthday
+        if (EventHandler.getList()[item_id].second is EventBirthday) {
+            val birthday = EventHandler.getList()[item_id].second as EventBirthday
 
             val intent = Intent(Intent.ACTION_SEND)
             intent.type = "text/plain"

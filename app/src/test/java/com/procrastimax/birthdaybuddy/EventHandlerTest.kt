@@ -15,18 +15,18 @@ class EventHandlerTest {
 
     @Test
     fun testGetKeyFromValue() {
-       /* EventHandler.clearMap()
-        val event_count = 5
-        //generate 5 random events
-        EventHandler.generateRandomEventDates(event_count)
+        /* EventHandler.clearMap()
+         val event_count = 5
+         //generate 5 random events
+         EventHandler.generateRandomEventDates(event_count)
 
-        //add one specific event
-        val event = EventBirthday(EventDate.parseStringToDate("02/02/02"), "Max", "Xam")
-        EventHandler.addEvent(event)
+         //add one specific event
+         val event = EventBirthday(EventDate.parseStringToDate("02/02/02"), "Max", "Xam")
+         EventHandler.addEvent(event)
 
-        //add 5 more random events
-        EventHandler.generateRandomEventDates(event_count)
-        Assert.assertEquals(5, EventHandler.getKeyToValue(event))*/
+         //add 5 more random events
+         EventHandler.generateRandomEventDates(event_count)
+         Assert.assertEquals(5, EventHandler.getKeyToValue(event))*/
         assert(true)
     }
 

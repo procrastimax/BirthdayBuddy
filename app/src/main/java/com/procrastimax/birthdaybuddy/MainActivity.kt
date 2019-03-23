@@ -2,6 +2,8 @@ package com.procrastimax.birthdaybuddy
 
 import android.content.Context
 import android.os.Bundle
+import android.support.design.widget.AppBarLayout
+import android.support.design.widget.CoordinatorLayout
 import android.support.v4.app.FragmentTransaction
 import android.support.v4.content.ContextCompat
 import android.support.v7.app.AppCompatActivity
@@ -20,8 +22,6 @@ import kotlinx.android.synthetic.main.fragment_add_new_birthday.*
 import kotlinx.android.synthetic.main.fragment_event_list.*
 import java.text.DateFormat
 import java.util.*
-import android.support.design.widget.AppBarLayout
-import android.support.design.widget.CoordinatorLayout
 
 /**
  *
@@ -57,7 +57,7 @@ class MainActivity : AppCompatActivity() {
         EventDataIO.registerIO(this.applicationContext)
 
         //read all data from shared prefs
-        EventHandler.addMap(EventDataIO.readAll())
+        EventDataIO.readAll(this.applicationContext)
 
         if (isFirstStart()) {
             val cal = Calendar.getInstance()
@@ -98,7 +98,7 @@ class MainActivity : AppCompatActivity() {
 
             runOnUiThread {
 
-                if (success == false) {
+                if (!success) {
                     DrawableHandler.showMissingImageAlertDialog(this)
                 }
 

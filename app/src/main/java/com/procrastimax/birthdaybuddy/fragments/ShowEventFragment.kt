@@ -7,7 +7,6 @@ import android.view.View
 import android.widget.ImageView
 import com.procrastimax.birthdaybuddy.MainActivity
 import com.procrastimax.birthdaybuddy.R
-import kotlinx.android.synthetic.main.activity_main.*
 
 const val ITEM_ID_PARAM = "ITEMID"
 

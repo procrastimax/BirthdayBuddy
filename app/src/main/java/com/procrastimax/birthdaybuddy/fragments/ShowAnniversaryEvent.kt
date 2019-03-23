@@ -67,10 +67,10 @@ class ShowAnniversaryEvent : ShowEventFragment() {
      */
     override fun updateUI() {
         //dont update ui when wrong item id / or deleted item
-        if (EventHandler.event_list[item_id].second !is EventAnniversary) {
+        if (EventHandler.getList()[item_id].second !is EventAnniversary) {
             (context as MainActivity).supportFragmentManager.popBackStack()
         } else {
-            val anniversaryEvent = EventHandler.event_list[item_id].second as EventAnniversary
+            val anniversaryEvent = EventHandler.getList()[item_id].second as EventAnniversary
             //set name of anniversary
             this.tv_show_anniversary_name.text = anniversaryEvent.name
 
@@ -112,8 +112,8 @@ class ShowAnniversaryEvent : ShowEventFragment() {
      * It provides a simple intent to share data as plain text in other apps
      */
     override fun shareEvent() {
-        if (EventHandler.event_list[item_id].second is EventAnniversary) {
-            val anniversary = EventHandler.event_list[item_id].second as EventAnniversary
+        if (EventHandler.getList()[item_id].second is EventAnniversary) {
+            val anniversary = EventHandler.getList()[item_id].second as EventAnniversary
 
             val intent = Intent(Intent.ACTION_SEND)
             intent.setType("text/plain")
