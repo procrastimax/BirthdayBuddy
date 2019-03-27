@@ -4,7 +4,7 @@ import android.content.Context
 import android.content.SharedPreferences
 import android.util.Log
 import com.procrastimax.birthdaybuddy.handler.EventHandler
-import com.procrastimax.birthdaybuddy.models.EventAnniversary
+import com.procrastimax.birthdaybuddy.models.AnnualEvent
 import com.procrastimax.birthdaybuddy.models.EventBirthday
 import com.procrastimax.birthdaybuddy.models.EventDate
 import com.procrastimax.birthdaybuddy.models.MonthDivider
@@ -30,7 +30,7 @@ object EventDataIO {
     //Identifier string for types of Birthday
     private val type_birthday: String = "Birthday"
     private val type_month_divider: String = "MonthDivider"
-    private val type_anniversary: String = "Anniversary"
+    private val type_annual: String = "AnnualEvent"
 
     val divider_chars_properties = "||"
     val divider_chars_values = "::"
@@ -207,8 +207,8 @@ object EventDataIO {
             }
             return MonthDivider(EventDate.parseStringToDate(date), month)
 
-            // ANNIVERSARY EVENT
-        } else if (string_array[0] == type_anniversary) {
+            // ANNUAL EVENT
+        } else if (string_array[0] == type_annual) {
             var date = "-"
             var name = "-"
             var note = "null"
@@ -219,23 +219,23 @@ object EventDataIO {
 
                 //use identifier
                 when (property[0]) {
-                    EventAnniversary.Identifier.Date.toString() -> {
+                    AnnualEvent.Identifier.Date.toString() -> {
                         date = property[1]
                     }
-                    EventAnniversary.Identifier.Name.toString() -> {
+                    AnnualEvent.Identifier.Name.toString() -> {
                         name = property[1]
                     }
-                    EventAnniversary.Identifier.HasStartYear.toString() -> {
+                    AnnualEvent.Identifier.HasStartYear.toString() -> {
                         hasStartYear = property[1].toBoolean()
                     }
-                    EventAnniversary.Identifier.Note.toString() -> {
+                    AnnualEvent.Identifier.Note.toString() -> {
                         note = property[1]
                     }
                     else ->
-                        Log.w("EventDataIO", "Could not find identifier when trying to parse EventAnniversary")
+                        Log.w("EventDataIO", "Could not find identifier when trying to parse AnnualEvent")
                 }
             }
-            val anniversary = EventAnniversary(EventDate.parseStringToDate(date), name, hasStartYear)
+            val anniversary = AnnualEvent(EventDate.parseStringToDate(date), name, hasStartYear)
             if (note != "null") {
                 anniversary.note = note
             }

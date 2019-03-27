@@ -9,7 +9,7 @@ import java.util.*
  * TODO:
  * - rework note workings (null)
  */
-class EventAnniversary(private var _eventDate: Date, private var _name: String, var hasStartYear: Boolean) :
+class AnnualEvent(private var _eventDate: Date, private var _name: String, var hasStartYear: Boolean) :
     EventDate(_eventDate) {
 
     /**
@@ -35,7 +35,7 @@ class EventAnniversary(private var _eventDate: Date, private var _name: String, 
         get() = _name
         set(value) {
             _name = if (value.isBlank() || value.isEmpty()) {
-                Log.d("EventAnniversary", "member variable NAME was set to an empty/blank value!")
+                Log.d("AnnualEvent", "member variable NAME was set to an empty/blank value!")
                 "-"
             } else {
                 value
@@ -47,7 +47,7 @@ class EventAnniversary(private var _eventDate: Date, private var _name: String, 
             if (field == null) {
                 return null
             } else if (field!!.isEmpty() || field!!.isBlank()) {
-                Log.d("EventAnniversary", "member var NOTE is blank/empty when trying to access it")
+                Log.d("AnnualEvent", "member var NOTE is blank/empty when trying to access it")
                 return null
             } else {
                 return field!!.trim()
@@ -55,10 +55,10 @@ class EventAnniversary(private var _eventDate: Date, private var _name: String, 
         }
         set(value) {
             if (value == null) {
-                Log.d("EventAnniversary", "member variable NOTE was set to a null value!")
+                Log.d("AnnualEvent", "member variable NOTE was set to a null value!")
                 field = null
             } else field = if (value.isBlank() || value.isEmpty()) {
-                Log.d("EventAnniversary", "member variable NOTE was set to an empty/blank value!")
+                Log.d("AnnualEvent", "member variable NOTE was set to an empty/blank value!")
                 null
             } else {
                 value
@@ -82,7 +82,7 @@ class EventAnniversary(private var _eventDate: Date, private var _name: String, 
      * @return String
      */
     override fun toString(): String {
-        return "Anniversary${EventDataIO.divider_chars_properties}" +
+        return "AnnualEvent${EventDataIO.divider_chars_properties}" +
                 "${Identifier.Name}${EventDataIO.divider_chars_values}${this._name}" +
                 "${EventDataIO.divider_chars_properties}${Identifier.Date}${EventDataIO.divider_chars_values}${EventDate.parseDateToString(
                     this.eventDate,

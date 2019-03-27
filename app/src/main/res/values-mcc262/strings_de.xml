@@ -77,49 +77,49 @@
     </plurals>
 
 
-    <!-- ANNIVERSARY -->
-    <!-- anniversary event view -->
-    <string name="tv_anniversary_days_until_title">Tage</string>
-    <string name="tv_anniversary_years_since_title">Jahre</string>
-    <string name="tv_anniversary_date_title">Datum</string>
+    <!-- annual_event -->
+    <!-- annual_event event view -->
+    <string name="tv_annual_event_days_until_title">Tage</string>
+    <string name="tv_annual_event_years_since_title">Jahre</string>
+    <string name="tv_annual_event_date_title">Datum</string>
 
-    <!-- fragment add new anniversary -->
-    <string name="toolbar_title_add_anniversary">Jahrestag hinzufügen</string>
-    <string name="toolbar_title_edit_anniversary">Bearbeite Jahrestag</string>
-    <string name="future_anniversary_error">Du kannst keine zukünftigen Jahrestage hinzufügen!</string>
-    <string name="empty_fields_error_anniversary">Fülle zuerst alle leeren Felder aus! (Name, Datum)</string>
-    <string name="anniversary_added_notification">%1$s hinzugefügt</string>
-    <string name="anniversary_changed_notification">%1$s bearbeitet</string>
-    <string name="anniversary_deleted_notification">%1$s gelöscht</string>
-    <string name="edit_anniversary_name_hint">Jahrestagbezeichnung</string>
-    <string name="edit_anniversary_note_hint">Notiz</string>
-    <string name="sw_anniversary_date_with_year_title">Jahr</string>
-    <string name="btn_anniversary_delete">Lösche Jahrestag</string>
+    <!-- fragment add new annual_event -->
+    <string name="toolbar_title_add_annual_event">Neues jährliches Event</string>
+    <string name="toolbar_title_edit_annual_event">Bearbeite jährliches Event</string>
+    <string name="future_annual_event_error">Du kannst keine zukünftigen jährlichen Events hinzufügen!</string>
+    <string name="empty_fields_error_annual_event">Fülle zuerst alle leeren Felder aus! (Name, Datum)</string>
+    <string name="annual_event_added_notification">%1$s hinzugefügt</string>
+    <string name="annual_event_changed_notification">%1$s bearbeitet</string>
+    <string name="annual_event_deleted_notification">%1$s gelöscht</string>
+    <string name="edit_annual_event_name_hint">Name</string>
+    <string name="edit_annual_event_note_hint">Notiz</string>
+    <string name="sw_annual_event_date_with_year_title">Jahr</string>
+    <string name="btn_annual_event_delete">Lösche jährliches Event</string>
 
-    <!-- alert dialog delete anniversary -->
-    <string name="alert_dialog_title_delete_anniversary">Lösche Jahrestag</string>
-    <string name="alert_dialog_body_message_anniversary">Bist du sicher, dass du diesen Jahrestag löschen möchtest?</string>
+    <!-- alert dialog delete annual_event -->
+    <string name="alert_dialog_title_delete_annual_event">Lösche jährliches Event</string>
+    <string name="alert_dialog_body_message_annual_event">Bist du sicher, dass du dieses jährliche Event löschen möchtest?</string>
     <!-- fragment show birthday -->
-    <plurals name="anniversary_show_date">
+    <plurals name="annual_event_show_date">
         <item quantity="one">Das ist in %1$d Tag\nam %2$</item>
         <item quantity="other">Das ist in %1$d Tagen\nam %2$s</item>
     </plurals>
-    <string name="anniversary_no_note">Es wurde keine Notiz gemacht</string>
-    <string name="anniversary_note">Notiz: %1$s</string>
-    <plurals name="anniversary_years">
+    <string name="annual_event_no_note">Es wurde keine Notiz gemacht</string>
+    <string name="annual_event_note">Notiz: %1$s</string>
+    <plurals name="annual_event_years">
         <item quantity="one">Seit %1$d Jahr</item>
         <item quantity="other">Seit %1$d Jahren</item>
     </plurals>
 
-    <!-- sharing strings anniversary -->
-    <string name="share_anniversary_name">%1$s</string>
-    <string name="share_anniversary_date_next">Nächstes Mal am %1$s</string>
-    <string name="share_anniversary_date_start">Erste Mal am %1$s</string>
-    <plurals name="share_anniversary_days">
+    <!-- sharing strings annual_event -->
+    <string name="share_annual_event_name">%1$s</string>
+    <string name="share_annual_event_date_next">Nächstes Mal am %1$s</string>
+    <string name="share_annual_event_date_start">Erste Mal am %1$s</string>
+    <plurals name="share_annual_event_days">
         <item quantity="one">In %1$d Tag</item>
         <item quantity="other">In %1$d Tagen</item>
     </plurals>
-    <plurals name="share_anniversary_year">
+    <plurals name="share_annual_event_year">
         <item quantity="one">Seit %1$d Jahr</item>
         <item quantity="other">Seit %1$d Jahren</item>
     </plurals>
@@ -127,7 +127,7 @@
 
     <!-- globals -->
     <string name="fab_event_list_birthday_title">Neuer Geburtstag</string>
-    <string name="fab_event_list_anniversary_title">Neuer Jahrestag</string>
+    <string name="fab_event_list_annual_event_title">Neues jährliches Event</string>
 
     <string name="snackbar_undo_action_title">RÜCKGÄNGIG</string>
 

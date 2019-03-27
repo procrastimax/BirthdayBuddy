@@ -32,7 +32,7 @@
             app:layout_constraintBottom_toBottomOf="@+id/fab_show_fab_menu">
 
         <TextView
-                android:text="@string/fab_event_list_anniversary_title"
+                android:text="@string/fab_event_list_annual_event_title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/tv_fab_layout_new_anniversary"

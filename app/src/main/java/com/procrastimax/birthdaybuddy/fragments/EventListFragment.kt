@@ -87,7 +87,7 @@ class EventListFragment : Fragment() {
             val ft = fragmentManager!!.beginTransaction()
             ft.replace(
                 R.id.fragment_placeholder,
-                AnniversaryInstanceFragment.newInstance()
+                AnnualEventInstanceFragment.newInstance()
             )
             ft.addToBackStack(null)
             ft.commit()

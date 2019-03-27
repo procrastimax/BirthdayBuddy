@@ -103,7 +103,7 @@
                     app:layout_constraintTop_toBottomOf="@+id/edit_add_fragment_date"
                     app:layout_constraintEnd_toEndOf="@+id/sw_is_year_given"
                     app:layout_constraintStart_toStartOf="@+id/edit_add_fragment_date"
-                    android:hint="@string/edit_anniversary_note_hint"/>
+                    android:hint="@string/edit_annual_event_note_hint"/>
 
             <FrameLayout
                     android:layout_width="wrap_content"

@@ -11,57 +11,57 @@ import android.widget.*
 import com.procrastimax.birthdaybuddy.MainActivity
 import com.procrastimax.birthdaybuddy.R
 import com.procrastimax.birthdaybuddy.handler.EventHandler
-import com.procrastimax.birthdaybuddy.models.EventAnniversary
+import com.procrastimax.birthdaybuddy.models.AnnualEvent
 import com.procrastimax.birthdaybuddy.models.EventDate
 import kotlinx.android.synthetic.main.content_main.*
-import kotlinx.android.synthetic.main.fragment_anniversary_instance.*
+import kotlinx.android.synthetic.main.fragment_annual_instance.*
 import kotlinx.android.synthetic.main.fragment_event_list.*
 import java.text.DateFormat
 import java.util.*
 
 /**
- * AnniversaryInstanceFragment is a fragment class for adding/editing an instance of EventAnniversary
- * This fragment shows up, when the users wants to add a new EventAnniversary or edit an existing one
+ * AnnualEventInstanceFragment is a fragment class for adding/editing an instance of AnnualEvent
+ * This fragment shows up, when the users wants to add a new AnnualEvent or edit an existing one
  * The fragment consists of several TextEdits to manage user data input
  *
  * This class inherits from android.support.v4.app.Fragment
  */
-class AnniversaryInstanceFragment : EventInstanceFragment() {
+class AnnualEventInstanceFragment : EventInstanceFragment() {
 
     /**
-     * isEditAnniversary is a boolean flag to indicate wether this fragment is intended to edit or add an instance of EventAnniversary
-     * this is later used to fill TextEdits with existing data of an EventAnniversary instance
+     * isEditAnnualEvent is a boolean flag to indicate wether this fragment is intended to edit or add an instance of AnnualEvent
+     * this is later used to fill TextEdits with existing data of an AnnualEvent instance
      */
-    var isEditAnniversary = false
+    var isEditAnnualEvent = false
 
     /**
-     * itemID is the id the EventAnniversary has in the EventHandler - eventlist
+     * itemID is the id the AnnualEvent has in the EventHandler - eventlist
      * In other words this id is the index of the clicked item from the EventListFragment recyclerview
      */
     var itemID = -1
 
     /**
-     * edit_name is the TextEdit used for editing/ showing the name of the anniversary
+     * edit_name is the TextEdit used for editing/ showing the name of the annual event
      * It is lazy initialized
      */
     val edit_name: EditText by lazy {
-        view!!.findViewById<EditText>(R.id.edit_add_fragment_name_anniversary)
+        view!!.findViewById<EditText>(R.id.edit_add_fragment_name_annual_event)
     }
 
     /**
-     * edit_date is the TextEdit used for editing/ showing the date of the anniversary
+     * edit_date is the TextEdit used for editing/ showing the date of the annual_event
      * It is lazy initialized
      */
     val edit_date: TextView by lazy {
-        view!!.findViewById<TextView>(R.id.edit_add_fragment_date_anniversary)
+        view!!.findViewById<TextView>(R.id.edit_add_fragment_date_annual_event)
     }
 
     /**
-     * edit_note is the TextEdit used for editing/ showing the note of the anniversary
+     * edit_note is the TextEdit used for editing/ showing the note of the annual_event
      * It is lazy initialized
      */
     val edit_note: EditText by lazy {
-        view!!.findViewById<EditText>(R.id.edit_add_fragment_note_anniversary)
+        view!!.findViewById<EditText>(R.id.edit_add_fragment_note_annual_event)
     }
 
     /**
@@ -69,7 +69,7 @@ class AnniversaryInstanceFragment : EventInstanceFragment() {
      * It is lazy initialized
      */
     val switch_isYearGiven: Switch by lazy {
-        view!!.findViewById<Switch>(R.id.sw_is_year_given_anniversary)
+        view!!.findViewById<Switch>(R.id.sw_is_year_given_annual_event)
     }
 
     override fun onCreateView(
@@ -77,7 +77,7 @@ class AnniversaryInstanceFragment : EventInstanceFragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_anniversary_instance, container, false)
+        return inflater.inflate(R.layout.fragment_annual_instance, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -85,47 +85,47 @@ class AnniversaryInstanceFragment : EventInstanceFragment() {
 
         //retrieve fragment parameter when edited instance
         if (arguments != null) {
-            isEditAnniversary = true
+            isEditAnnualEvent = true
             if (arguments!!.size() > 0) {
                 itemID = (arguments!!.getInt(ITEM_ID_PARAM))
-                val anniversary = EventHandler.getList()[itemID].second as EventAnniversary
+                val annual_event = EventHandler.getList()[itemID].second as AnnualEvent
 
-                if (anniversary.hasStartYear) {
-                    edit_date.text = EventDate.parseDateToString(anniversary.eventDate, DateFormat.FULL)
+                if (annual_event.hasStartYear) {
+                    edit_date.text = EventDate.parseDateToString(annual_event.eventDate, DateFormat.FULL)
                 } else {
                     edit_date.text =
-                        EventDate.parseDateToString(anniversary.eventDate, DateFormat.DATE_FIELD).substring(0..5)
+                        EventDate.parseDateToString(annual_event.eventDate, DateFormat.DATE_FIELD).substring(0..5)
                 }
 
-                edit_name.setText(anniversary.name)
-                if (!anniversary.note.isNullOrBlank()) {
-                    edit_note.setText(anniversary.note)
+                edit_name.setText(annual_event.name)
+                if (!annual_event.note.isNullOrBlank()) {
+                    edit_note.setText(annual_event.note)
                 }
-                switch_isYearGiven.isChecked = anniversary.hasStartYear
+                switch_isYearGiven.isChecked = annual_event.hasStartYear
 
-                title.text = resources.getText(R.string.toolbar_title_edit_anniversary)
-                btn_fragment_anniversary_instance_delete.visibility = Button.VISIBLE
-                btn_fragment_anniversary_instance_delete.setOnClickListener {
+                title.text = resources.getText(R.string.toolbar_title_edit_annual_event)
+                btn_fragment_annual_event_instance_delete.visibility = Button.VISIBLE
+                btn_fragment_annual_event_instance_delete.setOnClickListener {
 
                     val alert_builder = AlertDialog.Builder(context)
-                    alert_builder.setTitle(resources.getString(R.string.alert_dialog_title_delete_anniversary))
-                    alert_builder.setMessage(resources.getString(R.string.alert_dialog_body_message_anniversary))
+                    alert_builder.setTitle(resources.getString(R.string.alert_dialog_title_delete_annual_event))
+                    alert_builder.setMessage(resources.getString(R.string.alert_dialog_body_message_annual_event))
 
-                    val anniversary_temp = EventHandler.getList()[itemID].second
+                    val annual_event_temp = EventHandler.getList()[itemID].second
                     val context_temp = context
 
                     // Set a positive button and its click listener on alert dialog
                     alert_builder.setPositiveButton(resources.getString(R.string.alert_dialog_accept_delete)) { dialog, which ->
-                        // delete anniversary on positive button
+                        // delete annual_event on positive button
                         Snackbar
                             .make(
                                 view,
-                                resources.getString(R.string.anniversary_deleted_notification, edit_name.text),
+                                resources.getString(R.string.annual_event_deleted_notification, edit_name.text),
                                 Snackbar.LENGTH_LONG
                             )
                             .setAction(R.string.snackbar_undo_action_title, View.OnClickListener {
                                 EventHandler.addEvent(
-                                    anniversary_temp, context_temp!!,
+                                    annual_event_temp, context_temp!!,
                                     true
                                 )
                                 //get last fragment in stack list, which should be eventlistfragment, so we can update the recycler view
@@ -140,9 +140,6 @@ class AnniversaryInstanceFragment : EventInstanceFragment() {
                         EventHandler.removeEventByKey(itemID, true)
                         closeBtnPressed()
                     }
-                    // dont do anything on negative button
-                    alert_builder.setNegativeButton(resources.getString(R.string.alert_dialog_dismiss_delete)) { dialog, which ->
-                    }
                     // Finally, make the alert dialog using builder
                     val dialog: AlertDialog = alert_builder.create()
                     // Display the alert dialog on app interface
@@ -150,11 +147,11 @@ class AnniversaryInstanceFragment : EventInstanceFragment() {
                 }
             }
         } else {
-            title.text = resources.getText(R.string.toolbar_title_add_anniversary)
-            btn_fragment_anniversary_instance_delete.visibility = Button.INVISIBLE
+            title.text = resources.getText(R.string.toolbar_title_add_annual_event)
+            btn_fragment_annual_event_instance_delete.visibility = Button.INVISIBLE
             (context as MainActivity).progress_bar_main.visibility = ProgressBar.GONE
             edit_date.hint = resources.getString(
-                R.string.anniversary_instance_fragment_date_edit_hint,
+                R.string.annual_event_instance_fragment_date_edit_hint,
                 EventDate.parseDateToString(Calendar.getInstance().time, DateFormat.FULL)
             )
         }
@@ -181,12 +178,12 @@ class AnniversaryInstanceFragment : EventInstanceFragment() {
             } else {
                 if (isChecked) {
                     edit_date.hint = resources.getString(
-                        R.string.anniversary_instance_fragment_date_edit_hint,
+                        R.string.annual_event_instance_fragment_date_edit_hint,
                         EventDate.parseDateToString(Calendar.getInstance().time, DateFormat.FULL)
                     )
                 } else {
                     edit_date.hint = resources.getString(
-                        R.string.anniversary_instance_fragment_date_edit_hint,
+                        R.string.annual_event_instance_fragment_date_edit_hint,
                         EventDate.parseDateToString(Calendar.getInstance().time, DateFormat.DATE_FIELD).substring(0..5)
                     )
                 }
@@ -226,7 +223,7 @@ class AnniversaryInstanceFragment : EventInstanceFragment() {
                 if (c.time.after(Calendar.getInstance().time) && switch_isYearGiven.isChecked) {
                     Toast.makeText(
                         view.context,
-                        context!!.resources.getText(R.string.future_anniversary_error),
+                        context!!.resources.getText(R.string.future_annual_event_error),
                         Toast.LENGTH_LONG
                     ).show()
                 } else {
@@ -253,12 +250,12 @@ class AnniversaryInstanceFragment : EventInstanceFragment() {
             Toast.makeText(context, context!!.resources.getText(R.string.empty_fields_error), Toast.LENGTH_LONG)
                 .show()
         } else {
-            val anniversary: EventAnniversary
+            val annual_event: AnnualEvent
             if (switch_isYearGiven.isChecked) {
-                anniversary =
-                    EventAnniversary(EventDate.parseStringToDate(date, DateFormat.FULL), name, isYearGiven)
+                annual_event =
+                    AnnualEvent(EventDate.parseStringToDate(date, DateFormat.FULL), name, isYearGiven)
             } else {
-                anniversary = EventAnniversary(
+                annual_event = AnnualEvent(
                     EventDate.parseStringToDate(
                         date + (Calendar.getInstance().get(Calendar.YEAR) - 1),
                         DateFormat.DATE_FIELD
@@ -267,17 +264,17 @@ class AnniversaryInstanceFragment : EventInstanceFragment() {
             }
 
             if (note.isNotBlank()) {
-                anniversary.note = note
+                annual_event.note = note
             }
 
             //new bithday entry, just add a new entry in map
-            if (!isEditAnniversary) {
-                EventHandler.addEvent(anniversary, this.context!!, true)
+            if (!isEditAnnualEvent) {
+                EventHandler.addEvent(annual_event, this.context!!, true)
 
                 Snackbar
                     .make(
                         view!!,
-                        context!!.resources.getString(R.string.anniversary_added_notification, name),
+                        context!!.resources.getString(R.string.annual_event_added_notification, name),
                         Snackbar.LENGTH_LONG
                     )
                     .show()
@@ -285,11 +282,11 @@ class AnniversaryInstanceFragment : EventInstanceFragment() {
 
                 //already existant birthday entry, overwrite old entry in map
             } else {
-                if (wasChangeMade(EventHandler.getList()[itemID].second as EventAnniversary)) {
-                    EventHandler.changeEventAt(itemID, anniversary, context!!, true)
+                if (wasChangeMade(EventHandler.getList()[itemID].second as AnnualEvent)) {
+                    EventHandler.changeEventAt(itemID, annual_event, context!!, true)
                     Snackbar.make(
                         view!!,
-                        context!!.resources.getString(R.string.anniversary_changed_notification, name),
+                        context!!.resources.getString(R.string.annual_event_changed_notification, name),
                         Snackbar.LENGTH_LONG
                     ).show()
                 }
@@ -301,10 +298,10 @@ class AnniversaryInstanceFragment : EventInstanceFragment() {
     /**
      * wasChangeMade checks wether a change to the edit fields was made or not
      * This is used to avoid unnecessary operations
-     * @param event: EventAnniversary, is the comparative object to check against the TextEdit fields
+     * @param event: AnnualEvent, is the comparative object to check against the TextEdit fields
      * @return Boolean, returns false if nothing has changed
      */
-    private fun wasChangeMade(event: EventAnniversary): Boolean {
+    private fun wasChangeMade(event: AnnualEvent): Boolean {
         if (switch_isYearGiven.isChecked) {
             if (edit_date.text != event.dateToPrettyString(DateFormat.FULL)) return true
         } else {
@@ -326,16 +323,16 @@ class AnniversaryInstanceFragment : EventInstanceFragment() {
 
     companion object {
         /**
-         * ANNIVERSARY_INSTANCE is the fragments tag as String
+         * ANNUAL_EVENT_INSTANCE_FRAGMENT_TAG is the fragments tag as String
          */
-        val ANNIVERSARY_INSTANCE_FRAGMENT_TAG = "ANNIVERSARY_INSTANCE"
+        val ANNUAL_EVENT_INSTANCE_FRAGMENT_TAG = "ANNUAL_EVENT_INSTANCE"
 
         /**
-         * newInstance returns a new instance of AnniversaryInstanceFragment
+         * newInstance returns a new instance of AnnualEventInstanceFragment
          */
         @JvmStatic
-        fun newInstance(): AnniversaryInstanceFragment {
-            return AnniversaryInstanceFragment()
+        fun newInstance(): AnnualEventInstanceFragment {
+            return AnnualEventInstanceFragment()
         }
     }
 }

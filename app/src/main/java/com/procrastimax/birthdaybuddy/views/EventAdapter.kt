@@ -12,10 +12,10 @@ import com.procrastimax.birthdaybuddy.R
 import com.procrastimax.birthdaybuddy.fragments.*
 import com.procrastimax.birthdaybuddy.handler.DrawableHandler
 import com.procrastimax.birthdaybuddy.handler.EventHandler
-import com.procrastimax.birthdaybuddy.models.EventAnniversary
+import com.procrastimax.birthdaybuddy.models.AnnualEvent
 import com.procrastimax.birthdaybuddy.models.EventBirthday
 import com.procrastimax.birthdaybuddy.models.MonthDivider
-import kotlinx.android.synthetic.main.anniversary_event_item_view.view.*
+import kotlinx.android.synthetic.main.annual_event_item_view.view.*
 import kotlinx.android.synthetic.main.birthday_event_item_view.view.*
 import kotlinx.android.synthetic.main.event_month_view_divider.view.*
 
@@ -54,7 +54,7 @@ class EventAdapter(private val context: Context) :
             is EventBirthday -> {
                 return 1
             }
-            is EventAnniversary -> {
+            is AnnualEvent -> {
                 return 2
             }
         }
@@ -76,7 +76,7 @@ class EventAdapter(private val context: Context) :
             }
             2 -> {
                 val item_view =
-                    LayoutInflater.from(parent.context).inflate(R.layout.anniversary_event_item_view, parent, false)
+                    LayoutInflater.from(parent.context).inflate(R.layout.annual_event_item_view, parent, false)
                 return EventAnniversaryViewHolder(item_view)
             }
             else -> {
@@ -216,7 +216,7 @@ class EventAdapter(private val context: Context) :
             //anniversary item view holder
             2 -> {
                 //check if is birthday event and if the year is given
-                if (EventHandler.getList()[position].second is EventAnniversary) {
+                if (EventHandler.getList()[position].second is AnnualEvent) {
 
                     //set on click listener for item
                     holder.itemView.setOnClickListener {
@@ -230,7 +230,7 @@ class EventAdapter(private val context: Context) :
 
                             val ft = (context as MainActivity).supportFragmentManager.beginTransaction()
                             // add arguments to fragment
-                            val newAnniversaryFragment = ShowAnniversaryEvent.newInstance()
+                            val newAnniversaryFragment = ShowAnnualEvent.newInstance()
                             newAnniversaryFragment.arguments = bundle
                             ft.replace(
                                 R.id.fragment_placeholder,
@@ -253,7 +253,7 @@ class EventAdapter(private val context: Context) :
                             val ft = (context as MainActivity).supportFragmentManager.beginTransaction()
 
                             // add arguments to fragment
-                            val newAnniversaryFragment = AnniversaryInstanceFragment.newInstance()
+                            val newAnniversaryFragment = AnnualEventInstanceFragment.newInstance()
                             newAnniversaryFragment.arguments = bundle
                             ft.replace(
                                 R.id.fragment_placeholder,
@@ -267,14 +267,14 @@ class EventAdapter(private val context: Context) :
 
                     //set date
                     holder.itemView.tv_anniversary_item_date_value.text =
-                        (EventHandler.getList()[position].second as EventAnniversary).getPrettyShortStringWithoutYear()
+                        (EventHandler.getList()[position].second as AnnualEvent).getPrettyShortStringWithoutYear()
 
                     //set days until
                     holder.itemView.tv_days_until_anniversary_value.text =
                         EventHandler.getList()[position].second.getDaysUntil().toString()
 
                     //set years since, if specified
-                    if ((EventHandler.getList()[position].second as EventAnniversary).hasStartYear) {
+                    if ((EventHandler.getList()[position].second as AnnualEvent).hasStartYear) {
                         holder.itemView.tv_years_since_anniversary_value.text =
                             EventHandler.getList()[position].second.getYearsSince().toString()
                     } else {
@@ -284,7 +284,7 @@ class EventAdapter(private val context: Context) :
 
                     //set forename
                     holder.itemView.tv_anniversary_item_name.text =
-                        (EventHandler.getList()[position].second as EventAnniversary).name
+                        (EventHandler.getList()[position].second as AnnualEvent).name
                 }
             }
         }

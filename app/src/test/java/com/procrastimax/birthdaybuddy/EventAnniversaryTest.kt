@@ -1,6 +1,6 @@
 package com.procrastimax.birthdaybuddy
 
-import com.procrastimax.birthdaybuddy.models.EventAnniversary
+import com.procrastimax.birthdaybuddy.models.AnnualEvent
 import com.procrastimax.birthdaybuddy.models.EventDate
 import org.junit.Assert
 import org.junit.Test
@@ -12,7 +12,7 @@ class EventAnniversaryTest {
 
     @Test
     fun birthdayToStringTest() {
-        val anniversary = EventAnniversary(
+        val anniversary = AnnualEvent(
             EventDate.parseStringToDate("06.02.00", DateFormat.DEFAULT, Locale.GERMAN),
             "isAName",
             true
@@ -23,7 +23,7 @@ class EventAnniversaryTest {
             anniversary.toString()
         )
 
-        val anniversary2 = EventAnniversary(
+        val anniversary2 = AnnualEvent(
             EventDate.parseStringToDate("06.02.02", DateFormat.DEFAULT, Locale.GERMAN),
             "Maximilian",
             false

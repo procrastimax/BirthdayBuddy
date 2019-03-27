@@ -33,7 +33,7 @@
             android:textStyle="bold"/>
 
     <TextView
-            android:text="@string/tv_anniversary_date_title"
+            android:text="@string/tv_annual_event_date_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/tv_anniversary_item_date_title"
@@ -43,7 +43,7 @@
             app:layout_constraintTop_toTopOf="@+id/tv_days_until_anniversary_title"/>
 
     <TextView
-            android:text="@string/tv_anniversary_days_until_title"
+            android:text="@string/tv_annual_event_days_until_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/tv_days_until_anniversary_title"
@@ -53,7 +53,7 @@
             app:layout_constraintTop_toTopOf="@+id/tv_years_since_anniversary_title"/>
 
     <TextView
-            android:text="@string/tv_anniversary_years_since_title"
+            android:text="@string/tv_annual_event_years_since_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/tv_years_since_anniversary_title"
