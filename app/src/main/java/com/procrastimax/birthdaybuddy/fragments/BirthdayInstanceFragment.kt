@@ -214,7 +214,7 @@ class BirthdayInstanceFragment : EventInstanceFragment() {
                             Snackbar.LENGTH_LONG
                         )
                             .setAction(R.string.snackbar_undo_action_title, View.OnClickListener {
-                                EventHandler.addEvent(birthday_pair_temp.second, this.context!!, true)
+                                EventHandler.addEvent(birthday_pair_temp.second, context_temp!!, true)
                                 //get last fragment in stack list, which should be eventlistfragment, so we can update the recycler view
                                 val fragment =
                                     (context_temp as MainActivity).supportFragmentManager.fragments[(context_temp).supportFragmentManager.backStackEntryCount]

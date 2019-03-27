@@ -125,7 +125,7 @@ class AnniversaryInstanceFragment : EventInstanceFragment() {
                             )
                             .setAction(R.string.snackbar_undo_action_title, View.OnClickListener {
                                 EventHandler.addEvent(
-                                    anniversary_temp, this.context!!,
+                                    anniversary_temp, context_temp!!,
                                     true
                                 )
                                 //get last fragment in stack list, which should be eventlistfragment, so we can update the recycler view
