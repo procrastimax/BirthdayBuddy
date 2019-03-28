@@ -29,6 +29,7 @@
     <string name="alert_dialog_missing_avatar_img_text">There occurred an error when trying to load an avatar image.\nMaybe you deleted or moved an existing image from your galleries?\nThe image reference is going to be deleted.</string>
 
     <!-- fragment add new birthday -->
+    <!-- TODO: genetive s at word which ends with s -->
     <string name="toolbar_title_add_birthday">Add new birthday</string>
     <string name="toolbar_title_edit_birthday">Edit birthday</string>
     <string name="future_birthday_error">You can\'t add future birthdays!</string>
@@ -181,10 +182,33 @@
     </plurals>
 
 
+    <!-- settings fragment -->
+    <string name="tv_notifications">Notifications</string>
+    <string name="tv_notification_sound">Sound</string>
+    <string name="tv_notification_vibration">Vibration</string>
+    <string name="tv_notification_time">Notification time</string>
+
+    <string name="tv_notification_interval">When to remind:</string>
+    <string name="tv_notification_interval_month">Month before</string>
+    <string name="tv_notification_interval_week">Week before</string>
+    <string name="tv_notification_interval_day">Day before</string>
+    <string name="tv_notification_interval_eventday">Eventday</string>
+
+    <string name="tv_notification_events">What to remind:</string>
+    <string name="tv_notification_events_birthdays">Birthdays</string>
+    <string name="tv_notification_events_one_time_events">One-Time events</string>
+    <string name="tv_notification_events_annual_events">Annual events</string>
+
     <!-- _________globals____________ -->
     <string name="fab_event_list_birthday_title">New birthday</string>
     <string name="fab_event_list_annual_event_title">New annual event</string>
     <string name="fab_event_list_one_time_event_title">New one-time event</string>
+
+    <string name="main_menu_item_settings">Settings</string>
+    <string name="main_menu_item_about">About</string>
+    <string name="main_menu_item_delete_all">Delete all</string>
+    <string name="main_menu_item_import">Import Data</string>
+    <string name="main_menu_item_export">Export Data</string>
 
     <string name="snackbar_undo_action_title">Undo</string>
 

@@ -1,7 +1,7 @@
 package com.procrastimax.birthdaybuddy.models
 
 import android.util.Log
-import com.procrastimax.birthdaybuddy.EventDataIO
+import com.procrastimax.birthdaybuddy.handler.IOHandler
 import java.text.DateFormat
 import java.util.*
 
@@ -61,16 +61,20 @@ class AnnualEvent(_eventDate: Date, var name: String, var hasStartYear: Boolean)
      * @return String
      */
     override fun toString(): String {
-        return "AnnualEvent${EventDataIO.divider_chars_properties}" +
-                "${Identifier.Name}${EventDataIO.divider_chars_values}${this.name}" +
-                "${EventDataIO.divider_chars_properties}${Identifier.Date}${EventDataIO.divider_chars_values}${EventDate.parseDateToString(
+        return "$Name${IOHandler.characterDivider_properties}" +
+                "${Identifier.Name}${IOHandler.characterDivider_values}${this.name}" +
+                "${IOHandler.characterDivider_properties}${Identifier.Date}${IOHandler.characterDivider_values}${EventDate.parseDateToString(
                     this.eventDate,
                     DateFormat.DEFAULT
-                )}${EventDataIO.divider_chars_properties}" +
-                "${Identifier.HasStartYear}${EventDataIO.divider_chars_values}${this.hasStartYear}" +
+                )}${IOHandler.characterDivider_properties}" +
+                "${Identifier.HasStartYear}${IOHandler.characterDivider_values}${this.hasStartYear}" +
                 EventDate.getStringFromValue(
                     Identifier.Note,
                     this.note
                 )
+    }
+
+    companion object {
+        const val Name: String = "AnnualEvent"
     }
 }

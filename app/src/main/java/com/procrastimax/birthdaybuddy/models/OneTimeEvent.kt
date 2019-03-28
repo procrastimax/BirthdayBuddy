@@ -1,7 +1,7 @@
 package com.procrastimax.birthdaybuddy.models
 
 import android.util.Log
-import com.procrastimax.birthdaybuddy.EventDataIO
+import com.procrastimax.birthdaybuddy.handler.IOHandler
 import java.text.DateFormat
 import java.util.*
 
@@ -84,9 +84,9 @@ class OneTimeEvent(_eventdate: Date, var name: String) : EventDate(_eventdate) {
     }
 
     override fun toString(): String {
-        return "OneTimeEvent${EventDataIO.divider_chars_properties}" +
-                "${OneTimeEvent.Identifier.Name}${EventDataIO.divider_chars_values}${this.name}" +
-                "${EventDataIO.divider_chars_properties}${OneTimeEvent.Identifier.Date}${EventDataIO.divider_chars_values}${EventDate.parseDateToString(
+        return "$Name${IOHandler.characterDivider_properties}" +
+                "${OneTimeEvent.Identifier.Name}${IOHandler.characterDivider_values}${this.name}" +
+                "${IOHandler.characterDivider_properties}${OneTimeEvent.Identifier.Date}${IOHandler.characterDivider_values}${EventDate.parseDateToString(
                     this.eventDate,
                     DateFormat.DEFAULT
                 )}" +
@@ -94,5 +94,9 @@ class OneTimeEvent(_eventdate: Date, var name: String) : EventDate(_eventdate) {
                     OneTimeEvent.Identifier.Note,
                     this.note
                 )
+    }
+
+    companion object {
+        const val Name : String = "OneTimeEvent"
     }
 }

@@ -1,7 +1,7 @@
 package com.procrastimax.birthdaybuddy.models
 
 import android.util.Log
-import com.procrastimax.birthdaybuddy.EventDataIO
+import com.procrastimax.birthdaybuddy.handler.IOHandler
 import java.text.DateFormat
 import java.util.*
 
@@ -97,14 +97,13 @@ class EventBirthday(
      * @return String
      */
     override fun toString(): String {
-
-        return "Birthday${EventDataIO.divider_chars_properties}${Identifier.Forename}${EventDataIO.divider_chars_values}${this._forename}${EventDataIO.divider_chars_properties}" +
-                "${Identifier.Surname}${EventDataIO.divider_chars_values}${this._surname}${EventDataIO.divider_chars_properties}" +
-                "${Identifier.Date}${EventDataIO.divider_chars_values}${EventDate.parseDateToString(
+        return "$Name${IOHandler.characterDivider_properties}${Identifier.Forename}${IOHandler.characterDivider_values}${this._forename}${IOHandler.characterDivider_properties}" +
+                "${Identifier.Surname}${IOHandler.characterDivider_values}${this._surname}${IOHandler.characterDivider_properties}" +
+                "${Identifier.Date}${IOHandler.characterDivider_values}${EventDate.parseDateToString(
                     this.eventDate,
                     DateFormat.DEFAULT
                 )}" +
-                "${EventDataIO.divider_chars_properties}${Identifier.IsYearGiven}${EventDataIO.divider_chars_values}${this.isYearGiven}" +
+                "${IOHandler.characterDivider_properties}${Identifier.IsYearGiven}${IOHandler.characterDivider_values}${this.isYearGiven}" +
                 "${EventDate.getStringFromValue(
                     Identifier.Note,
                     this.note
@@ -112,5 +111,9 @@ class EventBirthday(
                     Identifier.AvatarUri,
                     this.avatarImageUri
                 )}${EventDate.getStringFromValue(Identifier.Nickname, this.nickname)}"
+    }
+
+    companion object {
+        const val Name: String = "EventBirthday"
     }
 }

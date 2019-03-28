@@ -173,13 +173,35 @@
     </plurals>
 
 
+    <!-- settings fragment -->
+    <string name="tv_notifications">Benachrichtigungen</string>
+    <string name="tv_notification_sound">Ton</string>
+    <string name="tv_notification_vibration">Vibration</string>
+    <string name="tv_notification_time">Benachrichtigungszeit</string>
+
+    <string name="tv_notification_interval">Wann:</string>
+    <string name="tv_notification_interval_month">Monat vorher</string>
+    <string name="tv_notification_interval_week">Woche vorher</string>
+    <string name="tv_notification_interval_day">Tag vorher</string>
+    <string name="tv_notification_interval_eventday">Am selben Tag</string>
+
+    <string name="tv_notification_events">Was:</string>
+    <string name="tv_notification_events_birthdays">Geburtstage</string>
+    <string name="tv_notification_events_one_time_events">Einmalige Events</string>
+    <string name="tv_notification_events_annual_events">Jährliche Events</string>
+
     <!-- globals -->
     <string name="fab_event_list_birthday_title">Neuer Geburtstag</string>
     <string name="fab_event_list_annual_event_title">Neues jährliches Event</string>
     <string name="fab_event_list_one_time_event_title">Neues einmaliges Event</string>
-
     <string name="snackbar_undo_action_title">RÜCKGÄNGIG</string>
 
     <string name="intent_share_chooser_title">Wähle eine App zum teilen</string>
+
+    <string name="main_menu_item_settings">Einstellungen</string>
+    <string name="main_menu_item_about">Über</string>
+    <string name="main_menu_item_delete_all">Lösche alle Daten</string>
+    <string name="main_menu_item_import">Importieren</string>
+    <string name="main_menu_item_export">Exportieren</string>
 
 </resources>

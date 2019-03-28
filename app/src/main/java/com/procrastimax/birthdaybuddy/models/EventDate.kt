@@ -1,7 +1,8 @@
 package com.procrastimax.birthdaybuddy.models
 
-import com.procrastimax.birthdaybuddy.EventDataIO
+import com.procrastimax.birthdaybuddy.handler.IOHandler
 import java.text.DateFormat
+import java.text.SimpleDateFormat
 import java.util.*
 
 /**
@@ -76,7 +77,7 @@ open class EventDate(var eventDate: Date) : Comparable<EventDate> {
      * @return String
      */
     override fun toString(): String {
-        return "EventDate${getStringFromValue(
+        return "$Name${getStringFromValue(
             Identifier.Date, EventDate.parseDateToString(
                 this.eventDate,
                 DateFormat.DEFAULT
@@ -225,6 +226,23 @@ open class EventDate(var eventDate: Date) : Comparable<EventDate> {
             return DateFormat.getDateInstance(format, locale).parse(date_string)
         }
 
+        @JvmStatic
+        fun parseStringToTime(
+            timeString: String
+        ): Date {
+            val sdf = SimpleDateFormat("HH:mm", Locale.getDefault())
+            return sdf.parse(timeString)
+        }
+
+        @JvmStatic
+        fun parseTimeToString(
+            date: Date
+        ): String {
+            val sdf = SimpleDateFormat("HH:mm", Locale.getDefault())
+            return sdf.format(date)
+        }
+
+
         /**
          * isDateInFuture checks if the member var eventDate is in the future (>currentDate)
          * @return Boolean
@@ -256,9 +274,12 @@ open class EventDate(var eventDate: Date) : Comparable<EventDate> {
         @JvmStatic
         fun <T> getStringFromValue(identifier: SortIdentifier, value: T): String {
             if (value != null) {
-                return "${EventDataIO.divider_chars_properties}${identifier}${EventDataIO.divider_chars_values}${value}"
+                return "${IOHandler.characterDivider_properties}${identifier}${IOHandler.characterDivider_values}${value}"
 
             } else return ""
         }
+
+
+        const val Name: String = "EventDate"
     }
 }
