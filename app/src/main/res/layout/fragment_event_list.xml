@@ -22,9 +22,50 @@
 
     <android.support.constraint.ConstraintLayout
             android:layout_width="wrap_content"
+            android:layout_height="56dp"
+            android:orientation="horizontal"
+            android:id="@+id/fab_layout_add_one_time"
+            app:layout_constraintEnd_toEndOf="@+id/fab_show_fab_menu"
+            app:layout_constraintStart_toStartOf="@+id/fab_show_fab_menu"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintTop_toTopOf="@+id/fab_show_fab_menu"
+            app:layout_constraintBottom_toBottomOf="@+id/fab_show_fab_menu">
+
+        <TextView
+                android:text="@string/fab_event_list_one_time_event_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/tv_fab_layout_new_one_time"
+                android:background="@drawable/fab_menu_text_view_shape"
+                app:layout_constraintEnd_toStartOf="@+id/fab_add_one_time"
+                app:layout_constraintBottom_toBottomOf="@+id/fab_add_one_time"
+                app:layout_constraintTop_toTopOf="@+id/fab_add_one_time"
+                app:layout_constraintStart_toStartOf="parent"
+                android:layout_marginEnd="8dp"
+                android:textColor="@color/white"
+                />
+
+        <android.support.design.widget.FloatingActionButton
+                android:id="@+id/fab_add_one_time"
+                android:layout_width="@dimen/fab_size_smaller"
+                android:layout_height="@dimen/fab_size_smaller"
+                app:fabCustomSize="@dimen/fab_size_smaller"
+                android:layout_gravity="bottom|end"
+                app:srcCompat="@drawable/ic_looks_one_time"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginBottom="8dp"/>
+    </android.support.constraint.ConstraintLayout>
+
+
+    <android.support.constraint.ConstraintLayout
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:id="@+id/fab_layout_add_anniversary"
+            android:id="@+id/fab_layout_add_annual_event"
             app:layout_constraintEnd_toEndOf="@+id/fab_show_fab_menu"
             app:layout_constraintStart_toStartOf="@+id/fab_show_fab_menu"
             app:layout_constraintHorizontal_bias="1.0"
@@ -33,19 +74,19 @@
 
         <TextView
                 android:text="@string/fab_event_list_annual_event_title"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/tv_fab_layout_new_anniversary"
+                android:id="@+id/tv_fab_layout_new_annual_event"
                 android:background="@drawable/fab_menu_text_view_shape"
-                app:layout_constraintEnd_toStartOf="@+id/fab_add_anniversary"
-                app:layout_constraintBottom_toBottomOf="@+id/fab_add_anniversary"
-                app:layout_constraintTop_toTopOf="@+id/fab_add_anniversary"
+                app:layout_constraintEnd_toStartOf="@+id/fab_add_annual_event"
+                app:layout_constraintBottom_toBottomOf="@+id/fab_add_annual_event"
+                app:layout_constraintTop_toTopOf="@+id/fab_add_annual_event"
                 app:layout_constraintStart_toStartOf="parent"
                 android:layout_marginEnd="8dp"
                 android:textColor="@color/white"/>
 
         <android.support.design.widget.FloatingActionButton
-                android:id="@+id/fab_add_anniversary"
+                android:id="@+id/fab_add_annual_event"
                 android:layout_width="@dimen/fab_size_smaller"
                 android:layout_height="@dimen/fab_size_smaller"
                 app:fabCustomSize="@dimen/fab_size_smaller"

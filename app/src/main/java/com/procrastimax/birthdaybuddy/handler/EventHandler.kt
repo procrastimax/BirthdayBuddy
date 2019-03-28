@@ -189,7 +189,7 @@ object EventHandler {
         identifier: SortIdentifier = EventDate.Identifier.Date
     ): List<Pair<Int, EventDate>> {
         if (identifier == EventDate.Identifier.Date) {
-            return list.sortedBy { it.second.getDayOfYear() }
+            return list.sortedWith(compareBy({ it.second.getDayOfYear() }, { it.second.getMonth() }))
         } else {
             return emptyList()
         }

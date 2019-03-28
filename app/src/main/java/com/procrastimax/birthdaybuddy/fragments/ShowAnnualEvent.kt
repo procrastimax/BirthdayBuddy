@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import android.widget.TextView
 import com.procrastimax.birthdaybuddy.MainActivity
 import com.procrastimax.birthdaybuddy.R
 import com.procrastimax.birthdaybuddy.handler.EventHandler
@@ -57,8 +58,11 @@ class ShowAnnualEvent : ShowEventFragment() {
                 )
                 ft.addToBackStack(null)
                 ft.commit()
+                arguments = null
             }
             updateUI()
+        } else {
+            (context as MainActivity).supportFragmentManager.popBackStack()
         }
     }
 
@@ -85,7 +89,7 @@ class ShowAnnualEvent : ShowEventFragment() {
                 )
 
             } else {
-                tv_show_annual_event_years.textSize = 0.0f
+                this.tv_show_annual_event_years.visibility = TextView.GONE
             }
 
             tv_show_annual_event_date.text = resources.getQuantityString(
@@ -100,9 +104,7 @@ class ShowAnnualEvent : ShowEventFragment() {
                     context!!.resources.getString(R.string.annual_event_note, annual_event.note)
                 this.tv_show_annual_event_note.setTextColor(ContextCompat.getColor(context!!, R.color.darkGrey))
             } else {
-                this.tv_show_annual_event_note.text = context!!.resources.getString(R.string.annual_event_no_note)
-                this.tv_show_annual_event_note.textSize = 0.0f
-                this.tv_show_annual_event_note.setTextColor(ContextCompat.getColor(context!!, R.color.brightGrey))
+                this.tv_show_annual_event_note.visibility = TextView.GONE
             }
         }
     }

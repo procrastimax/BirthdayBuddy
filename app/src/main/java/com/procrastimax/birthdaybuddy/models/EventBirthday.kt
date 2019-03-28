@@ -90,16 +90,6 @@ class EventBirthday(
     var avatarImageUri: String? = null
 
     /**
-     * getPrettyShortStringWithoutYear returns a localized date in very short format like 06.02 or 06/02
-     * TODO: dont do it this way, get default locale date seperation symbol
-     * @param locale : Locale = Locale.getDefault()
-     * @return String
-     */
-    fun getPrettyShortStringWithoutYear(locale: Locale = Locale.getDefault()): String {
-        return this.dateToPrettyString(DateFormat.SHORT, locale).substring(0..4)
-    }
-
-    /**
      * TODO: only save not null member vars
      * toString returns EventBirthday as string representation
      * This is "optimized" for Serialization, so THE FIRST WORD HAS TO BE THE TYPIFICATION f.e. "Birthday"

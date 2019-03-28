@@ -15,9 +15,12 @@ import com.procrastimax.birthdaybuddy.handler.EventHandler
 import com.procrastimax.birthdaybuddy.models.AnnualEvent
 import com.procrastimax.birthdaybuddy.models.EventBirthday
 import com.procrastimax.birthdaybuddy.models.MonthDivider
+import com.procrastimax.birthdaybuddy.models.OneTimeEvent
 import kotlinx.android.synthetic.main.annual_event_item_view.view.*
 import kotlinx.android.synthetic.main.birthday_event_item_view.view.*
 import kotlinx.android.synthetic.main.event_month_view_divider.view.*
+import kotlinx.android.synthetic.main.one_time_event_item_view.view.*
+import java.text.DateFormat
 
 
 class EventAdapter(private val context: Context) :
@@ -29,14 +32,17 @@ class EventAdapter(private val context: Context) :
 
     class EventMonthDividerViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
 
-    class EventAnniversaryViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
+    class AnnualEventViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
+
+    class OneTimeEventViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
 
     /**
      * getItemViewType overrides the standard function
      * it defines the different viewholder types used for the recycler view
      * 0 - month description divider
      * 1 - birthday event viewholder
-     * 2 - anniversary event viewholder
+     * 2 - annual event viewholder
+     * 3 - one time event viewholder
      *
      * @param position: Int
      * @return Int
@@ -56,6 +62,9 @@ class EventAdapter(private val context: Context) :
             }
             is AnnualEvent -> {
                 return 2
+            }
+            is OneTimeEvent -> {
+                return 3
             }
         }
         return -1
@@ -77,7 +86,12 @@ class EventAdapter(private val context: Context) :
             2 -> {
                 val item_view =
                     LayoutInflater.from(parent.context).inflate(R.layout.annual_event_item_view, parent, false)
-                return EventAnniversaryViewHolder(item_view)
+                return AnnualEventViewHolder(item_view)
+            }
+            3 -> {
+                val item_view =
+                    LayoutInflater.from(parent.context).inflate(R.layout.one_time_event_item_view, parent, false)
+                return AnnualEventViewHolder(item_view)
             }
             else -> {
                 //Default is birthday event
@@ -213,7 +227,7 @@ class EventAdapter(private val context: Context) :
                 }
             }
 
-            //anniversary item view holder
+            //annual event item view holder
             2 -> {
                 //check if is birthday event and if the year is given
                 if (EventHandler.getList()[position].second is AnnualEvent) {
@@ -230,11 +244,11 @@ class EventAdapter(private val context: Context) :
 
                             val ft = (context as MainActivity).supportFragmentManager.beginTransaction()
                             // add arguments to fragment
-                            val newAnniversaryFragment = ShowAnnualEvent.newInstance()
-                            newAnniversaryFragment.arguments = bundle
+                            val newAnnualEvent = ShowAnnualEvent.newInstance()
+                            newAnnualEvent.arguments = bundle
                             ft.replace(
                                 R.id.fragment_placeholder,
-                                newAnniversaryFragment
+                                newAnnualEvent
                             )
                             ft.addToBackStack(null)
                             ft.commit()
@@ -253,11 +267,11 @@ class EventAdapter(private val context: Context) :
                             val ft = (context as MainActivity).supportFragmentManager.beginTransaction()
 
                             // add arguments to fragment
-                            val newAnniversaryFragment = AnnualEventInstanceFragment.newInstance()
-                            newAnniversaryFragment.arguments = bundle
+                            val newAnnualEvent = AnnualEventInstanceFragment.newInstance()
+                            newAnnualEvent.arguments = bundle
                             ft.replace(
                                 R.id.fragment_placeholder,
-                                newAnniversaryFragment
+                                newAnnualEvent
                             )
                             ft.addToBackStack(null)
                             ft.commit()
@@ -266,25 +280,90 @@ class EventAdapter(private val context: Context) :
                     }
 
                     //set date
-                    holder.itemView.tv_anniversary_item_date_value.text =
+                    holder.itemView.tv_annual_item_date_value.text =
                         (EventHandler.getList()[position].second as AnnualEvent).getPrettyShortStringWithoutYear()
 
                     //set days until
-                    holder.itemView.tv_days_until_anniversary_value.text =
+                    holder.itemView.tv_days_until_annual_value.text =
                         EventHandler.getList()[position].second.getDaysUntil().toString()
 
                     //set years since, if specified
                     if ((EventHandler.getList()[position].second as AnnualEvent).hasStartYear) {
-                        holder.itemView.tv_years_since_anniversary_value.text =
+                        holder.itemView.tv_years_since_annual_value.text =
                             EventHandler.getList()[position].second.getYearsSince().toString()
                     } else {
-                        holder.itemView.tv_years_since_anniversary_value.text =
+                        holder.itemView.tv_years_since_annual_value.text =
                             "-"
                     }
 
-                    //set forename
-                    holder.itemView.tv_anniversary_item_name.text =
+                    //set name
+                    holder.itemView.tv_annual_item_name.text =
                         (EventHandler.getList()[position].second as AnnualEvent).name
+                }
+            }
+
+            //one time event item view holder
+            3 -> {
+                //check if is birthday event and if the year is given
+                if (EventHandler.getList()[position].second is OneTimeEvent) {
+
+                    //set on click listener for item
+                    holder.itemView.setOnClickListener {
+                        if (isClickable) {
+                            val bundle = Bundle()
+                            bundle.putInt(
+                                ITEM_ID_PARAM,
+                                position
+                            )
+
+                            val ft = (context as MainActivity).supportFragmentManager.beginTransaction()
+                            // add arguments to fragment
+                            val newOneTimeEvent = ShowOneTimeEvent.newInstance()
+                            newOneTimeEvent.arguments = bundle
+                            ft.replace(
+                                R.id.fragment_placeholder,
+                                newOneTimeEvent
+                            )
+                            ft.addToBackStack(null)
+                            ft.commit()
+                        }
+                    }
+
+                    holder.itemView.setOnLongClickListener {
+                        if (isClickable) {
+                            val bundle = Bundle()
+                            //do this in more adaptable way
+                            bundle.putInt(
+                                ITEM_ID_PARAM,
+                                position
+                            )
+
+                            val ft = (context as MainActivity).supportFragmentManager.beginTransaction()
+
+                            // add arguments to fragment
+                            val newOneTimeEvent = OneTimeEventInstanceFragment.newInstance()
+                            newOneTimeEvent.arguments = bundle
+                            ft.replace(
+                                R.id.fragment_placeholder,
+                                newOneTimeEvent
+                            )
+                            ft.addToBackStack(null)
+                            ft.commit()
+                        }
+                        true
+                    }
+
+                    //set date
+                    holder.itemView.tv_one_time_item_date_value.text =
+                        (EventHandler.getList()[position].second as OneTimeEvent).dateToPrettyString(DateFormat.SHORT)
+
+                    //set days until
+                    holder.itemView.tv_days_until_one_time_value.text =
+                        EventHandler.getList()[position].second.getDaysUntil().toString()
+
+                    //set name
+                    holder.itemView.tv_one_time_item_name.text =
+                        (EventHandler.getList()[position].second as OneTimeEvent).name
                 }
             }
         }

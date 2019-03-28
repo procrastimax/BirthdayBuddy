@@ -1,6 +1,5 @@
 package com.procrastimax.birthdaybuddy.models
 
-import android.util.Log
 import com.procrastimax.birthdaybuddy.EventDataIO
 import java.text.DateFormat
 import java.util.*
@@ -13,10 +12,10 @@ import java.util.*
  * Can be used for other eventType classes f.e. birthdayEvent, anniversaryEvent, ...
  * The used date format used in the app is dd.MM.yyyy
  *
- * @param _eventDate The date of the event
+ * @param eventDate The date of the event
  * @author Procrastimax
  */
-open class EventDate(private var _eventDate: Date) : Comparable<EventDate> {
+open class EventDate(var eventDate: Date) : Comparable<EventDate> {
 
     /**
      * compareTo is the implementation of the comparable interface
@@ -51,39 +50,21 @@ open class EventDate(private var _eventDate: Date) : Comparable<EventDate> {
     }
 
     /**
+     * getPrettyShortStringWithoutYear returns a localized date in very short format like 06.02 or 06/02
+     * TODO: dont do it this way, get default locale date seperation symbol
+     * @param locale : Locale = Locale.getDefault()
+     * @return String
+     */
+    fun getPrettyShortStringWithoutYear(locale: Locale = Locale.getDefault()): String {
+        return this.dateToPrettyString(DateFormat.SHORT, locale).substring(0..4)
+    }
+
+    /**
      * Identifier is an identifier for sorting
      */
     enum class Identifier : SortIdentifier {
         Date {
             override fun Identifier(): Int = 0
-        }
-    }
-
-    //short "hack" to make it possible to set a getter/setter for primary constructed class members
-    // eventDate is used as an alibi member
-    var eventDate: Date
-        get() = EventDate.normalizeDate(_eventDate)
-        set(value) {
-            _eventDate = if (EventDate.isDateInFuture(value)) {
-                Log.d(
-                    "EventDay",
-                    "Member variable EVENTDAY was in the future, it is now set to current date"
-                )
-                EventDate.normalizeDate(Calendar.getInstance().time)
-            } else {
-                EventDate.normalizeDate(value)
-            }
-        }
-
-    init {
-        _eventDate = if (EventDate.isDateInFuture(_eventDate)) {
-            Log.d(
-                "EventDay",
-                "Member variable EVENTDAY was in the future, it is now set to current date"
-            )
-            EventDate.normalizeDate(Calendar.getInstance().time)
-        } else {
-            EventDate.normalizeDate(_eventDate)
         }
     }
 
@@ -117,10 +98,10 @@ open class EventDate(private var _eventDate: Date) : Comparable<EventDate> {
 
     /**
      * getDaysUntil compares the current date and the member var EVENTDATE and calculates the difference in days
-     *
      * @return Int
      */
-    fun getDaysUntil(): Int {
+    open fun getDaysUntil(): Int {
+        if (getDayOfYear() == Calendar.getInstance().get(Calendar.DAY_OF_YEAR)) return 0
         val dateInCurrentTimeContext = dateToCurrentTimeContext()
         val dayDiff = dateInCurrentTimeContext.time - EventDate.normalizeDate(Calendar.getInstance().time).time
         return (dayDiff / (1000 * 60 * 60 * 24)).toInt() + 1
@@ -148,6 +129,12 @@ open class EventDate(private var _eventDate: Date) : Comparable<EventDate> {
         val cal = Calendar.getInstance()
         cal.time = this.eventDate
         return cal.get(Calendar.DAY_OF_MONTH)
+    }
+
+    fun getHourOfDay(): Int {
+        val cal = Calendar.getInstance()
+        cal.time = this.eventDate
+        return cal.get(Calendar.HOUR_OF_DAY)
     }
 
     /**

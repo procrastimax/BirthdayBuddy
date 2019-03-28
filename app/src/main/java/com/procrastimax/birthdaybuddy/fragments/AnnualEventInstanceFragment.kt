@@ -247,7 +247,7 @@ class AnnualEventInstanceFragment : EventInstanceFragment() {
         val isYearGiven = switch_isYearGiven.isChecked
 
         if (name.isBlank() || date.isBlank()) {
-            Toast.makeText(context, context!!.resources.getText(R.string.empty_fields_error), Toast.LENGTH_LONG)
+            Toast.makeText(context, context!!.resources.getText(R.string.empty_fields_error_annual_event), Toast.LENGTH_LONG)
                 .show()
         } else {
             val annual_event: AnnualEvent
@@ -267,7 +267,7 @@ class AnnualEventInstanceFragment : EventInstanceFragment() {
                 annual_event.note = note
             }
 
-            //new bithday entry, just add a new entry in map
+            //new annual event entry, just add a new entry in map
             if (!isEditAnnualEvent) {
                 EventHandler.addEvent(annual_event, this.context!!, true)
 
@@ -280,7 +280,7 @@ class AnnualEventInstanceFragment : EventInstanceFragment() {
                     .show()
                 closeBtnPressed()
 
-                //already existant birthday entry, overwrite old entry in map
+                //already annual event entry, overwrite old entry in map
             } else {
                 if (wasChangeMade(EventHandler.getList()[itemID].second as AnnualEvent)) {
                     EventHandler.changeEventAt(itemID, annual_event, context!!, true)

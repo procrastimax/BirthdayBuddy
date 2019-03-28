@@ -101,7 +101,7 @@
     <string name="alert_dialog_body_message_annual_event">Bist du sicher, dass du dieses jährliche Event löschen möchtest?</string>
     <!-- fragment show birthday -->
     <plurals name="annual_event_show_date">
-        <item quantity="one">Das ist in %1$d Tag\nam %2$</item>
+        <item quantity="one">Das ist in %1$d Tag\nam %2$s</item>
         <item quantity="other">Das ist in %1$d Tagen\nam %2$s</item>
     </plurals>
     <string name="annual_event_no_note">Es wurde keine Notiz gemacht</string>
@@ -124,10 +124,59 @@
         <item quantity="other">Seit %1$d Jahren</item>
     </plurals>
 
+    <!-- ONE TIME EVENT -->
+    <!-- one time event view -->
+    <string name="tv_one_time_event_days_until_title">Tage</string>
+    <string name="tv_one_time_event_date_title">Datum</string>
+
+    <!-- fragment add new one time event -->
+    <string name="toolbar_title_add_one_time_event">Neues einmaliges Event</string>
+    <string name="toolbar_title_edit_one_time_event">Bearbeite einmaliges Event</string>
+    <string name="one_time_event_instance_fragment_date_edit_hint">Datum: %1$s</string>
+    <string name="error_past_one_time_event_error">Du kannst keine vergangenen einmaligen Events hinzufügen</string>
+    <string name="empty_fields_error_one_time_event">Fülle zuerst alle leeren Felder aus (Name, Datum)!</string>
+    <string name="one_time_event_added_notification">%1$s hinzugefügt</string>
+    <string name="one_time_event_changed_notification">%1$s bearbeitet</string>
+    <string name="one_time_event_deleted_notification">%1$s gelöscht</string>
+    <string name="edit_one_time_event_name_hint">Einmal-Event Name</string>
+    <string name="edit_one_time_event_note_hint">Notiz</string>
+    <string name="sw_one_time_event_date_with_year_title">Jahr</string>
+    <string name="btn_one_time_event_delete">Lösche einmaliges Event</string>
+
+    <!-- alert dialog delete one_time event -->
+    <string name="alert_dialog_title_delete_one_time_event">Lösche einmaliges Event</string>
+    <string name="alert_dialog_body_message_one_time_event">Bist du dir sicher, dass du dieses einmalige Event löschen möchtest?</string>
+
+    <!-- fragment show one time -->
+    <plurals name="one_time_event_show_date">
+        <item quantity="one">Das ist in %1$d Tag am %2$s</item>
+        <item quantity="other">Das ist in %1$d Tagen am %2$s</item>
+    </plurals>
+    <string name="one_time_event_no_note">Es wurde keine Notiz gemacht</string>
+    <string name="one_time_event_note">Notiz: %1$s</string>
+    <plurals name="one_time_event_years">
+        <item quantity="one">In %1$d Jahr</item>
+        <item quantity="other">In %1$d Jahren</item>
+    </plurals>
+
+    <!-- sharing strings one_time event -->
+    <string name="share_one_time_event_name">%1$s</string>
+    <string name="share_one_time_event_date_next">Am %1$s</string>
+    <plurals name="share_one_time_event_days">
+        <item quantity="one">In %1$d Tag</item>
+        <item quantity="other">In %1$d Tagen</item>
+    </plurals>
+
+    <plurals name="share_one_time_event_year">
+        <item quantity="one">In %1$d Jahr</item>
+        <item quantity="other">In %1$d Jahren</item>
+    </plurals>
+
 
     <!-- globals -->
     <string name="fab_event_list_birthday_title">Neuer Geburtstag</string>
     <string name="fab_event_list_annual_event_title">Neues jährliches Event</string>
+    <string name="fab_event_list_one_time_event_title">Neues einmaliges Event</string>
 
     <string name="snackbar_undo_action_title">RÜCKGÄNGIG</string>
 

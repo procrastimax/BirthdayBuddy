@@ -4,10 +4,7 @@ import android.content.Context
 import android.content.SharedPreferences
 import android.util.Log
 import com.procrastimax.birthdaybuddy.handler.EventHandler
-import com.procrastimax.birthdaybuddy.models.AnnualEvent
-import com.procrastimax.birthdaybuddy.models.EventBirthday
-import com.procrastimax.birthdaybuddy.models.EventDate
-import com.procrastimax.birthdaybuddy.models.MonthDivider
+import com.procrastimax.birthdaybuddy.models.*
 
 /**
  * DataHandler is a singleton and is used to store/read event data from shared preferences
@@ -31,6 +28,7 @@ object EventDataIO {
     private val type_birthday: String = "Birthday"
     private val type_month_divider: String = "MonthDivider"
     private val type_annual: String = "AnnualEvent"
+    private val type_one_time_event: String = "OneTimeEvent"
 
     val divider_chars_properties = "||"
     val divider_chars_values = "::"
@@ -115,8 +113,16 @@ object EventDataIO {
         sharedPref.all.forEach {
             if (it.key != preferenceInitString) {
                 if (it.value is String) {
-                    val event = convertStringToEventDate(it.value as String)
+                    var event = convertStringToEventDate(it.value as String)
 
+                    //check for onetimeevents
+                    if (event is OneTimeEvent) {
+                        //when onetimeevent expired, remove from shared prefs and null it, so it doesnt get added in the map
+                        if (event.dateIsExpired()) {
+                            sharedPref.edit().remove(it.key).apply()
+                            event = null
+                        }
+                    }
                     if (event != null) {
                         EventHandler.addEvent(event, context)
                     }
@@ -211,7 +217,7 @@ object EventDataIO {
         } else if (string_array[0] == type_annual) {
             var date = "-"
             var name = "-"
-            var note = "null"
+            var note: String? = null
             var hasStartYear = false
 
             for (i in 1 until string_array.size) {
@@ -236,10 +242,40 @@ object EventDataIO {
                 }
             }
             val anniversary = AnnualEvent(EventDate.parseStringToDate(date), name, hasStartYear)
-            if (note != "null") {
+            if (note != null) {
                 anniversary.note = note
             }
             return anniversary
+
+            // ONE TIME EVENT
+        } else if (string_array[0] == type_one_time_event) {
+            var date = "-"
+            var name = "-"
+            var note: String? = null
+
+            for (i in 1 until string_array.size) {
+                val property = string_array[i].split(divider_chars_values)
+
+                //use identifier
+                when (property[0]) {
+                    OneTimeEvent.Identifier.Date.toString() -> {
+                        date = property[1]
+                    }
+                    OneTimeEvent.Identifier.Name.toString() -> {
+                        name = property[1]
+                    }
+                    OneTimeEvent.Identifier.Note.toString() -> {
+                        note = property[1]
+                    }
+                    else ->
+                        Log.w("EventDataIO", "Could not find identifier when trying to parse OneTimeEvent")
+                }
+            }
+            val oneTimeEvent = OneTimeEvent(EventDate.parseStringToDate(date), name)
+            if (note != null) {
+                oneTimeEvent.note = note
+            }
+            return oneTimeEvent
         }
         return null
     }

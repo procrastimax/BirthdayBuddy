@@ -441,7 +441,7 @@ class BirthdayInstanceFragment : EventInstanceFragment() {
         val isYearGiven = switch_isYearGiven.isChecked
 
         if (forename.isBlank() || surname.isBlank() || date.isBlank()) {
-            Toast.makeText(context, context!!.resources.getText(R.string.empty_fields_error), Toast.LENGTH_LONG)
+            Toast.makeText(context, context!!.resources.getText(R.string.empty_fields_error_birthday), Toast.LENGTH_LONG)
                 .show()
         } else {
 

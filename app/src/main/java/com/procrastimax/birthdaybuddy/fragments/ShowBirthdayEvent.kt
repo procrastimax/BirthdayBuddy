@@ -10,6 +10,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import android.widget.TextView
 import com.procrastimax.birthdaybuddy.MainActivity
 import com.procrastimax.birthdaybuddy.R
 import com.procrastimax.birthdaybuddy.handler.DrawableHandler
@@ -68,8 +69,11 @@ class ShowBirthdayEvent : ShowEventFragment() {
                 )
                 ft.addToBackStack(null)
                 ft.commit()
+                arguments = null
             }
             updateUI()
+        } else {
+            (context as MainActivity).supportFragmentManager.popBackStack()
         }
     }
 
@@ -105,7 +109,7 @@ class ShowBirthdayEvent : ShowEventFragment() {
 
             } else {
                 date = birthdayEvent.dateToPrettyString(DateFormat.DATE_FIELD).substring(0..5)
-                tv_show_birthday_years_old.textSize = 0.0f
+                this.tv_show_birthday_years_old.visibility = TextView.GONE
             }
 
             tv_show_birthday_date.text = context!!.resources.getString(R.string.person_show_date, date)
@@ -136,9 +140,7 @@ class ShowBirthdayEvent : ShowEventFragment() {
                     context!!.resources.getString(R.string.person_note, birthdayEvent.note)
                 this.tv_show_birthday_note.setTextColor(ContextCompat.getColor(context!!, R.color.darkGrey))
             } else {
-                this.tv_show_birthday_note.text = context!!.resources.getString(R.string.person_no_note)
-                this.tv_show_birthday_note.textSize = 0.0f
-                this.tv_show_birthday_note.setTextColor(ContextCompat.getColor(context!!, R.color.brightGrey))
+                this.tv_show_birthday_note.visibility = TextView.GONE
             }
 
             updateAvatarImage()
