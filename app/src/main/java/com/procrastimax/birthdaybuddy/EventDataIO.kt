@@ -112,6 +112,7 @@ object EventDataIO {
      * @return Map<Int, EventDay>
      */
     fun readAll(context: Context) {
+        EventHandler.clearList()
         sharedPref.all.forEach {
             if (it.key != preferenceInitString) {
                 if (it.value is String) {

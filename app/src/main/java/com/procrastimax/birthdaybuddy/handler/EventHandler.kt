@@ -64,6 +64,12 @@ object EventHandler {
         this.event_list = getSortedListBy(list).toMutableList()
     }
 
+    fun clearList() {
+        if (this.event_list.isNotEmpty()) {
+            this.event_list.clear()
+        }
+    }
+
     /**
      * getValueToKey returns the value with type EventDay? to a given integer key
      *

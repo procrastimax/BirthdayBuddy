@@ -24,6 +24,10 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-    </application>
 
+        <!-- register service -->
+        <service
+                android:name=".handler.NotificationServiceHandler"/>
+        <!--android:enabled="true" -->
+    </application>
 </manifest>
