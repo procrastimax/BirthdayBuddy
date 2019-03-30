@@ -4,7 +4,7 @@
                                              xmlns:tools="http://schemas.android.com/tools"
                                              android:layout_width="match_parent"
                                              android:layout_height="match_parent"
-                                             tools:context=".fragments.AnnualEventInstanceFragment">
+                                             tools:context=".fragments.OneTimeEventInstanceFragment">
 
 
     <ScrollView
@@ -21,47 +21,34 @@
                     android:layout_height="wrap_content"
                     android:inputType="textPersonName"
                     android:ems="10"
-                    android:id="@+id/edit_add_fragment_name_annual_event"
+                    android:id="@+id/edit_add_fragment_name_one_time_event"
                     android:layout_marginEnd="8dp"
                     app:layout_constraintEnd_toEndOf="parent"
                     android:layout_marginStart="8dp"
                     app:layout_constraintStart_toStartOf="parent"
-                    android:hint="@string/edit_annual_event_name_hint"
+                    android:hint="@string/edit_one_time_event_name_hint"
                     android:layout_marginTop="24dp"
                     app:layout_constraintTop_toTopOf="parent"/>
 
             <TextView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:id="@+id/edit_add_fragment_date_annual_event"
+                    android:id="@+id/edit_add_fragment_date_one_time_event"
                     android:textSize="@dimen/larger_text_size"
-                    android:hint="@string/annual_event_instance_fragment_date_edit_hint"
+                    android:hint="@string/one_time_event_instance_fragment_date_edit_hint"
                     style="@android:style/Widget.Holo.Light.Spinner"
-                    app:layout_constraintStart_toStartOf="@+id/edit_add_fragment_name_annual_event"
+                    app:layout_constraintStart_toStartOf="@+id/edit_add_fragment_name_one_time_event"
                     android:layout_marginTop="16dp"
-                    app:layout_constraintTop_toBottomOf="@+id/edit_add_fragment_name_annual_event"
-                    android:layout_marginEnd="8dp"
-                    app:layout_constraintEnd_toStartOf="@+id/sw_is_year_given_annual_event"/>
-
-            <Switch
-                    android:text="@string/sw_annual_event_date_with_year_title"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/sw_is_year_given_annual_event"
-                    android:checked="true"
-                    android:showText="false"
-                    android:splitTrack="false"
-                    app:layout_constraintEnd_toEndOf="@+id/edit_add_fragment_name_annual_event"
-                    app:layout_constraintTop_toTopOf="@+id/edit_add_fragment_date_annual_event"
-                    app:layout_constraintBottom_toBottomOf="@+id/edit_add_fragment_date_annual_event"/>
+                    app:layout_constraintTop_toBottomOf="@+id/edit_add_fragment_name_one_time_event"
+                    app:layout_constraintEnd_toEndOf="@+id/edit_add_fragment_name_one_time_event"/>
 
             <Button
-                    android:text="@string/btn_annual_event_delete"
+                    android:text="@string/btn_one_time_event_delete"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:id="@+id/btn_fragment_annual_event_instance_delete"
+                    android:id="@+id/btn_fragment_one_time_event_instance_delete"
                     android:layout_marginTop="24dp"
-                    app:layout_constraintTop_toBottomOf="@+id/edit_add_fragment_note_annual_event"
+                    app:layout_constraintTop_toBottomOf="@+id/edit_add_fragment_note_one_time_event"
                     android:layout_marginBottom="24dp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     style="@style/Widget.AppCompat.Button.Colored"
@@ -75,12 +62,12 @@
                     android:layout_height="wrap_content"
                     android:inputType="textMultiLine"
                     android:ems="10"
-                    android:id="@+id/edit_add_fragment_note_annual_event"
+                    android:id="@+id/edit_add_fragment_note_one_time_event"
                     android:layout_marginTop="16dp"
-                    app:layout_constraintTop_toBottomOf="@+id/edit_add_fragment_date_annual_event"
-                    app:layout_constraintEnd_toEndOf="@+id/sw_is_year_given_annual_event"
-                    app:layout_constraintStart_toStartOf="@+id/edit_add_fragment_date_annual_event"
-                    android:hint="@string/edit_annual_event_note_hint"/>
+                    app:layout_constraintTop_toBottomOf="@+id/edit_add_fragment_date_one_time_event"
+                    app:layout_constraintStart_toStartOf="@+id/edit_add_fragment_date_one_time_event"
+                    android:hint="@string/edit_annual_event_note_hint"
+                    app:layout_constraintEnd_toEndOf="@+id/edit_add_fragment_date_one_time_event"/>
         </android.support.constraint.ConstraintLayout>
     </ScrollView>
 

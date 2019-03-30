@@ -39,7 +39,7 @@
     <ImageView
             android:layout_width="0dp"
             android:layout_height="0dp"
-            app:srcCompat="@drawable/ic_arrow"
+            app:srcCompat="@drawable/ic_arrow_back"
             android:id="@+id/iv_toolbar_show_event_back"
             app:layout_constraintTop_toTopOf="parent"
             android:clickable="true"

@@ -15,6 +15,7 @@ import com.procrastimax.birthdaybuddy.fragments.ShowBirthdayEvent
 import com.procrastimax.birthdaybuddy.handler.DrawableHandler
 import com.procrastimax.birthdaybuddy.handler.EventHandler
 import com.procrastimax.birthdaybuddy.handler.NotificationServiceHandler
+import com.procrastimax.birthdaybuddy.handler.IOHandler
 import com.procrastimax.birthdaybuddy.models.EventBirthday
 import com.procrastimax.birthdaybuddy.models.EventDate
 import com.procrastimax.birthdaybuddy.models.MonthDivider
@@ -39,15 +40,6 @@ import java.util.*
  */
 class MainActivity : AppCompatActivity() {
 
-    private val settings_shared_pref_file_name = "com.procrasticmax.birthdaybuddy.settings_shared_pref"
-    private val settings_shared_pref_isFirstStart = "isFirstStart"
-    private val shared_pref_settings by lazy {
-        this.getSharedPreferences(
-            this.settings_shared_pref_file_name,
-            Context.MODE_PRIVATE
-        )
-    }
-
     var isLoading: Boolean = true
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -55,29 +47,17 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         setSupportActionBar(toolbar)
 
-        //get application context and set shared pref context
-        EventDataIO.registerIO(this.applicationContext)
+        IOHandler.registerIO(this.applicationContext)
 
-        //read all data from shared prefs
-        EventDataIO.readAll(this.applicationContext)
+        if (!IOHandler.isFirstStart()) {
+            //read all data from shared prefs, when app didnt start for the first time
+            IOHandler.readAll(this.applicationContext)
 
-        Intent(this, NotificationServiceHandler::class.java).also { intent ->
-            startService(intent)
-        }
+        } else {
+            //on first start write standard settings to shared prefs
+            IOHandler.initializeAllSettings()
 
-        if (isFirstStart()) {
-            val cal = Calendar.getInstance()
-            cal.set(Calendar.YEAR, 1)
-            cal.set(Calendar.DAY_OF_MONTH, 1)
-            cal.set(Calendar.HOUR_OF_DAY, 1)
-            for (i in 0 until 12) {
-                cal.set(Calendar.MONTH, i)
-                EventHandler.addEvent(
-                    MonthDivider(cal.time, resources.getStringArray(R.array.month_names)[i]),
-                    this.applicationContext,
-                    true
-                )
-            }
+            addMonthDivider()
 
             EventHandler.addEvent(
                 EventBirthday(
@@ -143,13 +123,18 @@ class MainActivity : AppCompatActivity() {
         return resources.getStringArray(R.array.month_names)[index]
     }
 
-    private fun isFirstStart(): Boolean {
-        return if (shared_pref_settings.getBoolean(settings_shared_pref_isFirstStart, true)) {
-            //change isFirstStatus in shared prefs to false
-            this.shared_pref_settings.edit().putBoolean(settings_shared_pref_isFirstStart, false).apply()
-            true
-        } else {
-            false
+    fun addMonthDivider() {
+        val cal = Calendar.getInstance()
+        cal.set(Calendar.YEAR, 1)
+        cal.set(Calendar.DAY_OF_MONTH, 1)
+        cal.set(Calendar.HOUR_OF_DAY, 1)
+        for (i in 0 until 12) {
+            cal.set(Calendar.MONTH, i)
+            EventHandler.addEvent(
+                MonthDivider(cal.time, resources.getStringArray(R.array.month_names)[i]),
+                this.applicationContext,
+                true
+            )
         }
     }
 
@@ -220,6 +205,25 @@ class MainActivity : AppCompatActivity() {
                 closeAppBar(false)
                 lockAppBar()
             }
+
+            Companion.ToolbarState.Settings -> {
+                if (toolbar.childCount > 0) {
+                    toolbar.removeAllViews()
+                }
+                toolbar.addView(
+                    layoutInflater.inflate(
+                        R.layout.toolbar_settings,
+                        findViewById(android.R.id.content),
+                        false
+                    )
+                )
+                toolbar.setBackgroundResource(
+                    android.R.color.transparent
+                )
+
+                closeAppBar(false)
+                lockAppBar()
+            }
         }
     }
 
@@ -264,7 +268,8 @@ class MainActivity : AppCompatActivity() {
         enum class ToolbarState {
             Default,
             EditEvent,
-            ShowEvent
+            ShowEvent,
+            Settings
         }
     }
 }

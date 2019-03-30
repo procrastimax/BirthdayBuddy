@@ -2,9 +2,9 @@ package com.procrastimax.birthdaybuddy.handler
 
 import android.content.Context
 import android.net.Uri
-import com.procrastimax.birthdaybuddy.EventDataIO
 import com.procrastimax.birthdaybuddy.models.EventBirthday
 import com.procrastimax.birthdaybuddy.models.EventDate
+import com.procrastimax.birthdaybuddy.models.MonthDivider
 import com.procrastimax.birthdaybuddy.models.SortIdentifier
 import java.text.DateFormat
 import java.util.*
@@ -51,12 +51,20 @@ object EventHandler {
             }
         }
 
+        //set hour of day from all other events except monthdivider to 12h (month divider is at 0h), so when sorting month divider is always at first
+        if (event !is MonthDivider) {
+            val cal = Calendar.getInstance()
+            cal.time = event.eventDate
+            cal.set(Calendar.HOUR_OF_DAY, 12)
+            event.eventDate = cal.time
+        }
+
         this.event_list = getSortedListBy(this.event_list).toMutableList()
 
         id_counter++
 
         if (writeAfterAdd) {
-            EventDataIO.writeAll()
+            IOHandler.writeAll()
         }
     }
 
@@ -88,7 +96,6 @@ object EventHandler {
      * @param key : Int
      */
     fun removeEventByKey(key: Int, writeChange: Boolean = false) {
-
         if (event_list[key].second is EventBirthday) {
             if ((event_list[key].second as EventBirthday).avatarImageUri != null) {
                 DrawableHandler.removeDrawable(event_list[key].first)
@@ -99,7 +106,15 @@ object EventHandler {
         this.event_list = this.getSortedListBy(this.event_list).toMutableList()
 
         if (writeChange) {
-            EventDataIO.writeAll()
+            IOHandler.writeAll()
+        }
+    }
+
+    fun deleteAllEntries(writeAfterAdd: Boolean) {
+        this.event_list.clear()
+        if (writeAfterAdd) {
+            //deletes shared prefs before writing list, but list is empty, so it only clears the shared prefs
+            IOHandler.writeAll()
         }
     }
 
@@ -111,6 +126,15 @@ object EventHandler {
      */
     fun changeEventAt(key: Int, event: EventDate, context: Context, writeAfterChange: Boolean = false) {
         val id_cnt = event_list[key].first
+
+        //set hour of day from all other events except monthdivider to 12h (month divider is at 0h), so when sorting month divider is always at first
+        if (event !is MonthDivider) {
+            val cal = Calendar.getInstance()
+            cal.time = event.eventDate
+            cal.set(Calendar.HOUR_OF_DAY, 12)
+            event.eventDate = cal.time
+        }
+
         event_list[key] = Pair(id_cnt, event)
 
         if (event is EventBirthday) {
@@ -122,7 +146,7 @@ object EventHandler {
         this.event_list = getSortedListBy(this.event_list).toMutableList()
 
         if (writeAfterChange) {
-            EventDataIO.writeAll()
+            IOHandler.writeAll()
         }
     }
 
@@ -195,7 +219,12 @@ object EventHandler {
         identifier: SortIdentifier = EventDate.Identifier.Date
     ): List<Pair<Int, EventDate>> {
         if (identifier == EventDate.Identifier.Date) {
-            return list.sortedBy { it.second.getDayOfYear() }
+            return list.sortedWith(
+                compareBy(
+                    { it.second.getDayOfYear() },
+                    { it.second.getMonth() },
+                    { it.second.getHourOfDay() })
+            )
         } else {
             return emptyList()
         }

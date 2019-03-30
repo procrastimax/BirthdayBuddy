@@ -1,7 +1,7 @@
 package com.procrastimax.birthdaybuddy.models
 
 import android.util.Log
-import com.procrastimax.birthdaybuddy.EventDataIO
+import com.procrastimax.birthdaybuddy.handler.IOHandler
 import java.text.DateFormat
 import java.util.*
 
@@ -9,7 +9,7 @@ import java.util.*
  * TODO:
  * - rework note workings (null)
  */
-class AnnualEvent(private var _eventDate: Date, private var _name: String, var hasStartYear: Boolean) :
+class AnnualEvent(_eventDate: Date, var name: String, var hasStartYear: Boolean) :
     EventDate(_eventDate) {
 
     /**
@@ -30,17 +30,6 @@ class AnnualEvent(private var _eventDate: Date, private var _name: String, var h
             override fun Identifier(): Int = 3
         },
     }
-
-    var name: String
-        get() = _name
-        set(value) {
-            _name = if (value.isBlank() || value.isEmpty()) {
-                Log.d("AnnualEvent", "member variable NAME was set to an empty/blank value!")
-                "-"
-            } else {
-                value
-            }
-        }
 
     var note: String? = null
         get() {
@@ -66,34 +55,26 @@ class AnnualEvent(private var _eventDate: Date, private var _name: String, var h
         }
 
     /**
-     * getPrettyShortStringWithoutYear returns a localized date in very short format like 06.02 or 06/02
-     * TODO: dont do it this way, get default locale date seperation symbol
-     * @param locale : Locale = Locale.getDefault()
-     * @return String
-     */
-    fun getPrettyShortStringWithoutYear(locale: Locale = Locale.getDefault()): String {
-        return this.dateToPrettyString(DateFormat.SHORT, locale).substring(0..4)
-    }
-
-    /**
      * toString returns EventBirthday as string representation
      * This is "optimized" for Serialization, so THE FIRST WORD HAS TO BE THE TYPIFICATION f.e. "Birthday"
      * returned string follows the pattern TYPE|FORENAME|SURNAME|EVENTDATE|ISYEARGIVEN|NOTE
      * @return String
      */
     override fun toString(): String {
-        return "AnnualEvent${EventDataIO.divider_chars_properties}" +
-                "${Identifier.Name}${EventDataIO.divider_chars_values}${this._name}" +
-                "${EventDataIO.divider_chars_properties}${Identifier.Date}${EventDataIO.divider_chars_values}${EventDate.parseDateToString(
+        return "$Name${IOHandler.characterDivider_properties}" +
+                "${Identifier.Name}${IOHandler.characterDivider_values}${this.name}" +
+                "${IOHandler.characterDivider_properties}${Identifier.Date}${IOHandler.characterDivider_values}${EventDate.parseDateToString(
                     this.eventDate,
                     DateFormat.DEFAULT
-                )}${EventDataIO.divider_chars_properties}" +
-                "${Identifier.HasStartYear}${EventDataIO.divider_chars_values}${this.hasStartYear}" +
-                "${
+                )}${IOHandler.characterDivider_properties}" +
+                "${Identifier.HasStartYear}${IOHandler.characterDivider_values}${this.hasStartYear}" +
                 EventDate.getStringFromValue(
                     Identifier.Note,
                     this.note
                 )
-                }"
+    }
+
+    companion object {
+        const val Name: String = "AnnualEvent"
     }
 }

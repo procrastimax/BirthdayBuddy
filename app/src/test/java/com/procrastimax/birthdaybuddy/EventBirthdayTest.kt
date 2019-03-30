@@ -13,26 +13,26 @@ class EventBirthdayTest {
     fun birthdayToStringTest() {
         val birthday = EventBirthday(
             EventDate.parseStringToDate("06.02.00", DateFormat.DEFAULT, Locale.GERMAN),
-            "Maximilian",
+            "Max",
             "Mustermann"
         )
 
         birthday.nickname = "procrastimax"
         Assert.assertEquals(
-            "Birthday||Forename::Maximilian||Surname::Mustermann||Date::Feb 6, 0001||IsYearGiven::true||Nickname::procrastimax",
+            "Birthday||Forename::Max||Surname::Mustermann||Date::06.02.0001||IsYearGiven::true||Nickname::procrastimax",
             birthday.toString()
         )
 
         val birthday2 = EventBirthday(
             EventDate.parseStringToDate("06.02.00", DateFormat.DEFAULT, Locale.GERMAN),
-            "Maximilian",
+            "Max",
             "Mustermann"
         )
 
         birthday2.nickname = "procrastimax"
         birthday2.note = "nothing"
         Assert.assertEquals(
-            "Birthday||Forename::Maximilian||Surname::Mustermann||Date::Feb 6, 0001||IsYearGiven::true||Note::nothing||Nickname::procrastimax",
+            "Birthday||Forename::Max||Surname::Mustermann||Date::06.02.0001||IsYearGiven::true||Note::nothing||Nickname::procrastimax",
             birthday2.toString()
         )
 
@@ -40,10 +40,10 @@ class EventBirthdayTest {
 
     @Test
     fun memberSettingTest() {
-        val birthday_1 = EventBirthday(Calendar.getInstance().time, "Maximilian", "Mustermann")
-        birthday_1.forename = "Schmaximilian"
+        val birthday_1 = EventBirthday(Calendar.getInstance().time, "Max", "Mustermann")
+        birthday_1.forename = "SchMax"
         birthday_1.surname = "Niceroth"
-        Assert.assertEquals("Schmaximilian", birthday_1.forename)
+        Assert.assertEquals("SchMax", birthday_1.forename)
         Assert.assertEquals("Niceroth", birthday_1.surname)
 
         birthday_1.forename = "  "
@@ -62,7 +62,7 @@ class EventBirthdayTest {
     fun returnVeryShortPrettyDateTest() {
         val birthday = EventBirthday(
             EventDate.parseStringToDate("06.02.00", DateFormat.SHORT, Locale.GERMAN),
-            "Maximilian",
+            "Max",
             "Mustermann"
         )
         Assert.assertEquals("06.02", birthday.getPrettyShortStringWithoutYear(Locale.GERMAN))

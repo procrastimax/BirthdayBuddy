@@ -1,7 +1,7 @@
 package com.procrastimax.birthdaybuddy.models
 
 import android.util.Log
-import com.procrastimax.birthdaybuddy.EventDataIO
+import com.procrastimax.birthdaybuddy.handler.IOHandler
 import java.text.DateFormat
 import java.util.*
 
@@ -90,16 +90,6 @@ class EventBirthday(
     var avatarImageUri: String? = null
 
     /**
-     * getPrettyShortStringWithoutYear returns a localized date in very short format like 06.02 or 06/02
-     * TODO: dont do it this way, get default locale date seperation symbol
-     * @param locale : Locale = Locale.getDefault()
-     * @return String
-     */
-    fun getPrettyShortStringWithoutYear(locale: Locale = Locale.getDefault()): String {
-        return this.dateToPrettyString(DateFormat.SHORT, locale).substring(0..4)
-    }
-
-    /**
      * TODO: only save not null member vars
      * toString returns EventBirthday as string representation
      * This is "optimized" for Serialization, so THE FIRST WORD HAS TO BE THE TYPIFICATION f.e. "Birthday"
@@ -107,14 +97,13 @@ class EventBirthday(
      * @return String
      */
     override fun toString(): String {
-
-        return "Birthday${EventDataIO.divider_chars_properties}${Identifier.Forename}${EventDataIO.divider_chars_values}${this._forename}${EventDataIO.divider_chars_properties}" +
-                "${Identifier.Surname}${EventDataIO.divider_chars_values}${this._surname}${EventDataIO.divider_chars_properties}" +
-                "${Identifier.Date}${EventDataIO.divider_chars_values}${EventDate.parseDateToString(
+        return "$Name${IOHandler.characterDivider_properties}${Identifier.Forename}${IOHandler.characterDivider_values}${this._forename}${IOHandler.characterDivider_properties}" +
+                "${Identifier.Surname}${IOHandler.characterDivider_values}${this._surname}${IOHandler.characterDivider_properties}" +
+                "${Identifier.Date}${IOHandler.characterDivider_values}${EventDate.parseDateToString(
                     this.eventDate,
                     DateFormat.DEFAULT
                 )}" +
-                "${EventDataIO.divider_chars_properties}${Identifier.IsYearGiven}${EventDataIO.divider_chars_values}${this.isYearGiven}" +
+                "${IOHandler.characterDivider_properties}${Identifier.IsYearGiven}${IOHandler.characterDivider_values}${this.isYearGiven}" +
                 "${EventDate.getStringFromValue(
                     Identifier.Note,
                     this.note
@@ -122,5 +111,9 @@ class EventBirthday(
                     Identifier.AvatarUri,
                     this.avatarImageUri
                 )}${EventDate.getStringFromValue(Identifier.Nickname, this.nickname)}"
+    }
+
+    companion object {
+        const val Name: String = "EventBirthday"
     }
 }

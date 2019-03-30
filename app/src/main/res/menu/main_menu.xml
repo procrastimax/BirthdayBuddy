@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+            android:id="@+id/item_settings"
+            android:title="@string/main_menu_item_settings"/>
+
+    <item
+            android:id="@+id/item_about"
+            android:title="@string/main_menu_item_about"/>
+
+    <item
+            android:id="@+id/item_delete_all"
+            android:title="@string/main_menu_item_delete_all"/>
+
+    <item
+            android:id="@+id/item_import"
+            android:title="@string/main_menu_item_import"/>
+
+    <item
+            android:id="@+id/item_export"
+            android:title="@string/main_menu_item_export"/>
+
+</menu>

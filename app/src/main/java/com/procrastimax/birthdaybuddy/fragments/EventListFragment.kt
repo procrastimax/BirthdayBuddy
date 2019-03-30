@@ -5,10 +5,14 @@ import android.support.constraint.ConstraintLayout
 import android.support.v4.app.Fragment
 import android.support.v4.content.ContextCompat
 import android.support.v7.widget.LinearLayoutManager
+import android.support.v7.widget.PopupMenu
 import android.support.v7.widget.RecyclerView
+import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
+import android.widget.Toast
 import com.procrastimax.birthdaybuddy.MainActivity
 import com.procrastimax.birthdaybuddy.R
 import com.procrastimax.birthdaybuddy.handler.EventHandler
@@ -40,14 +44,62 @@ class EventListFragment : Fragment() {
 
         isFABOpen = false
 
-        fab_layout_add_anniversary.visibility = ConstraintLayout.INVISIBLE
+        fab_layout_add_annual_event.visibility = ConstraintLayout.INVISIBLE
         fab_layout_add_birthday.visibility = ConstraintLayout.INVISIBLE
+        fab_layout_add_one_time.visibility = ConstraintLayout.INVISIBLE
+
         viewManager = LinearLayoutManager(view.context)
         viewAdapter = EventAdapter(view.context)
 
         val toolbar = activity!!.findViewById<android.support.v7.widget.Toolbar>(R.id.toolbar)
         toolbar.setBackgroundColor(ContextCompat.getColor(context!!, R.color.colorPrimary))
-        toolbar.setContentInsetsAbsolute(24, 0)
+        toolbar.setContentInsetsAbsolute(0, 0)
+
+        val settings_btn = toolbar.findViewById<ImageView>(R.id.iv_more_vert)
+
+        settings_btn.setOnClickListener {
+            val popup = PopupMenu(activity!!, settings_btn, Gravity.END)
+            popup.menuInflater.inflate(R.menu.main_menu, popup.menu)
+            popup.setOnMenuItemClickListener { menuItem ->
+                when (menuItem.itemId) {
+                    R.id.item_settings -> {
+                        closeFABMenu(true)
+                        val ft = fragmentManager!!.beginTransaction()
+                        ft.replace(
+                            R.id.fragment_placeholder,
+                            SettingsFragment.newInstance()
+                        )
+                        ft.addToBackStack(null)
+                        ft.commit()
+                        true
+                    }
+                    R.id.item_about -> {
+                        Toast.makeText(context, "about was pressed", Toast.LENGTH_LONG).show()
+                        true
+                    }
+                    R.id.item_delete_all -> {
+                        //TODO: add user confirmation
+                        Toast.makeText(context, "delete all was pressed", Toast.LENGTH_LONG).show()
+                        EventHandler.deleteAllEntries(true)
+                        (context as MainActivity).addMonthDivider()
+                        viewAdapter.notifyDataSetChanged()
+                        true
+                    }
+                    R.id.item_export -> {
+                        Toast.makeText(context, "export was pressed", Toast.LENGTH_LONG).show()
+                        true
+                    }
+                    R.id.item_import -> {
+                        Toast.makeText(context, "import was pressed", Toast.LENGTH_LONG).show()
+                        true
+                    }
+                    else -> {
+                        false
+                    }
+                }
+            }
+            popup.show()
+        }
 
         recyclerView = view.findViewById<RecyclerView>(R.id.recyclerView).apply {
             setHasFixedSize(true)
@@ -82,12 +134,23 @@ class EventListFragment : Fragment() {
             ft.commit()
         }
 
-        fab_add_anniversary.setOnClickListener {
+        fab_add_annual_event.setOnClickListener {
             closeFABMenu(true)
             val ft = fragmentManager!!.beginTransaction()
             ft.replace(
                 R.id.fragment_placeholder,
                 AnnualEventInstanceFragment.newInstance()
+            )
+            ft.addToBackStack(null)
+            ft.commit()
+        }
+
+        fab_layout_add_one_time.setOnClickListener {
+            closeFABMenu(true)
+            val ft = fragmentManager!!.beginTransaction()
+            ft.replace(
+                R.id.fragment_placeholder,
+                OneTimeEventInstanceFragment.newInstance()
             )
             ft.addToBackStack(null)
             ft.commit()
@@ -98,19 +161,27 @@ class EventListFragment : Fragment() {
         isFABOpen = true
         fab_show_fab_menu.isClickable = false
         //show layouts
-        fab_layout_add_anniversary.visibility = ConstraintLayout.VISIBLE
+        fab_layout_add_annual_event.visibility = ConstraintLayout.VISIBLE
         fab_layout_add_birthday.visibility = ConstraintLayout.VISIBLE
+        fab_layout_add_one_time.visibility = ConstraintLayout.VISIBLE
 
         this.recyclerView.animate().alpha(0.15f).apply {
             duration = 200
         }
 
         //move layouts
+        //move add birthday layout up
         fab_layout_add_birthday.animate().translationYBy(-resources.getDimension(R.dimen.standard_55)).apply {
             duration = 100
         }
 
-        fab_layout_add_anniversary.animate().translationYBy(-resources.getDimension(R.dimen.standard_105)).apply {
+        //move add annual event layout up
+        fab_layout_add_annual_event.animate().translationYBy(-resources.getDimension(R.dimen.standard_105)).apply {
+            duration = 100
+        }
+
+        //move add one time event layout up
+        fab_layout_add_one_time.animate().translationYBy(-resources.getDimension(R.dimen.standard_155)).apply {
             duration = 100
         }
 
@@ -137,16 +208,26 @@ class EventListFragment : Fragment() {
 
         this.recyclerView.animate().alpha(1.0f)
 
+        //move add birthday event layout down
         fab_layout_add_birthday.animate().translationYBy(resources.getDimension(R.dimen.standard_55)).withEndAction {
             if (!immediateAction) {
                 fab_layout_add_birthday.visibility = ConstraintLayout.INVISIBLE
             }
         }
 
-        fab_layout_add_anniversary.animate().translationYBy(resources.getDimension(R.dimen.standard_105))
+        //move add annual event layout down
+        fab_layout_add_annual_event.animate().translationYBy(resources.getDimension(R.dimen.standard_105))
             .withEndAction {
                 if (!immediateAction) {
-                    fab_layout_add_anniversary.visibility = ConstraintLayout.INVISIBLE
+                    fab_layout_add_annual_event.visibility = ConstraintLayout.INVISIBLE
+                }
+            }
+
+        //move add one time event layout down
+        fab_layout_add_one_time.animate().translationYBy(resources.getDimension(R.dimen.standard_155))
+            .withEndAction {
+                if (!immediateAction) {
+                    fab_layout_add_one_time.visibility = ConstraintLayout.INVISIBLE
                 }
             }
 
@@ -160,7 +241,7 @@ class EventListFragment : Fragment() {
 
     /**
      * traverseForFirstMonthEntry is a function to get the position of the month item position of the current month
-     * TODO: maybe there is a better way to find the current month item, but for small records this may work out well
+     * TODO: maybe there is a better way to find the current month item, but for small amount of entries this may work out well
      */
     private fun traverseForFirstMonthEntry(): Int {
         val currentMonth = Calendar.getInstance().get(Calendar.MONTH)

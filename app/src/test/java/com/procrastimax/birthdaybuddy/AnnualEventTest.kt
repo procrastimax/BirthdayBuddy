@@ -7,8 +7,7 @@ import org.junit.Test
 import java.text.DateFormat
 import java.util.*
 
-class EventAnniversaryTest {
-
+class AnnualEventTest {
 
     @Test
     fun birthdayToStringTest() {
@@ -19,7 +18,7 @@ class EventAnniversaryTest {
         )
 
         Assert.assertEquals(
-            "Anniversary||Name::isAName||Date::Feb 6, 0001||HasStartYear::true",
+            "AnnualEvent||Name::isAName||Date::06.02.0001||HasStartYear::true",
             anniversary.toString()
         )
 
@@ -31,7 +30,7 @@ class EventAnniversaryTest {
 
         anniversary2.note = "nothing"
         Assert.assertEquals(
-            "Anniversary||Name::Maximilian||Date::Feb 6, 0002||HasStartYear::false||Note::nothing",
+            "AnnualEvent||Name::Max||Date::06.02.0002||HasStartYear::false||Note::nothing",
             anniversary2.toString()
         )
     }
