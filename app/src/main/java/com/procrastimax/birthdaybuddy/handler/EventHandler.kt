@@ -51,6 +51,7 @@ object EventHandler {
             cal.time = event.eventDate
             cal.set(Calendar.HOUR_OF_DAY, 12)
             event.eventDate = cal.time
+            NotificationHandler.scheduleNotification(context, event)
         }
 
         this.event_list = getSortedListBy(this.event_list).toMutableList()
@@ -58,8 +59,6 @@ object EventHandler {
         if (writeAfterAdd) {
             IOHandler.writeEventToFile(event.eventID, event)
         }
-
-        NotificationHandler.scheduleNotification(context, event)
     }
 
     fun addList(list: List<EventDate>) {
@@ -89,12 +88,14 @@ object EventHandler {
      *
      * @param key : Int
      */
-    fun removeEventByKey(key: Int, writeChange: Boolean = false) {
+    fun removeEventByKey(key: Int, context: Context, writeChange: Boolean = false) {
         if (event_list[key] is EventBirthday) {
             if ((event_list[key] as EventBirthday).avatarImageUri != null) {
                 DrawableHandler.removeDrawable(event_list[key].eventID)
             }
         }
+
+        NotificationHandler.cancelNotification(context, event_list[key])
 
         if (writeChange) {
             IOHandler.removeEventFromFile(event_list[key].eventID)
@@ -104,7 +105,11 @@ object EventHandler {
         this.event_list = this.getSortedListBy(this.event_list).toMutableList()
     }
 
-    fun deleteAllEntries(writeAfterAdd: Boolean) {
+    fun deleteAllEntries(context: Context, writeAfterAdd: Boolean) {
+        this.event_list.forEach {
+            NotificationHandler.cancelNotification(context, it)
+        }
+
         this.event_list.clear()
         DrawableHandler.removeAllDrawables()
         if (writeAfterAdd) {
@@ -128,6 +133,9 @@ object EventHandler {
             cal.set(Calendar.HOUR_OF_DAY, 12)
             event.eventDate = cal.time
         }
+
+        NotificationHandler.cancelNotification(context, event_list[key])
+        NotificationHandler.scheduleNotification(context, event)
 
         event.eventID = event_list[key].eventID
 

@@ -137,7 +137,7 @@ class AnnualEventInstanceFragment : EventInstanceFragment() {
                             })
                             .show()
 
-                        EventHandler.removeEventByKey(itemID, true)
+                        EventHandler.removeEventByKey(itemID, context!!,true)
                         closeBtnPressed()
                     }
                     // Finally, make the alert dialog using builder

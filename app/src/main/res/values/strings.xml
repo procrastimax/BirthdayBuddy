@@ -199,6 +199,19 @@
     <string name="tv_notification_events_one_time_events">One-Time events</string>
     <string name="tv_notification_events_annual_events">Annual events</string>
 
+
+    <string name="notification_title_birthday">%1$s</string>
+    <string name="notification_content_birthday">%1$s\'s birthday is in %2$d days.\n%3$s is getting %4$d years old</string>
+
+    <string name="notification_title_annual">%1$s</string>
+    <string name="notification_content_annual">%1$s is in %2$d days</string>
+
+    <string name="notification_title_one_time">%1$s</string>
+    <string name="notification_content_one_time">%1$s is in %2$d days</string>
+
+    <string name="notification_channel_name">BirthdayBuddyNotification</string>
+    <string name="notification_channel_description">notify the user about events</string>
+
     <!-- _________globals____________ -->
     <string name="fab_event_list_birthday_title">New birthday</string>
     <string name="fab_event_list_annual_event_title">New annual event</string>

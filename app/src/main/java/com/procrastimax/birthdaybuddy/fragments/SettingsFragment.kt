@@ -10,7 +10,9 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import com.procrastimax.birthdaybuddy.MainActivity
 import com.procrastimax.birthdaybuddy.R
+import com.procrastimax.birthdaybuddy.handler.EventHandler
 import com.procrastimax.birthdaybuddy.handler.IOHandler
+import com.procrastimax.birthdaybuddy.handler.NotificationHandler
 import com.procrastimax.birthdaybuddy.models.EventDate
 import kotlinx.android.synthetic.main.fragment_settings.*
 import java.util.*
@@ -38,47 +40,14 @@ class SettingsFragment : Fragment() {
 
         loadAllSettings()
 
-        //instantly change settings in shared preferences on click of switch
-        this.sw_isNotificationOn.setOnCheckedChangeListener { _, isChecked ->
-            setNotificationStatus(isChecked)
-            IOHandler.writeSetting(IOHandler.SharedPrefKeys.key_isNotificationOn, isChecked)
-        }
-
-        this.sw_isNotificationSoundOn.setOnCheckedChangeListener { _, isChecked ->
-            IOHandler.writeSetting(IOHandler.SharedPrefKeys.key_isNotificationSoundOn, isChecked)
-        }
-
-        this.sw_isNotificationVibrationOn.setOnCheckedChangeListener { _, isChecked ->
-            IOHandler.writeSetting(IOHandler.SharedPrefKeys.key_isNotificationVibrationOn, isChecked)
-        }
-
         this.tv_notification_time_value.setOnClickListener {
             this.showTimePickerDialog()
         }
 
-        //intervall checkboxes
-        this.cb_notification_month_before.setOnCheckedChangeListener { _, isChecked ->
-            IOHandler.writeSetting(IOHandler.SharedPrefKeys.key_isIntervall_Month, isChecked)
-        }
-        this.cb_notification_week_before.setOnCheckedChangeListener { _, isChecked ->
-            IOHandler.writeSetting(IOHandler.SharedPrefKeys.key_isIntervall_Week, isChecked)
-        }
-        this.cb_notification_day_before.setOnCheckedChangeListener { _, isChecked ->
-            IOHandler.writeSetting(IOHandler.SharedPrefKeys.key_isIntervall_Day, isChecked)
-        }
-        this.cb_notification_eventday_before.setOnCheckedChangeListener { _, isChecked ->
-            IOHandler.writeSetting(IOHandler.SharedPrefKeys.key_isIntervall_EventDay, isChecked)
-        }
-
-        //notification event type checkboxes
-        this.cb_notifications_what_remind_birthdays.setOnCheckedChangeListener { _, isChecked ->
-            IOHandler.writeSetting(IOHandler.SharedPrefKeys.key_isNotification_Birthday, isChecked)
-        }
-        this.cb_notifications_what_remind_annual_events.setOnCheckedChangeListener { _, isChecked ->
-            IOHandler.writeSetting(IOHandler.SharedPrefKeys.key_isNotification_AnnualEvent, isChecked)
-        }
-        this.cb_notifications_what_remind_one_time_events.setOnCheckedChangeListener { _, isChecked ->
-            IOHandler.writeSetting(IOHandler.SharedPrefKeys.key_isNotification_OneTimeEvent, isChecked)
+        //instantly change settings in shared preferences on click of switch
+        this.sw_isNotificationOn.setOnCheckedChangeListener { _, isChecked ->
+            setNotificationStatus(isChecked)
+            IOHandler.writeSetting(IOHandler.SharedPrefKeys.key_isNotificationOn, isChecked)
         }
     }
 
@@ -106,7 +75,6 @@ class SettingsFragment : Fragment() {
                     IOHandler.SharedPrefKeys.key_strNotificationTime,
                     timeString
                 )
-
             },
             hour,
             minute,
@@ -177,6 +145,57 @@ class SettingsFragment : Fragment() {
             if (it != null)
                 this.cb_notifications_what_remind_one_time_events.isChecked = it
         }
+    }
+
+
+    override fun onPause() {
+        super.onPause()
+
+        //save all settings
+        IOHandler.writeSetting(
+            IOHandler.SharedPrefKeys.key_isNotificationSoundOn,
+            sw_isNotificationSoundOn.isChecked
+        )
+
+        IOHandler.writeSetting(
+            IOHandler.SharedPrefKeys.key_isNotificationVibrationOn,
+            sw_isNotificationVibrationOn.isChecked
+        )
+
+        //intervall checkboxes
+        IOHandler.writeSetting(
+            IOHandler.SharedPrefKeys.key_isIntervall_Month,
+            cb_notification_month_before.isChecked
+        )
+
+        IOHandler.writeSetting(IOHandler.SharedPrefKeys.key_isIntervall_Week, cb_notification_week_before.isChecked)
+
+        IOHandler.writeSetting(IOHandler.SharedPrefKeys.key_isIntervall_Day, cb_notification_day_before.isChecked)
+
+        IOHandler.writeSetting(
+            IOHandler.SharedPrefKeys.key_isIntervall_EventDay,
+            cb_notification_eventday_before.isChecked
+        )
+
+        //notification event type checkboxes
+        IOHandler.writeSetting(
+            IOHandler.SharedPrefKeys.key_isNotification_Birthday,
+            cb_notifications_what_remind_birthdays.isChecked
+        )
+
+        IOHandler.writeSetting(
+            IOHandler.SharedPrefKeys.key_isNotification_AnnualEvent,
+            cb_notifications_what_remind_annual_events.isChecked
+        )
+
+        IOHandler.writeSetting(
+            IOHandler.SharedPrefKeys.key_isNotification_OneTimeEvent,
+            cb_notifications_what_remind_one_time_events.isChecked
+        )
+
+        //update current running notifications
+        NotificationHandler.cancelAllNotifications(context!!, EventHandler.getList())
+        NotificationHandler.scheduleListEventNotifications(context!!, EventHandler.getList())
     }
 
     /**

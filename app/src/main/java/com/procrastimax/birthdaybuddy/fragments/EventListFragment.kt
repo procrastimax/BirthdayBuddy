@@ -80,7 +80,7 @@ class EventListFragment : Fragment() {
                     R.id.item_delete_all -> {
                         //TODO: add user confirmation
                         Toast.makeText(context, "delete all was pressed", Toast.LENGTH_LONG).show()
-                        EventHandler.deleteAllEntries(true)
+                        EventHandler.deleteAllEntries(context!!,true)
                         (context as MainActivity).addMonthDivider()
                         viewAdapter.notifyDataSetChanged()
                         true

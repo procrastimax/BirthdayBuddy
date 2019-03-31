@@ -104,7 +104,9 @@ object IOHandler {
     }
 
     fun getStringFromKey(key: String): String? {
-        return sharedPrefSettings.getString(key, null)
+        if (::sharedPrefSettings.isInitialized) {
+            return sharedPrefSettings.getString(key, null)
+        } else return null
     }
 
     fun getIntFromKey(key: String): Int? {
@@ -204,9 +206,11 @@ object IOHandler {
      */
     fun getHighestIndex(): Int {
         var highest = 0
-        sharedPrefEventData.all.keys.forEach {
-            if (it.toInt() > highest) {
-                highest = it.toInt()
+        if (::sharedPrefEventData.isInitialized) {
+            sharedPrefEventData.all.keys.forEach {
+                if (it.toInt() > highest) {
+                    highest = it.toInt()
+                }
             }
         }
         return highest
@@ -249,7 +253,7 @@ object IOHandler {
      * @param objectString : String
      * @return EventDay?
      */
-    private fun convertStringToEventDate(objectString: String): EventDate? {
+    fun convertStringToEventDate(objectString: String): EventDate? {
         val string_array = objectString.split(characterDivider_properties)
 
         // BIRTHDAY EVENT

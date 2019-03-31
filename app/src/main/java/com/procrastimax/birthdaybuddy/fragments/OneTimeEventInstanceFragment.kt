@@ -75,7 +75,10 @@ class OneTimeEventInstanceFragment : EventInstanceFragment() {
                 itemID = (arguments!!.getInt(ITEM_ID_PARAM))
                 val oneTimeEvent = EventHandler.getList()[itemID] as OneTimeEvent
 
-                edit_date.text = EventDate.parseDateToString(EventDate.dateToCurrentTimeContext(oneTimeEvent.eventDate), DateFormat.FULL)
+                edit_date.text = EventDate.parseDateToString(
+                    EventDate.dateToCurrentTimeContext(oneTimeEvent.eventDate),
+                    DateFormat.FULL
+                )
 
                 edit_name.setText(oneTimeEvent.name)
                 if (!oneTimeEvent.note.isNullOrBlank()) {
@@ -116,7 +119,7 @@ class OneTimeEventInstanceFragment : EventInstanceFragment() {
                             })
                             .show()
 
-                        EventHandler.removeEventByKey(itemID, true)
+                        EventHandler.removeEventByKey(itemID, context!!, true)
                         closeBtnPressed()
                     }
                     alert_builder.setNegativeButton(R.string.alert_dialog_dismiss_delete) { dialog, _ -> dialog.dismiss() }

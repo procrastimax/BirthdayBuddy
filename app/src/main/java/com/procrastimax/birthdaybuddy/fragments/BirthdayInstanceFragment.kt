@@ -206,7 +206,7 @@ class BirthdayInstanceFragment : EventInstanceFragment() {
                     val birthday_pair_temp = EventHandler.getList()[itemID]
 
                     // Set a positive button and its click listener on alert dialog
-                    alert_builder.setPositiveButton(resources.getString(R.string.alert_dialog_accept_delete)) { dialog, which ->
+                    alert_builder.setPositiveButton(resources.getString(R.string.alert_dialog_accept_delete)) { _, _ ->
                         // delete birthday on positive button
                         Snackbar.make(
                             view,
@@ -223,7 +223,7 @@ class BirthdayInstanceFragment : EventInstanceFragment() {
                                 }
                             })
                             .show()
-                        EventHandler.removeEventByKey(itemID, true)
+                        EventHandler.removeEventByKey(itemID, context!!, true)
                         closeBtnPressed()
                     }
 
@@ -363,6 +363,7 @@ class BirthdayInstanceFragment : EventInstanceFragment() {
                     c.set(Calendar.MONTH, monthOfYear)
                     c.set(Calendar.DAY_OF_MONTH, dayOfMonth)
 
+                    //TODO: undo this, future birthdays are a bad thing
                     if (c.time.after(Calendar.getInstance().time) && switch_isYearGiven.isChecked) {
                         Toast.makeText(
                             view.context,

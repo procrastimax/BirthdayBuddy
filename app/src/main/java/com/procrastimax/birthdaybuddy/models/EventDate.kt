@@ -196,7 +196,7 @@ open class EventDate(var eventDate: Date) : Comparable<EventDate> {
             dateInCurrentTimeContext.set(Calendar.YEAR, Calendar.getInstance().get(Calendar.YEAR))
 
             //if past date with current year is before current date then set year to next year
-            if (dateInCurrentTimeContext.time.before(EventDate.normalizeDate(Calendar.getInstance().time))) {
+            if (dateInCurrentTimeContext.time.before(Calendar.getInstance().time)) {
                 dateInCurrentTimeContext.set(Calendar.YEAR, Calendar.getInstance().get(Calendar.YEAR) + 1)
             }
             return dateInCurrentTimeContext.time
