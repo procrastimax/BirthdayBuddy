@@ -1,7 +1,6 @@
 package com.procrastimax.birthdaybuddy
 
 import android.content.Context
-import android.content.Intent
 import android.os.Bundle
 import android.support.design.widget.AppBarLayout
 import android.support.design.widget.CoordinatorLayout
@@ -14,8 +13,8 @@ import com.procrastimax.birthdaybuddy.fragments.EventListFragment
 import com.procrastimax.birthdaybuddy.fragments.ShowBirthdayEvent
 import com.procrastimax.birthdaybuddy.handler.DrawableHandler
 import com.procrastimax.birthdaybuddy.handler.EventHandler
-import com.procrastimax.birthdaybuddy.handler.NotificationServiceHandler
 import com.procrastimax.birthdaybuddy.handler.IOHandler
+import com.procrastimax.birthdaybuddy.handler.NotificationHandler
 import com.procrastimax.birthdaybuddy.models.EventBirthday
 import com.procrastimax.birthdaybuddy.models.EventDate
 import com.procrastimax.birthdaybuddy.models.MonthDivider

@@ -88,7 +88,7 @@ class AnnualEventInstanceFragment : EventInstanceFragment() {
             isEditAnnualEvent = true
             if (arguments!!.size() > 0) {
                 itemID = (arguments!!.getInt(ITEM_ID_PARAM))
-                val annual_event = EventHandler.getList()[itemID].second as AnnualEvent
+                val annual_event = EventHandler.getList()[itemID] as AnnualEvent
 
                 if (annual_event.hasStartYear) {
                     edit_date.text = EventDate.parseDateToString(annual_event.eventDate, DateFormat.FULL)
@@ -111,7 +111,7 @@ class AnnualEventInstanceFragment : EventInstanceFragment() {
                     alert_builder.setTitle(resources.getString(R.string.alert_dialog_title_delete_annual_event))
                     alert_builder.setMessage(resources.getString(R.string.alert_dialog_body_message_annual_event))
 
-                    val annual_event_temp = EventHandler.getList()[itemID].second
+                    val annual_event_temp = EventHandler.getList()[itemID]
                     val context_temp = context
 
                     // Set a positive button and its click listener on alert dialog
@@ -282,7 +282,7 @@ class AnnualEventInstanceFragment : EventInstanceFragment() {
 
                 //already annual event entry, overwrite old entry in map
             } else {
-                if (wasChangeMade(EventHandler.getList()[itemID].second as AnnualEvent)) {
+                if (wasChangeMade(EventHandler.getList()[itemID] as AnnualEvent)) {
                     EventHandler.changeEventAt(itemID, annual_event, context!!, true)
                     Snackbar.make(
                         view!!,

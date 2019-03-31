@@ -173,7 +173,7 @@ object IOHandler {
      * @param key: Int
      * @return EventDay?
      */
-    fun readEntryFromFile(key: Int): EventDate? {
+    fun readEventFromFile(key: Int): EventDate? {
         if (sharedPrefEventData.contains(key.toString())) {
             val eventday: String? = sharedPrefEventData.getString(key.toString(), "")
             if (!eventday.isNullOrEmpty()) {
@@ -193,10 +193,23 @@ object IOHandler {
         sharedPrefEdit.clear()
 
         for (i in 0 until EventHandler.getList().size) {
-            sharedPrefEdit.putString(i.toString(), EventHandler.getList()[i].second.toString())
+            sharedPrefEdit.putString(i.toString(), EventHandler.getList()[i].toString())
 
         }
         sharedPrefEdit.apply()
+    }
+
+    /**
+     * getHighestIndex returns the max index value of shared pref keys
+     */
+    fun getHighestIndex(): Int {
+        var highest = 0
+        sharedPrefEventData.all.keys.forEach {
+            if (it.toInt() > highest) {
+                highest = it.toInt()
+            }
+        }
+        return highest
     }
 
     /**
@@ -210,6 +223,7 @@ object IOHandler {
                 if (it.value is String) {
                     var event =
                         convertStringToEventDate(it.value as String)
+                    event!!.eventID = it.key.toInt()
 
                     //check for onetimeevents
                     if (event is OneTimeEvent) {

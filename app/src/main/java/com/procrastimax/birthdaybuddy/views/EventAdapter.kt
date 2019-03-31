@@ -48,10 +48,10 @@ class EventAdapter(private val context: Context) :
      * @return Int
      */
     override fun getItemViewType(position: Int): Int {
-        when (EventHandler.getList()[position].second) {
+        when (EventHandler.getList()[position]) {
             is MonthDivider -> {
                 if (position < EventHandler.getList().size - 1) {
-                    if (EventHandler.getList()[position + 1].second !is MonthDivider) {
+                    if (EventHandler.getList()[position + 1] !is MonthDivider) {
                         return 0
                     }
                 }
@@ -111,13 +111,13 @@ class EventAdapter(private val context: Context) :
             //EventMonthDividerViewHolder
             0 -> {
                 holder.itemView.tv_divider_description_month.text =
-                    (EventHandler.getList()[position].second as MonthDivider).month_name
+                    (EventHandler.getList()[position] as MonthDivider).month_name
             }
 
             //BirthdayEventViewHolder
             1 -> {
                 //check if is birthday event and if the year is given
-                if (EventHandler.getList()[position].second is EventBirthday) {
+                if (EventHandler.getList()[position] is EventBirthday) {
 
                     //set on click listener for item
                     holder.itemView.setOnClickListener {
@@ -167,23 +167,23 @@ class EventAdapter(private val context: Context) :
 
                     //set date
                     holder.itemView.tv_birthday_event_item_date_value.text =
-                        (EventHandler.getList()[position].second as EventBirthday).getPrettyShortStringWithoutYear()
+                        (EventHandler.getList()[position] as EventBirthday).getPrettyShortStringWithoutYear()
 
                     //set days until
                     holder.itemView.tv_birthday_event_item_days_until_value.text =
-                        EventHandler.getList()[position].second.getDaysUntil().toString()
+                        EventHandler.getList()[position].getDaysUntil().toString()
 
                     //set years since, if specified
-                    if ((EventHandler.getList()[position].second as EventBirthday).isYearGiven) {
+                    if ((EventHandler.getList()[position] as EventBirthday).isYearGiven) {
                         holder.itemView.tv_birthday_event_item_years_since_value.text =
-                            EventHandler.getList()[position].second.getYearsSince().toString()
+                            EventHandler.getList()[position].getYearsSince().toString()
                     } else {
                         holder.itemView.tv_birthday_event_item_years_since_value.text =
                             "-"
                     }
 
                     //if a birthday has a nickname, only show nickname
-                    if ((EventHandler.getList()[position].second as EventBirthday).nickname != null) {
+                    if ((EventHandler.getList()[position] as EventBirthday).nickname != null) {
 
                         //set forename and surname invisible
                         holder.itemView.tv_birthday_event_item_forename.visibility = TextView.GONE
@@ -194,7 +194,7 @@ class EventAdapter(private val context: Context) :
 
                         //set nickname textview text
                         holder.itemView.tv_birthday_event_item_nickname.text =
-                            (EventHandler.getList()[position].second as EventBirthday).nickname
+                            (EventHandler.getList()[position] as EventBirthday).nickname
 
                     } else {
 
@@ -206,19 +206,19 @@ class EventAdapter(private val context: Context) :
                         holder.itemView.tv_birthday_event_item_nickname.visibility = TextView.GONE
 
                         holder.itemView.tv_birthday_event_item_forename.text =
-                            (EventHandler.getList()[position].second as EventBirthday).forename
+                            (EventHandler.getList()[position] as EventBirthday).forename
 
                         //set surname
                         holder.itemView.tv_birthday_event_item_surname.text =
-                            (EventHandler.getList()[position].second as EventBirthday).surname
+                            (EventHandler.getList()[position] as EventBirthday).surname
                     }
 
-                    val avatarUri = (EventHandler.getList()[position].second as EventBirthday).avatarImageUri
+                    val avatarUri = (EventHandler.getList()[position] as EventBirthday).avatarImageUri
 
                     if (avatarUri != null && !(context as MainActivity).isLoading) {
                         holder.itemView.iv_birthday_event_item_image.setImageDrawable(
                             DrawableHandler.getDrawableAt(
-                                (EventHandler.getList()[position].first)
+                                (EventHandler.getList()[position].eventID)
                             )
                         )
                     } else {
@@ -230,7 +230,7 @@ class EventAdapter(private val context: Context) :
             //annual event item view holder
             2 -> {
                 //check if is birthday event and if the year is given
-                if (EventHandler.getList()[position].second is AnnualEvent) {
+                if (EventHandler.getList()[position] is AnnualEvent) {
 
                     //set on click listener for item
                     holder.itemView.setOnClickListener {
@@ -281,16 +281,16 @@ class EventAdapter(private val context: Context) :
 
                     //set date
                     holder.itemView.tv_annual_item_date_value.text =
-                        (EventHandler.getList()[position].second as AnnualEvent).getPrettyShortStringWithoutYear()
+                        (EventHandler.getList()[position] as AnnualEvent).getPrettyShortStringWithoutYear()
 
                     //set days until
                     holder.itemView.tv_days_until_annual_value.text =
-                        EventHandler.getList()[position].second.getDaysUntil().toString()
+                        EventHandler.getList()[position].getDaysUntil().toString()
 
                     //set years since, if specified
-                    if ((EventHandler.getList()[position].second as AnnualEvent).hasStartYear) {
+                    if ((EventHandler.getList()[position] as AnnualEvent).hasStartYear) {
                         holder.itemView.tv_years_since_annual_value.text =
-                            EventHandler.getList()[position].second.getYearsSince().toString()
+                            EventHandler.getList()[position].getYearsSince().toString()
                     } else {
                         holder.itemView.tv_years_since_annual_value.text =
                             "-"
@@ -298,14 +298,14 @@ class EventAdapter(private val context: Context) :
 
                     //set name
                     holder.itemView.tv_annual_item_name.text =
-                        (EventHandler.getList()[position].second as AnnualEvent).name
+                        (EventHandler.getList()[position] as AnnualEvent).name
                 }
             }
 
             //one time event item view holder
             3 -> {
                 //check if is birthday event and if the year is given
-                if (EventHandler.getList()[position].second is OneTimeEvent) {
+                if (EventHandler.getList()[position] is OneTimeEvent) {
 
                     //set on click listener for item
                     holder.itemView.setOnClickListener {
@@ -355,15 +355,15 @@ class EventAdapter(private val context: Context) :
 
                     //set date
                     holder.itemView.tv_one_time_item_date_value.text =
-                        (EventHandler.getList()[position].second as OneTimeEvent).dateToPrettyString(DateFormat.SHORT)
+                        (EventHandler.getList()[position] as OneTimeEvent).dateToPrettyString(DateFormat.SHORT)
 
                     //set days until
                     holder.itemView.tv_days_until_one_time_value.text =
-                        EventHandler.getList()[position].second.getDaysUntil().toString()
+                        EventHandler.getList()[position].getDaysUntil().toString()
 
                     //set name
                     holder.itemView.tv_one_time_item_name.text =
-                        (EventHandler.getList()[position].second as OneTimeEvent).name
+                        (EventHandler.getList()[position] as OneTimeEvent).name
                 }
             }
         }

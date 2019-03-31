@@ -67,10 +67,10 @@ class ShowOneTimeEvent : ShowEventFragment() {
      */
     override fun updateUI() {
         //dont update ui when wrong item id / or deleted item
-        if (EventHandler.getList()[item_id].second !is OneTimeEvent) {
+        if (EventHandler.getList()[item_id] !is OneTimeEvent) {
             (context as MainActivity).supportFragmentManager.popBackStack()
         } else {
-            val oneTimeEvent = EventHandler.getList()[item_id].second as OneTimeEvent
+            val oneTimeEvent = EventHandler.getList()[item_id] as OneTimeEvent
             //set name of one_time event
             this.tv_show_one_time_event_name.text = oneTimeEvent.name
 
@@ -110,8 +110,8 @@ class ShowOneTimeEvent : ShowEventFragment() {
      * It provides a simple intent to share data as plain text in other apps
      */
     override fun shareEvent() {
-        if (EventHandler.getList()[item_id].second is OneTimeEvent) {
-            val oneTimeEvent = EventHandler.getList()[item_id].second as OneTimeEvent
+        if (EventHandler.getList()[item_id] is OneTimeEvent) {
+            val oneTimeEvent = EventHandler.getList()[item_id] as OneTimeEvent
 
             val intent = Intent(Intent.ACTION_SEND)
             intent.setType("text/plain")
@@ -124,7 +124,7 @@ class ShowOneTimeEvent : ShowEventFragment() {
             //annual_event next date
             share_Annual_Event_Msg += "\n" + context!!.resources.getString(
                 R.string.share_one_time_event_date_next,
-                EventDate.parseDateToString(oneTimeEvent.dateToCurrentTimeContext(), DateFormat.FULL)
+                EventDate.parseDateToString(EventDate.dateToCurrentTimeContext(oneTimeEvent.eventDate), DateFormat.FULL)
             )
 
             //annual_event days until

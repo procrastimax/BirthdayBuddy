@@ -18,6 +18,8 @@ import java.util.*
  */
 open class EventDate(var eventDate: Date) : Comparable<EventDate> {
 
+    var eventID: Int = IOHandler.getHighestIndex() + 1
+
     /**
      * compareTo is the implementation of the comparable interface
      * @param other : EventDay
@@ -103,7 +105,7 @@ open class EventDate(var eventDate: Date) : Comparable<EventDate> {
      */
     open fun getDaysUntil(): Int {
         if (getDayOfYear() == Calendar.getInstance().get(Calendar.DAY_OF_YEAR)) return 0
-        val dateInCurrentTimeContext = dateToCurrentTimeContext()
+        val dateInCurrentTimeContext = dateToCurrentTimeContext(this.eventDate)
         val dayDiff = dateInCurrentTimeContext.time - EventDate.normalizeDate(Calendar.getInstance().time).time
         return (dayDiff / (1000 * 60 * 60 * 24)).toInt() + 1
     }
@@ -163,31 +165,6 @@ open class EventDate(var eventDate: Date) : Comparable<EventDate> {
     }
 
     /**
-     * dateToCurrentTimeContext changes a past date to a current time context
-     * this means, that if it is a yearly event (like a birthday) then this is going to return a date
-     * with the birthdaydate but with the year changed to the coming year (if the day of the birthday already came)
-     * otherwise it changes the year to the current year
-     *
-     * This is helper function to make it easier to process two near dates
-     *
-     * @return Date
-     */
-    fun dateToCurrentTimeContext(): Date {
-        //get instance of calender, assign the past date to it, and change year to current year
-        //this is needed to check if the date is this or next year
-        //this is needed for calculating how many days until the event
-        val dateInCurrentTimeContext = Calendar.getInstance()
-        dateInCurrentTimeContext.time = this.eventDate
-        dateInCurrentTimeContext.set(Calendar.YEAR, Calendar.getInstance().get(Calendar.YEAR))
-
-        //if past date with current year is before current date then set year to next year
-        if (dateInCurrentTimeContext.time.before(EventDate.normalizeDate(Calendar.getInstance().time))) {
-            dateInCurrentTimeContext.set(Calendar.YEAR, Calendar.getInstance().get(Calendar.YEAR) + 1)
-        }
-        return dateInCurrentTimeContext.time
-    }
-
-    /**
      * dateToCurrentYear changes the year member var EVENTDATE to the current year
      * @return Date
      */
@@ -199,6 +176,32 @@ open class EventDate(var eventDate: Date) : Comparable<EventDate> {
     }
 
     companion object {
+
+        /**
+         * dateToCurrentTimeContext changes a past date to a current time context
+         * this means, that if it is a yearly event (like a birthday) then this is going to return a date
+         * with the birthdaydate but with the year changed to the coming year (if the day of the birthday already came)
+         * otherwise it changes the year to the current year
+         *
+         * This is helper function to make it easier to process two near dates
+         *
+         * @return Date
+         */
+        fun dateToCurrentTimeContext(date: Date): Date {
+            //get instance of calender, assign the past date to it, and change year to current year
+            //this is needed to check if the date is this or next year
+            //this is needed for calculating how many days until the event
+            val dateInCurrentTimeContext = Calendar.getInstance()
+            dateInCurrentTimeContext.time = date
+            dateInCurrentTimeContext.set(Calendar.YEAR, Calendar.getInstance().get(Calendar.YEAR))
+
+            //if past date with current year is before current date then set year to next year
+            if (dateInCurrentTimeContext.time.before(EventDate.normalizeDate(Calendar.getInstance().time))) {
+                dateInCurrentTimeContext.set(Calendar.YEAR, Calendar.getInstance().get(Calendar.YEAR) + 1)
+            }
+            return dateInCurrentTimeContext.time
+        }
+
         /**
          * parseLocalizedDateToString parses the member variable EVENTDATE to a localized string in short format
          * @param date : Date
@@ -245,6 +248,22 @@ open class EventDate(var eventDate: Date) : Comparable<EventDate> {
         ): String {
             val sdf = SimpleDateFormat("HH:mm", Locale.getDefault())
             return sdf.format(date)
+        }
+
+        @JvmStatic
+        fun getHourFromTimeString(timeString: String): Int {
+            val date = parseStringToTime(timeString)
+            val cal = Calendar.getInstance()
+            cal.time = date
+            return cal.get(Calendar.HOUR_OF_DAY)
+        }
+
+        @JvmStatic
+        fun getMinuteFromTimeString(timeString: String): Int {
+            val date = parseStringToTime(timeString)
+            val cal = Calendar.getInstance()
+            cal.time = date
+            return cal.get(Calendar.MINUTE)
         }
 
 

@@ -25,9 +25,9 @@
             </intent-filter>
         </activity>
 
-        <!-- register service -->
-        <service
-                android:name=".handler.NotificationServiceHandler"/>
-        <!--android:enabled="true" -->
+        <receiver
+                android:name=".AlarmReceiver">
+        </receiver>
+
     </application>
 </manifest>

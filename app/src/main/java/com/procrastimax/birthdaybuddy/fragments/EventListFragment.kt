@@ -246,7 +246,7 @@ class EventListFragment : Fragment() {
     private fun traverseForFirstMonthEntry(): Int {
         val currentMonth = Calendar.getInstance().get(Calendar.MONTH)
         for (i in 0 until EventHandler.getList().size) {
-            if (EventHandler.getList()[i].second.getMonth() == currentMonth)
+            if (EventHandler.getList()[i].getMonth() == currentMonth)
                 return i
         }
         return 0

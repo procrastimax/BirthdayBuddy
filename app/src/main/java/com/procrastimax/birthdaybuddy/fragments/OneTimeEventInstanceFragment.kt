@@ -73,9 +73,9 @@ class OneTimeEventInstanceFragment : EventInstanceFragment() {
             isEditOneTimeEvent = true
             if (arguments!!.size() > 0) {
                 itemID = (arguments!!.getInt(ITEM_ID_PARAM))
-                val oneTimeEvent = EventHandler.getList()[itemID].second as OneTimeEvent
+                val oneTimeEvent = EventHandler.getList()[itemID] as OneTimeEvent
 
-                edit_date.text = EventDate.parseDateToString(oneTimeEvent.dateToCurrentTimeContext(), DateFormat.FULL)
+                edit_date.text = EventDate.parseDateToString(EventDate.dateToCurrentTimeContext(oneTimeEvent.eventDate), DateFormat.FULL)
 
                 edit_name.setText(oneTimeEvent.name)
                 if (!oneTimeEvent.note.isNullOrBlank()) {
@@ -90,7 +90,7 @@ class OneTimeEventInstanceFragment : EventInstanceFragment() {
                     alert_builder.setTitle(resources.getString(R.string.alert_dialog_title_delete_one_time_event))
                     alert_builder.setMessage(resources.getString(R.string.alert_dialog_body_message_one_time_event))
 
-                    val one_time_event_temp = EventHandler.getList()[itemID].second
+                    val one_time_event_temp = EventHandler.getList()[itemID]
                     val context_temp = context
 
                     // Set a positive button and its click listener on alert dialog
@@ -213,7 +213,7 @@ class OneTimeEventInstanceFragment : EventInstanceFragment() {
 
                 //already existant oneTimeEvent entry, overwrite old entry in map
             } else {
-                if (wasChangeMade(EventHandler.getList()[itemID].second as OneTimeEvent)) {
+                if (wasChangeMade(EventHandler.getList()[itemID] as OneTimeEvent)) {
                     EventHandler.changeEventAt(itemID, oneTimeEvent, context!!, true)
                     Snackbar.make(
                         view!!,

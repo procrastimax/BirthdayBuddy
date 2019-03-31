@@ -82,10 +82,10 @@ class ShowBirthdayEvent : ShowEventFragment() {
      */
     override fun updateUI() {
         //dont update ui when wrong item id / or deleted item
-        if (EventHandler.getList()[item_id].second !is EventBirthday) {
+        if (EventHandler.getList()[item_id] !is EventBirthday) {
             (context as MainActivity).supportFragmentManager.popBackStack()
         } else {
-            val birthdayEvent = EventHandler.getList()[item_id].second as EventBirthday
+            val birthdayEvent = EventHandler.getList()[item_id] as EventBirthday
 
             if (birthdayEvent.nickname != null) {
                 this.tv_show_birthday_forename.text = "${birthdayEvent.forename} \"${birthdayEvent.nickname}\""
@@ -122,7 +122,7 @@ class ShowBirthdayEvent : ShowEventFragment() {
                         birthdayEvent.getDaysUntil(),
                         birthdayEvent.forename,
                         birthdayEvent.getDaysUntil(),
-                        EventDate.parseDateToString(birthdayEvent.dateToCurrentTimeContext(), DateFormat.FULL)
+                        EventDate.parseDateToString(EventDate.dateToCurrentTimeContext(birthdayEvent.eventDate), DateFormat.FULL)
                     )
             } else {
                 tv_show_birthday_days.text =
@@ -131,7 +131,7 @@ class ShowBirthdayEvent : ShowEventFragment() {
                         birthdayEvent.getDaysUntil(),
                         birthdayEvent.forename,
                         birthdayEvent.getDaysUntil(),
-                        EventDate.parseDateToString(birthdayEvent.dateToCurrentTimeContext(), DateFormat.FULL)
+                        EventDate.parseDateToString(EventDate.dateToCurrentTimeContext(birthdayEvent.eventDate), DateFormat.FULL)
                     )
             }
 
@@ -150,11 +150,11 @@ class ShowBirthdayEvent : ShowEventFragment() {
     fun updateAvatarImage() {
         if (this.iv_avatar != null && this.item_id >= 0 && (context as MainActivity).collapse_toolbar_image_view != null) {
             //load maybe already existent avatar photo
-            if ((EventHandler.getList()[item_id].second as EventBirthday).avatarImageUri != null) {
+            if ((EventHandler.getList()[item_id] as EventBirthday).avatarImageUri != null) {
 
                 val bitmap = DrawableHandler.loadSquaredDrawable(
                     item_id,
-                    Uri.parse((EventHandler.getList()[item_id].second as EventBirthday).avatarImageUri),
+                    Uri.parse((EventHandler.getList()[item_id] as EventBirthday).avatarImageUri),
                     this.context!!,
                     (context as MainActivity).collapse_toolbar.width
                 )
@@ -175,8 +175,8 @@ class ShowBirthdayEvent : ShowEventFragment() {
      * It provides a simple intent to share data as plain text in other apps
      */
     override fun shareEvent() {
-        if (EventHandler.getList()[item_id].second is EventBirthday) {
-            val birthday = EventHandler.getList()[item_id].second as EventBirthday
+        if (EventHandler.getList()[item_id] is EventBirthday) {
+            val birthday = EventHandler.getList()[item_id] as EventBirthday
 
             val intent = Intent(Intent.ACTION_SEND)
             intent.type = "text/plain"
@@ -190,7 +190,7 @@ class ShowBirthdayEvent : ShowEventFragment() {
             //next birthday
             shareBirthdayMsg += "\n" + context!!.resources.getString(
                 R.string.share_birthday_date_next,
-                EventDate.parseDateToString(birthday.dateToCurrentTimeContext(), DateFormat.FULL)
+                EventDate.parseDateToString(EventDate.dateToCurrentTimeContext(birthday.eventDate), DateFormat.FULL)
             )
 
             // in X days

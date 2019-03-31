@@ -21,17 +21,11 @@ import java.util.*
  */
 object EventHandler {
 
-    private var id_counter = 0
-
-    fun getIDCounter(): Int {
-        return this.id_counter
-    }
-
     /**
      * event_list a list used for sorted viewing of the maps content
      * the data is stored in pairs of EventDay and the index of this dataset in the map as an int
      */
-    private var event_list: MutableList<Pair<Int, EventDate>> = emptyList<Pair<Int, EventDate>>().toMutableList()
+    private var event_list: MutableList<EventDate> = emptyList<EventDate>().toMutableList()
 
     /**
      * addEvent adds a EventDay type to the map and has the possibility to write it to the shared prefernces after adding it
@@ -43,11 +37,11 @@ object EventHandler {
      */
     fun addEvent(event: EventDate, context: Context, writeAfterAdd: Boolean = false) {
 
-        this.event_list.add(Pair(id_counter, event))
+        this.event_list.add(event)
 
         if (event is EventBirthday) {
             if (event.avatarImageUri != null) {
-                DrawableHandler.addDrawable(id_counter, getLastIndex(), Uri.parse(event.avatarImageUri), context)
+                DrawableHandler.addDrawable(event.eventID, Uri.parse(event.avatarImageUri), context)
             }
         }
 
@@ -61,14 +55,14 @@ object EventHandler {
 
         this.event_list = getSortedListBy(this.event_list).toMutableList()
 
-        id_counter++
-
         if (writeAfterAdd) {
-            IOHandler.writeAll()
+            IOHandler.writeEventToFile(event.eventID, event)
         }
+
+        NotificationHandler.scheduleNotification(context, event)
     }
 
-    fun addList(list: List<Pair<Int, EventDate>>) {
+    fun addList(list: List<EventDate>) {
         this.event_list = getSortedListBy(list).toMutableList()
     }
 
@@ -86,7 +80,7 @@ object EventHandler {
      */
     fun getValueToIndex(key: Int): EventDate? {
         if (containsIndex(key))
-            return event_list[key].second
+            return event_list[key]
         return null
     }
 
@@ -96,22 +90,23 @@ object EventHandler {
      * @param key : Int
      */
     fun removeEventByKey(key: Int, writeChange: Boolean = false) {
-        if (event_list[key].second is EventBirthday) {
-            if ((event_list[key].second as EventBirthday).avatarImageUri != null) {
-                DrawableHandler.removeDrawable(event_list[key].first)
+        if (event_list[key] is EventBirthday) {
+            if ((event_list[key] as EventBirthday).avatarImageUri != null) {
+                DrawableHandler.removeDrawable(event_list[key].eventID)
             }
+        }
+
+        if (writeChange) {
+            IOHandler.removeEventFromFile(event_list[key].eventID)
         }
 
         event_list.removeAt(key)
         this.event_list = this.getSortedListBy(this.event_list).toMutableList()
-
-        if (writeChange) {
-            IOHandler.writeAll()
-        }
     }
 
     fun deleteAllEntries(writeAfterAdd: Boolean) {
         this.event_list.clear()
+        DrawableHandler.removeAllDrawables()
         if (writeAfterAdd) {
             //deletes shared prefs before writing list, but list is empty, so it only clears the shared prefs
             IOHandler.writeAll()
@@ -125,7 +120,6 @@ object EventHandler {
      * @param event : EventDay
      */
     fun changeEventAt(key: Int, event: EventDate, context: Context, writeAfterChange: Boolean = false) {
-        val id_cnt = event_list[key].first
 
         //set hour of day from all other events except monthdivider to 12h (month divider is at 0h), so when sorting month divider is always at first
         if (event !is MonthDivider) {
@@ -135,18 +129,20 @@ object EventHandler {
             event.eventDate = cal.time
         }
 
-        event_list[key] = Pair(id_cnt, event)
+        event.eventID = event_list[key].eventID
+
+        event_list[key] = event
 
         if (event is EventBirthday) {
             if ((event).avatarImageUri != null) {
-                DrawableHandler.addDrawable(event_list[key].first, key, Uri.parse((event).avatarImageUri), context)
+                DrawableHandler.addDrawable(event_list[key].eventID, Uri.parse((event).avatarImageUri), context)
             }
         }
 
         this.event_list = getSortedListBy(this.event_list).toMutableList()
 
         if (writeAfterChange) {
-            IOHandler.writeAll()
+            IOHandler.writeEventToFile(event.eventID, event)
         }
     }
 
@@ -203,7 +199,7 @@ object EventHandler {
         }
     }
 
-    fun getList(): List<Pair<Int, EventDate>> {
+    fun getList(): List<EventDate> {
         return this.event_list
     }
 
@@ -215,15 +211,15 @@ object EventHandler {
      * @return List<EventDay>
      */
     fun getSortedListBy(
-        list: List<Pair<Int, EventDate>>,
+        list: List<EventDate>,
         identifier: SortIdentifier = EventDate.Identifier.Date
-    ): List<Pair<Int, EventDate>> {
+    ): List<EventDate> {
         if (identifier == EventDate.Identifier.Date) {
             return list.sortedWith(
                 compareBy(
-                    { it.second.getDayOfYear() },
-                    { it.second.getMonth() },
-                    { it.second.getHourOfDay() })
+                    { it.getDayOfYear() },
+                    { it.getMonth() },
+                    { it.getHourOfDay() })
             )
         } else {
             return emptyList()

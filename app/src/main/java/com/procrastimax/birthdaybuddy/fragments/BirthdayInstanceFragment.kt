@@ -170,7 +170,7 @@ class BirthdayInstanceFragment : EventInstanceFragment() {
             //when no arguments are delivered
             if (arguments!!.size() > 0) {
                 itemID = (arguments!!.getInt(ITEM_ID_PARAM))
-                val birthday = EventHandler.getList()[itemID].second as EventBirthday
+                val birthday = EventHandler.getList()[itemID] as EventBirthday
 
                 if (birthday.isYearGiven) {
                     edit_date.text = EventDate.parseDateToString(birthday.eventDate, DateFormat.FULL)
@@ -214,7 +214,7 @@ class BirthdayInstanceFragment : EventInstanceFragment() {
                             Snackbar.LENGTH_LONG
                         )
                             .setAction(R.string.snackbar_undo_action_title, View.OnClickListener {
-                                EventHandler.addEvent(birthday_pair_temp.second, context_temp!!, true)
+                                EventHandler.addEvent(birthday_pair_temp, context_temp!!, true)
                                 //get last fragment in stack list, which should be eventlistfragment, so we can update the recycler view
                                 val fragment =
                                     (context_temp as MainActivity).supportFragmentManager.fragments[(context_temp).supportFragmentManager.backStackEntryCount]
@@ -228,7 +228,7 @@ class BirthdayInstanceFragment : EventInstanceFragment() {
                     }
 
                     // dont do anything on negative button
-                    alert_builder.setNegativeButton(resources.getString(R.string.alert_dialog_dismiss_delete)) { dialog, which ->
+                    alert_builder.setNegativeButton(resources.getString(R.string.alert_dialog_dismiss_delete)) { _, _ ->
                     }
 
                     // Finally, make the alert dialog using builder
@@ -284,7 +284,7 @@ class BirthdayInstanceFragment : EventInstanceFragment() {
             if (layout_delete_img != null) {
                 layout_delete_img.setOnClickListener {
                     dialog.dismiss()
-                    if (isEditedBirthday && this.birthday_avatar_uri != null && (EventHandler.getList()[itemID].second as EventBirthday).avatarImageUri != null) {
+                    if (isEditedBirthday && this.birthday_avatar_uri != null && (EventHandler.getList()[itemID] as EventBirthday).avatarImageUri != null) {
                         this.iv_add_avatar_btn.setImageResource(R.drawable.ic_birthday_person)
                         this.avatar_img_was_edited = true
                         this.birthday_avatar_uri = null
@@ -441,7 +441,11 @@ class BirthdayInstanceFragment : EventInstanceFragment() {
         val isYearGiven = switch_isYearGiven.isChecked
 
         if (forename.isBlank() || surname.isBlank() || date.isBlank()) {
-            Toast.makeText(context, context!!.resources.getText(R.string.empty_fields_error_birthday), Toast.LENGTH_LONG)
+            Toast.makeText(
+                context,
+                context!!.resources.getText(R.string.empty_fields_error_birthday),
+                Toast.LENGTH_LONG
+            )
                 .show()
         } else {
 
@@ -491,7 +495,7 @@ class BirthdayInstanceFragment : EventInstanceFragment() {
 
                 //already existant birthday entry, overwrite old entry in map
             } else {
-                if (wasChangeMade(EventHandler.getList()[itemID].second as EventBirthday)) {
+                if (wasChangeMade(EventHandler.getList()[itemID] as EventBirthday)) {
                     EventHandler.changeEventAt(itemID, birthday, context!!, true)
                     Snackbar.make(
                         view!!,
@@ -507,8 +511,8 @@ class BirthdayInstanceFragment : EventInstanceFragment() {
     fun updateAvatarImage() {
         if (this.iv_add_avatar_btn != null && this.itemID >= 0) {
             //load maybe already existent avatar photo
-            if ((EventHandler.getList()[itemID].second as EventBirthday).avatarImageUri != null) {
-                this.iv_add_avatar_btn.setImageDrawable(DrawableHandler.getDrawableAt(EventHandler.getList()[itemID].first))
+            if ((EventHandler.getList()[itemID] as EventBirthday).avatarImageUri != null) {
+                this.iv_add_avatar_btn.setImageDrawable(DrawableHandler.getDrawableAt(EventHandler.getList()[itemID].eventID))
                 this.iv_add_avatar_btn.isEnabled = true
             }
         }

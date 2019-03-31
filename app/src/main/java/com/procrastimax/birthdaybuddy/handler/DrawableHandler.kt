@@ -30,7 +30,7 @@ object DrawableHandler {
      * @param context : Context
      * @param scale : Int
      */
-    fun addDrawable(id: Int, index: Int, uri: Uri, context: Context, scale: Int = 64): Boolean {
+    fun addDrawable(id: Int, uri: Uri, context: Context, scale: Int = 64): Boolean {
         var success = true
         //is valid index in EventHandler map
 
@@ -44,7 +44,7 @@ object DrawableHandler {
             //when this exception is catched, then delete uri reference in EventDatee instance +  inform the user
         } catch (e: Exception) {
             println(e)
-            val birthday = EventHandler.getList().last().second as EventBirthday
+            val birthday = EventHandler.getList().last() as EventBirthday
             birthday.avatarImageUri = null
             val list = EventHandler.getList()
             val lastIndex = EventHandler.getList().lastIndex
@@ -54,6 +54,10 @@ object DrawableHandler {
             success = false
         }
         return success
+    }
+
+    fun removeAllDrawables() {
+        this.drawable_map.clear()
     }
 
     fun loadSquaredDrawable(index: Int, uri: Uri, context: Context, scale: Int = 64): Bitmap? {
@@ -82,12 +86,11 @@ object DrawableHandler {
         var success = true
 
         for (i in 0 until EventHandler.getList().size) {
-            if ((EventHandler.getList()[i].second is EventBirthday) && ((EventHandler.getList()[i].second as EventBirthday).avatarImageUri != null)) {
+            if ((EventHandler.getList()[i] is EventBirthday) && ((EventHandler.getList()[i] as EventBirthday).avatarImageUri != null)) {
                 success =
                     addDrawable(
-                        EventHandler.getList()[i].first,
-                        i,
-                        Uri.parse((EventHandler.getList()[i].second as EventBirthday).avatarImageUri),
+                        EventHandler.getList()[i].eventID,
+                        Uri.parse((EventHandler.getList()[i] as EventBirthday).avatarImageUri),
                         context
                     )
             }

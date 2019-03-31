@@ -71,15 +71,15 @@ class ShowAnnualEvent : ShowEventFragment() {
      */
     override fun updateUI() {
         //dont update ui when wrong item id / or deleted item
-        if (EventHandler.getList()[item_id].second !is AnnualEvent) {
+        if (EventHandler.getList()[item_id] !is AnnualEvent) {
             (context as MainActivity).supportFragmentManager.popBackStack()
         } else {
-            val annual_event = EventHandler.getList()[item_id].second as AnnualEvent
+            val annual_event = EventHandler.getList()[item_id] as AnnualEvent
             //set name of annual_event
             this.tv_show_annual_event_name.text = annual_event.name
 
             val date: String
-            date = EventDate.parseDateToString(annual_event.dateToCurrentTimeContext(), DateFormat.FULL)
+            date = EventDate.parseDateToString(EventDate.dateToCurrentTimeContext(annual_event.eventDate), DateFormat.FULL)
             if (annual_event.hasStartYear) {
                 //show adapted string for first birthday of a person, 1 year, not 1 years
                 tv_show_annual_event_years.text = resources.getQuantityString(
@@ -114,8 +114,8 @@ class ShowAnnualEvent : ShowEventFragment() {
      * It provides a simple intent to share data as plain text in other apps
      */
     override fun shareEvent() {
-        if (EventHandler.getList()[item_id].second is AnnualEvent) {
-            val annual_event = EventHandler.getList()[item_id].second as AnnualEvent
+        if (EventHandler.getList()[item_id] is AnnualEvent) {
+            val annual_event = EventHandler.getList()[item_id] as AnnualEvent
 
             val intent = Intent(Intent.ACTION_SEND)
             intent.setType("text/plain")
@@ -126,7 +126,7 @@ class ShowAnnualEvent : ShowEventFragment() {
             //annual_event next date
             share_Annual_Event_Msg += "\n" + context!!.resources.getString(
                 R.string.share_annual_event_date_next,
-                EventDate.parseDateToString(annual_event.dateToCurrentTimeContext(), DateFormat.FULL)
+                EventDate.parseDateToString(EventDate.dateToCurrentTimeContext(annual_event.eventDate), DateFormat.FULL)
             )
 
             //annual_event days until
