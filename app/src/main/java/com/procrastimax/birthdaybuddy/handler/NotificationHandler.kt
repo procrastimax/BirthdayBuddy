@@ -10,7 +10,7 @@ import java.util.*
 
 object NotificationHandler {
 
-    const val CHANNEL_ID = "602"
+    const val CHANNEL_ID = "channel-birthdaybuddy"
 
     //prime factors bc. of math and so
     enum class ReminderStart(val value: Int) {

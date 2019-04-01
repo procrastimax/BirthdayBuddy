@@ -1,8 +1,19 @@
 package com.procrastimax.birthdaybuddy.fragments
 
+import android.app.Notification
+import android.app.NotificationChannel
+import android.app.NotificationManager
+import android.app.PendingIntent
+import android.content.Context
+import android.content.Intent
+import android.graphics.Bitmap
+import android.graphics.Canvas
+import android.graphics.drawable.Drawable
+import android.os.Build
 import android.os.Bundle
 import android.support.constraint.ConstraintLayout
 import android.support.v4.app.Fragment
+import android.support.v4.app.NotificationCompat
 import android.support.v4.content.ContextCompat
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.PopupMenu
@@ -15,7 +26,12 @@ import android.widget.ImageView
 import android.widget.Toast
 import com.procrastimax.birthdaybuddy.MainActivity
 import com.procrastimax.birthdaybuddy.R
+import com.procrastimax.birthdaybuddy.handler.DrawableHandler
 import com.procrastimax.birthdaybuddy.handler.EventHandler
+import com.procrastimax.birthdaybuddy.handler.IOHandler
+import com.procrastimax.birthdaybuddy.handler.NotificationHandler
+import com.procrastimax.birthdaybuddy.models.EventBirthday
+import com.procrastimax.birthdaybuddy.models.EventDate
 import com.procrastimax.birthdaybuddy.views.EventAdapter
 import com.procrastimax.birthdaybuddy.views.RecycleViewItemDivider
 import kotlinx.android.synthetic.main.fragment_event_list.*
@@ -80,7 +96,7 @@ class EventListFragment : Fragment() {
                     R.id.item_delete_all -> {
                         //TODO: add user confirmation
                         Toast.makeText(context, "delete all was pressed", Toast.LENGTH_LONG).show()
-                        EventHandler.deleteAllEntries(context!!,true)
+                        EventHandler.deleteAllEntries(context!!, true)
                         (context as MainActivity).addMonthDivider()
                         viewAdapter.notifyDataSetChanged()
                         true
@@ -91,6 +107,14 @@ class EventListFragment : Fragment() {
                     }
                     R.id.item_import -> {
                         Toast.makeText(context, "import was pressed", Toast.LENGTH_LONG).show()
+                        true
+                    }
+                    R.id.item_notification -> {
+                        buildNotification(
+                            context!!,
+                            EventBirthday(Calendar.getInstance().time, "Max", "Mustermann", false),
+                            1
+                        )
                         true
                     }
                     else -> {
@@ -155,6 +179,149 @@ class EventListFragment : Fragment() {
             ft.addToBackStack(null)
             ft.commit()
         }
+    }
+
+    private fun buildNotification(context: Context, event: EventDate, notificationID: Int) {
+
+        // Create an explicit intent for an Activity, so the activity starts when notification is clicked
+        val intent = Intent(context, MainActivity::class.java).apply {
+            flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+        }
+        val pendingIntent: PendingIntent = PendingIntent.getActivity(context, 0, intent, 0)
+
+        val notificationManager: NotificationManager =
+            context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+
+        //val notificationId = 100
+        //val channelId = "channel-01"
+        //val channelName = "Channel Name"
+
+        //new channel ID system for android oreo and above
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            val channelName = context.getString(R.string.notification_channel_name)
+            val descriptionText = context.getString(R.string.notification_channel_description)
+            val importance = NotificationManager.IMPORTANCE_HIGH
+            val channel = NotificationChannel("channel-birthdaybuddy", channelName, importance).apply {
+                description = descriptionText
+            }
+            // Register the channel with the system
+            notificationManager.createNotificationChannel(channel)
+        }
+
+        //switch event type
+
+        if (event is EventBirthday) {
+
+            var drawable: Drawable?
+            if (event.avatarImageUri != null) {
+                IOHandler.registerIO(context)
+                IOHandler.readAll(context)
+                DrawableHandler.loadAllDrawables(context)
+                drawable = DrawableHandler.getDrawableAt(event.eventID)
+                if (drawable == null) {
+                    drawable = ContextCompat.getDrawable(context, R.drawable.ic_birthday_person)
+                }
+            } else {
+                drawable = ContextCompat.getDrawable(context, R.drawable.ic_birthday_person)
+            }
+
+            val builder = NotificationCompat.Builder(context, "channel-birthdaybuddy")
+                //TODO: set small icon to app icon
+                .setSmallIcon(R.drawable.ic_birthday_person)
+                .setContentText(
+                    context.getString(
+                        R.string.notification_content_birthday,
+                        event.forename,
+                        event.getDaysUntil(),
+                        event.forename,
+                        event.getYearsSince()
+                    )
+                )
+                .setContentTitle(
+                    context.getString(
+                        R.string.notification_title_birthday,
+                        "${event.forename} ${event.surname}"
+                    )
+                )
+                //TODO: add longer detailed text
+                .setPriority(NotificationCompat.PRIORITY_HIGH)
+                // Set the intent that will fire when the user taps the notification
+                .setContentIntent(pendingIntent)
+                .setAutoCancel(true)
+                .setStyle(NotificationCompat.BigTextStyle())
+                .setDefaults(Notification.DEFAULT_ALL)
+                .setLargeIcon(DrawableHandler.convertToBitmap(drawable!!, true, 128, 128))
+
+            with(notificationManager) {
+                notify(notificationID, builder.build())
+            }
+        }
+    }
+
+    private fun fireNotification() {
+
+        val intent = Intent(context, MainActivity::class.java).apply {
+            flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+        }
+        val pendingIntent: PendingIntent = PendingIntent.getActivity(context, 0, intent, 0)
+
+        val notificationManager: NotificationManager =
+            context!!.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+
+        val notificationId = 1
+        val channelId = "channel-01"
+        val channelName = "Channel Name"
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            //val name = context!!.getString(R.string.notification_channel_name)
+            val descriptionText = context!!.getString(R.string.notification_channel_description)
+            val importance = NotificationManager.IMPORTANCE_HIGH
+            val channel = NotificationChannel(channelId, channelName, importance).apply {
+                description = descriptionText
+            }
+            // Register the channel with the system
+            notificationManager.createNotificationChannel(channel)
+        }
+
+        val builder = NotificationCompat.Builder(context!!, channelId)
+            .setSmallIcon(R.drawable.ic_birthday_person)
+            .setContentText(
+                context!!.getString(
+                    R.string.notification_content_one_time,
+                    "Maxi",
+                    2
+                )
+            )
+            .setContentTitle(
+                context!!.getString(
+                    R.string.notification_title_one_time,
+                    "Maxis Geburtstag"
+                )
+            )
+            //TODO: add longer detailed text
+            .setPriority(NotificationCompat.PRIORITY_HIGH)
+            // Set the intent that will fire when the user taps the notification
+            .setContentIntent(pendingIntent)
+            .setAutoCancel(true)
+            .setDefaults(Notification.DEFAULT_ALL)
+            //for avatar images
+            //.setLargeIcon(convertToBitmap(DrawableHandler.getAllDrawables().last().mutate().constantState!!.newDrawable(), 64 , 64 ))
+            .setLargeIcon(
+                convertToBitmap(ContextCompat.getDrawable(context!!, R.drawable.ic_error_outline)!!, 64, 64)
+            )
+
+
+        with(notificationManager) {
+            notify(notificationId, builder.build())
+        }
+    }
+
+    fun convertToBitmap(drawable: Drawable, widthPixels: Int, heightPixels: Int): Bitmap {
+        val mutableBitmap = Bitmap.createBitmap(widthPixels, heightPixels, Bitmap.Config.ARGB_8888)
+        val canvas = Canvas(mutableBitmap)
+        drawable.setBounds(0, 0, widthPixels, heightPixels)
+        drawable.draw(canvas)
+        return mutableBitmap
     }
 
     private fun showFABMenu() {

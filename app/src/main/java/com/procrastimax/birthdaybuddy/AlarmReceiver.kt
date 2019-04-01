@@ -7,12 +7,10 @@ import android.app.PendingIntent
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
-import android.graphics.BitmapFactory
-import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
 import android.os.Build
 import android.support.v4.app.NotificationCompat
-import android.support.v4.app.NotificationManagerCompat
+import android.support.v4.content.ContextCompat
 import android.widget.Toast
 import com.procrastimax.birthdaybuddy.handler.DrawableHandler
 import com.procrastimax.birthdaybuddy.handler.IOHandler
@@ -49,24 +47,48 @@ class AlarmReceiver : BroadcastReceiver() {
     }
 
     private fun buildNotification(context: Context, event: EventDate, notificationID: Int) {
-        if (event is EventBirthday) {
-            // Create an explicit intent for an Activity, so the activity starts when notification is clicked
-            val intent = Intent(context, MainActivity::class.java).apply {
-                flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-            }
-            val pendingIntent: PendingIntent = PendingIntent.getActivity(context, 0, intent, 0)
 
-            var drawable: Drawable? = null
+        // Create an explicit intent for an Activity, so the activity starts when notification is clicked
+        val intent = Intent(context, MainActivity::class.java).apply {
+            flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+        }
+        val pendingIntent: PendingIntent = PendingIntent.getActivity(context, 0, intent, 0)
+
+        val notificationManager: NotificationManager =
+            context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+
+        //new channel ID system for android oreo and above
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            //val name = context!!.getString(R.string.notification_channel_name)
+            val channelName = context.getString(R.string.notification_channel_name)
+            val descriptionText = context.getString(R.string.notification_channel_description)
+            val importance = NotificationManager.IMPORTANCE_HIGH
+            val channel = NotificationChannel(NotificationHandler.CHANNEL_ID, channelName, importance).apply {
+                description = descriptionText
+            }
+            // Register the channel with the system
+            notificationManager.createNotificationChannel(channel)
+        }
+
+        //switch event type
+
+        if (event is EventBirthday) {
+
+            var drawable: Drawable?
             if (event.avatarImageUri != null) {
                 IOHandler.registerIO(context)
                 IOHandler.readAll(context)
                 DrawableHandler.loadAllDrawables(context)
                 drawable = DrawableHandler.getDrawableAt(event.eventID)
+                if (drawable == null) {
+                    drawable = ContextCompat.getDrawable(context, R.drawable.ic_birthday_person)
+                }
+            } else {
+                drawable = ContextCompat.getDrawable(context, R.drawable.ic_birthday_person)
             }
 
-            createNotificationChannel(context)
-
             val builder = NotificationCompat.Builder(context, NotificationHandler.CHANNEL_ID)
+                //TODO: set small icon to app icon
                 .setSmallIcon(R.drawable.ic_birthday_person)
                 .setContentText(
                     context.getString(
@@ -84,40 +106,23 @@ class AlarmReceiver : BroadcastReceiver() {
                     )
                 )
                 //TODO: add longer detailed text
-                .setPriority(NotificationCompat.PRIORITY_MAX)
+                .setPriority(NotificationCompat.PRIORITY_HIGH)
                 // Set the intent that will fire when the user taps the notification
                 .setContentIntent(pendingIntent)
                 .setAutoCancel(true)
+                .setStyle(NotificationCompat.BigTextStyle())
                 .setDefaults(Notification.DEFAULT_ALL)
+                .setLargeIcon(DrawableHandler.convertToBitmap(drawable!!, true, 128, 128))
 
-
-            if (drawable != null) {
-                builder.setLargeIcon((drawable as BitmapDrawable).bitmap)
-                println("drawable not null")
-            } else {
-                builder.setLargeIcon(
-                    BitmapFactory.decodeResource(
-                        context.resources
-                        , R.drawable.ic_birthday_person
-                    )
-                )
-            }
-
-            with(NotificationManagerCompat.from(context)) {
+            with(notificationManager) {
                 notify(notificationID, builder.build())
             }
+
         } else if (event is AnnualEvent) {
 
-            // Create an explicit intent for an Activity, so the activity starts when notification is clicked
-            val intent = Intent(context, MainActivity::class.java).apply {
-                flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-            }
-            val pendingIntent: PendingIntent = PendingIntent.getActivity(context, 0, intent, 0)
-
-            createNotificationChannel(context)
-
+            val drawable = ContextCompat.getDrawable(context, R.drawable.ic_date_range)
             val builder = NotificationCompat.Builder(context, NotificationHandler.CHANNEL_ID)
-                .setSmallIcon(R.drawable.ic_birthday_person)
+                .setSmallIcon(R.drawable.ic_date_range)
                 .setContentText(
                     context.getString(
                         R.string.notification_content_annual,
@@ -132,35 +137,22 @@ class AlarmReceiver : BroadcastReceiver() {
                     )
                 )
                 //TODO: add longer detailed text
-                .setPriority(NotificationCompat.PRIORITY_MAX)
+                .setPriority(NotificationCompat.PRIORITY_HIGH)
                 // Set the intent that will fire when the user taps the notification
                 .setContentIntent(pendingIntent)
                 .setAutoCancel(true)
                 .setDefaults(Notification.DEFAULT_ALL)
+                .setLargeIcon(DrawableHandler.convertToBitmap(drawable!!, true, 128, 128))
 
-            builder.setLargeIcon(
-                BitmapFactory.decodeResource(
-                    context.resources
-                    , R.drawable.ic_date_range
-                )
-            )
-
-            with(NotificationManagerCompat.from(context)) {
+            with(notificationManager) {
                 notify(notificationID, builder.build())
-
             }
+
         } else if (event is OneTimeEvent) {
 
-            // Create an explicit intent for an Activity, so the activity starts when notification is clicked
-            val intent = Intent(context, MainActivity::class.java).apply {
-                flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-            }
-            val pendingIntent: PendingIntent = PendingIntent.getActivity(context, 0, intent, 0)
-
-            createNotificationChannel(context)
-
+            val drawable = ContextCompat.getDrawable(context, R.drawable.ic_looks_one_time)
             val builder = NotificationCompat.Builder(context, NotificationHandler.CHANNEL_ID)
-                .setSmallIcon(R.drawable.ic_birthday_person)
+                .setSmallIcon(R.drawable.ic_looks_one_time)
                 .setContentText(
                     context.getString(
                         R.string.notification_content_one_time,
@@ -175,41 +167,16 @@ class AlarmReceiver : BroadcastReceiver() {
                     )
                 )
                 //TODO: add longer detailed text
-                .setPriority(NotificationCompat.PRIORITY_MAX)
+                .setPriority(NotificationCompat.PRIORITY_HIGH)
                 // Set the intent that will fire when the user taps the notification
                 .setContentIntent(pendingIntent)
                 .setAutoCancel(true)
                 .setDefaults(Notification.DEFAULT_ALL)
+                .setLargeIcon(DrawableHandler.convertToBitmap(drawable!!, true, 128, 128))
 
-            builder.setLargeIcon(
-                BitmapFactory.decodeResource(
-                    context.resources
-                    , R.drawable.ic_looks_one_time
-                )
-            )
-
-            with(NotificationManagerCompat.from(context)) {
+            with(notificationManager) {
                 notify(notificationID, builder.build())
             }
         }
     }
-}
-
-private fun createNotificationChannel(context: Context): NotificationChannel? {
-    // Create the NotificationChannel, but only on API 26+ because
-    // the NotificationChannel class is new and not in the support library
-    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-        val name = context.getString(R.string.notification_channel_name)
-        val descriptionText = context.getString(R.string.notification_channel_description)
-        val importance = NotificationManager.IMPORTANCE_HIGH
-        val channel = NotificationChannel(NotificationHandler.CHANNEL_ID, name, importance).apply {
-            description = descriptionText
-        }
-        // Register the channel with the system
-        val notificationManager: NotificationManager =
-            context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-        notificationManager.createNotificationChannel(channel)
-        return notificationManager.getNotificationChannel(NotificationHandler.CHANNEL_ID)
-    }
-    return null
 }

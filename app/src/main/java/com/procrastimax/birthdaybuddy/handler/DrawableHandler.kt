@@ -5,6 +5,7 @@ import android.content.Context
 import android.content.DialogInterface
 import android.content.res.Resources
 import android.graphics.Bitmap
+import android.graphics.Canvas
 import android.graphics.drawable.Drawable
 import android.net.Uri
 import android.provider.MediaStore
@@ -80,6 +81,13 @@ object DrawableHandler {
     }
 
     /**
+     * for testing purposes
+     */
+    fun getAllDrawables(): List<Drawable> {
+        return this.drawable_map.values.toList()
+    }
+
+    /**
      * loadAllDrawables iterates through eventhandler eventlist and loads all drawables into this map
      */
     fun loadAllDrawables(context: Context): Boolean {
@@ -104,6 +112,29 @@ object DrawableHandler {
         }
         return null
     }
+
+    fun convertToBitmap(
+        drawable: Drawable,
+        setResized: Boolean = false,
+        widthPixels: Int = 0,
+        heightPixels: Int = 0
+    ): Bitmap {
+        val mutableBitmap =
+            if (setResized) {
+                Bitmap.createBitmap(widthPixels, heightPixels, Bitmap.Config.ARGB_8888)
+            } else {
+                Bitmap.createBitmap(drawable.intrinsicWidth, drawable.intrinsicHeight, Bitmap.Config.ARGB_8888)
+            }
+
+        val canvas = Canvas(mutableBitmap)
+        if (setResized) drawable.setBounds(0, 0, widthPixels, heightPixels)
+        drawable.draw(canvas)
+        return mutableBitmap
+    }
+
+    ///
+    /// I know that all the following functions are already implemented by f.e. ThumbnailUtils, but I noticed this to late, and wanted to do this on my own for possible optimizing later
+    ///
 
     /**
      * getSquaredBitmap square given bitmap

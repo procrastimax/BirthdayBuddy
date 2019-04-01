@@ -21,4 +21,8 @@
             android:id="@+id/item_export"
             android:title="@string/main_menu_item_export"/>
 
+    <item
+            android:id="@+id/item_notification"
+            android:title="Fire notification"/>
+
 </menu>

@@ -236,7 +236,6 @@ class MainActivity : AppCompatActivity() {
 
 
     fun lockAppBar() {
-
         val params = app_bar.layoutParams as CoordinatorLayout.LayoutParams
         params.behavior = AppBarLayout.Behavior()
         val behavior = params.behavior as AppBarLayout.Behavior
@@ -248,7 +247,6 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun unlockAppBar() {
-
         val params = app_bar.layoutParams as CoordinatorLayout.LayoutParams
         params.behavior = AppBarLayout.Behavior()
         val behavior = params.behavior as AppBarLayout.Behavior
