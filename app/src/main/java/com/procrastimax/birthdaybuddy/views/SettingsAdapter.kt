@@ -1,7 +1,9 @@
 package com.procrastimax.birthdaybuddy.views
 
+import android.app.AlertDialog
 import android.app.TimePickerDialog
 import android.content.Context
+import android.content.DialogInterface
 import android.support.constraint.ConstraintLayout
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
@@ -37,177 +39,388 @@ class SettingsAdapter(private val context: Context) :
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         when (holder.itemViewType) {
+            // BIRTHDAY NOTIFICATION SETTINGS
             1 -> {
                 holder.itemView.tv_settings_title.text = "Birthday"
 
                 val isEnabled = IOHandler.getBooleanFromKey(IOHandler.SharedPrefKeys.key_isNotificationOnBirthday)!!
-                holder.itemView.sw_settings_notifcations.isChecked = isEnabled
+                if (!isEnabled) changeEnabledStatus(holder.itemView, isEnabled)
 
+                holder.itemView.sw_settings_notifcations.isChecked = isEnabled
                 holder.itemView.sw_settings_notifcations.setOnCheckedChangeListener { _, isChecked ->
                     changeEnabledStatus(holder.itemView, isChecked)
+                    IOHandler.writeSetting(IOHandler.SharedPrefKeys.key_isNotificationOnBirthday, isChecked)
                 }
 
+                //sound switch
                 holder.itemView.sw_settings_sound.isChecked =
                     IOHandler.getBooleanFromKey(IOHandler.SharedPrefKeys.key_isNotificationSoundOnBirthday)!!
+                holder.itemView.sw_settings_sound.setOnCheckedChangeListener { _, isChecked ->
+                    IOHandler.writeSetting(IOHandler.SharedPrefKeys.key_isNotificationSoundOnBirthday, isChecked)
+                }
+
+                //vibration switch
                 holder.itemView.sw_settings_vibration.isChecked =
                     IOHandler.getBooleanFromKey(IOHandler.SharedPrefKeys.key_isNotificationVibrationOnBirthday)!!
+                holder.itemView.sw_settings_vibration.setOnCheckedChangeListener { _, isChecked ->
+                    IOHandler.writeSetting(IOHandler.SharedPrefKeys.key_isNotificationVibrationOnBirthday, isChecked)
+                }
 
+                //set notification time
                 holder.itemView.tv_settings_notificaton_time_value.text =
                     IOHandler.getStringFromKey(IOHandler.SharedPrefKeys.key_strNotificationTimeBirthday)
-
-                // 0 = no light
-                // 1 = white light
-                // 2 = red light
-                // 3 = green light
-                // 4 = blue light
-                when (IOHandler.getIntFromKey(IOHandler.SharedPrefKeys.key_notificationLightBirthday)) {
-                    0 -> {
-                        holder.itemView.tv_settings_notification_light_value.text = "no light"
-                    }
-                    1 -> {
-                        holder.itemView.tv_settings_notification_light_value.text = "white"
-                    }
-                    2 -> {
-                        holder.itemView.tv_settings_notification_light_value.text = "red"
-                    }
-                    3 -> {
-                        holder.itemView.tv_settings_notification_light_value.text = "green"
-                    }
-                    4 -> {
-                        holder.itemView.tv_settings_notification_light_value.text = "blue"
-                    }
+                //set time picker dialog on click
+                holder.itemView.tv_settings_notificaton_time_value.setOnClickListener {
+                    showTimePickerDialog(it as TextView, IOHandler.SharedPrefKeys.key_strNotificationTimeBirthday)
                 }
 
-                var reminderDayString: String = ""
-                if (IOHandler.getBooleanFromKey(IOHandler.SharedPrefKeys.key_isRemindedDay_month_beforeBirthday) == true) {
-                    reminderDayString += "Month before\n"
-                }
-                if (IOHandler.getBooleanFromKey(IOHandler.SharedPrefKeys.key_isRemindedDay_week_beforeBirthday) == true) {
-                    reminderDayString += "Week before\n"
-                }
-                if (IOHandler.getBooleanFromKey(IOHandler.SharedPrefKeys.key_isRemindedDay_day_beforeBirthday) == true) {
-                    reminderDayString += "Day before\n"
-                }
-                if (IOHandler.getBooleanFromKey(IOHandler.SharedPrefKeys.key_isRemindedDay_eventdayBirthday) == true) {
-                    reminderDayString += "Eventday"
-                }
-                holder.itemView.tv_settings_notification_day_value.text = reminderDayString
+                val notificationDateArray: BooleanArray = booleanArrayOf(
+                    IOHandler.getBooleanFromKey(IOHandler.SharedPrefKeys.key_isRemindedDay_month_beforeBirthday)!!,
+                    IOHandler.getBooleanFromKey(IOHandler.SharedPrefKeys.key_isRemindedDay_week_beforeBirthday)!!,
+                    IOHandler.getBooleanFromKey(IOHandler.SharedPrefKeys.key_isRemindedDay_day_beforeBirthday)!!,
+                    IOHandler.getBooleanFromKey(IOHandler.SharedPrefKeys.key_isRemindedDay_eventdayBirthday)!!
+                )
 
-                changeEnabledStatus(holder.itemView, isEnabled)
+                val constrLayoutNotificationDay =
+                    holder.itemView.findViewById<ConstraintLayout>(R.id.constrLayout_settings_notification_day)
+                //show checkbox dialog on click
+                constrLayoutNotificationDay.setOnClickListener {
+                    val alertDialogBuilder = AlertDialog.Builder(context)
+                    alertDialogBuilder.setTitle("Notification Date")
+                        .setPositiveButton("Apply") { _, _ ->
 
+                            holder.itemView.tv_settings_notification_day_value.text =
+                                getNotifcationDateValueStringFromBooleanArray(notificationDateArray)
+
+                            IOHandler.writeSetting(
+                                IOHandler.SharedPrefKeys.key_isRemindedDay_month_beforeBirthday,
+                                notificationDateArray[0]
+                            )
+                            IOHandler.writeSetting(
+                                IOHandler.SharedPrefKeys.key_isRemindedDay_week_beforeBirthday,
+                                notificationDateArray[1]
+                            )
+                            IOHandler.writeSetting(
+                                IOHandler.SharedPrefKeys.key_isRemindedDay_day_beforeBirthday,
+                                notificationDateArray[2]
+                            )
+                            IOHandler.writeSetting(
+                                IOHandler.SharedPrefKeys.key_isRemindedDay_eventdayBirthday,
+                                notificationDateArray[3]
+                            )
+                        }
+                        .setMultiChoiceItems(
+                            arrayOf("Month before", "Week before", "Day before", "Eventday"),
+                            notificationDateArray
+                        ) { _, which, isChecked ->
+                            notificationDateArray[which] = isChecked
+                        }
+                        .show()
+                }
+
+                var notificationLight =
+                    IOHandler.getIntFromKey(IOHandler.SharedPrefKeys.key_notificationLightBirthday)!!
+                val constrLayoutNotificationLight =
+                    holder.itemView.findViewById<ConstraintLayout>(R.id.constraint_layout_settings_notification_light)
+                //show checkbox dialog on click
+                constrLayoutNotificationLight.setOnClickListener {
+                    val alertDialogBuilder = AlertDialog.Builder(context)
+                    alertDialogBuilder.setTitle("Notification Date")
+                        .setPositiveButton("Apply") { _, _ ->
+
+                            holder.itemView.tv_settings_notification_light_value.text =
+                                getNotifcationLightValueFromInt(notificationLight)
+
+                            IOHandler.writeSetting(
+                                IOHandler.SharedPrefKeys.key_notificationLightBirthday,
+                                notificationLight
+                            )
+                        }
+                        .setSingleChoiceItems(
+                            arrayOf("no light", "white light", "red light", "green light", "blue light"),
+                            notificationLight
+                        ) { _: DialogInterface?, which: Int ->
+                            notificationLight = which
+                        }
+                        .show()
+                }
+
+                holder.itemView.tv_settings_notification_light_value.text =
+                    getNotifcationLightValueFromInt(notificationLight)
+
+                holder.itemView.tv_settings_notification_day_value.text =
+                    getNotifcationDateValueStringFromBooleanArray(notificationDateArray)
             }
+
+            // ANNUAL NOTIFICATION SETTINGS
             2 -> {
                 holder.itemView.tv_settings_title.text = "Annual event"
 
                 val isEnabled = IOHandler.getBooleanFromKey(IOHandler.SharedPrefKeys.key_isNotificationOnAnnual)!!
-                holder.itemView.sw_settings_notifcations.isChecked = isEnabled
+                if (!isEnabled) changeEnabledStatus(holder.itemView, isEnabled)
 
+                holder.itemView.sw_settings_notifcations.isChecked = isEnabled
                 holder.itemView.sw_settings_notifcations.setOnCheckedChangeListener { _, isChecked ->
                     changeEnabledStatus(holder.itemView, isChecked)
+                    IOHandler.writeSetting(IOHandler.SharedPrefKeys.key_isNotificationOnAnnual, isChecked)
                 }
 
+                //sound switch
                 holder.itemView.sw_settings_sound.isChecked =
                     IOHandler.getBooleanFromKey(IOHandler.SharedPrefKeys.key_isNotificationSoundOnAnnual)!!
+                holder.itemView.sw_settings_sound.setOnCheckedChangeListener { _, isChecked ->
+                    IOHandler.writeSetting(IOHandler.SharedPrefKeys.key_isNotificationSoundOnAnnual, isChecked)
+                }
+
+                //vibration switch
                 holder.itemView.sw_settings_vibration.isChecked =
                     IOHandler.getBooleanFromKey(IOHandler.SharedPrefKeys.key_isNotificationVibrationOnAnnual)!!
+                holder.itemView.sw_settings_vibration.setOnCheckedChangeListener { _, isChecked ->
+                    IOHandler.writeSetting(IOHandler.SharedPrefKeys.key_isNotificationVibrationOnAnnual, isChecked)
+                }
 
+                //set notification time
                 holder.itemView.tv_settings_notificaton_time_value.text =
                     IOHandler.getStringFromKey(IOHandler.SharedPrefKeys.key_strNotificationTimeAnnual)
-
-                // 0 = no light
-                // 1 = white light
-                // 2 = red light
-                // 3 = green light
-                // 4 = blue light
-                when (IOHandler.getIntFromKey(IOHandler.SharedPrefKeys.key_notificationLightAnnual)) {
-                    0 -> {
-                        holder.itemView.tv_settings_notification_light_value.text = "no light"
-                    }
-                    1 -> {
-                        holder.itemView.tv_settings_notification_light_value.text = "white"
-                    }
-                    2 -> {
-                        holder.itemView.tv_settings_notification_light_value.text = "red"
-                    }
-                    3 -> {
-                        holder.itemView.tv_settings_notification_light_value.text = "green"
-                    }
-                    4 -> {
-                        holder.itemView.tv_settings_notification_light_value.text = "blue"
-                    }
+                //set time picker dialog on click
+                holder.itemView.tv_settings_notificaton_time_value.setOnClickListener {
+                    showTimePickerDialog(it as TextView, IOHandler.SharedPrefKeys.key_strNotificationTimeAnnual)
                 }
 
-                var reminderDayString: String = ""
-                if (IOHandler.getBooleanFromKey(IOHandler.SharedPrefKeys.key_isRemindedDay_month_beforeAnnual) == true) {
-                    reminderDayString += "Month before\n"
+                val notificationDateArray: BooleanArray = booleanArrayOf(
+                    IOHandler.getBooleanFromKey(IOHandler.SharedPrefKeys.key_isRemindedDay_month_beforeAnnual)!!,
+                    IOHandler.getBooleanFromKey(IOHandler.SharedPrefKeys.key_isRemindedDay_week_beforeAnnual)!!,
+                    IOHandler.getBooleanFromKey(IOHandler.SharedPrefKeys.key_isRemindedDay_day_beforeAnnual)!!,
+                    IOHandler.getBooleanFromKey(IOHandler.SharedPrefKeys.key_isRemindedDay_eventdayAnnual)!!
+                )
+
+                val constrLayoutNotificationDay =
+                    holder.itemView.findViewById<ConstraintLayout>(R.id.constrLayout_settings_notification_day)
+                //show checkbox dialog on click
+                constrLayoutNotificationDay.setOnClickListener {
+                    val alertDialogBuilder = AlertDialog.Builder(context)
+                    alertDialogBuilder.setTitle("Notification Date")
+                        .setPositiveButton("Apply") { _, _ ->
+
+                            holder.itemView.tv_settings_notification_day_value.text =
+                                getNotifcationDateValueStringFromBooleanArray(notificationDateArray)
+
+                            IOHandler.writeSetting(
+                                IOHandler.SharedPrefKeys.key_isRemindedDay_month_beforeAnnual,
+                                notificationDateArray[0]
+                            )
+                            IOHandler.writeSetting(
+                                IOHandler.SharedPrefKeys.key_isRemindedDay_week_beforeAnnual,
+                                notificationDateArray[1]
+                            )
+                            IOHandler.writeSetting(
+                                IOHandler.SharedPrefKeys.key_isRemindedDay_day_beforeAnnual,
+                                notificationDateArray[2]
+                            )
+                            IOHandler.writeSetting(
+                                IOHandler.SharedPrefKeys.key_isRemindedDay_eventdayAnnual,
+                                notificationDateArray[3]
+                            )
+                        }
+                        .setMultiChoiceItems(
+                            arrayOf("Month before", "Week before", "Day before", "Eventday"),
+                            notificationDateArray
+                        ) { _, which, isChecked ->
+                            notificationDateArray[which] = isChecked
+                        }
+                        .show()
                 }
-                if (IOHandler.getBooleanFromKey(IOHandler.SharedPrefKeys.key_isRemindedDay_week_beforeAnnual) == true) {
-                    reminderDayString += "Week before\n"
+
+                var notificationLight =
+                    IOHandler.getIntFromKey(IOHandler.SharedPrefKeys.key_notificationLightAnnual)!!
+                val constrLayoutNotificationLight =
+                    holder.itemView.findViewById<ConstraintLayout>(R.id.constraint_layout_settings_notification_light)
+                //show checkbox dialog on click
+                constrLayoutNotificationLight.setOnClickListener {
+                    val alertDialogBuilder = AlertDialog.Builder(context)
+                    alertDialogBuilder.setTitle("Notification Date")
+                        .setPositiveButton("Apply") { _, _ ->
+
+                            holder.itemView.tv_settings_notification_light_value.text =
+                                getNotifcationLightValueFromInt(notificationLight)
+
+                            IOHandler.writeSetting(
+                                IOHandler.SharedPrefKeys.key_notificationLightAnnual,
+                                notificationLight
+                            )
+                        }
+                        .setSingleChoiceItems(
+                            arrayOf("no light", "white light", "red light", "green light", "blue light"),
+                            notificationLight
+                        ) { _: DialogInterface?, which: Int ->
+                            notificationLight = which
+                        }
+                        .show()
                 }
-                if (IOHandler.getBooleanFromKey(IOHandler.SharedPrefKeys.key_isRemindedDay_day_beforeAnnual) == true) {
-                    reminderDayString += "Day before\n"
-                }
-                if (IOHandler.getBooleanFromKey(IOHandler.SharedPrefKeys.key_isRemindedDay_eventdayAnnual) == true) {
-                    reminderDayString += "Eventday"
-                }
-                holder.itemView.tv_settings_notification_day_value.text = reminderDayString
+
+                holder.itemView.tv_settings_notification_light_value.text =
+                    getNotifcationLightValueFromInt(notificationLight)
+
+                holder.itemView.tv_settings_notification_day_value.text =
+                    getNotifcationDateValueStringFromBooleanArray(notificationDateArray)
             }
 
+            // ONE-TIME NOTIFICATION SETTINGS
             3 -> {
-                holder.itemView.tv_settings_title.text = "One-Time event"
+                holder.itemView.tv_settings_title.text = "OneTime event"
 
                 val isEnabled = IOHandler.getBooleanFromKey(IOHandler.SharedPrefKeys.key_isNotificationOnOneTime)!!
-                holder.itemView.sw_settings_notifcations.isChecked = isEnabled
+                if (!isEnabled) changeEnabledStatus(holder.itemView, isEnabled)
 
+                holder.itemView.sw_settings_notifcations.isChecked = isEnabled
                 holder.itemView.sw_settings_notifcations.setOnCheckedChangeListener { _, isChecked ->
                     changeEnabledStatus(holder.itemView, isChecked)
+                    IOHandler.writeSetting(IOHandler.SharedPrefKeys.key_isNotificationOnOneTime, isChecked)
                 }
 
+                //sound switch
                 holder.itemView.sw_settings_sound.isChecked =
                     IOHandler.getBooleanFromKey(IOHandler.SharedPrefKeys.key_isNotificationSoundOnOneTime)!!
+                holder.itemView.sw_settings_sound.setOnCheckedChangeListener { _, isChecked ->
+                    IOHandler.writeSetting(IOHandler.SharedPrefKeys.key_isNotificationSoundOnOneTime, isChecked)
+                }
+
+                //vibration switch
                 holder.itemView.sw_settings_vibration.isChecked =
                     IOHandler.getBooleanFromKey(IOHandler.SharedPrefKeys.key_isNotificationVibrationOnOneTime)!!
+                holder.itemView.sw_settings_vibration.setOnCheckedChangeListener { _, isChecked ->
+                    IOHandler.writeSetting(IOHandler.SharedPrefKeys.key_isNotificationVibrationOnOneTime, isChecked)
+                }
 
+                //set notification time
                 holder.itemView.tv_settings_notificaton_time_value.text =
                     IOHandler.getStringFromKey(IOHandler.SharedPrefKeys.key_strNotificationTimeOneTime)
-
-                // 0 = no light
-                // 1 = white light
-                // 2 = red light
-                // 3 = green light
-                // 4 = blue light
-                when (IOHandler.getIntFromKey(IOHandler.SharedPrefKeys.key_notificationLightOneTime)) {
-                    0 -> {
-                        holder.itemView.tv_settings_notification_light_value.text = "no light"
-                    }
-                    1 -> {
-                        holder.itemView.tv_settings_notification_light_value.text = "white"
-                    }
-                    2 -> {
-                        holder.itemView.tv_settings_notification_light_value.text = "red"
-                    }
-                    3 -> {
-                        holder.itemView.tv_settings_notification_light_value.text = "green"
-                    }
-                    4 -> {
-                        holder.itemView.tv_settings_notification_light_value.text = "blue"
-                    }
+                //set time picker dialog on click
+                holder.itemView.tv_settings_notificaton_time_value.setOnClickListener {
+                    showTimePickerDialog(it as TextView, IOHandler.SharedPrefKeys.key_strNotificationTimeOneTime)
                 }
 
-                var reminderDayString: String = ""
-                if (IOHandler.getBooleanFromKey(IOHandler.SharedPrefKeys.key_isRemindedDay_month_beforeOneTime) == true) {
-                    reminderDayString += "Month before\n"
+                val notificationDateArray: BooleanArray = booleanArrayOf(
+                    IOHandler.getBooleanFromKey(IOHandler.SharedPrefKeys.key_isRemindedDay_month_beforeOneTime)!!,
+                    IOHandler.getBooleanFromKey(IOHandler.SharedPrefKeys.key_isRemindedDay_week_beforeOneTime)!!,
+                    IOHandler.getBooleanFromKey(IOHandler.SharedPrefKeys.key_isRemindedDay_day_beforeOneTime)!!,
+                    IOHandler.getBooleanFromKey(IOHandler.SharedPrefKeys.key_isRemindedDay_eventdayOneTime)!!
+                )
+
+                val constrLayoutNotificationDay =
+                    holder.itemView.findViewById<ConstraintLayout>(R.id.constrLayout_settings_notification_day)
+                //show checkbox dialog on click
+                constrLayoutNotificationDay.setOnClickListener {
+                    val alertDialogBuilder = AlertDialog.Builder(context)
+                    alertDialogBuilder.setTitle("Notification Date")
+                        .setPositiveButton("Apply") { _, _ ->
+
+                            holder.itemView.tv_settings_notification_day_value.text =
+                                getNotifcationDateValueStringFromBooleanArray(notificationDateArray)
+
+                            IOHandler.writeSetting(
+                                IOHandler.SharedPrefKeys.key_isRemindedDay_month_beforeOneTime,
+                                notificationDateArray[0]
+                            )
+                            IOHandler.writeSetting(
+                                IOHandler.SharedPrefKeys.key_isRemindedDay_week_beforeOneTime,
+                                notificationDateArray[1]
+                            )
+                            IOHandler.writeSetting(
+                                IOHandler.SharedPrefKeys.key_isRemindedDay_day_beforeOneTime,
+                                notificationDateArray[2]
+                            )
+                            IOHandler.writeSetting(
+                                IOHandler.SharedPrefKeys.key_isRemindedDay_eventdayOneTime,
+                                notificationDateArray[3]
+                            )
+                        }
+                        .setMultiChoiceItems(
+                            arrayOf("Month before", "Week before", "Day before", "Eventday"),
+                            notificationDateArray
+                        ) { _, which, isChecked ->
+                            notificationDateArray[which] = isChecked
+                        }
+                        .show()
                 }
-                if (IOHandler.getBooleanFromKey(IOHandler.SharedPrefKeys.key_isRemindedDay_week_beforeOneTime) == true) {
-                    reminderDayString += "Week before\n"
+
+                var notificationLight =
+                    IOHandler.getIntFromKey(IOHandler.SharedPrefKeys.key_notificationLightOneTime)!!
+                val constrLayoutNotificationLight =
+                    holder.itemView.findViewById<ConstraintLayout>(R.id.constraint_layout_settings_notification_light)
+                //show checkbox dialog on click
+                constrLayoutNotificationLight.setOnClickListener {
+                    val alertDialogBuilder = AlertDialog.Builder(context)
+                    alertDialogBuilder.setTitle("Notification Date")
+                        .setPositiveButton("Apply") { _, _ ->
+
+                            holder.itemView.tv_settings_notification_light_value.text =
+                                getNotifcationLightValueFromInt(notificationLight)
+
+                            IOHandler.writeSetting(
+                                IOHandler.SharedPrefKeys.key_notificationLightOneTime,
+                                notificationLight
+                            )
+                        }
+                        .setSingleChoiceItems(
+                            arrayOf("no light", "white light", "red light", "green light", "blue light"),
+                            notificationLight
+                        ) { _: DialogInterface?, which: Int ->
+                            notificationLight = which
+                        }
+                        .show()
                 }
-                if (IOHandler.getBooleanFromKey(IOHandler.SharedPrefKeys.key_isRemindedDay_day_beforeOneTime) == true) {
-                    reminderDayString += "Day before\n"
-                }
-                if (IOHandler.getBooleanFromKey(IOHandler.SharedPrefKeys.key_isRemindedDay_eventdayOneTime) == true) {
-                    reminderDayString += "Eventday"
-                }
-                holder.itemView.tv_settings_notification_day_value.text = reminderDayString
+
+                holder.itemView.tv_settings_notification_light_value.text =
+                    getNotifcationLightValueFromInt(notificationLight)
+
+                holder.itemView.tv_settings_notification_day_value.text =
+                    getNotifcationDateValueStringFromBooleanArray(notificationDateArray)
+            }
+        }
+    }
+
+    private fun getNotifcationDateValueStringFromBooleanArray(array: BooleanArray): String {
+        var reminderString = ""
+        if (array[0]) {
+            reminderString += "Month before\n"
+        }
+        if (array[1]) {
+            reminderString += "Week before\n"
+        }
+        if (array[2]) {
+            reminderString += "Day before\n"
+        }
+        if (array[3]) {
+            reminderString += "Eventday"
+        }
+        return reminderString
+    }
+
+    private fun getNotifcationLightValueFromInt(value: Int): String {
+        // 0 = no light
+        // 1 = white light
+        // 2 = red light
+        // 3 = green light
+        // 4 = blue light
+        when (value) {
+            0 -> {
+                return "no light"
+            }
+            1 -> {
+                return "white light"
+            }
+            2 -> {
+                return "red light"
+            }
+            3 -> {
+                return "green light"
+            }
+            4 -> {
+                return "blue light"
+            }
+            else -> {
+                return "no light"
             }
         }
     }
@@ -223,7 +436,7 @@ class SettingsAdapter(private val context: Context) :
         }
     }
 
-    private fun showTimePickerDialog(tv_notification_time: TextView, notifcationTimeKey: IOHandler.SharedPrefKeys) {
+    private fun showTimePickerDialog(tv_notification_time: TextView, notifcationTimeKey: String) {
         //split tv string into hour and minute
         val hour = tv_notification_time.text.split(":")[0].toInt()
         val minute = tv_notification_time.text.split(":")[1].toInt()
