@@ -6,6 +6,7 @@
 
     <color name="brightGrey">#bdc3c7</color>
     <color name="darkGrey">#7a7a7c</color>
+    <color name="dark">#2a2a2c</color>
     <color name="white">#ecf0f1</color>
 
     <color name="transparent">#FFFFFFFF</color>

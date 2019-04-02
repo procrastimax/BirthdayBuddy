@@ -18,19 +18,45 @@ object IOHandler {
 
     object SharedPrefKeys {
         const val key_firstStart = "isFirstStart"
-        const val key_isNotificationOn = "isNotificationOn"
-        const val key_isNotificationSoundOn = "isNotificationSoundOn"
-        const val key_isNotificationVibrationOn = "isNotificationVibrationOn"
-        const val key_strNotificationTime = "strNotificationTime"
 
-        const val key_isIntervall_Month = "isIntervall_Month"
-        const val key_isIntervall_Week = "isIntervall_Week"
-        const val key_isIntervall_Day = "isIntervall_Day"
-        const val key_isIntervall_EventDay = "isIntervall_EventDay"
+        //birthday settings
+        const val key_isNotificationOnBirthday = "isNotificationOnBirthday"
+        const val key_isNotificationSoundOnBirthday = "isNotificationSoundOnBirthday"
+        const val key_isNotificationVibrationOnBirthday = "isNotificationVibrationOnBirthday"
+        const val key_strNotificationTimeBirthday = "strNotificationTimeBirthday"
 
-        const val key_isNotification_Birthday = "isNotification_Birthday"
-        const val key_isNotification_AnnualEvent = "isNotification_AnnualEvent"
-        const val key_isNotification_OneTimeEvent = "isNotification_OneTimeEvent"
+        const val key_isRemindedDay_month_beforeBirthday = "isRemindedDay_month_beforeBirthday"
+        const val key_isRemindedDay_week_beforeBirthday = "isRemindedDay_week_beforeBirthday"
+        const val key_isRemindedDay_day_beforeBirthday = "isRemindedDay_day_beforeBirthday"
+        const val key_isRemindedDay_eventdayBirthday = "isRemindedDay_eventdayBirthday"
+
+        const val key_notificationLightBirthday = "notificationLightBirthday"
+
+        //annual event settings
+        const val key_isNotificationOnAnnual = "isNotificationOnAnnual"
+        const val key_isNotificationSoundOnAnnual = "isNotificationSoundOnAnnual"
+        const val key_isNotificationVibrationOnAnnual = "isNotificationVibrationOnAnnual"
+        const val key_strNotificationTimeAnnual = "strNotificationTimeAnnual"
+
+        const val key_isRemindedDay_month_beforeAnnual = "isRemindedDay_month_beforeAnnual"
+        const val key_isRemindedDay_week_beforeAnnual = "isRemindedDay_week_beforeAnnual"
+        const val key_isRemindedDay_day_beforeAnnual = "isRemindedDay_day_beforeAnnual"
+        const val key_isRemindedDay_eventdayAnnual = "isRemindedDay_eventdayAnnual"
+
+        const val key_notificationLightAnnual = "notificationLightAnnual"
+
+        // one time event settigns
+        const val key_isNotificationOnOneTime = "isNotificationOnOneTime"
+        const val key_isNotificationSoundOnOneTime = "isNotificationSoundOnOneTime"
+        const val key_isNotificationVibrationOnOneTime = "isNotificationVibrationOnOneTime"
+        const val key_strNotificationTimeOneTime = "strNotificationTimeOneTime"
+
+        const val key_isRemindedDay_month_beforeOneTime = "isRemindedDay_month_beforeOneTime"
+        const val key_isRemindedDay_week_beforeOneTime = "isRemindedDay_week_beforeOneTime"
+        const val key_isRemindedDay_day_beforeOneTime = "isRemindedDay_day_beforeOneTime"
+        const val key_isRemindedDay_eventdayOneTime = "isRemindedDay_eventdayOneTime"
+
+        const val key_notificationLightOneTime = "notificationLightOneTime"
     }
 
     //Filename of shared preference to store event data and settings data
@@ -56,27 +82,45 @@ object IOHandler {
 
     fun initializeAllSettings() {
         //notifications on
-        writeSetting(SharedPrefKeys.key_isNotificationOn, true)
+        writeSetting(SharedPrefKeys.key_isNotificationOnBirthday, true)
+        writeSetting(SharedPrefKeys.key_isNotificationOnAnnual, true)
+        writeSetting(SharedPrefKeys.key_isNotificationOnOneTime, true)
 
-        //notification sound on
-        writeSetting(SharedPrefKeys.key_isNotificationSoundOn, true)
+        //notification sound off
+        writeSetting(SharedPrefKeys.key_isNotificationSoundOnBirthday, false)
+        writeSetting(SharedPrefKeys.key_isNotificationSoundOnAnnual, false)
+        writeSetting(SharedPrefKeys.key_isNotificationSoundOnOneTime, false)
 
         //notification vibration on
-        writeSetting(SharedPrefKeys.key_isNotificationSoundOn, false)
+        writeSetting(SharedPrefKeys.key_isNotificationVibrationOnBirthday, true)
+        writeSetting(SharedPrefKeys.key_isNotificationVibrationOnAnnual, true)
+        writeSetting(SharedPrefKeys.key_isNotificationVibrationOnOneTime, true)
 
         //notification time to 12:00
-        writeSetting(SharedPrefKeys.key_strNotificationTime, "12:00")
+        writeSetting(SharedPrefKeys.key_strNotificationTimeBirthday, "12:00")
+        writeSetting(SharedPrefKeys.key_strNotificationTimeAnnual, "12:00")
+        writeSetting(SharedPrefKeys.key_strNotificationTimeOneTime, "12:00")
 
-        //notification intervalls
-        writeSetting(SharedPrefKeys.key_isIntervall_Month, false)
-        writeSetting(SharedPrefKeys.key_isIntervall_Week, false)
-        writeSetting(SharedPrefKeys.key_isIntervall_Day, true)
-        writeSetting(SharedPrefKeys.key_isIntervall_EventDay, true)
+        //notification reminder days
+        writeSetting(SharedPrefKeys.key_isRemindedDay_month_beforeBirthday, true)
+        writeSetting(SharedPrefKeys.key_isRemindedDay_week_beforeBirthday, true)
+        writeSetting(SharedPrefKeys.key_isRemindedDay_day_beforeBirthday, true)
+        writeSetting(SharedPrefKeys.key_isRemindedDay_eventdayBirthday, true)
 
-        //notification vibration on
-        writeSetting(SharedPrefKeys.key_isNotification_Birthday, true)
-        writeSetting(SharedPrefKeys.key_isNotification_AnnualEvent, true)
-        writeSetting(SharedPrefKeys.key_isNotification_OneTimeEvent, true)
+        writeSetting(SharedPrefKeys.key_isRemindedDay_month_beforeAnnual, true)
+        writeSetting(SharedPrefKeys.key_isRemindedDay_week_beforeAnnual, true)
+        writeSetting(SharedPrefKeys.key_isRemindedDay_day_beforeAnnual, true)
+        writeSetting(SharedPrefKeys.key_isRemindedDay_eventdayAnnual, true)
+
+        writeSetting(SharedPrefKeys.key_isRemindedDay_month_beforeOneTime, true)
+        writeSetting(SharedPrefKeys.key_isRemindedDay_week_beforeOneTime, true)
+        writeSetting(SharedPrefKeys.key_isRemindedDay_day_beforeOneTime, true)
+        writeSetting(SharedPrefKeys.key_isRemindedDay_eventdayOneTime, true)
+
+        //notification lights to 1
+        writeSetting(SharedPrefKeys.key_notificationLightBirthday, 1)
+        writeSetting(SharedPrefKeys.key_notificationLightAnnual, 1)
+        writeSetting(SharedPrefKeys.key_notificationLightOneTime, 1)
     }
 
     fun settingsContainsKey(key: String): Boolean {
@@ -120,14 +164,6 @@ object IOHandler {
     fun getBooleanFromKey(key: String): Boolean? {
         if (settingsContainsKey(key)) {
             return sharedPrefSettings.getBoolean(key, false)
-        } else {
-            return null
-        }
-    }
-
-    fun getFloatFromKey(key: String): Float? {
-        if (settingsContainsKey(key)) {
-            return sharedPrefSettings.getFloat(key, -1.0f)
         } else {
             return null
         }

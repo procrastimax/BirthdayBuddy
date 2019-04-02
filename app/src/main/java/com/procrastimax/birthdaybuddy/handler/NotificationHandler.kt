@@ -23,7 +23,7 @@ object NotificationHandler {
     fun scheduleNotification(context: Context, event: EventDate) {
         if (event !is MonthDivider) {
 
-            val isMonthReminder = IOHandler.getBooleanFromKey(IOHandler.SharedPrefKeys.key_isIntervall_Month)
+            /*val isMonthReminder = IOHandler.getBooleanFromKey(IOHandler.SharedPrefKeys.key_isIntervall_Month)
             val isDayReminder = IOHandler.getBooleanFromKey(IOHandler.SharedPrefKeys.key_isIntervall_Day)
             val isEventDayReminder = IOHandler.getBooleanFromKey(IOHandler.SharedPrefKeys.key_isIntervall_EventDay)
             val isWeekReminder = IOHandler.getBooleanFromKey(IOHandler.SharedPrefKeys.key_isIntervall_Week)
@@ -58,7 +58,7 @@ object NotificationHandler {
 
             if (isEventDayReminder == true) {
                 setUpNotification(context, event, NotificationHandler.ReminderStart.EVENTDATE)
-            }
+            }*/
         }
     }
 
@@ -115,7 +115,7 @@ object NotificationHandler {
     }
 
     fun getNotifcationTime(event: EventDate, reminderStart: ReminderStart): Date {
-        var notificationTime: String? = IOHandler.getStringFromKey(IOHandler.SharedPrefKeys.key_strNotificationTime)
+        /*var notificationTime: String? = IOHandler.getStringFromKey(IOHandler.SharedPrefKeys.key_strNotificationTime)
         if (notificationTime == null) {
             notificationTime = "12:00"
         }
@@ -152,9 +152,10 @@ object NotificationHandler {
 
         if (cal.time.before(Calendar.getInstance().time)) {
             cal.time = EventDate.dateToCurrentTimeContext(cal.time)
-        }
+        }*/
 
-        return cal.time
+        //return cal.time
+        return Calendar.getInstance().time
     }
 
     fun cancelNotification(context: Context, event: EventDate) {

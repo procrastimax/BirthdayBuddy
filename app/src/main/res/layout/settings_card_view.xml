@@ -1,0 +1,196 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<android.support.v7.widget.CardView
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        app:cardElevation="3dp"
+        app:contentPadding="8dp">
+
+    <android.support.constraint.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/constraintLayout_card_view">
+
+        <TextView
+                android:text="Title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/tv_settings_title"
+                android:layout_marginTop="8dp"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                android:textColor="@color/colorAccent"
+                android:layout_marginStart="16dp"/>
+
+        <TextView
+                android:text="Enable notifications"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/tv_settings_notification"
+                app:layout_constraintStart_toStartOf="parent"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="24dp"
+                app:layout_constraintTop_toBottomOf="@+id/tv_settings_title"
+                android:textSize="18sp"
+                android:textColor="@color/dark"/>
+
+        <Switch
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/sw_settings_notifcations"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_marginEnd="8dp"
+                app:layout_constraintStart_toEndOf="@+id/tv_settings_notification"
+                android:layout_marginStart="8dp"
+                app:layout_constraintHorizontal_bias="1.0"
+                app:layout_constraintTop_toTopOf="@+id/tv_settings_notification"
+                app:layout_constraintBottom_toBottomOf="@+id/tv_settings_notification"
+                android:checked="true"/>
+
+        <TextView
+                android:text="Enable sound"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/tv_settings_sound"
+                app:layout_constraintStart_toStartOf="@+id/tv_settings_notification"
+                android:layout_marginTop="24dp"
+                app:layout_constraintTop_toBottomOf="@+id/tv_settings_notification"
+                android:textSize="18sp"
+                android:textColor="@color/dark"
+                />
+
+        <Switch
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/sw_settings_sound"
+                app:layout_constraintEnd_toEndOf="@+id/sw_settings_notifcations"
+                app:layout_constraintTop_toTopOf="@+id/tv_settings_sound"
+                app:layout_constraintBottom_toBottomOf="@+id/tv_settings_sound"
+                app:layout_constraintStart_toEndOf="@+id/tv_settings_sound"
+                android:layout_marginStart="8dp"
+                app:layout_constraintHorizontal_bias="1.0"
+                android:checked="true"/>
+
+        <TextView
+                android:text="Enable vibrations"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/tv_settings_vibration"
+                app:layout_constraintStart_toStartOf="@+id/tv_settings_sound"
+                android:layout_marginTop="24dp"
+                app:layout_constraintTop_toBottomOf="@+id/tv_settings_sound"
+                android:textSize="18sp"
+                android:textColor="@color/dark"
+                />
+
+        <Switch
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/sw_settings_vibration"
+                app:layout_constraintEnd_toEndOf="@+id/sw_settings_sound"
+                app:layout_constraintTop_toTopOf="@+id/tv_settings_vibration"
+                app:layout_constraintBottom_toBottomOf="@+id/tv_settings_vibration"
+                app:layout_constraintStart_toEndOf="@+id/tv_settings_vibration"
+                android:layout_marginStart="8dp"
+                app:layout_constraintHorizontal_bias="1.0"
+                android:checked="true"/>
+
+        <TextView
+                android:text="Notification time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/tv_settings_notification_time_title"
+                android:textSize="18sp"
+                android:textColor="@color/dark"
+                app:layout_constraintStart_toStartOf="@+id/tv_settings_vibration"
+                android:layout_marginTop="24dp"
+                app:layout_constraintTop_toBottomOf="@+id/tv_settings_vibration"/>
+
+        <TextView
+                android:text="12:00"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/tv_settings_notificaton_time_value"
+                android:textAlignment="center"
+                style="@android:style/Widget.Holo.Spinner"
+                android:textSize="14sp"
+
+                app:layout_constraintEnd_toEndOf="@+id/sw_settings_vibration"
+                app:layout_constraintStart_toEndOf="@+id/tv_settings_notification_time_title"
+                android:layout_marginStart="8dp"
+                app:layout_constraintBottom_toBottomOf="@+id/tv_settings_notification_time_title"
+                />
+
+        <android.support.constraint.ConstraintLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/layout_settings_notification_day"
+                android:layout_marginTop="24dp"
+                app:layout_constraintTop_toBottomOf="@+id/tv_settings_notification_time_title"
+                app:layout_constraintStart_toStartOf="@+id/tv_settings_notification_time_title"
+                app:layout_constraintEnd_toEndOf="@+id/tv_settings_notificaton_time_value"
+                android:clickable="true"
+                android:focusable="true"
+                android:background="@drawable/ripple_recycler_view_item">
+
+            <TextView
+                    android:text="Notification day"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/tv_settings_notification_day_title"
+                    android:textColor="@color/dark"
+                    android:textSize="18sp"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    />
+
+            <TextView
+                    android:text="Eventday\nWeek before"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/tv_settings_notification_day_value"
+                    app:layout_constraintTop_toBottomOf="@+id/tv_settings_notification_day_title"
+                    app:layout_constraintStart_toStartOf="parent"
+                    />
+        </android.support.constraint.ConstraintLayout>
+
+        <android.support.constraint.ConstraintLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/constraint_layout_settings_notification_light"
+                app:layout_constraintEnd_toEndOf="@+id/layout_settings_notification_day"
+                app:layout_constraintStart_toStartOf="@+id/layout_settings_notification_day"
+                android:layout_marginTop="24dp"
+                app:layout_constraintTop_toBottomOf="@+id/layout_settings_notification_day"
+                app:layout_constraintBottom_toBottomOf="parent"
+                android:layout_marginBottom="8dp"
+                android:clickable="true"
+                android:focusable="true"
+                android:background="@drawable/ripple_recycler_view_item">
+
+            <TextView
+                    android:text="Notification light"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/tv_settings_notification_light_title"
+                    android:textColor="@color/dark"
+                    android:textSize="18sp"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    />
+
+            <TextView
+                    android:text="white"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/tv_settings_notification_light_value"
+                    app:layout_constraintTop_toBottomOf="@+id/tv_settings_notification_light_title"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"/>
+        </android.support.constraint.ConstraintLayout>
+
+    </android.support.constraint.ConstraintLayout>
+</android.support.v7.widget.CardView>
