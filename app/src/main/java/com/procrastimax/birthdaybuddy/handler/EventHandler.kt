@@ -32,10 +32,11 @@ object EventHandler {
      * this orders all events after the date automatically
      * also updates the eventday list after every adding of a new event
      * @param event: EventDay
-     * @param writeAfterAdd: Boolean
-     * @param isAddingMonth: Boolean, dont call changedEventList when already checked for new months
+     * @param context: Context
+     * @param writeAfterAdd: Boolean whether this event should be written to sharedpref after adding to list
+     * @param newEntry : Boolean, whether a new notification should be created after adding this event
      */
-    fun addEvent(event: EventDate, context: Context, writeAfterAdd: Boolean = false) {
+    fun addEvent(event: EventDate, context: Context, writeAfterAdd: Boolean = true, addNewNotification: Boolean = true) {
 
         this.event_list.add(event)
 
@@ -46,7 +47,7 @@ object EventHandler {
         }
 
         //set hour of day from all other events except monthdivider to 12h (month divider is at 0h), so when sorting month divider is always at first
-        if (event !is MonthDivider) {
+        if (event !is MonthDivider && addNewNotification) {
             val cal = Calendar.getInstance()
             cal.time = event.eventDate
             cal.set(Calendar.HOUR_OF_DAY, 12)

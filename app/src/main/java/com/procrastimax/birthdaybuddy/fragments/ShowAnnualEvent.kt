@@ -79,7 +79,8 @@ class ShowAnnualEvent : ShowEventFragment() {
             this.tv_show_annual_event_name.text = annual_event.name
 
             val date: String
-            date = EventDate.parseDateToString(EventDate.dateToCurrentTimeContext(annual_event.eventDate), DateFormat.FULL)
+            date =
+                EventDate.parseDateToString(EventDate.dateToCurrentTimeContext(annual_event.eventDate), DateFormat.FULL)
             if (annual_event.hasStartYear) {
                 //show adapted string for first birthday of a person, 1 year, not 1 years
                 tv_show_annual_event_years.text = resources.getQuantityString(

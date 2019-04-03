@@ -274,7 +274,7 @@ object IOHandler {
                         }
                     }
                     if (event != null) {
-                        EventHandler.addEvent(event, context)
+                        EventHandler.addEvent(event, context, writeAfterAdd = false, addNewNotification = false)
                     }
                 }
             }
@@ -295,11 +295,11 @@ object IOHandler {
         // BIRTHDAY EVENT
         if (string_array[0] == EventBirthday.Name) {
 
-            var forename: String = "-"
-            var surname: String = "-"
-            var date: String = "-"
+            var forename = "-"
+            var surname = "-"
+            var date = "-"
             var note: String? = null
-            var isyeargiven: Boolean = false
+            var isyeargiven = false
             var avatarImageURI: String? = null
             var nickname: String? = null
 
@@ -343,8 +343,8 @@ object IOHandler {
             // MONTH DIVIDER
         } else if (string_array[0] == MonthDivider.Name) {
 
-            var date: String = "-"
-            var month: String = "-"
+            var date = "-"
+            var month = "-"
 
             for (i in 1 until string_array.size) {
                 val property = string_array[i].split(characterDivider_values)

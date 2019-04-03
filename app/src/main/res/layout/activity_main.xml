@@ -7,7 +7,8 @@
         android:layout_height="match_parent"
         android:id="@+id/main_layout"
         android:fitsSystemWindows="true"
-        tools:context=".MainActivity">
+        tools:context=".MainActivity"
+        >
 
     <android.support.design.widget.AppBarLayout
             android:layout_height="300dp"
@@ -15,7 +16,8 @@
             android:fitsSystemWindows="true"
             app:expanded="false"
             android:id="@+id/app_bar"
-            android:theme="@style/AppTheme.AppBarOverlay">
+            android:theme="@style/AppTheme.AppBarOverlay"
+            >
 
         <android.support.design.widget.CollapsingToolbarLayout
                 android:layout_width="match_parent"

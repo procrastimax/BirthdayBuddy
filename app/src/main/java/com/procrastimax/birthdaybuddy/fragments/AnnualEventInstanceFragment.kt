@@ -137,7 +137,7 @@ class AnnualEventInstanceFragment : EventInstanceFragment() {
                             })
                             .show()
 
-                        EventHandler.removeEventByKey(itemID, context!!,true)
+                        EventHandler.removeEventByKey(itemID, context!!, true)
                         closeBtnPressed()
                     }
                     // Finally, make the alert dialog using builder
@@ -247,7 +247,11 @@ class AnnualEventInstanceFragment : EventInstanceFragment() {
         val isYearGiven = switch_isYearGiven.isChecked
 
         if (name.isBlank() || date.isBlank()) {
-            Toast.makeText(context, context!!.resources.getText(R.string.empty_fields_error_annual_event), Toast.LENGTH_LONG)
+            Toast.makeText(
+                context,
+                context!!.resources.getText(R.string.empty_fields_error_annual_event),
+                Toast.LENGTH_LONG
+            )
                 .show()
         } else {
             val annual_event: AnnualEvent

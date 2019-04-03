@@ -10,21 +10,27 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import android.widget.Toast
+import com.procrastimax.birthdaybuddy.MainActivity
 import com.procrastimax.birthdaybuddy.R
+import com.procrastimax.birthdaybuddy.handler.EventHandler
 import com.procrastimax.birthdaybuddy.handler.IOHandler
 import com.procrastimax.birthdaybuddy.models.EventDate
+import kotlinx.android.synthetic.main.card_view_settings_extras.view.*
 import kotlinx.android.synthetic.main.settings_card_view.view.*
 import java.util.*
 
+//TODO: put delete all option in settings
 class SettingsAdapter(private val context: Context) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     /**
-     * itemList is a list of 3 integers to imply the settings card view
+     * itemList is a list of 4 integers to imply the settings card view
      */
-    val itemList = listOf(1, 2, 3)
+    val itemList = listOf(1, 2, 3, 4)
 
     class SettingCardViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
+    class SettingExtraCardViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
 
 
     override fun getItemViewType(position: Int): Int {
@@ -32,9 +38,23 @@ class SettingsAdapter(private val context: Context) :
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-        val cardView =
-            LayoutInflater.from(parent.context).inflate(R.layout.settings_card_view, parent, false)
-        return SettingCardViewHolder(cardView)
+        when (viewType) {
+            1, 2, 3 -> {
+                val cardView =
+                    LayoutInflater.from(parent.context).inflate(R.layout.settings_card_view, parent, false)
+                return SettingCardViewHolder(cardView)
+            }
+            4 -> {
+                val cardView =
+                    LayoutInflater.from(parent.context).inflate(R.layout.card_view_settings_extras, parent, false)
+                return SettingExtraCardViewHolder(cardView)
+            }
+            else -> {
+                val cardViewExtraSettings =
+                    LayoutInflater.from(parent.context).inflate(R.layout.settings_card_view, parent, false)
+                return SettingCardViewHolder(cardViewExtraSettings)
+            }
+        }
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
@@ -376,6 +396,21 @@ class SettingsAdapter(private val context: Context) :
 
                 holder.itemView.tv_settings_notification_day_value.text =
                     getNotifcationDateValueStringFromBooleanArray(notificationDateArray)
+            }
+            4 -> {
+                holder.itemView.tv_settings_extras_delete_all.setOnClickListener {
+                    //TODO: add user confirmation
+                    //TODO: add icons
+                    Toast.makeText(context, "all events has been deleted", Toast.LENGTH_LONG).show()
+                    EventHandler.deleteAllEntries(context, true)
+                    (context as MainActivity).addMonthDivider()
+                }
+                holder.itemView.tv_settings_extra_export.setOnClickListener {
+                    Toast.makeText(context, "exported clicked", Toast.LENGTH_LONG).show()
+                }
+                holder.itemView.tv_settings_extra_import.setOnClickListener {
+                    Toast.makeText(context, "imported clicked", Toast.LENGTH_LONG).show()
+                }
             }
         }
     }

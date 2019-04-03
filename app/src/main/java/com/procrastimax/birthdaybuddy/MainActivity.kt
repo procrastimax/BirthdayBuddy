@@ -14,7 +14,6 @@ import com.procrastimax.birthdaybuddy.fragments.ShowBirthdayEvent
 import com.procrastimax.birthdaybuddy.handler.DrawableHandler
 import com.procrastimax.birthdaybuddy.handler.EventHandler
 import com.procrastimax.birthdaybuddy.handler.IOHandler
-import com.procrastimax.birthdaybuddy.handler.NotificationHandler
 import com.procrastimax.birthdaybuddy.models.EventBirthday
 import com.procrastimax.birthdaybuddy.models.EventDate
 import com.procrastimax.birthdaybuddy.models.MonthDivider
@@ -154,7 +153,7 @@ class MainActivity : AppCompatActivity() {
                 toolbar.setBackgroundColor(
                     ContextCompat.getColor(
                         applicationContext,
-                        R.color.colorPrimary
+                        R.color.colorPrimaryDark
                     )
                 )
 

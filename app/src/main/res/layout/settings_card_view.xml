@@ -5,9 +5,13 @@
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="10dp"
-        app:cardElevation="3dp"
-        app:contentPadding="8dp">
+        android:layout_marginBottom="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        app:cardElevation="2dp"
+        app:contentPadding="4dp"
+        app:cardUseCompatPadding="true"
+        app:cardPreventCornerOverlap="true">
 
     <android.support.constraint.ConstraintLayout
             android:layout_width="match_parent"
@@ -26,7 +30,7 @@
                 android:layout_marginStart="16dp"/>
 
         <TextView
-                android:text="Enable notifications"
+                android:text="Notifications"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/tv_settings_notification"
@@ -51,7 +55,7 @@
                 android:checked="true"/>
 
         <TextView
-                android:text="Enable sound"
+                android:text="Sound"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/tv_settings_sound"
@@ -75,7 +79,7 @@
                 android:checked="true"/>
 
         <TextView
-                android:text="Enable vibrations"
+                android:text="Vibrate"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/tv_settings_vibration"

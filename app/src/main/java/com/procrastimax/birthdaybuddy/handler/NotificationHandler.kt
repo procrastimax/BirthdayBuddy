@@ -22,48 +22,110 @@ object NotificationHandler {
 
     fun scheduleNotification(context: Context, event: EventDate) {
         if (event !is MonthDivider) {
+            when (event) {
+                is EventBirthday -> {
+                    //do nothing when notifications for this are disabled
+                    val isBirthdayReminded =
+                        IOHandler.getBooleanFromKey(IOHandler.SharedPrefKeys.key_isNotificationOnBirthday)
+                    if (isBirthdayReminded == false) return
 
-            /*val isMonthReminder = IOHandler.getBooleanFromKey(IOHandler.SharedPrefKeys.key_isIntervall_Month)
-            val isDayReminder = IOHandler.getBooleanFromKey(IOHandler.SharedPrefKeys.key_isIntervall_Day)
-            val isEventDayReminder = IOHandler.getBooleanFromKey(IOHandler.SharedPrefKeys.key_isIntervall_EventDay)
-            val isWeekReminder = IOHandler.getBooleanFromKey(IOHandler.SharedPrefKeys.key_isIntervall_Week)
+                    //get reminding times
+                    val isMonthReminder =
+                        IOHandler.getBooleanFromKey(IOHandler.SharedPrefKeys.key_isRemindedDay_month_beforeBirthday)
+                    val isWeekReminder =
+                        IOHandler.getBooleanFromKey(IOHandler.SharedPrefKeys.key_isRemindedDay_week_beforeBirthday)
+                    val isDayReminder =
+                        IOHandler.getBooleanFromKey(IOHandler.SharedPrefKeys.key_isRemindedDay_day_beforeBirthday)
+                    val isEventDayReminder =
+                        IOHandler.getBooleanFromKey(IOHandler.SharedPrefKeys.key_isRemindedDay_eventdayBirthday)
 
-            val isBirthdayReminded = IOHandler.getBooleanFromKey(IOHandler.SharedPrefKeys.key_isNotification_Birthday)
-            val isAnnualReminded = IOHandler.getBooleanFromKey(IOHandler.SharedPrefKeys.key_isNotification_AnnualEvent)
-            val isOneTimeReminded =
-                IOHandler.getBooleanFromKey(IOHandler.SharedPrefKeys.key_isNotification_OneTimeEvent)
+                    //set reminder for reminding times
+                    if (isMonthReminder == true) {
+                        setUpNotification(context, event, NotificationHandler.ReminderStart.MONTH)
+                    }
 
-            //when event type does not match to settings, don't throw notification
-            if (isBirthdayReminded == false and (event is EventBirthday)) {
-                return
+                    if (isWeekReminder == true) {
+                        setUpNotification(context, event, NotificationHandler.ReminderStart.WEEK)
+                    }
+
+                    if (isDayReminder == true) {
+                        setUpNotification(context, event, NotificationHandler.ReminderStart.DAY)
+                    }
+
+                    if (isEventDayReminder == true) {
+                        setUpNotification(context, event, NotificationHandler.ReminderStart.EVENTDATE)
+                    }
+                }
+                is AnnualEvent -> {
+                    //do nothing when notifications for this are disabled
+                    val isAnnualReminded =
+                        IOHandler.getBooleanFromKey(IOHandler.SharedPrefKeys.key_isNotificationOnAnnual)
+                    if (isAnnualReminded == false) return
+
+                    val isMonthReminder =
+                        IOHandler.getBooleanFromKey(IOHandler.SharedPrefKeys.key_isRemindedDay_month_beforeAnnual)
+                    val isWeekReminder =
+                        IOHandler.getBooleanFromKey(IOHandler.SharedPrefKeys.key_isRemindedDay_week_beforeAnnual)
+                    val isDayReminder =
+                        IOHandler.getBooleanFromKey(IOHandler.SharedPrefKeys.key_isRemindedDay_day_beforeAnnual)
+                    val isEventDayReminder =
+                        IOHandler.getBooleanFromKey(IOHandler.SharedPrefKeys.key_isRemindedDay_eventdayAnnual)
+
+                    //set reminder for reminding times
+                    if (isMonthReminder == true) {
+                        setUpNotification(context, event, NotificationHandler.ReminderStart.MONTH)
+                    }
+
+                    if (isWeekReminder == true) {
+                        setUpNotification(context, event, NotificationHandler.ReminderStart.WEEK)
+                    }
+
+                    if (isDayReminder == true) {
+                        setUpNotification(context, event, NotificationHandler.ReminderStart.DAY)
+                    }
+
+                    if (isEventDayReminder == true) {
+                        setUpNotification(context, event, NotificationHandler.ReminderStart.EVENTDATE)
+                    }
+                }
+                is OneTimeEvent -> {
+                    //do nothing when notifications for this are disabled
+                    val isOneTimeReminded =
+                        IOHandler.getBooleanFromKey(IOHandler.SharedPrefKeys.key_isNotificationOnOneTime)
+                    if (isOneTimeReminded == false) return
+
+                    //get reminding times
+                    val isMonthReminder =
+                        IOHandler.getBooleanFromKey(IOHandler.SharedPrefKeys.key_isRemindedDay_month_beforeOneTime)
+                    val isWeekReminder =
+                        IOHandler.getBooleanFromKey(IOHandler.SharedPrefKeys.key_isRemindedDay_week_beforeOneTime)
+                    val isDayReminder =
+                        IOHandler.getBooleanFromKey(IOHandler.SharedPrefKeys.key_isRemindedDay_day_beforeOneTime)
+                    val isEventDayReminder =
+                        IOHandler.getBooleanFromKey(IOHandler.SharedPrefKeys.key_isRemindedDay_eventdayOneTime)
+
+                    //set reminder for reminding times
+                    if (isMonthReminder == true) {
+                        setUpNotification(context, event, NotificationHandler.ReminderStart.MONTH)
+                    }
+
+                    if (isWeekReminder == true) {
+                        setUpNotification(context, event, NotificationHandler.ReminderStart.WEEK)
+                    }
+
+                    if (isDayReminder == true) {
+                        setUpNotification(context, event, NotificationHandler.ReminderStart.DAY)
+                    }
+
+                    if (isEventDayReminder == true) {
+                        setUpNotification(context, event, NotificationHandler.ReminderStart.EVENTDATE)
+                    }
+                }
             }
-            if (isAnnualReminded == false and (event is AnnualEvent)) {
-                return
-            }
-            if (isOneTimeReminded == false and (event is OneTimeEvent)) {
-                return
-            }
-
-            if (isMonthReminder == true) {
-                setUpNotification(context, event, NotificationHandler.ReminderStart.MONTH)
-            }
-
-            if (isWeekReminder == true) {
-                setUpNotification(context, event, NotificationHandler.ReminderStart.WEEK)
-            }
-
-            if (isDayReminder == true) {
-                setUpNotification(context, event, NotificationHandler.ReminderStart.DAY)
-            }
-
-            if (isEventDayReminder == true) {
-                setUpNotification(context, event, NotificationHandler.ReminderStart.EVENTDATE)
-            }*/
         }
     }
 
     private fun setUpNotification(context: Context, event: EventDate, reminderStart: ReminderStart) {
-
         val intent = Intent(context, AlarmReceiver::class.java)
         val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
         intent.putExtra("EVENTSTRING", event.toString())
@@ -71,8 +133,7 @@ object NotificationHandler {
         val alarmIntent =
             PendingIntent.getBroadcast(context, event.eventID * reminderStart.value, intent, 0)
 
-
-        val notificationTime = getNotifcationTime(event, reminderStart)
+        val notificationTime = getNotificationTime(event, reminderStart)
 
         //TODO: set window values higher
         when (event) {
@@ -80,19 +141,19 @@ object NotificationHandler {
                 alarmManager.setWindow(
                     AlarmManager.RTC_WAKEUP,
                     notificationTime.time,
-                    1000,
+                    10000,
                     alarmIntent
                 )
-                //println(" ---> EventBirthday notification added on " + notificationTime + " with ID: " + event.eventID * reminderStart.value)
+                println(" ---> EventBirthday notification added on " + notificationTime + " with ID: " + event.eventID * reminderStart.value)
             }
             is AnnualEvent -> {
                 alarmManager.setWindow(
                     AlarmManager.RTC_WAKEUP,
                     notificationTime.time,
-                    1000,
+                    10000,
                     alarmIntent
                 )
-                //println(" ---> AnnualEvent notification added on " + notificationTime + " with ID: " + event.eventID * reminderStart.value)
+                println(" ---> AnnualEvent notification added on " + notificationTime + " with ID: " + event.eventID * reminderStart.value)
             }
             is OneTimeEvent -> {
                 val calNotif = Calendar.getInstance()
@@ -105,17 +166,35 @@ object NotificationHandler {
                     alarmManager.setWindow(
                         AlarmManager.RTC_WAKEUP,
                         notificationTime.time,
-                        1000,
+                        10000,
                         alarmIntent
                     )
-                    //println(" ---> OneTimeEvent notification added on " + notificationTime + " with ID: " + event.eventID * reminderStart.value)
+                    println(" ---> OneTimeEvent notification added on " + notificationTime + " with ID: " + event.eventID * reminderStart.value)
                 }
             }
         }
     }
 
-    fun getNotifcationTime(event: EventDate, reminderStart: ReminderStart): Date {
-        /*var notificationTime: String? = IOHandler.getStringFromKey(IOHandler.SharedPrefKeys.key_strNotificationTime)
+    fun getNotificationTime(event: EventDate, reminderStart: ReminderStart): Date {
+
+        var notificationTime: String? = null
+
+        //get special notification time for specific events
+        when (event) {
+            is EventBirthday -> {
+                notificationTime =
+                    IOHandler.getStringFromKey(IOHandler.SharedPrefKeys.key_strNotificationTimeBirthday)
+            }
+            is AnnualEvent -> {
+                notificationTime =
+                    IOHandler.getStringFromKey(IOHandler.SharedPrefKeys.key_strNotificationTimeAnnual)
+            }
+            is OneTimeEvent -> {
+                notificationTime =
+                    IOHandler.getStringFromKey(IOHandler.SharedPrefKeys.key_strNotificationTimeOneTime)
+            }
+        }
+
         if (notificationTime == null) {
             notificationTime = "12:00"
         }
@@ -152,10 +231,9 @@ object NotificationHandler {
 
         if (cal.time.before(Calendar.getInstance().time)) {
             cal.time = EventDate.dateToCurrentTimeContext(cal.time)
-        }*/
+        }
 
-        //return cal.time
-        return Calendar.getInstance().time
+        return cal.time
     }
 
     fun cancelNotification(context: Context, event: EventDate) {
@@ -184,15 +262,5 @@ object NotificationHandler {
                 scheduleNotification(context, it)
             }
         }
-    }
-
-    /**
-     * getMillisecondsBetweenTwoYears increments the year of one date by one and returns the difference between the incremented date and the parameter date in ms
-     */
-    private fun getMillisecondsBetweenTwoYears(date: Date): Long {
-        val cal = Calendar.getInstance()
-        cal.time = date
-        cal.set(Calendar.YEAR, cal.get(Calendar.YEAR) + 1)
-        return cal.timeInMillis - date.time
     }
 }

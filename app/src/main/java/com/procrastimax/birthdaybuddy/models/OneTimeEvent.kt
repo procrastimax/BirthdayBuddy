@@ -97,6 +97,6 @@ class OneTimeEvent(_eventdate: Date, var name: String) : EventDate(_eventdate) {
     }
 
     companion object {
-        const val Name : String = "OneTimeEvent"
+        const val Name: String = "OneTimeEvent"
     }
 }

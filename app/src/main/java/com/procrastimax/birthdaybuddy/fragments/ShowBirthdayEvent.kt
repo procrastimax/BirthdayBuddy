@@ -122,7 +122,10 @@ class ShowBirthdayEvent : ShowEventFragment() {
                         birthdayEvent.getDaysUntil(),
                         birthdayEvent.forename,
                         birthdayEvent.getDaysUntil(),
-                        EventDate.parseDateToString(EventDate.dateToCurrentTimeContext(birthdayEvent.eventDate), DateFormat.FULL)
+                        EventDate.parseDateToString(
+                            EventDate.dateToCurrentTimeContext(birthdayEvent.eventDate),
+                            DateFormat.FULL
+                        )
                     )
             } else {
                 tv_show_birthday_days.text =
@@ -131,7 +134,10 @@ class ShowBirthdayEvent : ShowEventFragment() {
                         birthdayEvent.getDaysUntil(),
                         birthdayEvent.forename,
                         birthdayEvent.getDaysUntil(),
-                        EventDate.parseDateToString(EventDate.dateToCurrentTimeContext(birthdayEvent.eventDate), DateFormat.FULL)
+                        EventDate.parseDateToString(
+                            EventDate.dateToCurrentTimeContext(birthdayEvent.eventDate),
+                            DateFormat.FULL
+                        )
                     )
             }
 

@@ -22,22 +22,32 @@ import com.procrastimax.birthdaybuddy.models.OneTimeEvent
 
 class AlarmReceiver : BroadcastReceiver() {
 
+    /**
+     * vibrationPattern is a float array describing a pattern for vibration
+     * after 10ms start
+     * vibrate for 100ms
+     * pause 10 ms
+     * vibrate for 100ms
+     */
+    val vibrationPattern: LongArray = longArrayOf(10, 100, 10, 100)
+
     override fun onReceive(context: Context?, intent: Intent?) {
+
+        //register IOHandler, really important, really
+        IOHandler.registerIO(context!!)
+
         val event = IOHandler.convertStringToEventDate(intent!!.getStringExtra("EVENTSTRING"))
         val notificationID = intent.getIntExtra("NOTIFICATIONID", 0)
 
         when (event) {
             is EventBirthday -> {
-                buildNotification(context!!, event, notificationID)
-                println("notification builded")
+                buildNotification(context, event, notificationID)
             }
             is AnnualEvent -> {
-                buildNotification(context!!, event, notificationID)
-                println("notification builded")
+                buildNotification(context, event, notificationID)
             }
             is OneTimeEvent -> {
-                buildNotification(context!!, event, notificationID)
-                println("notification builded")
+                buildNotification(context, event, notificationID)
             }
             else -> {
                 Toast.makeText(context, "unidentified toast made", Toast.LENGTH_SHORT).show()
@@ -66,14 +76,49 @@ class AlarmReceiver : BroadcastReceiver() {
             val channel = NotificationChannel(NotificationHandler.CHANNEL_ID, channelName, importance).apply {
                 description = descriptionText
             }
+
+            //setting the notification light
+            when (event) {
+                // 0 = no light
+                // 1 = white light
+                // 2 = red light
+                // 3 = green light
+                // 4 = blue light
+                is EventBirthday -> {
+                    val lightColor = getLightColor(event, context)
+                    if (lightColor != null) {
+                        channel.enableLights(true)
+                        channel.lightColor = lightColor
+                    } else {
+                        channel.enableLights(false)
+                    }
+                }
+                is AnnualEvent -> {
+                    val lightColor = getLightColor(event, context)
+                    if (lightColor != null) {
+                        channel.enableLights(true)
+                        channel.lightColor = lightColor
+                    } else {
+                        channel.enableLights(false)
+                    }
+                }
+                is OneTimeEvent -> {
+                    val lightColor = getLightColor(event, context)
+                    if (lightColor != null) {
+                        channel.enableLights(true)
+                        channel.lightColor = lightColor
+                    } else {
+                        channel.enableLights(false)
+                    }
+                }
+            }
             // Register the channel with the system
             notificationManager.createNotificationChannel(channel)
         }
 
         //switch event type
-
+        // EVENT BIRTHDAY
         if (event is EventBirthday) {
-
             var drawable: Drawable?
             if (event.avatarImageUri != null) {
                 IOHandler.registerIO(context)
@@ -87,9 +132,11 @@ class AlarmReceiver : BroadcastReceiver() {
                 drawable = ContextCompat.getDrawable(context, R.drawable.ic_birthday_person)
             }
 
+            var defaults = Notification.DEFAULT_ALL
+
             val builder = NotificationCompat.Builder(context, NotificationHandler.CHANNEL_ID)
                 //TODO: set small icon to app icon
-                .setSmallIcon(R.drawable.ic_birthday_person)
+                .setSmallIcon(R.mipmap.ic_launcher_round)
                 .setContentText(
                     context.getString(
                         R.string.notification_content_birthday,
@@ -111,18 +158,38 @@ class AlarmReceiver : BroadcastReceiver() {
                 .setContentIntent(pendingIntent)
                 .setAutoCancel(true)
                 .setStyle(NotificationCompat.BigTextStyle())
-                .setDefaults(Notification.DEFAULT_ALL)
                 .setLargeIcon(DrawableHandler.convertToBitmap(drawable!!, true, 128, 128))
+
+            if (!IOHandler.getBooleanFromKey(IOHandler.SharedPrefKeys.key_isNotificationVibrationOnBirthday)!!) {
+                defaults -= Notification.DEFAULT_VIBRATE
+            }
+
+            if (!IOHandler.getBooleanFromKey(IOHandler.SharedPrefKeys.key_isNotificationSoundOnBirthday)!!) {
+                defaults -= Notification.DEFAULT_SOUND
+            }
+
+            val lightColor = getLightColor(event, context)
+            if (lightColor != null) {
+                defaults -= Notification.DEFAULT_LIGHTS
+                builder.setLights(lightColor, 500, 500)
+            } else {
+                defaults -= Notification.DEFAULT_LIGHTS
+            }
+
+            builder.setDefaults(defaults)
 
             with(notificationManager) {
                 notify(notificationID, builder.build())
             }
 
+            // ANNUAL EVENT
         } else if (event is AnnualEvent) {
+
+            var defaults = Notification.DEFAULT_ALL
 
             val drawable = ContextCompat.getDrawable(context, R.drawable.ic_date_range)
             val builder = NotificationCompat.Builder(context, NotificationHandler.CHANNEL_ID)
-                .setSmallIcon(R.drawable.ic_date_range)
+                .setSmallIcon(R.mipmap.ic_launcher_round)
                 .setContentText(
                     context.getString(
                         R.string.notification_content_annual,
@@ -141,18 +208,38 @@ class AlarmReceiver : BroadcastReceiver() {
                 // Set the intent that will fire when the user taps the notification
                 .setContentIntent(pendingIntent)
                 .setAutoCancel(true)
-                .setDefaults(Notification.DEFAULT_ALL)
                 .setLargeIcon(DrawableHandler.convertToBitmap(drawable!!, true, 128, 128))
+
+            if (!IOHandler.getBooleanFromKey(IOHandler.SharedPrefKeys.key_isNotificationVibrationOnAnnual)!!) {
+                defaults -= Notification.DEFAULT_VIBRATE
+            }
+
+            if (!IOHandler.getBooleanFromKey(IOHandler.SharedPrefKeys.key_isNotificationSoundOnAnnual)!!) {
+                defaults -= Notification.DEFAULT_SOUND
+            }
+
+            val lightColor = getLightColor(event, context)
+            if (lightColor != null) {
+                defaults -= Notification.DEFAULT_LIGHTS
+                builder.setLights(lightColor, 500, 500)
+            } else {
+                defaults -= Notification.DEFAULT_LIGHTS
+            }
+
+            builder.setDefaults(defaults)
 
             with(notificationManager) {
                 notify(notificationID, builder.build())
             }
 
+            // ONE TIME EVENT
         } else if (event is OneTimeEvent) {
+
+            var defaults = Notification.DEFAULT_ALL
 
             val drawable = ContextCompat.getDrawable(context, R.drawable.ic_looks_one_time)
             val builder = NotificationCompat.Builder(context, NotificationHandler.CHANNEL_ID)
-                .setSmallIcon(R.drawable.ic_looks_one_time)
+                .setSmallIcon(R.mipmap.ic_launcher_round)
                 .setContentText(
                     context.getString(
                         R.string.notification_content_one_time,
@@ -171,11 +258,73 @@ class AlarmReceiver : BroadcastReceiver() {
                 // Set the intent that will fire when the user taps the notification
                 .setContentIntent(pendingIntent)
                 .setAutoCancel(true)
-                .setDefaults(Notification.DEFAULT_ALL)
+
                 .setLargeIcon(DrawableHandler.convertToBitmap(drawable!!, true, 128, 128))
+
+            if (!IOHandler.getBooleanFromKey(IOHandler.SharedPrefKeys.key_isNotificationVibrationOnOneTime)!!) {
+                defaults -= Notification.DEFAULT_VIBRATE
+            }
+
+            if (!IOHandler.getBooleanFromKey(IOHandler.SharedPrefKeys.key_isNotificationSoundOnOneTime)!!) {
+                defaults -= Notification.DEFAULT_SOUND
+            }
+
+            val lightColor = getLightColor(event, context)
+            if (lightColor != null) {
+                defaults -= Notification.DEFAULT_LIGHTS
+                builder.setLights(lightColor, 500, 500)
+            } else {
+                defaults -= Notification.DEFAULT_LIGHTS
+            }
+
+            builder.setDefaults(defaults)
 
             with(notificationManager) {
                 notify(notificationID, builder.build())
+            }
+        }
+    }
+
+    private fun getLightColor(event: EventDate, context: Context): Int? {
+        when (event) {
+            is EventBirthday -> {
+                val lightValue = IOHandler.getIntFromKey(IOHandler.SharedPrefKeys.key_notificationLightBirthday)!!
+                return getLightARGBFromColorValue(lightValue, context)
+            }
+            is AnnualEvent -> {
+                val lightValue = IOHandler.getIntFromKey(IOHandler.SharedPrefKeys.key_notificationLightAnnual)!!
+                return getLightARGBFromColorValue(lightValue, context)
+            }
+            is OneTimeEvent -> {
+                val lightValue = IOHandler.getIntFromKey(IOHandler.SharedPrefKeys.key_notificationLightOneTime)!!
+                return getLightARGBFromColorValue(lightValue, context)
+            }
+            else -> {
+                // no light
+                return getLightARGBFromColorValue(0, context)
+            }
+        }
+    }
+
+    private fun getLightARGBFromColorValue(colorValue: Int, context: Context): Int? {
+        when (colorValue) {
+            0 -> {
+                return null
+            }
+            1 -> {
+                return ContextCompat.getColor(context, R.color.notification_light_white)
+            }
+            2 -> {
+                return ContextCompat.getColor(context, R.color.notification_light_red)
+            }
+            3 -> {
+                return ContextCompat.getColor(context, R.color.notification_light_green)
+            }
+            4 -> {
+                return ContextCompat.getColor(context, R.color.notification_light_blue)
+            }
+            else -> {
+                return null
             }
         }
     }

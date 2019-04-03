@@ -1,5 +1,6 @@
 package com.procrastimax.birthdaybuddy.fragments
 
+import android.content.Context
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v7.widget.LinearLayoutManager
@@ -10,6 +11,8 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import com.procrastimax.birthdaybuddy.MainActivity
 import com.procrastimax.birthdaybuddy.R
+import com.procrastimax.birthdaybuddy.handler.EventHandler
+import com.procrastimax.birthdaybuddy.handler.NotificationHandler
 import com.procrastimax.birthdaybuddy.views.SettingsAdapter
 
 
@@ -18,6 +21,9 @@ class SettingsFragment : Fragment() {
     private lateinit var recyclerView: RecyclerView
     private lateinit var viewAdapter: RecyclerView.Adapter<*>
     private lateinit var viewManager: RecyclerView.LayoutManager
+
+    //save a context instance to use it later in a runnable
+    lateinit var settingsContext: Context
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -29,7 +35,7 @@ class SettingsFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
+        this.settingsContext = context!!
         (context as MainActivity).changeToolbarState(MainActivity.Companion.ToolbarState.Settings)
         val toolbar = activity!!.findViewById<android.support.v7.widget.Toolbar>(R.id.toolbar)
         val backBtn = toolbar.findViewById<ImageView>(R.id.iv_back_arrow)
@@ -39,7 +45,7 @@ class SettingsFragment : Fragment() {
 
         viewManager = LinearLayoutManager(view.context)
         viewAdapter = SettingsAdapter(view.context)
-        
+
         recyclerView = view.findViewById<RecyclerView>(R.id.recyclerview_settings).apply {
             setHasFixedSize(true)
             layoutManager = viewManager
@@ -51,8 +57,15 @@ class SettingsFragment : Fragment() {
         (context as MainActivity).onBackPressed()
     }
 
-    companion object {
+    override fun onPause() {
+        Thread(Runnable {
+            NotificationHandler.cancelAllNotifications(this.settingsContext, EventHandler.getList())
+            NotificationHandler.scheduleListEventNotifications(this.settingsContext, EventHandler.getList())
+        }).start()
+        super.onPause()
+    }
 
+    companion object {
         @JvmStatic
         fun newInstance(): SettingsFragment {
             return SettingsFragment()
