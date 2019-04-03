@@ -45,6 +45,8 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         setSupportActionBar(toolbar)
 
+        EventHandler.clearList()
+
         IOHandler.registerIO(this.applicationContext)
 
         if (!IOHandler.isFirstStart()) {
@@ -204,13 +206,13 @@ class MainActivity : AppCompatActivity() {
                 lockAppBar()
             }
 
-            Companion.ToolbarState.Settings -> {
+            Companion.ToolbarState.Fragment -> {
                 if (toolbar.childCount > 0) {
                     toolbar.removeAllViews()
                 }
                 toolbar.addView(
                     layoutInflater.inflate(
-                        R.layout.toolbar_settings,
+                        R.layout.toolbar_fragment,
                         findViewById(android.R.id.content),
                         false
                     )
@@ -265,7 +267,7 @@ class MainActivity : AppCompatActivity() {
             Default,
             EditEvent,
             ShowEvent,
-            Settings
+            Fragment
         }
     }
 }

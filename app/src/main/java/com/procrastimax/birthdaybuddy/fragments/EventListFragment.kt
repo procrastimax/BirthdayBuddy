@@ -12,7 +12,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
-import android.widget.Toast
+import android.widget.TextView
 import com.procrastimax.birthdaybuddy.MainActivity
 import com.procrastimax.birthdaybuddy.R
 import com.procrastimax.birthdaybuddy.handler.EventHandler
@@ -63,6 +63,7 @@ class EventListFragment : Fragment() {
             popup.setOnMenuItemClickListener { menuItem ->
                 when (menuItem.itemId) {
                     R.id.item_settings -> {
+                        //open settings fragment
                         closeFABMenu(true)
                         val ft = fragmentManager!!.beginTransaction()
                         ft.replace(
@@ -74,7 +75,15 @@ class EventListFragment : Fragment() {
                         true
                     }
                     R.id.item_about -> {
-                        Toast.makeText(context, "about was pressed", Toast.LENGTH_LONG).show()
+                        //open about fragment
+                        closeFABMenu(true)
+                        val ft = fragmentManager!!.beginTransaction()
+                        ft.replace(
+                            R.id.fragment_placeholder,
+                            AboutFragment.newInstance()
+                        )
+                        ft.addToBackStack(null)
+                        ft.commit()
                         true
                     }
                     else -> {
@@ -141,9 +150,14 @@ class EventListFragment : Fragment() {
         }
     }
 
-    override fun onPause() {
-        super.onPause()
-        this.recyclerView.recycledViewPool.clear()
+    override fun onResume() {
+        super.onResume()
+        //when no items except of the 12 month items are in the event list, then display text message
+        if (EventHandler.getList().size - 12 == 0) {
+            tv_no_events.visibility = TextView.VISIBLE
+        } else {
+            tv_no_events.visibility = TextView.GONE
+        }
     }
 
     private fun showFABMenu() {

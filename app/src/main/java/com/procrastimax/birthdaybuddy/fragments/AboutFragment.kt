@@ -1,6 +1,6 @@
 package com.procrastimax.birthdaybuddy.fragments
 
-import android.content.Context
+
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v7.widget.LinearLayoutManager
@@ -9,44 +9,42 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import android.widget.TextView
 import com.procrastimax.birthdaybuddy.MainActivity
 import com.procrastimax.birthdaybuddy.R
-import com.procrastimax.birthdaybuddy.handler.EventHandler
-import com.procrastimax.birthdaybuddy.handler.NotificationHandler
-import com.procrastimax.birthdaybuddy.views.SettingsAdapter
+import com.procrastimax.birthdaybuddy.views.AboutAdapter
 
-
-class SettingsFragment : Fragment() {
+class AboutFragment : Fragment() {
 
     private lateinit var recyclerView: RecyclerView
     private lateinit var viewAdapter: RecyclerView.Adapter<*>
     private lateinit var viewManager: RecyclerView.LayoutManager
-
-    //save a context instance to use it later in a runnable
-    lateinit var settingsContext: Context
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_settings, container, false)
+        return inflater.inflate(R.layout.fragment_about, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        this.settingsContext = context!!
+
+        super.onViewCreated(view, savedInstanceState)
         (context as MainActivity).changeToolbarState(MainActivity.Companion.ToolbarState.Fragment)
         val toolbar = activity!!.findViewById<android.support.v7.widget.Toolbar>(R.id.toolbar)
+        val tv_toolbar_title = toolbar.findViewById<TextView>(R.id.tv_title_toolbar_inFragment)
+        tv_toolbar_title.text = resources.getString(R.string.main_menu_item_about)
         val backBtn = toolbar.findViewById<ImageView>(R.id.iv_back_arrow)
         backBtn.setOnClickListener {
             backPressed()
         }
 
         viewManager = LinearLayoutManager(view.context)
-        viewAdapter = SettingsAdapter(view.context)
+        viewAdapter = AboutAdapter()
 
-        recyclerView = view.findViewById<RecyclerView>(R.id.recyclerview_settings).apply {
+        recyclerView = view.findViewById<RecyclerView>(R.id.recyclerView_about).apply {
             setHasFixedSize(true)
             layoutManager = viewManager
             adapter = viewAdapter
@@ -57,18 +55,9 @@ class SettingsFragment : Fragment() {
         (context as MainActivity).onBackPressed()
     }
 
-    override fun onPause() {
-        Thread(Runnable {
-            NotificationHandler.cancelAllNotifications(this.settingsContext, EventHandler.getList())
-            NotificationHandler.scheduleListEventNotifications(this.settingsContext, EventHandler.getList())
-        }).start()
-        super.onPause()
-    }
-
     companion object {
-        @JvmStatic
-        fun newInstance(): SettingsFragment {
-            return SettingsFragment()
+        fun newInstance(): AboutFragment {
+            return AboutFragment()
         }
     }
 }
