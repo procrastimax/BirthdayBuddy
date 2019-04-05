@@ -86,6 +86,18 @@ class EventListFragment : Fragment() {
                         ft.commit()
                         true
                     }
+                    R.id.item_help -> {
+                        //open about fragment
+                        closeFABMenu(true)
+                        val ft = fragmentManager!!.beginTransaction()
+                        ft.replace(
+                            R.id.fragment_placeholder,
+                            AboutFragment.newInstance()
+                        )
+                        ft.addToBackStack(null)
+                        ft.commit()
+                        true
+                    }
                     else -> {
                         false
                     }

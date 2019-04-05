@@ -16,8 +16,8 @@ import com.procrastimax.birthdaybuddy.R
 import com.procrastimax.birthdaybuddy.handler.EventHandler
 import com.procrastimax.birthdaybuddy.handler.IOHandler
 import com.procrastimax.birthdaybuddy.models.EventDate
+import kotlinx.android.synthetic.main.card_view_settings_notification.view.*
 import kotlinx.android.synthetic.main.card_view_settings_extras.view.*
-import kotlinx.android.synthetic.main.card_view_settings.view.*
 import java.util.*
 
 //TODO: put delete all option in settings
@@ -41,7 +41,7 @@ class SettingsAdapter(private val context: Context) :
         when (viewType) {
             1, 2, 3 -> {
                 val cardView =
-                    LayoutInflater.from(parent.context).inflate(R.layout.card_view_settings, parent, false)
+                    LayoutInflater.from(parent.context).inflate(R.layout.card_view_settings_notification, parent, false)
                 return SettingCardViewHolder(cardView)
             }
             4 -> {
@@ -51,7 +51,7 @@ class SettingsAdapter(private val context: Context) :
             }
             else -> {
                 val cardViewExtraSettings =
-                    LayoutInflater.from(parent.context).inflate(R.layout.card_view_settings, parent, false)
+                    LayoutInflater.from(parent.context).inflate(R.layout.card_view_settings_notification, parent, false)
                 return SettingCardViewHolder(cardViewExtraSettings)
             }
         }

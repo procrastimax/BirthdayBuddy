@@ -6,24 +6,24 @@ import android.view.View
 import android.view.ViewGroup
 import com.procrastimax.birthdaybuddy.R
 
-class AboutAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class HelpAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
-    enum class AboutInstance(val value: Int) {
-        App(0),
-        Version(1),
-        Contact(2)
+    enum class HelpInstance(val value: Int) {
+        EventBirthday(0),
+        AnnualEvent(1),
+        OneTimeEvent(2)
     }
 
     class AboutCardViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
 
-    val itemList = listOf<AboutInstance>(
-        AboutInstance.App,
-        AboutInstance.Contact,
-        AboutInstance.Version
+    val itemList = listOf<HelpInstance>(
+        HelpInstance.EventBirthday,
+        HelpInstance.AnnualEvent,
+        HelpInstance.OneTimeEvent
     )
 
     override fun onCreateViewHolder(parent: ViewGroup, viewtype: Int): RecyclerView.ViewHolder {
-        val cardView = LayoutInflater.from(parent.context).inflate(R.layout.card_view_about, parent, false)
+        val cardView = LayoutInflater.from(parent.context).inflate(R.layout.card_view_help, parent, false)
         return AboutCardViewHolder(cardView)
     }
 

@@ -36,7 +36,12 @@ object EventHandler {
      * @param writeAfterAdd: Boolean whether this event should be written to sharedpref after adding to list
      * @param newEntry : Boolean, whether a new notification should be created after adding this event
      */
-    fun addEvent(event: EventDate, context: Context, writeAfterAdd: Boolean = true, addNewNotification: Boolean = true) {
+    fun addEvent(
+        event: EventDate,
+        context: Context,
+        writeAfterAdd: Boolean = true,
+        addNewNotification: Boolean = true
+    ) {
 
         this.event_list.add(event)
 
