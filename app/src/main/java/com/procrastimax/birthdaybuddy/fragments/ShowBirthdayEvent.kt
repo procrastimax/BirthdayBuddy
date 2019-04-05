@@ -35,6 +35,11 @@ class ShowBirthdayEvent : ShowEventFragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
+        val currentEventID = getEventID(position)
+        if (eventID != currentEventID) {
+            (context as MainActivity).supportFragmentManager.popBackStack()
+            return null
+        }
         return inflater.inflate(R.layout.fragment_show_birthday_event, container, false)
     }
 
@@ -46,34 +51,13 @@ class ShowBirthdayEvent : ShowEventFragment() {
         (context as MainActivity).openAppBar(true)
 
         //to show the information about the instance, the fragment has to be bundled with an argument
-        if (arguments != null) {
-            item_id = arguments!!.getInt(ITEM_ID_PARAM)
-
-            val editBtn: ImageView = toolbar.findViewById<ImageView>(R.id.iv_toolbar_show_event_edit)
-
-            editBtn.setOnClickListener {
-                val bundle = Bundle()
-                //do this in more adaptable way
-                bundle.putInt(
-                    ITEM_ID_PARAM,
-                    item_id
-                )
-                val ft = (context as MainActivity).supportFragmentManager.beginTransaction()
-                // add arguments to fragment
-                val newBirthdayFragment = BirthdayInstanceFragment.newInstance()
-                newBirthdayFragment.arguments = bundle
-                ft.replace(
-                    R.id.fragment_placeholder,
-                    newBirthdayFragment,
-                    BirthdayInstanceFragment.BIRTHDAY_INSTANCE_FRAGMENT_TAG
-                )
-                ft.addToBackStack(null)
-                ft.commit()
-                arguments = null
-            }
+        //fragment was already instantiated
+        if (eventID >= 0) {
             updateUI()
-        } else {
-            (context as MainActivity).supportFragmentManager.popBackStack()
+        } else if (arguments != null) {
+            position = arguments!!.getInt(ITEM_ID_PARAM)
+            eventID = getEventID(position)
+            updateUI()
         }
     }
 
@@ -81,86 +65,104 @@ class ShowBirthdayEvent : ShowEventFragment() {
      * updateUI updates all TextViews and other views to the current instance(Anniversary, Birthday) data
      */
     override fun updateUI() {
-        //dont update ui when wrong item id / or deleted item
-        if (EventHandler.getList()[item_id] !is EventBirthday) {
-            (context as MainActivity).supportFragmentManager.popBackStack()
-        } else {
-            val birthdayEvent = EventHandler.getList()[item_id] as EventBirthday
 
-            if (birthdayEvent.nickname != null) {
-                this.tv_show_birthday_forename.text = "${birthdayEvent.forename} \"${birthdayEvent.nickname}\""
-            } else {
-                this.tv_show_birthday_forename.text = birthdayEvent.forename
-            }
+        val editBtn: ImageView = toolbar.findViewById<ImageView>(R.id.iv_toolbar_show_event_edit)
 
-            this.tv_show_birthday_surname.text = birthdayEvent.surname
-
-            val date: String
-            if (birthdayEvent.isYearGiven) {
-                date = birthdayEvent.dateToPrettyString(DateFormat.FULL)
-
-                //show adapted string for first birthday of a person, 1 year, not 1 years
-                tv_show_birthday_years_old.text = resources.getQuantityString(
-                    R.plurals.person_years_old,
-                    birthdayEvent.getYearsSince() + 1,
-                    birthdayEvent.forename,
-                    birthdayEvent.getYearsSince() + 1
-                )
-
-            } else {
-                date = birthdayEvent.dateToPrettyString(DateFormat.DATE_FIELD).substring(0..5)
-                this.tv_show_birthday_years_old.visibility = TextView.GONE
-            }
-
-            tv_show_birthday_date.text = context!!.resources.getString(R.string.person_show_date, date)
-
-            //show adapted string for 1 day, not 1 days
-            if (birthdayEvent.getDaysUntil() == 1) {
-                tv_show_birthday_days.text =
-                    resources.getQuantityString(
-                        R.plurals.person_days_until,
-                        birthdayEvent.getDaysUntil(),
-                        birthdayEvent.forename,
-                        birthdayEvent.getDaysUntil(),
-                        EventDate.parseDateToString(
-                            EventDate.dateToCurrentTimeContext(birthdayEvent.eventDate),
-                            DateFormat.FULL
-                        )
-                    )
-            } else {
-                tv_show_birthday_days.text =
-                    resources.getQuantityString(
-                        R.plurals.person_days_until,
-                        birthdayEvent.getDaysUntil(),
-                        birthdayEvent.forename,
-                        birthdayEvent.getDaysUntil(),
-                        EventDate.parseDateToString(
-                            EventDate.dateToCurrentTimeContext(birthdayEvent.eventDate),
-                            DateFormat.FULL
-                        )
-                    )
-            }
-
-            if (!birthdayEvent.note.isNullOrBlank()) {
-                this.tv_show_birthday_note.text =
-                    context!!.resources.getString(R.string.person_note, birthdayEvent.note)
-                this.tv_show_birthday_note.setTextColor(ContextCompat.getColor(context!!, R.color.darkGrey))
-            } else {
-                this.tv_show_birthday_note.visibility = TextView.GONE
-            }
-
-            updateAvatarImage()
+        editBtn.setOnClickListener {
+            val bundle = Bundle()
+            //do this in more adaptable way
+            bundle.putInt(
+                ITEM_ID_PARAM,
+                position
+            )
+            val ft = (context as MainActivity).supportFragmentManager.beginTransaction()
+            // add arguments to fragment
+            val newBirthdayFragment = BirthdayInstanceFragment.newInstance()
+            newBirthdayFragment.arguments = bundle
+            ft.replace(
+                R.id.fragment_placeholder,
+                newBirthdayFragment,
+                BirthdayInstanceFragment.BIRTHDAY_INSTANCE_FRAGMENT_TAG
+            )
+            ft.addToBackStack(null)
+            ft.commit()
         }
+
+        val birthdayEvent = EventHandler.getList()[position] as EventBirthday
+
+        if (birthdayEvent.nickname != null) {
+            this.tv_show_birthday_forename.text = "${birthdayEvent.forename} \"${birthdayEvent.nickname}\""
+        } else {
+            this.tv_show_birthday_forename.text = birthdayEvent.forename
+        }
+
+        this.tv_show_birthday_surname.text = birthdayEvent.surname
+
+        val date: String
+        if (birthdayEvent.isYearGiven) {
+            date = birthdayEvent.dateToPrettyString(DateFormat.FULL)
+
+            //show adapted string for first birthday of a person, 1 year, not 1 years
+            tv_show_birthday_years_old.text = resources.getQuantityString(
+                R.plurals.person_years_old,
+                birthdayEvent.getYearsSince() + 1,
+                birthdayEvent.forename,
+                birthdayEvent.getYearsSince() + 1
+            )
+
+        } else {
+            date = birthdayEvent.dateToPrettyString(DateFormat.DATE_FIELD).substring(0..5)
+            this.tv_show_birthday_years_old.visibility = TextView.GONE
+        }
+
+        tv_show_birthday_date.text = context!!.resources.getString(R.string.person_show_date, date)
+
+        //show adapted string for 1 day, not 1 days
+        if (birthdayEvent.getDaysUntil() == 1) {
+            tv_show_birthday_days.text =
+                resources.getQuantityString(
+                    R.plurals.person_days_until,
+                    birthdayEvent.getDaysUntil(),
+                    birthdayEvent.forename,
+                    birthdayEvent.getDaysUntil(),
+                    EventDate.parseDateToString(
+                        EventDate.dateToCurrentTimeContext(birthdayEvent.eventDate),
+                        DateFormat.FULL
+                    )
+                )
+        } else {
+            tv_show_birthday_days.text =
+                resources.getQuantityString(
+                    R.plurals.person_days_until,
+                    birthdayEvent.getDaysUntil(),
+                    birthdayEvent.forename,
+                    birthdayEvent.getDaysUntil(),
+                    EventDate.parseDateToString(
+                        EventDate.dateToCurrentTimeContext(birthdayEvent.eventDate),
+                        DateFormat.FULL
+                    )
+                )
+        }
+
+        if (!birthdayEvent.note.isNullOrBlank()) {
+            this.tv_show_birthday_note.text =
+                context!!.resources.getString(R.string.person_note, birthdayEvent.note)
+            this.tv_show_birthday_note.setTextColor(ContextCompat.getColor(context!!, R.color.darkGrey))
+        } else {
+            this.tv_show_birthday_note.visibility = TextView.GONE
+        }
+
+        updateAvatarImage()
     }
 
     fun updateAvatarImage() {
-        if (this.iv_avatar != null && this.item_id >= 0 && (context as MainActivity).collapse_toolbar_image_view != null) {
+        if (this.iv_avatar != null && this.position >= 0 && (context as MainActivity).collapse_toolbar_image_view != null) {
             //load maybe already existent avatar photo
-            if ((EventHandler.getList()[item_id] as EventBirthday).avatarImageUri != null) {
+            if ((EventHandler.getList()[position] as EventBirthday).avatarImageUri != null) {
 
                 val bitmap = DrawableHandler.loadSquaredDrawable(
-                    item_id,
-                    Uri.parse((EventHandler.getList()[item_id] as EventBirthday).avatarImageUri),
+                    position,
+                    Uri.parse((EventHandler.getList()[position] as EventBirthday).avatarImageUri),
                     this.context!!,
                     (context as MainActivity).collapse_toolbar.width
                 )
@@ -181,8 +183,8 @@ class ShowBirthdayEvent : ShowEventFragment() {
      * It provides a simple intent to share data as plain text in other apps
      */
     override fun shareEvent() {
-        if (EventHandler.getList()[item_id] is EventBirthday) {
-            val birthday = EventHandler.getList()[item_id] as EventBirthday
+        if (EventHandler.getList()[position] is EventBirthday) {
+            val birthday = EventHandler.getList()[position] as EventBirthday
 
             val intent = Intent(Intent.ACTION_SEND)
             intent.type = "text/plain"
@@ -225,7 +227,6 @@ class ShowBirthdayEvent : ShowEventFragment() {
     }
 
     companion object {
-
         /**
          * SHOW_BIRTHDAY_FRAGMENT_TAG is the fragments tag as a string
          */

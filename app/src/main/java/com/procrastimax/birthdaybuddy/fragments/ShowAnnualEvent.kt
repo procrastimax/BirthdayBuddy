@@ -29,40 +29,25 @@ class ShowAnnualEvent : ShowEventFragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
+        val currentEventID = getEventID(position)
+        if (eventID != currentEventID) {
+            (context as MainActivity).supportFragmentManager.popBackStack()
+            return null
+        }
         return inflater.inflate(R.layout.fragment_show_annual_event, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        if (arguments != null) {
-            item_id = arguments!!.getInt(ITEM_ID_PARAM)
-
-            val editBtn: ImageView = toolbar.findViewById<ImageView>(R.id.iv_toolbar_show_event_edit)
-
-            editBtn.setOnClickListener {
-                val bundle = Bundle()
-                bundle.putInt(
-                    ITEM_ID_PARAM,
-                    item_id
-                )
-                val ft = (context as MainActivity).supportFragmentManager.beginTransaction()
-
-                // add arguments to fragment
-                val newAnnualEventInstanceFragment = AnnualEventInstanceFragment.newInstance()
-                newAnnualEventInstanceFragment.arguments = bundle
-                ft.replace(
-                    R.id.fragment_placeholder,
-                    newAnnualEventInstanceFragment,
-                    AnnualEventInstanceFragment.ANNUAL_EVENT_INSTANCE_FRAGMENT_TAG
-                )
-                ft.addToBackStack(null)
-                ft.commit()
-                arguments = null
-            }
+        //to show the information about the instance, the fragment has to be bundled with an argument
+        //fragment was already instantiated
+        if (eventID >= 0) {
             updateUI()
-        } else {
-            (context as MainActivity).supportFragmentManager.popBackStack()
+        } else if (arguments != null) {
+            position = arguments!!.getInt(ITEM_ID_PARAM)
+            eventID = getEventID(position)
+            updateUI()
         }
     }
 
@@ -70,43 +55,60 @@ class ShowAnnualEvent : ShowEventFragment() {
      * updateUI updates all TextViews and other views to the current instance(AnnualEvent, Birthday) data
      */
     override fun updateUI() {
-        //dont update ui when wrong item id / or deleted item
-        if (EventHandler.getList()[item_id] !is AnnualEvent) {
-            (context as MainActivity).supportFragmentManager.popBackStack()
-        } else {
-            val annual_event = EventHandler.getList()[item_id] as AnnualEvent
-            //set name of annual_event
-            this.tv_show_annual_event_name.text = annual_event.name
+        val editBtn: ImageView = toolbar.findViewById<ImageView>(R.id.iv_toolbar_show_event_edit)
 
-            val date: String
-            date =
-                EventDate.parseDateToString(EventDate.dateToCurrentTimeContext(annual_event.eventDate), DateFormat.FULL)
-            if (annual_event.hasStartYear) {
-                //show adapted string for first birthday of a person, 1 year, not 1 years
-                tv_show_annual_event_years.text = resources.getQuantityString(
-                    R.plurals.annual_event_years,
-                    annual_event.getYearsSince(),
-                    annual_event.getYearsSince()
-                )
+        editBtn.setOnClickListener {
+            val bundle = Bundle()
+            bundle.putInt(
+                ITEM_ID_PARAM,
+                position
+            )
+            val ft = (context as MainActivity).supportFragmentManager.beginTransaction()
 
-            } else {
-                this.tv_show_annual_event_years.visibility = TextView.GONE
-            }
+            // add arguments to fragment
+            val newAnnualEventInstanceFragment = AnnualEventInstanceFragment.newInstance()
+            newAnnualEventInstanceFragment.arguments = bundle
+            ft.replace(
+                R.id.fragment_placeholder,
+                newAnnualEventInstanceFragment,
+                AnnualEventInstanceFragment.ANNUAL_EVENT_INSTANCE_FRAGMENT_TAG
+            )
+            ft.addToBackStack(null)
+            ft.commit()
+        }
 
-            tv_show_annual_event_date.text = resources.getQuantityString(
-                R.plurals.annual_event_show_date,
-                annual_event.getDaysUntil(),
-                annual_event.getDaysUntil(),
-                date
+        val annual_event = EventHandler.getList()[position] as AnnualEvent
+        //set name of annual_event
+        this.tv_show_annual_event_name.text = annual_event.name
+
+        val date: String
+        date =
+            EventDate.parseDateToString(EventDate.dateToCurrentTimeContext(annual_event.eventDate), DateFormat.FULL)
+        if (annual_event.hasStartYear) {
+            //show adapted string for first birthday of a person, 1 year, not 1 years
+            tv_show_annual_event_years.text = resources.getQuantityString(
+                R.plurals.annual_event_years,
+                annual_event.getYearsSince(),
+                annual_event.getYearsSince()
             )
 
-            if (!annual_event.note.isNullOrBlank()) {
-                this.tv_show_annual_event_note.text =
-                    context!!.resources.getString(R.string.annual_event_note, annual_event.note)
-                this.tv_show_annual_event_note.setTextColor(ContextCompat.getColor(context!!, R.color.darkGrey))
-            } else {
-                this.tv_show_annual_event_note.visibility = TextView.GONE
-            }
+        } else {
+            this.tv_show_annual_event_years.visibility = TextView.GONE
+        }
+
+        tv_show_annual_event_date.text = resources.getQuantityString(
+            R.plurals.annual_event_show_date,
+            annual_event.getDaysUntil(),
+            annual_event.getDaysUntil(),
+            date
+        )
+
+        if (!annual_event.note.isNullOrBlank()) {
+            this.tv_show_annual_event_note.text =
+                context!!.resources.getString(R.string.annual_event_note, annual_event.note)
+            this.tv_show_annual_event_note.setTextColor(ContextCompat.getColor(context!!, R.color.darkGrey))
+        } else {
+            this.tv_show_annual_event_note.visibility = TextView.GONE
         }
     }
 
@@ -115,8 +117,8 @@ class ShowAnnualEvent : ShowEventFragment() {
      * It provides a simple intent to share data as plain text in other apps
      */
     override fun shareEvent() {
-        if (EventHandler.getList()[item_id] is AnnualEvent) {
-            val annual_event = EventHandler.getList()[item_id] as AnnualEvent
+        if (EventHandler.getList()[position] is AnnualEvent) {
+            val annual_event = EventHandler.getList()[position] as AnnualEvent
 
             val intent = Intent(Intent.ACTION_SEND)
             intent.setType("text/plain")

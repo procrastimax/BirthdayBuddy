@@ -126,14 +126,14 @@
 
                 <android.support.design.widget.FloatingActionButton
                         android:src="@drawable/ic_add_a_photo"
-                        android:tint="@color/white"
                         android:layout_width="40dp"
                         android:layout_height="40dp"
                         android:layout_gravity="bottom|end"
                         android:clickable="false"
                         app:fabCustomSize="40dp"
                         android:id="@+id/floatingActionButton"
-                        app:elevation="0dp"/>
+                        app:elevation="0dp"
+                        />
             </FrameLayout>
 
         </android.support.constraint.ConstraintLayout>

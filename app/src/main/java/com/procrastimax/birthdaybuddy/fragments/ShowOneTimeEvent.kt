@@ -25,40 +25,25 @@ class ShowOneTimeEvent : ShowEventFragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
+        val currentEventID = getEventID(position)
+        if (eventID != currentEventID) {
+            (context as MainActivity).supportFragmentManager.popBackStack()
+            return null
+        }
         return inflater.inflate(R.layout.fragment_show_one_time_event, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        if (arguments != null) {
-            item_id = arguments!!.getInt(ITEM_ID_PARAM)
-
-            val editBtn: ImageView = toolbar.findViewById<ImageView>(R.id.iv_toolbar_show_event_edit)
-
-            editBtn.setOnClickListener {
-                val bundle = Bundle()
-                bundle.putInt(
-                    ITEM_ID_PARAM,
-                    item_id
-                )
-                val ft = (context as MainActivity).supportFragmentManager.beginTransaction()
-
-                // add arguments to fragment
-                val oneTimeEventInstance = OneTimeEventInstanceFragment.newInstance()
-                oneTimeEventInstance.arguments = bundle
-                ft.replace(
-                    R.id.fragment_placeholder,
-                    oneTimeEventInstance,
-                    OneTimeEventInstanceFragment.ONE_TIME_EVENT_INSTANCE_FRAGMENT_TAG
-                )
-                ft.addToBackStack(null)
-                ft.commit()
-                arguments = null
-            }
+        //to show the information about the instance, the fragment has to be bundled with an argument
+        //fragment was already instantiated
+        if (eventID >= 0) {
             updateUI()
-        } else {
-            (context as MainActivity).supportFragmentManager.popBackStack()
+        } else if (arguments != null) {
+            position = arguments!!.getInt(ITEM_ID_PARAM)
+            eventID = getEventID(position)
+            updateUI()
         }
     }
 
@@ -66,42 +51,60 @@ class ShowOneTimeEvent : ShowEventFragment() {
      * updateUI updates all TextViews and other views to the current instance(AnnualEvent, Birthday, OneTimeEvent) data
      */
     override fun updateUI() {
-        //dont update ui when wrong item id / or deleted item
-        if (EventHandler.getList()[item_id] !is OneTimeEvent) {
-            (context as MainActivity).supportFragmentManager.popBackStack()
-        } else {
-            val oneTimeEvent = EventHandler.getList()[item_id] as OneTimeEvent
-            //set name of one_time event
-            this.tv_show_one_time_event_name.text = oneTimeEvent.name
 
-            val date: String = oneTimeEvent.dateToPrettyString(DateFormat.DEFAULT)
+        val editBtn: ImageView = toolbar.findViewById<ImageView>(R.id.iv_toolbar_show_event_edit)
 
-            val daysUntil = oneTimeEvent.getDaysUntil()
-
-            this.tv_show_one_time_event_date.text = resources.getQuantityString(
-                R.plurals.one_time_event_show_date,
-                daysUntil,
-                daysUntil,
-                date
+        editBtn.setOnClickListener {
+            val bundle = Bundle()
+            bundle.putInt(
+                ITEM_ID_PARAM,
+                position
             )
+            val ft = (context as MainActivity).supportFragmentManager.beginTransaction()
 
-            if (oneTimeEvent.getYearsUntil() > 0) {
-                this.tv_show_one_time_event_years.text = resources.getQuantityString(
-                    R.plurals.one_time_event_years,
-                    oneTimeEvent.getYearsUntil(),
-                    oneTimeEvent.getYearsUntil()
-                )
-            } else {
-                this.tv_show_one_time_event_years.visibility = TextView.GONE
-            }
+            // add arguments to fragment
+            val oneTimeEventInstance = OneTimeEventInstanceFragment.newInstance()
+            oneTimeEventInstance.arguments = bundle
+            ft.replace(
+                R.id.fragment_placeholder,
+                oneTimeEventInstance,
+                OneTimeEventInstanceFragment.ONE_TIME_EVENT_INSTANCE_FRAGMENT_TAG
+            )
+            ft.addToBackStack(null)
+            ft.commit()
+        }
 
-            if (!oneTimeEvent.note.isNullOrBlank()) {
-                this.tv_show_one_time_event_note.text =
-                    context!!.resources.getString(R.string.one_time_event_note, oneTimeEvent.note)
-                this.tv_show_one_time_event_note.setTextColor(ContextCompat.getColor(context!!, R.color.darkGrey))
-            } else {
-                this.tv_show_one_time_event_note.visibility = TextView.GONE
-            }
+        val oneTimeEvent = EventHandler.getList()[position] as OneTimeEvent
+        //set name of one_time event
+        this.tv_show_one_time_event_name.text = oneTimeEvent.name
+
+        val date: String = oneTimeEvent.dateToPrettyString(DateFormat.DEFAULT)
+
+        val daysUntil = oneTimeEvent.getDaysUntil()
+
+        this.tv_show_one_time_event_date.text = resources.getQuantityString(
+            R.plurals.one_time_event_show_date,
+            daysUntil,
+            daysUntil,
+            date
+        )
+
+        if (oneTimeEvent.getYearsUntil() > 0) {
+            this.tv_show_one_time_event_years.text = resources.getQuantityString(
+                R.plurals.one_time_event_years,
+                oneTimeEvent.getYearsUntil(),
+                oneTimeEvent.getYearsUntil()
+            )
+        } else {
+            this.tv_show_one_time_event_years.visibility = TextView.GONE
+        }
+
+        if (!oneTimeEvent.note.isNullOrBlank()) {
+            this.tv_show_one_time_event_note.text =
+                context!!.resources.getString(R.string.one_time_event_note, oneTimeEvent.note)
+            this.tv_show_one_time_event_note.setTextColor(ContextCompat.getColor(context!!, R.color.darkGrey))
+        } else {
+            this.tv_show_one_time_event_note.visibility = TextView.GONE
         }
     }
 
@@ -110,8 +113,8 @@ class ShowOneTimeEvent : ShowEventFragment() {
      * It provides a simple intent to share data as plain text in other apps
      */
     override fun shareEvent() {
-        if (EventHandler.getList()[item_id] is OneTimeEvent) {
-            val oneTimeEvent = EventHandler.getList()[item_id] as OneTimeEvent
+        if (EventHandler.getList()[position] is OneTimeEvent) {
+            val oneTimeEvent = EventHandler.getList()[position] as OneTimeEvent
 
             val intent = Intent(Intent.ACTION_SEND)
             intent.setType("text/plain")

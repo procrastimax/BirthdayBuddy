@@ -3,16 +3,20 @@ package com.procrastimax.birthdaybuddy.fragments
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v7.widget.Toolbar
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import android.widget.ImageView
 import com.procrastimax.birthdaybuddy.MainActivity
 import com.procrastimax.birthdaybuddy.R
+import com.procrastimax.birthdaybuddy.handler.EventHandler
 
 const val ITEM_ID_PARAM = "ITEMID"
 
 abstract class ShowEventFragment : Fragment() {
 
-    var item_id: Int = -1
+    var eventID: Int = -1
+    var position : Int = -1
 
     val toolbar: Toolbar by lazy {
         activity!!.findViewById<android.support.v7.widget.Toolbar>(R.id.toolbar)
@@ -54,6 +58,14 @@ abstract class ShowEventFragment : Fragment() {
     override fun onDetach() {
         super.onDetach()
         (context as MainActivity).changeToolbarState(MainActivity.Companion.ToolbarState.Default)
+    }
+
+    fun getEventID(position: Int): Int {
+        if (EventHandler.getList().isNotEmpty() && (position in 0 until EventHandler.getList().size)) {
+            return EventHandler.getList()[position].eventID
+        } else {
+            return -1
+        }
     }
 
     /**

@@ -115,7 +115,7 @@ class AnnualEventInstanceFragment : EventInstanceFragment() {
                     val context_temp = context
 
                     // Set a positive button and its click listener on alert dialog
-                    alert_builder.setPositiveButton(resources.getString(R.string.alert_dialog_accept_delete)) { dialog, which ->
+                    alert_builder.setPositiveButton(resources.getString(R.string.alert_dialog_accept_delete)) { _, _ ->
                         // delete annual_event on positive button
                         Snackbar
                             .make(
@@ -128,7 +128,7 @@ class AnnualEventInstanceFragment : EventInstanceFragment() {
                                     annual_event_temp, context_temp!!,
                                     true
                                 )
-                                //get last fragment in stack list, which should be eventlistfragment, so we can update the recycler view
+                                //get last fragment in stack list, when its eventlistfragment, we can update the recycler view
                                 val fragment =
                                     (context_temp as MainActivity).supportFragmentManager.fragments[(context_temp).supportFragmentManager.backStackEntryCount]
                                 if (fragment is EventListFragment) {
