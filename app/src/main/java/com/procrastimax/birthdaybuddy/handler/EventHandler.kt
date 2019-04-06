@@ -40,14 +40,16 @@ object EventHandler {
         event: EventDate,
         context: Context,
         writeAfterAdd: Boolean = true,
-        addNewNotification: Boolean = true
-    ) {
+        addNewNotification: Boolean = true,
+        updateEventList: Boolean = true,
+        addBitmap: Boolean = true
 
+    ) {
         this.event_list.add(event)
 
-        if (event is EventBirthday) {
+        if (event is EventBirthday && addBitmap) {
             if (event.avatarImageUri != null) {
-                DrawableHandler.addDrawable(event.eventID, Uri.parse(event.avatarImageUri), context)
+                BitmapHandler.addDrawable(event.eventID, Uri.parse(event.avatarImageUri), context)
             }
         }
 
@@ -60,7 +62,9 @@ object EventHandler {
             NotificationHandler.scheduleNotification(context, event)
         }
 
-        this.event_list = getSortedListBy(this.event_list).toMutableList()
+        if (updateEventList) {
+            this.event_list = getSortedListBy(this.event_list).toMutableList()
+        }
 
         if (writeAfterAdd) {
             IOHandler.writeEventToFile(event.eventID, event)
@@ -97,7 +101,7 @@ object EventHandler {
     fun removeEventByKey(key: Int, context: Context, writeChange: Boolean = false) {
         if (event_list[key] is EventBirthday) {
             if ((event_list[key] as EventBirthday).avatarImageUri != null) {
-                DrawableHandler.removeDrawable(event_list[key].eventID)
+                BitmapHandler.removeDrawable(event_list[key].eventID)
             }
         }
 
@@ -117,7 +121,7 @@ object EventHandler {
         }
 
         this.event_list.clear()
-        DrawableHandler.removeAllDrawables()
+        BitmapHandler.removeAllDrawables()
         if (writeAfterAdd) {
             //deletes shared prefs before writing list, but list is empty, so it only clears the shared prefs
             IOHandler.writeAll()
@@ -149,7 +153,7 @@ object EventHandler {
 
         if (event is EventBirthday) {
             if ((event).avatarImageUri != null) {
-                DrawableHandler.addDrawable(event_list[key].eventID, Uri.parse((event).avatarImageUri), context)
+                BitmapHandler.addDrawable(event_list[key].eventID, Uri.parse((event).avatarImageUri), context)
             }
         }
 

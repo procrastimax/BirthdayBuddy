@@ -11,7 +11,7 @@ import android.widget.ProgressBar
 import com.procrastimax.birthdaybuddy.fragments.BirthdayInstanceFragment
 import com.procrastimax.birthdaybuddy.fragments.EventListFragment
 import com.procrastimax.birthdaybuddy.fragments.ShowBirthdayEvent
-import com.procrastimax.birthdaybuddy.handler.DrawableHandler
+import com.procrastimax.birthdaybuddy.handler.BitmapHandler
 import com.procrastimax.birthdaybuddy.handler.EventHandler
 import com.procrastimax.birthdaybuddy.handler.IOHandler
 import com.procrastimax.birthdaybuddy.models.EventBirthday
@@ -79,13 +79,13 @@ class MainActivity : AppCompatActivity() {
         Thread(Runnable {
             isLoading = true
             //import all drawables
-            val success = DrawableHandler.loadAllDrawables(this.applicationContext)
+            val success = BitmapHandler.loadAllBitmaps(this.applicationContext)
             isLoading = false
 
             runOnUiThread {
 
                 if (!success) {
-                    DrawableHandler.showMissingImageAlertDialog(this)
+                    BitmapHandler.showMissingImageAlertDialog(this)
                 }
 
                 if (recyclerView != null) {

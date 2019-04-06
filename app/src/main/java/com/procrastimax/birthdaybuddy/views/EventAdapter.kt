@@ -10,7 +10,7 @@ import android.widget.TextView
 import com.procrastimax.birthdaybuddy.MainActivity
 import com.procrastimax.birthdaybuddy.R
 import com.procrastimax.birthdaybuddy.fragments.*
-import com.procrastimax.birthdaybuddy.handler.DrawableHandler
+import com.procrastimax.birthdaybuddy.handler.BitmapHandler
 import com.procrastimax.birthdaybuddy.handler.EventHandler
 import com.procrastimax.birthdaybuddy.models.AnnualEvent
 import com.procrastimax.birthdaybuddy.models.EventBirthday
@@ -216,8 +216,8 @@ class EventAdapter(private val context: Context) :
                     val avatarUri = (EventHandler.getList()[position] as EventBirthday).avatarImageUri
 
                     if (avatarUri != null && !(context as MainActivity).isLoading) {
-                        holder.itemView.iv_birthday_event_item_image.setImageDrawable(
-                            DrawableHandler.getDrawableAt(
+                        holder.itemView.iv_birthday_event_item_image.setImageBitmap(
+                            BitmapHandler.getBitmapAt(
                                 (EventHandler.getList()[position].eventID)
                             )
                         )

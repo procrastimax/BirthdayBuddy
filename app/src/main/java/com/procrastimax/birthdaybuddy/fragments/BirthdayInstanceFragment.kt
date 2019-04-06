@@ -16,7 +16,7 @@ import android.view.ViewGroup
 import android.widget.*
 import com.procrastimax.birthdaybuddy.MainActivity
 import com.procrastimax.birthdaybuddy.R
-import com.procrastimax.birthdaybuddy.handler.DrawableHandler
+import com.procrastimax.birthdaybuddy.handler.BitmapHandler
 import com.procrastimax.birthdaybuddy.handler.EventHandler
 import com.procrastimax.birthdaybuddy.models.EventBirthday
 import com.procrastimax.birthdaybuddy.models.EventDate
@@ -280,7 +280,7 @@ class BirthdayInstanceFragment : EventInstanceFragment() {
                 }
             }
 
-            //delete current image, and reference to DrawableHandler when clicked
+            //delete current image, and reference to BitmapHandler when clicked
             if (layout_delete_img != null) {
                 layout_delete_img.setOnClickListener {
                     dialog.dismiss()
@@ -288,7 +288,7 @@ class BirthdayInstanceFragment : EventInstanceFragment() {
                         this.iv_add_avatar_btn.setImageResource(R.drawable.ic_birthday_person)
                         this.avatar_img_was_edited = true
                         this.birthday_avatar_uri = null
-                        DrawableHandler.removeDrawable(itemID)
+                        BitmapHandler.removeDrawable(itemID)
                     } else {
                         this.iv_add_avatar_btn.setImageResource(R.drawable.ic_birthday_person)
                         this.birthday_avatar_uri = null
@@ -421,7 +421,7 @@ class BirthdayInstanceFragment : EventInstanceFragment() {
             Thread(Runnable {
                 val bitmap = MediaStore.Images.Media.getBitmap(context!!.contentResolver, fullPhotoUri)
                 (context as MainActivity).runOnUiThread {
-                    iv_add_avatar_btn.setImageDrawable(DrawableHandler.getCircularDrawable(bitmap, resources))
+                    iv_add_avatar_btn.setImageBitmap(BitmapHandler.getCircularBitmap(bitmap, resources))
                 }
             }).start()
 
@@ -513,7 +513,7 @@ class BirthdayInstanceFragment : EventInstanceFragment() {
         if (this.iv_add_avatar_btn != null && this.itemID >= 0) {
             //load maybe already existent avatar photo
             if ((EventHandler.getList()[itemID] as EventBirthday).avatarImageUri != null) {
-                this.iv_add_avatar_btn.setImageDrawable(DrawableHandler.getDrawableAt(EventHandler.getList()[itemID].eventID))
+                this.iv_add_avatar_btn.setImageBitmap(BitmapHandler.getBitmapAt(EventHandler.getList()[itemID].eventID))
                 this.iv_add_avatar_btn.isEnabled = true
             }
         }

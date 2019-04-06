@@ -6,6 +6,7 @@ import android.content.DialogInterface
 import android.content.res.Resources
 import android.graphics.Bitmap
 import android.graphics.Canvas
+import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
 import android.net.Uri
 import android.provider.MediaStore
@@ -14,14 +15,15 @@ import android.support.v4.graphics.drawable.RoundedBitmapDrawableFactory
 import com.procrastimax.birthdaybuddy.R
 import com.procrastimax.birthdaybuddy.models.EventBirthday
 
+
 /**
  * TODO:
  * -> throw error/ catch case that wrong image path or image was deleted
  * -> or when the persistance of the uri access is denied/deleted
  */
-object DrawableHandler {
+object BitmapHandler {
 
-    private var drawable_map: MutableMap<Int, Drawable> = emptyMap<Int, Drawable>().toMutableMap()
+    private var drawable_map: MutableMap<Int, Bitmap> = emptyMap<Int, Bitmap>().toMutableMap()
 
     /**
      * addDrawable adds a drawable to the drawable_map by reading a bitmap from the storage
@@ -39,18 +41,14 @@ object DrawableHandler {
             //TODO: dont load whole bitmap, load compressed bitmap
             val bitmap =
                 getScaledBitmap(MediaStore.Images.Media.getBitmap(context.contentResolver, uri), 64 * 4)
-            drawable_map[id] = getCircularDrawable(bitmap, context.resources)
+            drawable_map[id] = getCircularBitmap(bitmap, context.resources)
 
             //catch any exception, not nice but mostly like a filenotfound exception, when an image was deleted or moved
             //when this exception is catched, then delete uri reference in EventDatee instance +  inform the user
         } catch (e: Exception) {
-            println(e)
+            e.printStackTrace()
             val birthday = EventHandler.getList().last() as EventBirthday
             birthday.avatarImageUri = null
-            val list = EventHandler.getList()
-            val lastIndex = EventHandler.getList().lastIndex
-            println("list: " + list)
-            println("last index: " + lastIndex)
             EventHandler.changeEventAt(EventHandler.getList().lastIndex, birthday, context, true)
             success = false
         }
@@ -83,14 +81,14 @@ object DrawableHandler {
     /**
      * for testing purposes
      */
-    fun getAllDrawables(): List<Drawable> {
+    fun getAllBitmaps(): List<Bitmap> {
         return this.drawable_map.values.toList()
     }
 
     /**
      * loadAllDrawables iterates through eventhandler eventlist and loads all drawables into this map
      */
-    fun loadAllDrawables(context: Context): Boolean {
+    fun loadAllBitmaps(context: Context): Boolean {
         var success = true
 
         for (i in 0 until EventHandler.getList().size) {
@@ -106,30 +104,11 @@ object DrawableHandler {
         return success
     }
 
-    fun getDrawableAt(index: Int): Drawable? {
+    fun getBitmapAt(index: Int): Bitmap? {
         if (drawable_map.isNotEmpty()) {
             return drawable_map[index]
         }
         return null
-    }
-
-    fun convertToBitmap(
-        drawable: Drawable,
-        setResized: Boolean = false,
-        widthPixels: Int = 0,
-        heightPixels: Int = 0
-    ): Bitmap {
-        val mutableBitmap =
-            if (setResized) {
-                Bitmap.createBitmap(widthPixels, heightPixels, Bitmap.Config.ARGB_8888)
-            } else {
-                Bitmap.createBitmap(drawable.intrinsicWidth, drawable.intrinsicHeight, Bitmap.Config.ARGB_8888)
-            }
-
-        val canvas = Canvas(mutableBitmap)
-        if (setResized) drawable.setBounds(0, 0, widthPixels, heightPixels)
-        drawable.draw(canvas)
-        return mutableBitmap
     }
 
     ///
@@ -191,12 +170,49 @@ object DrawableHandler {
         }
     }
 
-    fun getCircularDrawable(bitmap: Bitmap, resources: Resources): Drawable {
+    fun getCircularBitmap(bitmap: Bitmap, resources: Resources): Bitmap {
         val rounded_bmp: RoundedBitmapDrawable =
             RoundedBitmapDrawableFactory.create(resources, getSquaredBitmap(bitmap))
         rounded_bmp.isCircular = true
-        return rounded_bmp
+        return drawableToBitmap(rounded_bmp)
     }
+
+    private fun drawableToBitmap(drawable: Drawable): Bitmap {
+        if (drawable is BitmapDrawable) {
+            return drawable.bitmap
+        }
+
+        var width = drawable.intrinsicWidth
+        width = if (width > 0) width else 1
+        var height = drawable.intrinsicHeight
+        height = if (height > 0) height else 1
+
+        val bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888)
+        val canvas = Canvas(bitmap)
+        drawable.setBounds(0, 0, canvas.width, canvas.height)
+        drawable.draw(canvas)
+
+        return bitmap
+    }
+
+    /*fun convertToBitmap(
+       drawable: Drawable,
+       setResized: Boolean = false,
+       widthPixels: Int = 0,
+       heightPixels: Int = 0
+   ): Bitmap {
+       val mutableBitmap =
+           if (setResized) {
+               Bitmap.createBitmap(widthPixels, heightPixels, Bitmap.Config.ARGB_8888)
+           } else {
+               Bitmap.createBitmap(drawable.intrinsicWidth, drawable.intrinsicHeight, Bitmap.Config.ARGB_8888)
+           }
+
+       val canvas = Canvas(mutableBitmap)
+       if (setResized) drawable.setBounds(0, 0, widthPixels, heightPixels)
+       drawable.draw(canvas)
+       return mutableBitmap
+   }*/
 
     fun showMissingImageAlertDialog(context: Context) {
         val builder = AlertDialog.Builder(context)

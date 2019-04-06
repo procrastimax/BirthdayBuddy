@@ -258,9 +258,11 @@ object IOHandler {
      * @return Map<Int, EventDay>
      */
     fun readAll(context: Context) {
+        var eventCounter = 0
         sharedPrefEventData.all.forEach {
             if (!isFirstStart()) {
                 if (it.value is String) {
+                    eventCounter++
                     var event =
                         convertStringToEventDate(it.value as String)
                     event!!.eventID = it.key.toInt()
@@ -274,7 +276,26 @@ object IOHandler {
                         }
                     }
                     if (event != null) {
-                        EventHandler.addEvent(event, context, writeAfterAdd = false, addNewNotification = false)
+                        //when iterator is last element, add new element and update eventlist
+                        if (eventCounter == sharedPrefEventData.all.size) {
+                            EventHandler.addEvent(
+                                event,
+                                context,
+                                writeAfterAdd = false,
+                                addNewNotification = false,
+                                updateEventList = true,
+                                addBitmap = false
+                            )
+                        } else {
+                            EventHandler.addEvent(
+                                event,
+                                context,
+                                writeAfterAdd = false,
+                                addNewNotification = false,
+                                updateEventList = false,
+                                addBitmap = false
+                            )
+                        }
                     }
                 }
             }

@@ -13,7 +13,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import com.procrastimax.birthdaybuddy.MainActivity
 import com.procrastimax.birthdaybuddy.R
-import com.procrastimax.birthdaybuddy.handler.DrawableHandler
+import com.procrastimax.birthdaybuddy.handler.BitmapHandler
 import com.procrastimax.birthdaybuddy.handler.EventHandler
 import com.procrastimax.birthdaybuddy.models.EventBirthday
 import com.procrastimax.birthdaybuddy.models.EventDate
@@ -160,7 +160,7 @@ class ShowBirthdayEvent : ShowEventFragment() {
             //load maybe already existent avatar photo
             if ((EventHandler.getList()[position] as EventBirthday).avatarImageUri != null) {
 
-                val bitmap = DrawableHandler.loadSquaredDrawable(
+                val bitmap = BitmapHandler.loadSquaredDrawable(
                     position,
                     Uri.parse((EventHandler.getList()[position] as EventBirthday).avatarImageUri),
                     this.context!!,

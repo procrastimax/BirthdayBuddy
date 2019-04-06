@@ -7,12 +7,13 @@ import android.app.PendingIntent
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
-import android.graphics.drawable.Drawable
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.os.Build
 import android.support.v4.app.NotificationCompat
 import android.support.v4.content.ContextCompat
 import android.widget.Toast
-import com.procrastimax.birthdaybuddy.handler.DrawableHandler
+import com.procrastimax.birthdaybuddy.handler.BitmapHandler
 import com.procrastimax.birthdaybuddy.handler.IOHandler
 import com.procrastimax.birthdaybuddy.handler.NotificationHandler
 import com.procrastimax.birthdaybuddy.models.AnnualEvent
@@ -119,17 +120,15 @@ class AlarmReceiver : BroadcastReceiver() {
         //switch event type
         // EVENT BIRTHDAY
         if (event is EventBirthday) {
-            var drawable: Drawable?
+            var bitmap: Bitmap? = null
             if (event.avatarImageUri != null) {
                 IOHandler.registerIO(context)
                 IOHandler.readAll(context)
-                DrawableHandler.loadAllDrawables(context)
-                drawable = DrawableHandler.getDrawableAt(event.eventID)
-                if (drawable == null) {
-                    drawable = ContextCompat.getDrawable(context, R.drawable.ic_birthday_person)
-                }
-            } else {
-                drawable = ContextCompat.getDrawable(context, R.drawable.ic_birthday_person)
+                BitmapHandler.loadAllBitmaps(context)
+                bitmap = BitmapHandler.getBitmapAt(event.eventID)
+            }
+            if (event.avatarImageUri == null || bitmap == null) {
+                bitmap = BitmapFactory.decodeResource(context.resources, R.drawable.ic_birthday_person)
             }
 
             var defaults = Notification.DEFAULT_ALL
@@ -158,7 +157,7 @@ class AlarmReceiver : BroadcastReceiver() {
                 .setContentIntent(pendingIntent)
                 .setAutoCancel(true)
                 .setStyle(NotificationCompat.BigTextStyle())
-                .setLargeIcon(DrawableHandler.convertToBitmap(drawable!!, true, 128, 128))
+                .setLargeIcon(bitmap!!)
 
             if (!IOHandler.getBooleanFromKey(IOHandler.SharedPrefKeys.key_isNotificationVibrationOnBirthday)!!) {
                 defaults -= Notification.DEFAULT_VIBRATE
@@ -187,7 +186,6 @@ class AlarmReceiver : BroadcastReceiver() {
 
             var defaults = Notification.DEFAULT_ALL
 
-            val drawable = ContextCompat.getDrawable(context, R.drawable.ic_date_range)
             val builder = NotificationCompat.Builder(context, NotificationHandler.CHANNEL_ID)
                 .setSmallIcon(R.mipmap.ic_launcher_round)
                 .setContentText(
@@ -208,7 +206,7 @@ class AlarmReceiver : BroadcastReceiver() {
                 // Set the intent that will fire when the user taps the notification
                 .setContentIntent(pendingIntent)
                 .setAutoCancel(true)
-                .setLargeIcon(DrawableHandler.convertToBitmap(drawable!!, true, 128, 128))
+                .setLargeIcon(BitmapFactory.decodeResource(context.resources, R.drawable.ic_date_range))
 
             if (!IOHandler.getBooleanFromKey(IOHandler.SharedPrefKeys.key_isNotificationVibrationOnAnnual)!!) {
                 defaults -= Notification.DEFAULT_VIBRATE
@@ -237,7 +235,6 @@ class AlarmReceiver : BroadcastReceiver() {
 
             var defaults = Notification.DEFAULT_ALL
 
-            val drawable = ContextCompat.getDrawable(context, R.drawable.ic_looks_one_time)
             val builder = NotificationCompat.Builder(context, NotificationHandler.CHANNEL_ID)
                 .setSmallIcon(R.mipmap.ic_launcher_round)
                 .setContentText(
@@ -258,8 +255,7 @@ class AlarmReceiver : BroadcastReceiver() {
                 // Set the intent that will fire when the user taps the notification
                 .setContentIntent(pendingIntent)
                 .setAutoCancel(true)
-
-                .setLargeIcon(DrawableHandler.convertToBitmap(drawable!!, true, 128, 128))
+                .setLargeIcon(BitmapFactory.decodeResource(context.resources, R.drawable.ic_looks_one_time))
 
             if (!IOHandler.getBooleanFromKey(IOHandler.SharedPrefKeys.key_isNotificationVibrationOnOneTime)!!) {
                 defaults -= Notification.DEFAULT_VIBRATE
