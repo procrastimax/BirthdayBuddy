@@ -2,6 +2,7 @@ package com.procrastimax.birthdaybuddy.fragments
 
 
 import android.content.Intent
+import android.graphics.Bitmap
 import android.net.Uri
 import android.os.Bundle
 import android.support.v4.content.ContextCompat
@@ -157,22 +158,22 @@ class ShowBirthdayEvent : ShowEventFragment() {
 
     fun updateAvatarImage() {
         if (this.iv_avatar != null && this.position >= 0 && (context as MainActivity).collapse_toolbar_image_view != null) {
-            //load maybe already existent avatar photo
-            if ((EventHandler.getList()[position] as EventBirthday).avatarImageUri != null) {
+            
+            val bitmap = BitmapHandler.loadSquaredDrawable(
+                position,
+                Uri.parse((EventHandler.getList()[position] as EventBirthday).avatarImageUri),
+                this.context!!,
+                (context as MainActivity).collapse_toolbar.width
+            )
+            setBitmapToToolbar(bitmap)
+        }
+    }
 
-                val bitmap = BitmapHandler.loadSquaredDrawable(
-                    position,
-                    Uri.parse((EventHandler.getList()[position] as EventBirthday).avatarImageUri),
-                    this.context!!,
-                    (context as MainActivity).collapse_toolbar.width
-                )
-
-                if (bitmap != null) {
-                    (context as MainActivity).collapse_toolbar_image_view.scaleType = ImageView.ScaleType.CENTER_CROP
-                    (context as MainActivity).collapse_toolbar_image_view.setImageBitmap(bitmap)
-                    return
-                }
-            }
+    private fun setBitmapToToolbar(bitmap: Bitmap?) {
+        if (bitmap != null) {
+            (context as MainActivity).collapse_toolbar_image_view.scaleType = ImageView.ScaleType.CENTER_CROP
+            (context as MainActivity).collapse_toolbar_image_view.setImageBitmap(bitmap)
+        } else {
             (context as MainActivity).collapse_toolbar_image_view.scaleType = ImageView.ScaleType.FIT_CENTER
             (context as MainActivity).collapse_toolbar_image_view.setImageResource(R.drawable.ic_birthday_person)
         }

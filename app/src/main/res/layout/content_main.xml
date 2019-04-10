@@ -25,6 +25,6 @@
             app:layout_constraintStart_toStartOf="@+id/fragment_placeholder"
             app:layout_constraintTop_toTopOf="@+id/fragment_placeholder"
             app:layout_constraintBottom_toBottomOf="@+id/fragment_placeholder"
-            app:layout_constraintVertical_bias="0.32999998"/>
+            />
 
 </android.support.constraint.ConstraintLayout>

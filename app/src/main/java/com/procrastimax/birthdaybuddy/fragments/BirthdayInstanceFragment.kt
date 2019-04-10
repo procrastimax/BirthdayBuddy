@@ -288,7 +288,7 @@ class BirthdayInstanceFragment : EventInstanceFragment() {
                         this.iv_add_avatar_btn.setImageResource(R.drawable.ic_birthday_person)
                         this.avatar_img_was_edited = true
                         this.birthday_avatar_uri = null
-                        BitmapHandler.removeDrawable(itemID)
+                        BitmapHandler.removeBitmap(itemID, context!!)
                     } else {
                         this.iv_add_avatar_btn.setImageResource(R.drawable.ic_birthday_person)
                         this.birthday_avatar_uri = null

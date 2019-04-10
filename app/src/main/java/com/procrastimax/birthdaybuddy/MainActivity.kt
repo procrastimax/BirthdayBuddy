@@ -84,10 +84,6 @@ class MainActivity : AppCompatActivity() {
 
             runOnUiThread {
 
-                if (!success) {
-                    BitmapHandler.showMissingImageAlertDialog(this)
-                }
-
                 if (recyclerView != null) {
                     recyclerView.adapter!!.notifyDataSetChanged()
                 }

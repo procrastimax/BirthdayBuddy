@@ -5,6 +5,7 @@ import android.content.Context
 import android.content.DialogInterface
 import android.content.res.Resources
 import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.graphics.Canvas
 import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
@@ -14,6 +15,9 @@ import android.support.v4.graphics.drawable.RoundedBitmapDrawable
 import android.support.v4.graphics.drawable.RoundedBitmapDrawableFactory
 import com.procrastimax.birthdaybuddy.R
 import com.procrastimax.birthdaybuddy.models.EventBirthday
+import java.io.ByteArrayOutputStream
+import java.io.File
+import java.io.FileOutputStream
 
 
 /**
@@ -22,6 +26,8 @@ import com.procrastimax.birthdaybuddy.models.EventBirthday
  * -> or when the persistance of the uri access is denied/deleted
  */
 object BitmapHandler {
+
+    private var bitmapFolder = "Bitmaps"
 
     private var drawable_map: MutableMap<Int, Bitmap> = emptyMap<Int, Bitmap>().toMutableMap()
 
@@ -32,49 +38,86 @@ object BitmapHandler {
      * @param uri : Uri
      * @param context : Context
      * @param scale : Int
+     * @param readBitmapFromGallery : Boolean, when this boolean is true, it forces the function to read a new bitmap from the gallery files
      */
-    fun addDrawable(id: Int, uri: Uri, context: Context, scale: Int = 64): Boolean {
+    fun addDrawable(id: Int, uri: Uri, context: Context, scale: Int = 64 * 4, readBitmapFromGallery: Boolean): Boolean {
         var success = true
-        //is valid index in EventHandler map
 
-        try {
-            //TODO: dont load whole bitmap, load compressed bitmap
-            val bitmap =
-                getScaledBitmap(MediaStore.Images.Media.getBitmap(context.contentResolver, uri), 64 * 4)
-            drawable_map[id] = getCircularBitmap(bitmap, context.resources)
+        //first try to load from files
+        //if this doesnt succeed, then try to read from gallery and save edited bitmap to files
+        if ((checkExistingBitmapInFiles(context, id) != null) && (!readBitmapFromGallery)) {
+            val bitmap = getBitmapFromFile(context, id)
+            if (bitmap != null) {
+                drawable_map[id] = bitmap
+                return true
+            }
+        } else {
+            try {
+                var bitmap = MediaStore.Images.Media.getBitmap(context.contentResolver, uri)
+                //scale (square bitmap)
+                bitmap = getScaledBitmap(bitmap, scale)
 
-            //catch any exception, not nice but mostly like a filenotfound exception, when an image was deleted or moved
-            //when this exception is catched, then delete uri reference in EventDatee instance +  inform the user
-        } catch (e: Exception) {
-            e.printStackTrace()
-            val birthday = EventHandler.getList().last() as EventBirthday
-            birthday.avatarImageUri = null
-            EventHandler.changeEventAt(EventHandler.getList().lastIndex, birthday, context, true)
-            success = false
+                //round bitmap
+                bitmap = getCircularBitmap(bitmap, context.resources)
+
+                drawable_map[id] = bitmap
+
+                //if the above succeeded, then save bitmap to files
+                createBitmapFile(context, id, bitmap, 100)
+
+                //catch any exception, not nice but mostly like a filenotfound exception, when an image was deleted or moved
+                //when this exception is catched, then delete uri reference in EventDatee instance +  inform the user
+            } catch (e: Exception) {
+                e.printStackTrace()
+                val birthday = EventHandler.getList().last() as EventBirthday
+                birthday.avatarImageUri = null
+                EventHandler.changeEventAt(EventHandler.getList().lastIndex, birthday, context, true)
+                removeBitmap(id, context)
+                showMissingImageAlertDialog(context)
+                success = false
+            }
         }
+
         return success
     }
 
-    fun removeAllDrawables() {
+    fun removeAllDrawables(context: Context) {
         this.drawable_map.clear()
+        val bitmap_dir = context.getDir(this.bitmapFolder, Context.MODE_PRIVATE)
+        bitmap_dir.deleteRecursively()
     }
 
     fun loadSquaredDrawable(index: Int, uri: Uri, context: Context, scale: Int = 64): Bitmap? {
-        if (EventHandler.containsIndex(index)) {
-            if ((EventHandler.getValueToIndex(index) is EventBirthday) && (EventHandler.getValueToIndex(index) as EventBirthday).avatarImageUri != null) {
-                // we mostly dont need a try catch here, because this function should only be called after all drawables have once been loaded into the map
-                //TODO: dont load whole bitmap, load compressed bitmap
-                val bitmap =
-                    getScaledBitmap(MediaStore.Images.Media.getBitmap(context.contentResolver, uri), scale)
-                return bitmap
+        val event = EventHandler.getEvent(index)
+        if (event != null) {
+            if (event is EventBirthday && event.avatarImageUri != null) {
+                try {
+                    // we mostly dont need a try catch here, because this function should only be called after all drawables have once been loaded into the map
+                    //TODO: dont load whole bitmap, load compressed bitmap
+                    val bitmap =
+                        getScaledBitmap(MediaStore.Images.Media.getBitmap(context.contentResolver, uri), scale)
+                    return bitmap
+
+                } catch (e: Exception) {
+                    //when gallery file has been corrupted, or deleted, or renamed
+                    //delete reference in map and delete created bitmap in files
+                    e.printStackTrace()
+                    event.avatarImageUri = null
+                    EventHandler.changeEventAt(index, event, context, writeAfterChange = true)
+                    removeBitmap(index, context)
+                    showMissingImageAlertDialog(context)
+                    return null
+                }
             }
         }
         return null
     }
 
-    fun removeDrawable(index: Int) {
-        if (EventHandler.containsIndex(index)) {
-            drawable_map.toMutableMap().remove(index)
+    fun removeBitmap(id: Int, context: Context) {
+        val event = EventHandler.getEvent(id)
+        if (event != null) {
+            drawable_map.toMutableMap().remove(id)
+            removeBitmapFromFiles(context, event.eventID)
         }
     }
 
@@ -90,14 +133,14 @@ object BitmapHandler {
      */
     fun loadAllBitmaps(context: Context): Boolean {
         var success = true
-
         for (i in 0 until EventHandler.getList().size) {
             if ((EventHandler.getList()[i] is EventBirthday) && ((EventHandler.getList()[i] as EventBirthday).avatarImageUri != null)) {
                 success =
                     addDrawable(
                         EventHandler.getList()[i].eventID,
                         Uri.parse((EventHandler.getList()[i] as EventBirthday).avatarImageUri),
-                        context
+                        context,
+                        readBitmapFromGallery = false
                     )
             }
         }
@@ -111,9 +154,58 @@ object BitmapHandler {
         return null
     }
 
-    ///
-    /// I know that all the following functions are already implemented by f.e. ThumbnailUtils, but I noticed this to late, and wanted to do this on my own for possible optimizing later
-    ///
+    private fun getBitmapFromFile(context: Context, eventID: Int): Bitmap? {
+        val bitmapDir = context.getDir(this.bitmapFolder, Context.MODE_PRIVATE)
+        return BitmapFactory.decodeFile(bitmapDir.absolutePath + File.separator.toString() + "$eventID.png")
+    }
+
+
+    private fun createBitmapFile(
+        context: Context,
+        eventID: Int,
+        bitmap: Bitmap,
+        compressionRate: Int = 100
+    ): Boolean {
+        val bitmapDir = context.getDir(this.bitmapFolder, Context.MODE_PRIVATE)
+        val outStream = ByteArrayOutputStream()
+        bitmap.compress(Bitmap.CompressFormat.PNG, compressionRate, outStream)
+
+        val bitmapFile = File(bitmapDir.absolutePath + File.separator.toString() + "$eventID.png")
+
+        return try {
+            val fos = FileOutputStream(bitmapFile)
+            fos.write(outStream.toByteArray())
+
+            fos.flush()
+            fos.close()
+
+            true
+        } catch (e: Exception) {
+            e.printStackTrace()
+
+            false
+        }
+    }
+
+    private fun checkExistingBitmapInFiles(context: Context, eventID: Int): File? {
+        //TODO: change this to one time check, and not iterate all
+        val bitmap_dir = context.getDir(this.bitmapFolder, Context.MODE_PRIVATE)
+        val bitmapFile = File(bitmap_dir.absolutePath + File.separator + "$eventID.png")
+        return if (bitmapFile.exists()) {
+            bitmapFile
+        } else {
+            null
+        }
+    }
+
+    private fun removeBitmapFromFiles(context: Context, eventID: Int) {
+        val bitmapFile = checkExistingBitmapInFiles(context, eventID)
+        bitmapFile?.delete()
+    }
+
+///
+/// I know that all the following functions are already implemented by f.e. ThumbnailUtils, but I noticed this to late, and wanted to do this on my own for possible optimizing later
+///
 
     /**
      * getSquaredBitmap square given bitmap
@@ -195,30 +287,11 @@ object BitmapHandler {
         return bitmap
     }
 
-    /*fun convertToBitmap(
-       drawable: Drawable,
-       setResized: Boolean = false,
-       widthPixels: Int = 0,
-       heightPixels: Int = 0
-   ): Bitmap {
-       val mutableBitmap =
-           if (setResized) {
-               Bitmap.createBitmap(widthPixels, heightPixels, Bitmap.Config.ARGB_8888)
-           } else {
-               Bitmap.createBitmap(drawable.intrinsicWidth, drawable.intrinsicHeight, Bitmap.Config.ARGB_8888)
-           }
-
-       val canvas = Canvas(mutableBitmap)
-       if (setResized) drawable.setBounds(0, 0, widthPixels, heightPixels)
-       drawable.draw(canvas)
-       return mutableBitmap
-   }*/
-
     fun showMissingImageAlertDialog(context: Context) {
         val builder = AlertDialog.Builder(context)
         builder.setTitle(R.string.alert_dialog_missing_avatar_img_title)
         builder.setMessage(R.string.alert_dialog_missing_avatar_img_text)
-        builder.setPositiveButton(android.R.string.ok, DialogInterface.OnClickListener { dialog, which ->
+        builder.setPositiveButton(android.R.string.ok, DialogInterface.OnClickListener { dialog, _ ->
             dialog.dismiss()
         })
         builder.setIcon(R.drawable.ic_error_outline)

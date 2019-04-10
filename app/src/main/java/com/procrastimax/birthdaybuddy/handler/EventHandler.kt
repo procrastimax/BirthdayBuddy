@@ -49,7 +49,12 @@ object EventHandler {
 
         if (event is EventBirthday && addBitmap) {
             if (event.avatarImageUri != null) {
-                BitmapHandler.addDrawable(event.eventID, Uri.parse(event.avatarImageUri), context)
+                BitmapHandler.addDrawable(
+                    event.eventID,
+                    Uri.parse(event.avatarImageUri),
+                    context,
+                    readBitmapFromGallery = false
+                )
             }
         }
 
@@ -87,7 +92,7 @@ object EventHandler {
      * @param key : Int
      * @return EventDay?
      */
-    fun getValueToIndex(key: Int): EventDate? {
+    fun getEvent(key: Int): EventDate? {
         if (containsIndex(key))
             return event_list[key]
         return null
@@ -101,7 +106,7 @@ object EventHandler {
     fun removeEventByKey(key: Int, context: Context, writeChange: Boolean = false) {
         if (event_list[key] is EventBirthday) {
             if ((event_list[key] as EventBirthday).avatarImageUri != null) {
-                BitmapHandler.removeDrawable(event_list[key].eventID)
+                BitmapHandler.removeBitmap(event_list[key].eventID, context)
             }
         }
 
@@ -121,7 +126,7 @@ object EventHandler {
         }
 
         this.event_list.clear()
-        BitmapHandler.removeAllDrawables()
+        BitmapHandler.removeAllDrawables(context)
         if (writeAfterAdd) {
             //deletes shared prefs before writing list, but list is empty, so it only clears the shared prefs
             IOHandler.writeAll()
@@ -153,7 +158,13 @@ object EventHandler {
 
         if (event is EventBirthday) {
             if ((event).avatarImageUri != null) {
-                BitmapHandler.addDrawable(event_list[key].eventID, Uri.parse((event).avatarImageUri), context)
+                //force bitmaphandler to load new avatar image from gallery, in case there is already an existant bitmap
+                BitmapHandler.addDrawable(
+                    event_list[key].eventID,
+                    Uri.parse((event).avatarImageUri),
+                    context,
+                    readBitmapFromGallery = true
+                )
             }
         }
 
