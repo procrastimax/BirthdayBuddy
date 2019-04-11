@@ -22,7 +22,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             android:adjustViewBounds="false"
             android:cropToPadding="false"
-            android:scaleType="centerInside"/>
+            android:scaleType="fitCenter"/>
 
     <TextView
             android:text="@string/tv_birthday_forename_title"

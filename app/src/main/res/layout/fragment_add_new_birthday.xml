@@ -122,7 +122,8 @@
                         android:layout_height="128dp"
                         android:id="@+id/iv_add_avatar_btn"
                         app:srcCompat="@drawable/ic_birthday_person"
-                        android:layout_width="128dp"/>
+                        android:layout_width="128dp"
+                        android:scaleType="fitCenter"/>
 
                 <android.support.design.widget.FloatingActionButton
                         android:src="@drawable/ic_add_a_photo"

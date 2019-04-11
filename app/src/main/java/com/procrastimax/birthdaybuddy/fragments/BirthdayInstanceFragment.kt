@@ -421,7 +421,7 @@ class BirthdayInstanceFragment : EventInstanceFragment() {
             Thread(Runnable {
                 val bitmap = MediaStore.Images.Media.getBitmap(context!!.contentResolver, fullPhotoUri)
                 (context as MainActivity).runOnUiThread {
-                    iv_add_avatar_btn.setImageBitmap(BitmapHandler.getCircularBitmap(bitmap, resources))
+                    iv_add_avatar_btn.setImageBitmap(BitmapHandler.getCircularBitmap(BitmapHandler.getScaledBitmap(bitmap), resources))
                 }
             }).start()
 
