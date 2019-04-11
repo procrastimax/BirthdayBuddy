@@ -31,6 +31,8 @@ object BitmapHandler {
 
     private var drawable_map: MutableMap<Int, Bitmap> = emptyMap<Int, Bitmap>().toMutableMap()
 
+    private val STANDARD_SCALING = 64 * 6
+
     /**
      * addDrawable adds a drawable to the drawable_map by reading a bitmap from the storage
      *
@@ -40,14 +42,16 @@ object BitmapHandler {
      * @param scale : Int
      * @param readBitmapFromGallery : Boolean, when this boolean is true, it forces the function to read a new bitmap from the gallery files
      */
-    fun addDrawable(id: Int, uri: Uri, context: Context, scale: Int = 64 * 4, readBitmapFromGallery: Boolean): Boolean {
+    fun addDrawable(id: Int, uri: Uri, context: Context, scale: Int = STANDARD_SCALING, readBitmapFromGallery: Boolean): Boolean {
         var success = true
 
         //first try to load from files
         //if this doesnt succeed, then try to read from gallery and save edited bitmap to files
         if ((checkExistingBitmapInFiles(context, id) != null) && (!readBitmapFromGallery)) {
-            val bitmap = getBitmapFromFile(context, id)
+            var bitmap = getBitmapFromFile(context, id)
             if (bitmap != null) {
+                // create circular bitmap from saved squared
+                bitmap = getCircularBitmap(bitmap, context.resources)
                 drawable_map[id] = bitmap
                 return true
             }
@@ -57,13 +61,13 @@ object BitmapHandler {
                 //scale (square bitmap)
                 bitmap = getScaledBitmap(bitmap, scale)
 
+                //if the above succeeded, then save bitmap to files
+                createBitmapFile(context, id, bitmap, 100)
+
                 //round bitmap
                 bitmap = getCircularBitmap(bitmap, context.resources)
 
                 drawable_map[id] = bitmap
-
-                //if the above succeeded, then save bitmap to files
-                createBitmapFile(context, id, bitmap, 100)
 
                 //catch any exception, not nice but mostly like a filenotfound exception, when an image was deleted or moved
                 //when this exception is catched, then delete uri reference in EventDatee instance +  inform the user
@@ -154,7 +158,7 @@ object BitmapHandler {
         return null
     }
 
-    private fun getBitmapFromFile(context: Context, eventID: Int): Bitmap? {
+    fun getBitmapFromFile(context: Context, eventID: Int): Bitmap? {
         val bitmapDir = context.getDir(this.bitmapFolder, Context.MODE_PRIVATE)
         return BitmapFactory.decodeFile(bitmapDir.absolutePath + File.separator.toString() + "$eventID.png")
     }
@@ -240,31 +244,22 @@ object BitmapHandler {
         return bitmap
     }
 
-    private fun getScaledBitmap(bitmap: Bitmap, scale: Int = 64): Bitmap {
-        if (bitmap.width > bitmap.height) {
-            return Bitmap.createScaledBitmap(
-                bitmap,
-                (scale * (bitmap.width.toFloat() / bitmap.height.toFloat())).toInt(),
-                scale,
-                false
-            )
+    fun getScaledBitmap(bitmap: Bitmap, scale: Int = STANDARD_SCALING): Bitmap {
+        //first square bitmap
+        val tempBitmap = getSquaredBitmap(bitmap)
 
-        } else if (bitmap.width < bitmap.height) {
-            return Bitmap.createScaledBitmap(
-                bitmap,
-                scale,
-                (scale * (bitmap.height.toFloat() / bitmap.width.toFloat())).toInt(),
-                false
-            )
-
-        } else {
-            return Bitmap.createScaledBitmap(bitmap, scale, scale, false)
-        }
+        //then scale bitmap
+        return Bitmap.createScaledBitmap(
+            tempBitmap,
+            scale,
+            scale,
+            false
+        )
     }
 
     fun getCircularBitmap(bitmap: Bitmap, resources: Resources): Bitmap {
         val rounded_bmp: RoundedBitmapDrawable =
-            RoundedBitmapDrawableFactory.create(resources, getSquaredBitmap(bitmap))
+            RoundedBitmapDrawableFactory.create(resources, bitmap)
         rounded_bmp.isCircular = true
         return drawableToBitmap(rounded_bmp)
     }

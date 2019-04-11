@@ -3,7 +3,6 @@ package com.procrastimax.birthdaybuddy.fragments
 
 import android.content.Intent
 import android.graphics.Bitmap
-import android.net.Uri
 import android.os.Bundle
 import android.support.v4.content.ContextCompat
 import android.support.v4.view.ViewCompat
@@ -158,13 +157,8 @@ class ShowBirthdayEvent : ShowEventFragment() {
 
     fun updateAvatarImage() {
         if (this.iv_avatar != null && this.position >= 0 && (context as MainActivity).collapse_toolbar_image_view != null) {
-            
-            val bitmap = BitmapHandler.loadSquaredDrawable(
-                position,
-                Uri.parse((EventHandler.getList()[position] as EventBirthday).avatarImageUri),
-                this.context!!,
-                (context as MainActivity).collapse_toolbar.width
-            )
+
+            val bitmap = BitmapHandler.getBitmapFromFile(context!!, this.eventID)
             setBitmapToToolbar(bitmap)
         }
     }

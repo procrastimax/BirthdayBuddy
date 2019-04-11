@@ -2,10 +2,12 @@ package com.procrastimax.birthdaybuddy.handler
 
 import android.content.Context
 import android.net.Uri
+import com.procrastimax.birthdaybuddy.MainActivity
 import com.procrastimax.birthdaybuddy.models.EventBirthday
 import com.procrastimax.birthdaybuddy.models.EventDate
 import com.procrastimax.birthdaybuddy.models.MonthDivider
 import com.procrastimax.birthdaybuddy.models.SortIdentifier
+import kotlinx.android.synthetic.main.fragment_event_list.*
 import java.text.DateFormat
 import java.util.*
 
@@ -48,14 +50,21 @@ object EventHandler {
         this.event_list.add(event)
 
         if (event is EventBirthday && addBitmap) {
-            if (event.avatarImageUri != null) {
-                BitmapHandler.addDrawable(
-                    event.eventID,
-                    Uri.parse(event.avatarImageUri),
-                    context,
-                    readBitmapFromGallery = false
-                )
-            }
+            Thread(Runnable {
+                if (event.avatarImageUri != null) {
+                    BitmapHandler.addDrawable(
+                        event.eventID,
+                        Uri.parse(event.avatarImageUri),
+                        context,
+                        readBitmapFromGallery = false
+                    )
+                }
+                (context as MainActivity).runOnUiThread {
+                    if (context.recyclerView != null) {
+                        context.recyclerView.adapter?.notifyDataSetChanged()
+                    }
+                }
+            }).start()
         }
 
         //set hour of day from all other events except monthdivider to 12h (month divider is at 0h), so when sorting month divider is always at first
@@ -106,7 +115,7 @@ object EventHandler {
     fun removeEventByKey(key: Int, context: Context, writeChange: Boolean = false) {
         if (event_list[key] is EventBirthday) {
             if ((event_list[key] as EventBirthday).avatarImageUri != null) {
-                BitmapHandler.removeBitmap(event_list[key].eventID, context)
+                BitmapHandler.removeBitmap(key, context)
             }
         }
 
