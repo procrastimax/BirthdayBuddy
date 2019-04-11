@@ -59,9 +59,11 @@ object EventHandler {
                         readBitmapFromGallery = false
                     )
                 }
-                (context as MainActivity).runOnUiThread {
-                    if (context.recyclerView != null) {
-                        context.recyclerView.adapter?.notifyDataSetChanged()
+                if (context is MainActivity) {
+                    (context as MainActivity).runOnUiThread {
+                        if (context.recyclerView != null) {
+                            context.recyclerView.adapter?.notifyDataSetChanged()
+                        }
                     }
                 }
             }).start()

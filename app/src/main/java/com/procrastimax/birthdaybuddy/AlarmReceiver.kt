@@ -23,15 +23,6 @@ import com.procrastimax.birthdaybuddy.models.OneTimeEvent
 
 class AlarmReceiver : BroadcastReceiver() {
 
-    /**
-     * vibrationPattern is a float array describing a pattern for vibration
-     * after 10ms start
-     * vibrate for 100ms
-     * pause 10 ms
-     * vibrate for 100ms
-     */
-    val vibrationPattern: LongArray = longArrayOf(10, 100, 10, 100)
-
     override fun onReceive(context: Context?, intent: Intent?) {
 
         //register IOHandler, really important, really
@@ -39,16 +30,17 @@ class AlarmReceiver : BroadcastReceiver() {
 
         val event = IOHandler.convertStringToEventDate(intent!!.getStringExtra("EVENTSTRING"))
         val notificationID = intent.getIntExtra("NOTIFICATIONID", 0)
+        val eventID = intent.getIntExtra("EVENTID", 0)
 
         when (event) {
             is EventBirthday -> {
-                buildNotification(context, event, notificationID)
+                buildNotification(context, event, notificationID, eventID)
             }
             is AnnualEvent -> {
-                buildNotification(context, event, notificationID)
+                buildNotification(context, event, notificationID, eventID)
             }
             is OneTimeEvent -> {
-                buildNotification(context, event, notificationID)
+                buildNotification(context, event, notificationID, eventID)
             }
             else -> {
                 Toast.makeText(context, "unidentified toast made", Toast.LENGTH_SHORT).show()
@@ -57,7 +49,7 @@ class AlarmReceiver : BroadcastReceiver() {
         }
     }
 
-    private fun buildNotification(context: Context, event: EventDate, notificationID: Int) {
+    private fun buildNotification(context: Context, event: EventDate, notificationID: Int, eventID: Int) {
 
         // Create an explicit intent for an Activity, so the activity starts when notification is clicked
         val intent = Intent(context, MainActivity::class.java).apply {
@@ -122,10 +114,10 @@ class AlarmReceiver : BroadcastReceiver() {
         if (event is EventBirthday) {
             var bitmap: Bitmap? = null
             if (event.avatarImageUri != null) {
-                IOHandler.registerIO(context)
-                IOHandler.readAll(context)
-                BitmapHandler.loadAllBitmaps(context)
-                bitmap = BitmapHandler.getBitmapAt(event.eventID)
+                bitmap = BitmapHandler.getBitmapFromFile(context, eventID)
+                if (bitmap != null) {
+                    bitmap = BitmapHandler.getCircularBitmap(bitmap, context.resources)
+                }
             }
             if (event.avatarImageUri == null || bitmap == null) {
                 bitmap = BitmapFactory.decodeResource(context.resources, R.drawable.ic_birthday_person)
@@ -152,12 +144,14 @@ class AlarmReceiver : BroadcastReceiver() {
                     )
                 )
                 //TODO: add longer detailed text
-                .setPriority(NotificationCompat.PRIORITY_HIGH)
+                .setPriority(NotificationCompat.PRIORITY_MAX)
                 // Set the intent that will fire when the user taps the notification
                 .setContentIntent(pendingIntent)
                 .setAutoCancel(true)
                 .setStyle(NotificationCompat.BigTextStyle())
-                .setLargeIcon(bitmap!!)
+            if (bitmap != null) {
+                builder.setLargeIcon(bitmap)
+            }
 
             if (!IOHandler.getBooleanFromKey(IOHandler.SharedPrefKeys.key_isNotificationVibrationOnBirthday)!!) {
                 defaults -= Notification.DEFAULT_VIBRATE
@@ -198,11 +192,11 @@ class AlarmReceiver : BroadcastReceiver() {
                 .setContentTitle(
                     context.getString(
                         R.string.notification_title_annual,
-                        "${event.name}"
+                        event.name
                     )
                 )
                 //TODO: add longer detailed text
-                .setPriority(NotificationCompat.PRIORITY_HIGH)
+                .setPriority(NotificationCompat.PRIORITY_MAX)
                 // Set the intent that will fire when the user taps the notification
                 .setContentIntent(pendingIntent)
                 .setAutoCancel(true)
@@ -247,11 +241,11 @@ class AlarmReceiver : BroadcastReceiver() {
                 .setContentTitle(
                     context.getString(
                         R.string.notification_title_one_time,
-                        "${event.name}"
+                        event.name
                     )
                 )
                 //TODO: add longer detailed text
-                .setPriority(NotificationCompat.PRIORITY_HIGH)
+                .setPriority(NotificationCompat.PRIORITY_MAX)
                 // Set the intent that will fire when the user taps the notification
                 .setContentIntent(pendingIntent)
                 .setAutoCancel(true)
