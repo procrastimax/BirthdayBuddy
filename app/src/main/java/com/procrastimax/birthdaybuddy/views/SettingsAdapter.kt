@@ -398,17 +398,20 @@ class SettingsAdapter(private val context: Context) :
                     getNotifcationDateValueStringFromBooleanArray(notificationDateArray)
             }
             4 -> {
-                holder.itemView.tv_settings_extras_delete_all.setOnClickListener {
-                    //TODO: add user confirmation
-                    //TODO: add icons
-                    Toast.makeText(context, "all events has been deleted", Toast.LENGTH_LONG).show()
-                    EventHandler.deleteAllEntries(context, true)
-                    (context as MainActivity).addMonthDivider()
+                //delete all layout was pressed
+                holder.itemView.layout_delete_all_data.setOnClickListener {
+                    deleteAllData()
                 }
-                holder.itemView.tv_settings_extra_export.setOnClickListener {
+
+                //export layout was pressed
+                //TODO: implement this
+                holder.itemView.layout_export_data.setOnClickListener {
                     Toast.makeText(context, "exported clicked", Toast.LENGTH_LONG).show()
                 }
-                holder.itemView.tv_settings_extra_import.setOnClickListener {
+
+                //import layout was pressed
+                //TODO: implement this
+                holder.itemView.layout_import_data.setOnClickListener {
                     Toast.makeText(context, "imported clicked", Toast.LENGTH_LONG).show()
                 }
             }
@@ -501,5 +504,20 @@ class SettingsAdapter(private val context: Context) :
 
     override fun getItemCount(): Int {
         return this.itemList.size
+    }
+
+    private fun deleteAllData() {
+        //TODO: hardcoded strings
+        val dialogBuilder = AlertDialog.Builder(this.context)
+        dialogBuilder.setTitle("Delete all Data?")
+        dialogBuilder.setMessage("Are you sure you want to delete all data?")
+        dialogBuilder.setPositiveButton("Yes", DialogInterface.OnClickListener { _, _ ->
+            Toast.makeText(context, "All events has been deleted", Toast.LENGTH_LONG).show()
+            EventHandler.deleteAllEntries(context, true)
+            (context as MainActivity).addMonthDivider()
+        })
+        dialogBuilder.setNegativeButton("No", DialogInterface.OnClickListener { dialog, _ -> dialog.dismiss() })
+        dialogBuilder.setIcon(R.drawable.ic_error_outline)
+        dialogBuilder.show()
     }
 }
