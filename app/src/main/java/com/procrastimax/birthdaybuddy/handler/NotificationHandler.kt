@@ -207,6 +207,7 @@ object NotificationHandler {
 
         val cal = Calendar.getInstance()
         cal.time = EventDate.dateToCurrentTimeContext(event.eventDate)
+
         when (reminderStart) {
             //set notification time a month before event day
             NotificationHandler.ReminderStart.MONTH -> {
@@ -233,7 +234,7 @@ object NotificationHandler {
         cal.set(Calendar.MINUTE, minute)
 
         if (cal.time.before(Calendar.getInstance().time)) {
-            cal.time = EventDate.dateToCurrentTimeContext(cal.time)
+            cal.set(Calendar.YEAR, cal.get(Calendar.YEAR) + 1)
         }
 
         return cal.time

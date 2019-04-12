@@ -31,6 +31,7 @@ class AlarmReceiver : BroadcastReceiver() {
         val event = IOHandler.convertStringToEventDate(intent!!.getStringExtra("EVENTSTRING"))
         val notificationID = intent.getIntExtra("NOTIFICATIONID", 0)
         val eventID = intent.getIntExtra("EVENTID", 0)
+        event?.eventID = eventID
 
         when (event) {
             is EventBirthday -> {
@@ -46,6 +47,12 @@ class AlarmReceiver : BroadcastReceiver() {
                 Toast.makeText(context, "unidentified toast made", Toast.LENGTH_SHORT).show()
                 println("unidentified toast made")
             }
+        }
+
+        //create new notification events for this event
+        if (event != null) {
+            NotificationHandler.cancelNotification(context, event)
+            NotificationHandler.scheduleNotification(context, event)
         }
     }
 
