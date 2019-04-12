@@ -8,7 +8,6 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
-import android.graphics.BitmapFactory
 import android.os.Build
 import android.support.v4.app.NotificationCompat
 import android.support.v4.content.ContextCompat
@@ -127,14 +126,16 @@ class AlarmReceiver : BroadcastReceiver() {
                 }
             }
             if (event.avatarImageUri == null || bitmap == null) {
-                bitmap = BitmapFactory.decodeResource(context.resources, R.drawable.ic_birthday_person)
+                val drawable = ContextCompat.getDrawable(context, R.drawable.ic_birthday_person)
+                bitmap = BitmapHandler.drawableToBitmap(drawable!!)
+                //bitmap = BitmapFactory.decodeResource(context.resources, R.drawable.ic_birthday_person)
             }
 
             var defaults = Notification.DEFAULT_ALL
 
             val builder = NotificationCompat.Builder(context, NotificationHandler.CHANNEL_ID)
                 //TODO: set small icon to app icon
-                .setSmallIcon(R.mipmap.ic_launcher_round)
+                .setSmallIcon(R.drawable.ic_launcher_foreground)
                 .setContentText(
                     context.getString(
                         R.string.notification_content_birthday,
@@ -187,8 +188,11 @@ class AlarmReceiver : BroadcastReceiver() {
 
             var defaults = Notification.DEFAULT_ALL
 
+            val drawable = ContextCompat.getDrawable(context, R.drawable.ic_birthday_person)
+            val bitmap = BitmapHandler.drawableToBitmap(drawable!!)
+
             val builder = NotificationCompat.Builder(context, NotificationHandler.CHANNEL_ID)
-                .setSmallIcon(R.mipmap.ic_launcher_round)
+                .setSmallIcon(R.drawable.ic_launcher_foreground)
                 .setContentText(
                     context.getString(
                         R.string.notification_content_annual,
@@ -207,7 +211,7 @@ class AlarmReceiver : BroadcastReceiver() {
                 // Set the intent that will fire when the user taps the notification
                 .setContentIntent(pendingIntent)
                 .setAutoCancel(true)
-                .setLargeIcon(BitmapFactory.decodeResource(context.resources, R.drawable.ic_date_range))
+                .setLargeIcon(bitmap)
 
             if (!IOHandler.getBooleanFromKey(IOHandler.SharedPrefKeys.key_isNotificationVibrationOnAnnual)!!) {
                 defaults -= Notification.DEFAULT_VIBRATE
@@ -236,8 +240,11 @@ class AlarmReceiver : BroadcastReceiver() {
 
             var defaults = Notification.DEFAULT_ALL
 
+            val drawable = ContextCompat.getDrawable(context, R.drawable.ic_birthday_person)
+            val bitmap = BitmapHandler.drawableToBitmap(drawable!!)
+
             val builder = NotificationCompat.Builder(context, NotificationHandler.CHANNEL_ID)
-                .setSmallIcon(R.mipmap.ic_launcher_round)
+                .setSmallIcon(R.drawable.ic_launcher_foreground)
                 .setContentText(
                     context.getString(
                         R.string.notification_content_one_time,
@@ -256,7 +263,7 @@ class AlarmReceiver : BroadcastReceiver() {
                 // Set the intent that will fire when the user taps the notification
                 .setContentIntent(pendingIntent)
                 .setAutoCancel(true)
-                .setLargeIcon(BitmapFactory.decodeResource(context.resources, R.drawable.ic_looks_one_time))
+                .setLargeIcon(bitmap)
 
             if (!IOHandler.getBooleanFromKey(IOHandler.SharedPrefKeys.key_isNotificationVibrationOnOneTime)!!) {
                 defaults -= Notification.DEFAULT_VIBRATE
