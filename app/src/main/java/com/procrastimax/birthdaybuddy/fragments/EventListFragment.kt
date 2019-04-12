@@ -13,6 +13,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
 import com.procrastimax.birthdaybuddy.MainActivity
 import com.procrastimax.birthdaybuddy.R
 import com.procrastimax.birthdaybuddy.handler.EventHandler
@@ -119,6 +120,12 @@ class EventListFragment : Fragment() {
             recyclerView.paddingRight,
             (resources.getDimension(R.dimen.fab_margin) + resources.getDimension(R.dimen.fab_size_bigger)).toInt()
         )
+
+        val searchBtn = toolbar.findViewById<ImageView>(R.id.iv_search)
+        searchBtn.setOnClickListener {
+            Toast.makeText(context, "Search was clicked", Toast.LENGTH_SHORT).show()
+            searchStarted()
+        }
 
         fab_show_fab_menu.setOnClickListener {
             if (isFABOpen) {
@@ -281,6 +288,10 @@ class EventListFragment : Fragment() {
                 return i
         }
         return 0
+    }
+
+    private fun searchStarted(){
+
     }
 
     companion object {

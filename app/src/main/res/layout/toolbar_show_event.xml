@@ -33,6 +33,7 @@
             android:layout_marginBottom="16dp"
             android:clickable="true"
             android:focusable="true"
+            android:theme="@style/SelectableItemTheme"
             android:background="?attr/selectableItemBackgroundBorderless"
             app:layout_constraintDimensionRatio="1:1"/>
 
@@ -44,6 +45,7 @@
             app:layout_constraintTop_toTopOf="parent"
             android:clickable="true"
             android:focusable="true"
+            android:theme="@style/SelectableItemTheme"
             android:background="?attr/selectableItemBackgroundBorderless"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -60,6 +62,7 @@
             android:layout_marginEnd="24dp"
             android:clickable="true"
             android:focusable="true"
+            android:theme="@style/SelectableItemTheme"
             android:background="?attr/selectableItemBackgroundBorderless"
             app:layout_constraintTop_toTopOf="@+id/iv_toolbar_show_event_edit"
             app:layout_constraintBottom_toBottomOf="@+id/iv_toolbar_show_event_edit"
