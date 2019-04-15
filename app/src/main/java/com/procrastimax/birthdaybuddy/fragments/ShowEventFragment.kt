@@ -3,8 +3,10 @@ package com.procrastimax.birthdaybuddy.fragments
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v7.widget.Toolbar
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
 import android.view.View
-import android.widget.ImageView
 import com.procrastimax.birthdaybuddy.MainActivity
 import com.procrastimax.birthdaybuddy.R
 import com.procrastimax.birthdaybuddy.handler.EventHandler
@@ -17,9 +19,8 @@ abstract class ShowEventFragment : Fragment() {
     var position: Int = -1
 
     val toolbar: Toolbar by lazy {
-        activity!!.findViewById<android.support.v7.widget.Toolbar>(R.id.toolbar)
+        activity!!.findViewById<Toolbar>(R.id.toolbar)
     }
-
 
     /**
      * updateUI updates all TextViews and other views to the current instance(Anniversary, Birthday) data
@@ -32,30 +33,43 @@ abstract class ShowEventFragment : Fragment() {
      */
     abstract fun shareEvent()
 
+    abstract fun editEvent()
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        (context as MainActivity).setSupportActionBar(toolbar)
+        setHasOptionsMenu(true)
 
-        (context as MainActivity).changeToolbarState(MainActivity.Companion.ToolbarState.ShowEvent)
+        (context as MainActivity).supportActionBar?.setHomeAsUpIndicator(R.drawable.ic_arrow_back)
+        (context as MainActivity).supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
-
-        val closeBtn: ImageView = toolbar.findViewById<ImageView>(R.id.iv_toolbar_show_event_back)
-
-
-        val shareBtn: ImageView = toolbar.findViewById<ImageView>(R.id.iv_toolbar_show_event_share)
-
-
-        closeBtn.setOnClickListener {
-            closeButtonPressed()
-        }
-
-        shareBtn.setOnClickListener {
-            shareEvent()
-        }
+        setToolbarTitle(context!!.resources.getString(R.string.app_name))
     }
 
-    override fun onDetach() {
-        super.onDetach()
-        (context as MainActivity).changeToolbarState(MainActivity.Companion.ToolbarState.Default)
+    override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {
+        super.onCreateOptionsMenu(menu, inflater)
+        inflater?.inflate(R.menu.toolbar_show_event, menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+        when (item?.itemId) {
+            android.R.id.home -> {
+                closeButtonPressed()
+            }
+            R.id.toolbar_share -> {
+                shareEvent()
+            }
+            R.id.toolbar_edit -> {
+                editEvent()
+                //when leave fragment, change status of home button
+                (context as MainActivity).supportActionBar?.setDisplayHomeAsUpEnabled(false)
+            }
+        }
+        return super.onOptionsItemSelected(item)
+    }
+
+    fun setToolbarTitle(title: String) {
+        toolbar.title = title
     }
 
     fun getEventID(position: Int): Int {
@@ -70,6 +84,6 @@ abstract class ShowEventFragment : Fragment() {
      * closeButtonPressed emulated a press on androids "back button" to close/ detach a fragment
      */
     fun closeButtonPressed() {
-        (context as MainActivity).onBackPressed()
+        (context as MainActivity).supportFragmentManager.popBackStackImmediate()
     }
 }

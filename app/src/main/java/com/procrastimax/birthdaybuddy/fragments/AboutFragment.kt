@@ -5,11 +5,11 @@ import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
+import android.support.v7.widget.Toolbar
 import android.view.LayoutInflater
+import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
-import android.widget.TextView
 import com.procrastimax.birthdaybuddy.MainActivity
 import com.procrastimax.birthdaybuddy.R
 import com.procrastimax.birthdaybuddy.views.AboutAdapter
@@ -19,6 +19,10 @@ class AboutFragment : Fragment() {
     private lateinit var recyclerView: RecyclerView
     private lateinit var viewAdapter: RecyclerView.Adapter<*>
     private lateinit var viewManager: RecyclerView.LayoutManager
+
+    val toolbar: Toolbar by lazy {
+        activity!!.findViewById<Toolbar>(R.id.toolbar)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -30,16 +34,11 @@ class AboutFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        (context as MainActivity).setSupportActionBar(toolbar)
+        setHasOptionsMenu(true)
 
-        super.onViewCreated(view, savedInstanceState)
-        (context as MainActivity).changeToolbarState(MainActivity.Companion.ToolbarState.Fragment)
-        val toolbar = activity!!.findViewById<android.support.v7.widget.Toolbar>(R.id.toolbar)
-        val tv_toolbar_title = toolbar.findViewById<TextView>(R.id.tv_title_toolbar_inFragment)
-        tv_toolbar_title.text = resources.getString(R.string.main_menu_item_about)
-        val backBtn = toolbar.findViewById<ImageView>(R.id.iv_back_arrow)
-        backBtn.setOnClickListener {
-            backPressed()
-        }
+        (context as MainActivity).supportActionBar?.setHomeAsUpIndicator(R.drawable.ic_arrow_back)
+        (context as MainActivity).supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
         viewManager = LinearLayoutManager(view.context)
         viewAdapter = AboutAdapter()
@@ -49,6 +48,15 @@ class AboutFragment : Fragment() {
             layoutManager = viewManager
             adapter = viewAdapter
         }
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+        when (item?.itemId) {
+            android.R.id.home -> {
+                (context as MainActivity).supportFragmentManager.popBackStackImmediate()
+            }
+        }
+        return super.onOptionsItemSelected(item)
     }
 
     private fun backPressed() {

@@ -8,41 +8,46 @@
         android:id="@+id/main_layout"
         android:fitsSystemWindows="true"
         tools:context=".MainActivity"
+        android:orientation="vertical"
         >
 
     <android.support.design.widget.AppBarLayout
-            android:layout_height="300dp"
             android:layout_width="match_parent"
+            android:layout_height="300dp"
+            android:minHeight="?attr/actionBarSize"
+            android:id="@+id/app_bar"
+            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
             android:fitsSystemWindows="true"
             app:expanded="false"
-            android:id="@+id/app_bar"
-            android:theme="@style/AppTheme.AppBarOverlay"
             >
 
         <android.support.design.widget.CollapsingToolbarLayout
+                android:id="@+id/scrollable_toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                app:contentScrim="?attr/colorPrimary"
+                app:expandedTitleMarginEnd="64dp"
+                app:expandedTitleMarginStart="48dp"
                 app:layout_scrollFlags="scroll|exitUntilCollapsed|snap"
-                app:contentScrim="@color/colorPrimary"
-                app:expandedTitleGravity="top|left"
-                android:id="@+id/collapse_toolbar"
                 android:fitsSystemWindows="true">
 
             <ImageView
+                    android:id="@+id/collapsable_toolbar_iv"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:id="@+id/collapse_toolbar_image_view"
-                    android:src="@drawable/ic_birthday_person"
+                    android:scaleType="centerCrop"
+                    android:fitsSystemWindows="true"
                     app:layout_collapseMode="parallax"
-                    android:scaleType="fitCenter"/>
+                    />
 
             <android.support.v7.widget.Toolbar
                     android:id="@+id/toolbar"
-                    android:layout_gravity="bottom"
                     android:layout_width="match_parent"
-                    android:background="#ffffffff"
                     android:layout_height="?attr/actionBarSize"
-                    app:popupTheme="@style/AppTheme.PopupOverlay"/>
+                    android:minHeight="?attr/actionBarSize"
+                    app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+                    app:layout_collapseMode="pin"
+                    />
 
         </android.support.design.widget.CollapsingToolbarLayout>
 

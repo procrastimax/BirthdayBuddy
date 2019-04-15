@@ -7,7 +7,6 @@ import android.support.v4.content.ContextCompat
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
 import android.widget.TextView
 import com.procrastimax.birthdaybuddy.MainActivity
 import com.procrastimax.birthdaybuddy.R
@@ -51,29 +50,6 @@ class ShowOneTimeEvent : ShowEventFragment() {
      * updateUI updates all TextViews and other views to the current instance(AnnualEvent, Birthday, OneTimeEvent) data
      */
     override fun updateUI() {
-
-        val editBtn: ImageView = toolbar.findViewById<ImageView>(R.id.iv_toolbar_show_event_edit)
-
-        editBtn.setOnClickListener {
-            val bundle = Bundle()
-            bundle.putInt(
-                ITEM_ID_PARAM,
-                position
-            )
-            val ft = (context as MainActivity).supportFragmentManager.beginTransaction()
-
-            // add arguments to fragment
-            val oneTimeEventInstance = OneTimeEventInstanceFragment.newInstance()
-            oneTimeEventInstance.arguments = bundle
-            ft.replace(
-                R.id.fragment_placeholder,
-                oneTimeEventInstance,
-                OneTimeEventInstanceFragment.ONE_TIME_EVENT_INSTANCE_FRAGMENT_TAG
-            )
-            ft.addToBackStack(null)
-            ft.commit()
-        }
-
         val oneTimeEvent = EventHandler.getList()[position] as OneTimeEvent
         //set name of one_time event
         this.tv_show_one_time_event_name.text = oneTimeEvent.name
@@ -148,6 +124,26 @@ class ShowOneTimeEvent : ShowEventFragment() {
             intent.putExtra(Intent.EXTRA_TEXT, share_Annual_Event_Msg)
             startActivity(Intent.createChooser(intent, resources.getString(R.string.intent_share_chooser_title)))
         }
+    }
+
+    override fun editEvent() {
+        val bundle = Bundle()
+        bundle.putInt(
+            ITEM_ID_PARAM,
+            position
+        )
+        val ft = (context as MainActivity).supportFragmentManager.beginTransaction()
+
+        // add arguments to fragment
+        val oneTimeEventInstance = OneTimeEventInstanceFragment.newInstance()
+        oneTimeEventInstance.arguments = bundle
+        ft.replace(
+            R.id.fragment_placeholder,
+            oneTimeEventInstance,
+            OneTimeEventInstanceFragment.ONE_TIME_EVENT_INSTANCE_FRAGMENT_TAG
+        )
+        ft.addToBackStack(null)
+        ft.commit()
     }
 
     companion object {

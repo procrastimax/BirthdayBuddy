@@ -32,6 +32,21 @@
             android:layout_marginBottom="8dp"
             android:clickable="true"
             android:focusable="true"
+            android:theme="@style/SelectableItemTheme"
             android:background="?attr/selectableItemBackgroundBorderless"
             app:layout_constraintBottom_toBottomOf="parent"/>
+
+    <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:srcCompat="@drawable/ic_search"
+            android:id="@+id/iv_search"
+            app:layout_constraintEnd_toStartOf="@+id/iv_more_vert"
+            android:layout_marginEnd="16dp"
+            app:layout_constraintTop_toTopOf="@+id/iv_more_vert"
+            app:layout_constraintBottom_toBottomOf="@+id/iv_more_vert"
+            android:clickable="true"
+            android:focusable="true"
+            android:theme="@style/SelectableItemTheme"
+            android:background="?attr/selectableItemBackgroundBorderless"/>
 </android.support.constraint.ConstraintLayout>
