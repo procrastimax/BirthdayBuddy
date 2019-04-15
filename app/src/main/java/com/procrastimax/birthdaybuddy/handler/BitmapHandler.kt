@@ -42,7 +42,13 @@ object BitmapHandler {
      * @param scale : Int
      * @param readBitmapFromGallery : Boolean, when this boolean is true, it forces the function to read a new bitmap from the gallery files
      */
-    fun addDrawable(id: Int, uri: Uri, context: Context, scale: Int = STANDARD_SCALING, readBitmapFromGallery: Boolean): Boolean {
+    fun addDrawable(
+        id: Int,
+        uri: Uri,
+        context: Context,
+        scale: Int = STANDARD_SCALING,
+        readBitmapFromGallery: Boolean
+    ): Boolean {
         var success = true
 
         //first try to load from files
@@ -159,8 +165,12 @@ object BitmapHandler {
     }
 
     fun getBitmapFromFile(context: Context, eventID: Int): Bitmap? {
-        val bitmapDir = context.getDir(this.bitmapFolder, Context.MODE_PRIVATE)
-        return BitmapFactory.decodeFile(bitmapDir.absolutePath + File.separator.toString() + "$eventID.png")
+        return if (checkExistingBitmapInFiles(context, eventID) != null) {
+            val bitmapDir = context.getDir(this.bitmapFolder, Context.MODE_PRIVATE)
+            BitmapFactory.decodeFile(bitmapDir.absolutePath + File.separator.toString() + "$eventID.png")
+        } else {
+            null
+        }
     }
 
 
@@ -192,7 +202,6 @@ object BitmapHandler {
     }
 
     private fun checkExistingBitmapInFiles(context: Context, eventID: Int): File? {
-        //TODO: change this to one time check, and not iterate all
         val bitmap_dir = context.getDir(this.bitmapFolder, Context.MODE_PRIVATE)
         val bitmapFile = File(bitmap_dir.absolutePath + File.separator + "$eventID.png")
         return if (bitmapFile.exists()) {
