@@ -4,6 +4,7 @@ package com.procrastimax.birthdaybuddy.fragments
 import android.content.Intent
 import android.graphics.Bitmap
 import android.os.Bundle
+import android.support.design.widget.AppBarLayout
 import android.support.v4.content.ContextCompat
 import android.view.LayoutInflater
 import android.view.View
@@ -52,6 +53,7 @@ class ShowBirthdayEvent : ShowEventFragment() {
         } else if (arguments != null) {
             position = arguments!!.getInt(ITEM_ID_PARAM)
             eventID = getEventID(position)
+
             updateUI()
         }
     }
@@ -68,6 +70,24 @@ class ShowBirthdayEvent : ShowEventFragment() {
         } else {
             this.tv_show_birthday_forename.text = birthdayEvent.forename
         }
+
+        var scrollRange = -1
+        (context as MainActivity).app_bar.addOnOffsetChangedListener(AppBarLayout.OnOffsetChangedListener { appbarLayout, verticalOffset ->
+            if (scrollRange == -1) {
+                scrollRange = appbarLayout.totalScrollRange
+            }
+            if (context != null) {
+                if (scrollRange + verticalOffset == 0) {
+                    setToolbarTitle(context!!.resources.getString(R.string.app_name))
+                } else {
+                    if (birthdayEvent.nickname == null) {
+                        setToolbarTitle(birthdayEvent.forename)
+                    } else {
+                        setToolbarTitle(birthdayEvent.nickname!!)
+                    }
+                }
+            }
+        })
 
         this.tv_show_birthday_surname.text = birthdayEvent.surname
 
@@ -155,6 +175,7 @@ class ShowBirthdayEvent : ShowEventFragment() {
 
     private fun closeExpandableToolbar() {
         (context as MainActivity).collapsable_toolbar_iv.visibility = ImageView.GONE
+        setToolbarTitle(context!!.resources.getString(R.string.app_name))
         (context as MainActivity).app_bar.setExpanded(false, false)
         (context as MainActivity).app_bar.isActivated = false
     }

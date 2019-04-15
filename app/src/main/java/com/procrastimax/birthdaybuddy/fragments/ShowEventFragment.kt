@@ -10,6 +10,7 @@ import android.view.View
 import com.procrastimax.birthdaybuddy.MainActivity
 import com.procrastimax.birthdaybuddy.R
 import com.procrastimax.birthdaybuddy.handler.EventHandler
+import kotlinx.android.synthetic.main.activity_main.*
 
 const val ITEM_ID_PARAM = "ITEMID"
 
@@ -69,14 +70,14 @@ abstract class ShowEventFragment : Fragment() {
     }
 
     fun setToolbarTitle(title: String) {
-        toolbar.title = title
+        (context as MainActivity).scrollable_toolbar.title = title
     }
 
     fun getEventID(position: Int): Int {
-        if (EventHandler.getList().isNotEmpty() && (position in 0 until EventHandler.getList().size)) {
-            return EventHandler.getList()[position].eventID
+        return if (EventHandler.getList().isNotEmpty() && (position in 0 until EventHandler.getList().size)) {
+            EventHandler.getList()[position].eventID
         } else {
-            return -1
+            -1
         }
     }
 
