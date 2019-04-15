@@ -6,7 +6,6 @@ import android.support.v4.content.ContextCompat
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
 import android.widget.TextView
 import com.procrastimax.birthdaybuddy.MainActivity
 import com.procrastimax.birthdaybuddy.R
@@ -55,28 +54,6 @@ class ShowAnnualEvent : ShowEventFragment() {
      * updateUI updates all TextViews and other views to the current instance(AnnualEvent, Birthday) data
      */
     override fun updateUI() {
-        val editBtn: ImageView = toolbar.findViewById<ImageView>(R.id.iv_toolbar_show_event_edit)
-
-        editBtn.setOnClickListener {
-            val bundle = Bundle()
-            bundle.putInt(
-                ITEM_ID_PARAM,
-                position
-            )
-            val ft = (context as MainActivity).supportFragmentManager.beginTransaction()
-
-            // add arguments to fragment
-            val newAnnualEventInstanceFragment = AnnualEventInstanceFragment.newInstance()
-            newAnnualEventInstanceFragment.arguments = bundle
-            ft.replace(
-                R.id.fragment_placeholder,
-                newAnnualEventInstanceFragment,
-                AnnualEventInstanceFragment.ANNUAL_EVENT_INSTANCE_FRAGMENT_TAG
-            )
-            ft.addToBackStack(null)
-            ft.commit()
-        }
-
         val annual_event = EventHandler.getList()[position] as AnnualEvent
         //set name of annual_event
         this.tv_show_annual_event_name.text = annual_event.name
@@ -156,6 +133,26 @@ class ShowAnnualEvent : ShowEventFragment() {
             intent.putExtra(Intent.EXTRA_TEXT, share_Annual_Event_Msg)
             startActivity(Intent.createChooser(intent, resources.getString(R.string.intent_share_chooser_title)))
         }
+    }
+
+    override fun editEvent() {
+        val bundle = Bundle()
+        bundle.putInt(
+            ITEM_ID_PARAM,
+            position
+        )
+        val ft = (context as MainActivity).supportFragmentManager.beginTransaction()
+
+        // add arguments to fragment
+        val newAnnualEventInstanceFragment = AnnualEventInstanceFragment.newInstance()
+        newAnnualEventInstanceFragment.arguments = bundle
+        ft.replace(
+            R.id.fragment_placeholder,
+            newAnnualEventInstanceFragment,
+            AnnualEventInstanceFragment.ANNUAL_EVENT_INSTANCE_FRAGMENT_TAG
+        )
+        ft.addToBackStack(null)
+        ft.commit()
     }
 
     companion object {

@@ -2,11 +2,9 @@ package com.procrastimax.birthdaybuddy
 
 import android.content.Context
 import android.os.Bundle
-import android.support.design.widget.AppBarLayout
-import android.support.design.widget.CoordinatorLayout
 import android.support.v4.app.FragmentTransaction
-import android.support.v4.content.ContextCompat
 import android.support.v7.app.AppCompatActivity
+import android.util.TypedValue
 import android.widget.ProgressBar
 import com.procrastimax.birthdaybuddy.fragments.BirthdayInstanceFragment
 import com.procrastimax.birthdaybuddy.fragments.EventListFragment
@@ -23,6 +21,7 @@ import kotlinx.android.synthetic.main.fragment_add_new_birthday.*
 import kotlinx.android.synthetic.main.fragment_event_list.*
 import java.text.DateFormat
 import java.util.*
+
 
 /**
  *
@@ -44,7 +43,6 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         setSupportActionBar(toolbar)
-
         EventHandler.clearList()
 
         IOHandler.registerIO(this.applicationContext)
@@ -134,129 +132,46 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    fun changeToolbarState(state: ToolbarState) {
-        when (state) {
-            Companion.ToolbarState.Default -> {
-
-                if (toolbar.childCount > 0) {
-                    toolbar.removeAllViews()
-                }
-                toolbar.addView(
-                    layoutInflater.inflate(
-                        R.layout.toolbar_default,
-                        findViewById(android.R.id.content),
-                        false
-                    )
-                )
-                toolbar.setBackgroundColor(
-                    ContextCompat.getColor(
-                        applicationContext,
-                        R.color.colorPrimaryDark
-                    )
-                )
-
-                closeAppBar(false)
-                lockAppBar()
-            }
-
-            Companion.ToolbarState.EditEvent -> {
-                lockAppBar()
-
-                if (toolbar.childCount > 0) {
-                    toolbar.removeAllViews()
-                }
-                toolbar.addView(
-                    layoutInflater.inflate(
-                        R.layout.toolbar_edit_event,
-                        findViewById(android.R.id.content),
-                        false
-                    )
-                )
-                toolbar.setBackgroundColor(
-                    ContextCompat.getColor(
-                        applicationContext,
-                        R.color.material_light_white_background
-                    )
-                )
-
-                closeAppBar(false)
-                lockAppBar()
-            }
-
-            Companion.ToolbarState.ShowEvent -> {
-                if (toolbar.childCount > 0) {
-                    toolbar.removeAllViews()
-                }
-                toolbar.addView(
-                    layoutInflater.inflate(
-                        R.layout.toolbar_show_event,
-                        findViewById(android.R.id.content),
-                        false
-                    )
-                )
-                toolbar.setBackgroundResource(
-                    android.R.color.transparent
-                )
-
-                closeAppBar(false)
-                lockAppBar()
-            }
-
-            Companion.ToolbarState.Fragment -> {
-                if (toolbar.childCount > 0) {
-                    toolbar.removeAllViews()
-                }
-                toolbar.addView(
-                    layoutInflater.inflate(
-                        R.layout.toolbar_fragment,
-                        findViewById(android.R.id.content),
-                        false
-                    )
-                )
-                toolbar.setBackgroundResource(
-                    android.R.color.transparent
-                )
-
-                closeAppBar(false)
-                lockAppBar()
-            }
-        }
-    }
-
     fun closeAppBar(animated: Boolean = true) {
-        this.app_bar.setExpanded(false, animated)
+        //this.app_bar.setExpanded(false, animated)
     }
 
     fun openAppBar(animated: Boolean = true) {
-        this.app_bar.setExpanded(true, animated)
+        //this.app_bar.setExpanded(true, animated)
     }
 
 
     fun lockAppBar() {
-        val params = app_bar.layoutParams as CoordinatorLayout.LayoutParams
+        /*val params = app_bar.layoutParams as CoordinatorLayout.LayoutParams
         params.behavior = AppBarLayout.Behavior()
         val behavior = params.behavior as AppBarLayout.Behavior
         behavior.setDragCallback(object : AppBarLayout.Behavior.DragCallback() {
             override fun canDrag(appBarLayout: AppBarLayout): Boolean {
                 return false
             }
-        })
+        })*/
     }
 
     fun unlockAppBar() {
-        val params = app_bar.layoutParams as CoordinatorLayout.LayoutParams
+        /*val params = app_bar.layoutParams as CoordinatorLayout.LayoutParams
         params.behavior = AppBarLayout.Behavior()
         val behavior = params.behavior as AppBarLayout.Behavior
         behavior.setDragCallback(object : AppBarLayout.Behavior.DragCallback() {
             override fun canDrag(appBarLayout: AppBarLayout): Boolean {
                 return true
             }
-        })
+        })*/
     }
 
     companion object {
-        fun convertPxToDp(context: Context, dp: Float): Float {
-            return dp * context.resources.displayMetrics.density
+        fun convertPxToDp(context: Context, px: Float): Float {
+            val metrics = context.resources.displayMetrics
+            return TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_PX, px, metrics)
+        }
+
+        fun convertDpToPx(context: Context, dp: Float): Int {
+            val metrics = context.resources.displayMetrics
+            return TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, metrics).toInt()
         }
 
         enum class ToolbarState {

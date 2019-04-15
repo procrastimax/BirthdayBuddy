@@ -3,17 +3,10 @@ package com.procrastimax.birthdaybuddy.fragments
 import android.os.Bundle
 import android.support.constraint.ConstraintLayout
 import android.support.v4.app.Fragment
-import android.support.v4.content.ContextCompat
 import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.PopupMenu
 import android.support.v7.widget.RecyclerView
-import android.view.Gravity
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
-import android.widget.ImageView
+import android.view.*
 import android.widget.TextView
-import android.widget.Toast
 import com.procrastimax.birthdaybuddy.MainActivity
 import com.procrastimax.birthdaybuddy.R
 import com.procrastimax.birthdaybuddy.handler.EventHandler
@@ -40,8 +33,9 @@ class EventListFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        (context as MainActivity).changeToolbarState(MainActivity.Companion.ToolbarState.Default)
+        setHasOptionsMenu(true)
+        (context as MainActivity).supportActionBar?.setDisplayHomeAsUpEnabled(false)
+        (context as MainActivity).supportActionBar?.setDisplayShowHomeEnabled(false)
 
         isFABOpen = false
 
@@ -51,61 +45,6 @@ class EventListFragment : Fragment() {
 
         viewManager = LinearLayoutManager(view.context)
         viewAdapter = EventAdapter(view.context)
-
-        val toolbar = activity!!.findViewById<android.support.v7.widget.Toolbar>(R.id.toolbar)
-        toolbar.setBackgroundColor(ContextCompat.getColor(context!!, R.color.colorPrimary))
-        toolbar.setContentInsetsAbsolute(0, 0)
-
-        val settings_btn = toolbar.findViewById<ImageView>(R.id.iv_more_vert)
-
-        settings_btn.setOnClickListener {
-            val popup = PopupMenu(activity!!, settings_btn, Gravity.END)
-            popup.menuInflater.inflate(R.menu.main_menu, popup.menu)
-            popup.setOnMenuItemClickListener { menuItem ->
-                when (menuItem.itemId) {
-                    R.id.item_settings -> {
-                        //open settings fragment
-                        closeFABMenu(true)
-                        val ft = fragmentManager!!.beginTransaction()
-                        ft.replace(
-                            R.id.fragment_placeholder,
-                            SettingsFragment.newInstance()
-                        )
-                        ft.addToBackStack(null)
-                        ft.commit()
-                        true
-                    }
-                    R.id.item_about -> {
-                        //open about fragment
-                        closeFABMenu(true)
-                        val ft = fragmentManager!!.beginTransaction()
-                        ft.replace(
-                            R.id.fragment_placeholder,
-                            AboutFragment.newInstance()
-                        )
-                        ft.addToBackStack(null)
-                        ft.commit()
-                        true
-                    }
-                    R.id.item_help -> {
-                        //open about fragment
-                        closeFABMenu(true)
-                        val ft = fragmentManager!!.beginTransaction()
-                        ft.replace(
-                            R.id.fragment_placeholder,
-                            AboutFragment.newInstance()
-                        )
-                        ft.addToBackStack(null)
-                        ft.commit()
-                        true
-                    }
-                    else -> {
-                        false
-                    }
-                }
-            }
-            popup.show()
-        }
 
         recyclerView = view.findViewById<RecyclerView>(R.id.recyclerView).apply {
             setHasFixedSize(true)
@@ -120,12 +59,6 @@ class EventListFragment : Fragment() {
             recyclerView.paddingRight,
             (resources.getDimension(R.dimen.fab_margin) + resources.getDimension(R.dimen.fab_size_bigger)).toInt()
         )
-
-        val searchBtn = toolbar.findViewById<ImageView>(R.id.iv_search)
-        searchBtn.setOnClickListener {
-            Toast.makeText(context, "Search was clicked", Toast.LENGTH_SHORT).show()
-            searchStarted()
-        }
 
         fab_show_fab_menu.setOnClickListener {
             if (isFABOpen) {
@@ -290,7 +223,67 @@ class EventListFragment : Fragment() {
         return 0
     }
 
-    private fun searchStarted(){
+    override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {
+        super.onCreateOptionsMenu(menu, inflater)
+        inflater?.inflate(R.menu.toolbar_main, menu)
+        //inflater?.inflate(R.menu.main_menu, menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+        when (item?.itemId) {
+            R.id.toolbar_search -> {
+                searchStarted()
+            }
+            R.id.item_help -> {
+                helpClicked()
+            }
+            R.id.item_about -> {
+                aboutClicked()
+            }
+            R.id.item_settings -> {
+                settingsClicked()
+            }
+        }
+        return super.onOptionsItemSelected(item)
+    }
+
+    private fun helpClicked() {
+        //open about fragment
+        closeFABMenu(true)
+        val ft = fragmentManager!!.beginTransaction()
+        ft.replace(
+            R.id.fragment_placeholder,
+            AboutFragment.newInstance()
+        )
+        ft.addToBackStack(null)
+        ft.commit()
+    }
+
+    private fun aboutClicked() {
+        //open about fragment
+        closeFABMenu(true)
+        val ft = fragmentManager!!.beginTransaction()
+        ft.replace(
+            R.id.fragment_placeholder,
+            AboutFragment.newInstance()
+        )
+        ft.addToBackStack(null)
+        ft.commit()
+    }
+
+    private fun settingsClicked() {
+        //open settings fragment
+        closeFABMenu(true)
+        val ft = fragmentManager!!.beginTransaction()
+        ft.replace(
+            R.id.fragment_placeholder,
+            SettingsFragment.newInstance()
+        )
+        ft.addToBackStack(null)
+        ft.commit()
+    }
+
+    private fun searchStarted() {
 
     }
 

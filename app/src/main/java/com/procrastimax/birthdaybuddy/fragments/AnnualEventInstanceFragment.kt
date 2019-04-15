@@ -87,6 +87,9 @@ class AnnualEventInstanceFragment : EventInstanceFragment() {
         if (arguments != null) {
             isEditAnnualEvent = true
             if (arguments!!.size() > 0) {
+
+                setToolbarTitle(context!!.resources.getString(R.string.toolbar_title_edit_annual_event))
+
                 itemID = (arguments!!.getInt(ITEM_ID_PARAM))
                 val annual_event = EventHandler.getList()[itemID] as AnnualEvent
 
@@ -103,7 +106,6 @@ class AnnualEventInstanceFragment : EventInstanceFragment() {
                 }
                 switch_isYearGiven.isChecked = annual_event.hasStartYear
 
-                title.text = resources.getText(R.string.toolbar_title_edit_annual_event)
                 btn_fragment_annual_event_instance_delete.visibility = Button.VISIBLE
                 btn_fragment_annual_event_instance_delete.setOnClickListener {
 
@@ -140,6 +142,7 @@ class AnnualEventInstanceFragment : EventInstanceFragment() {
                         EventHandler.removeEventByKey(itemID, context!!, true)
                         closeBtnPressed()
                     }
+                    alert_builder.setNegativeButton(resources.getString(R.string.alert_dialog_dismiss_delete)) { dialog, _ -> dialog.dismiss() }
                     // Finally, make the alert dialog using builder
                     val dialog: AlertDialog = alert_builder.create()
                     // Display the alert dialog on app interface
@@ -147,7 +150,7 @@ class AnnualEventInstanceFragment : EventInstanceFragment() {
                 }
             }
         } else {
-            title.text = resources.getText(R.string.toolbar_title_add_annual_event)
+            setToolbarTitle(context!!.resources.getString(R.string.toolbar_title_add_annual_event))
             btn_fragment_annual_event_instance_delete.visibility = Button.INVISIBLE
             (context as MainActivity).progress_bar_main.visibility = ProgressBar.GONE
             edit_date.hint = resources.getString(

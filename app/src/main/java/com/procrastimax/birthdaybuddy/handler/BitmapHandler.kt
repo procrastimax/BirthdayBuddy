@@ -42,7 +42,13 @@ object BitmapHandler {
      * @param scale : Int
      * @param readBitmapFromGallery : Boolean, when this boolean is true, it forces the function to read a new bitmap from the gallery files
      */
-    fun addDrawable(id: Int, uri: Uri, context: Context, scale: Int = STANDARD_SCALING, readBitmapFromGallery: Boolean): Boolean {
+    fun addDrawable(
+        id: Int,
+        uri: Uri,
+        context: Context,
+        scale: Int = STANDARD_SCALING,
+        readBitmapFromGallery: Boolean
+    ): Boolean {
         var success = true
 
         //first try to load from files

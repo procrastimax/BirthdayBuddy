@@ -6,6 +6,7 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+        <item name="actionOverflowButtonStyle">@style/BirthdayBuddyOverFlowButtonStyle</item>
     </style>
 
     <style name="AppTheme.NoActionBar">
@@ -18,12 +19,16 @@
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light"/>
 
     <style name="SelectableItemTheme">
-        <item name="android:colorControlHighlight">@color/brightGrey</item>
+        <item name="android:colorControlHighlight">@android:color/white</item>
     </style>
 
     <style name="SelectableItemBackground">
         <item name="android:theme">@style/SelectableItemTheme</item>
         <item name="android:background">?attr/selectableItemBackgroundBorderless</item>
+    </style>
+
+    <style name="BirthdayBuddyOverFlowButtonStyle" parent="Widget.AppCompat.ActionButton.Overflow">
+        <item name="android:tint">@android:color/white</item>
     </style>
 
 </resources>

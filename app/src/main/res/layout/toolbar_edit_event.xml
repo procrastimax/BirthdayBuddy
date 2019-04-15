@@ -2,12 +2,14 @@
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
                                              xmlns:app="http://schemas.android.com/apk/res-auto"
                                              android:layout_width="match_parent"
-                                             android:layout_height="?attr/actionBarSize">
+                                             android:layout_height="?attr/actionBarSize"
+                                             android:id="@+id/constrLayout_toolbar_edit"
+                                             android:background="@android:color/white">
 
     <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/tv_add_fragment_title"
+            android:id="@+id/tv_edit_fragment_title"
             android:layout_alignParentEnd="true"
             android:layout_alignParentStart="true"
             android:layout_alignParentTop="true"
@@ -20,7 +22,7 @@
             android:layout_marginEnd="8dp"
             app:layout_constraintEnd_toStartOf="@+id/btn_edit_event_accept"
             android:textAlignment="center"
-            />
+            android:text="Hier steht was"/>
 
     <ImageView
             android:src="@drawable/ic_close"

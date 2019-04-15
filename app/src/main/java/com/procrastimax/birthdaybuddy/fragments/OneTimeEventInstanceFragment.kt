@@ -72,6 +72,9 @@ class OneTimeEventInstanceFragment : EventInstanceFragment() {
         if (arguments != null) {
             isEditOneTimeEvent = true
             if (arguments!!.size() > 0) {
+
+                setToolbarTitle(context!!.resources.getString(R.string.toolbar_title_edit_one_time_event))
+
                 itemID = (arguments!!.getInt(ITEM_ID_PARAM))
                 val oneTimeEvent = EventHandler.getList()[itemID] as OneTimeEvent
 
@@ -85,7 +88,6 @@ class OneTimeEventInstanceFragment : EventInstanceFragment() {
                     edit_note.setText(oneTimeEvent.note)
                 }
 
-                title.text = resources.getText(R.string.toolbar_title_edit_one_time_event)
                 btn_fragment_one_time_event_instance_delete.visibility = Button.VISIBLE
                 btn_fragment_one_time_event_instance_delete.setOnClickListener {
 
@@ -130,7 +132,7 @@ class OneTimeEventInstanceFragment : EventInstanceFragment() {
                 }
             }
         } else {
-            title.text = resources.getText(R.string.toolbar_title_add_one_time_event)
+            setToolbarTitle(context!!.resources.getString(R.string.toolbar_title_add_one_time_event))
             btn_fragment_one_time_event_instance_delete.visibility = Button.INVISIBLE
             (context as MainActivity).progress_bar_main.visibility = ProgressBar.GONE
             edit_date.hint = resources.getString(

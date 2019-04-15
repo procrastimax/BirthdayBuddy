@@ -5,19 +5,15 @@ import android.content.Intent
 import android.graphics.Bitmap
 import android.os.Bundle
 import android.support.v4.content.ContextCompat
-import android.support.v4.view.ViewCompat
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
 import android.widget.TextView
 import com.procrastimax.birthdaybuddy.MainActivity
 import com.procrastimax.birthdaybuddy.R
-import com.procrastimax.birthdaybuddy.handler.BitmapHandler
 import com.procrastimax.birthdaybuddy.handler.EventHandler
 import com.procrastimax.birthdaybuddy.models.EventBirthday
 import com.procrastimax.birthdaybuddy.models.EventDate
-import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_show_birthday_event.*
 import java.text.DateFormat
 
@@ -46,10 +42,6 @@ class ShowBirthdayEvent : ShowEventFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        ViewCompat.requestApplyInsets((context as MainActivity).main_layout)
-        (context as MainActivity).unlockAppBar()
-        (context as MainActivity).openAppBar(true)
-
         //to show the information about the instance, the fragment has to be bundled with an argument
         //fragment was already instantiated
         if (eventID >= 0) {
@@ -65,28 +57,6 @@ class ShowBirthdayEvent : ShowEventFragment() {
      * updateUI updates all TextViews and other views to the current instance(Anniversary, Birthday) data
      */
     override fun updateUI() {
-
-        val editBtn: ImageView = toolbar.findViewById<ImageView>(R.id.iv_toolbar_show_event_edit)
-
-        editBtn.setOnClickListener {
-            val bundle = Bundle()
-            //do this in more adaptable way
-            bundle.putInt(
-                ITEM_ID_PARAM,
-                position
-            )
-            val ft = (context as MainActivity).supportFragmentManager.beginTransaction()
-            // add arguments to fragment
-            val newBirthdayFragment = BirthdayInstanceFragment.newInstance()
-            newBirthdayFragment.arguments = bundle
-            ft.replace(
-                R.id.fragment_placeholder,
-                newBirthdayFragment,
-                BirthdayInstanceFragment.BIRTHDAY_INSTANCE_FRAGMENT_TAG
-            )
-            ft.addToBackStack(null)
-            ft.commit()
-        }
 
         val birthdayEvent = EventHandler.getList()[position] as EventBirthday
 
@@ -156,21 +126,21 @@ class ShowBirthdayEvent : ShowEventFragment() {
     }
 
     fun updateAvatarImage() {
-        if (this.iv_avatar != null && this.position >= 0 && (context as MainActivity).collapse_toolbar_image_view != null) {
+        /*if (this.iv_avatar != null && this.position >= 0 && (context as MainActivity).collapse_toolbar_image_view != null) {
 
             val bitmap = BitmapHandler.getBitmapFromFile(context!!, this.eventID)
             setBitmapToToolbar(bitmap)
-        }
+        }*/
     }
 
     private fun setBitmapToToolbar(bitmap: Bitmap?) {
-        if (bitmap != null) {
+        /*if (bitmap != null) {
             (context as MainActivity).collapse_toolbar_image_view.scaleType = ImageView.ScaleType.CENTER_CROP
             (context as MainActivity).collapse_toolbar_image_view.setImageBitmap(bitmap)
         } else {
             (context as MainActivity).collapse_toolbar_image_view.scaleType = ImageView.ScaleType.FIT_CENTER
             (context as MainActivity).collapse_toolbar_image_view.setImageResource(R.drawable.ic_birthday_person)
-        }
+        }*/
     }
 
     /**
@@ -219,6 +189,26 @@ class ShowBirthdayEvent : ShowEventFragment() {
             intent.putExtra(Intent.EXTRA_TEXT, shareBirthdayMsg)
             startActivity(Intent.createChooser(intent, resources.getString(R.string.intent_share_chooser_title)))
         }
+    }
+
+    override fun editEvent() {
+        val bundle = Bundle()
+        //do this in more adaptable way
+        bundle.putInt(
+            ITEM_ID_PARAM,
+            position
+        )
+        val ft = (context as MainActivity).supportFragmentManager.beginTransaction()
+        // add arguments to fragment
+        val newBirthdayFragment = BirthdayInstanceFragment.newInstance()
+        newBirthdayFragment.arguments = bundle
+        ft.replace(
+            R.id.fragment_placeholder,
+            newBirthdayFragment,
+            BirthdayInstanceFragment.BIRTHDAY_INSTANCE_FRAGMENT_TAG
+        )
+        ft.addToBackStack(null)
+        ft.commit()
     }
 
     companion object {

@@ -163,12 +163,17 @@ class BirthdayInstanceFragment : EventInstanceFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        (context as MainActivity).setSupportActionBar(toolbar)
+        setHasOptionsMenu(false)
 
         //retrieve fragment parameter when edited instance
         if (arguments != null) {
             isEditedBirthday = true
             //when no arguments are delivered
             if (arguments!!.size() > 0) {
+
+                setToolbarTitle(context!!.resources.getString(R.string.toolbar_title_edit_birthday))
+
                 itemID = (arguments!!.getInt(ITEM_ID_PARAM))
                 val birthday = EventHandler.getList()[itemID] as EventBirthday
 
@@ -194,7 +199,7 @@ class BirthdayInstanceFragment : EventInstanceFragment() {
                     edit_nickname.visibility = EditText.VISIBLE
                 }
 
-                title.text = resources.getText(R.string.toolbar_title_edit_birthday)
+                //title.text = resources.getText(R.string.toolbar_title_edit_birthday)
                 btn_birthday_add_fragment_delete.visibility = Button.VISIBLE
                 //delete functionality
                 btn_birthday_add_fragment_delete.setOnClickListener {
@@ -246,14 +251,13 @@ class BirthdayInstanceFragment : EventInstanceFragment() {
                 }
             }
         } else {
-            title.text = resources.getText(R.string.toolbar_title_add_birthday)
+            setToolbarTitle(context!!.resources.getString(R.string.toolbar_title_add_birthday))
             btn_birthday_add_fragment_delete.visibility = Button.INVISIBLE
             (context as MainActivity).progress_bar_main.visibility = ProgressBar.GONE
             edit_date.hint = resources.getString(
                 R.string.birthday_instance_fragment_date_edit_hint,
                 EventDate.parseDateToString(Calendar.getInstance().time, DateFormat.FULL)
             )
-
         }
 
         edit_date.setOnClickListener {
@@ -421,7 +425,13 @@ class BirthdayInstanceFragment : EventInstanceFragment() {
             Thread(Runnable {
                 val bitmap = MediaStore.Images.Media.getBitmap(context!!.contentResolver, fullPhotoUri)
                 (context as MainActivity).runOnUiThread {
-                    iv_add_avatar_btn.setImageBitmap(BitmapHandler.getCircularBitmap(BitmapHandler.getScaledBitmap(bitmap), resources))
+                    iv_add_avatar_btn.setImageBitmap(
+                        BitmapHandler.getCircularBitmap(
+                            BitmapHandler.getScaledBitmap(
+                                bitmap
+                            ), resources
+                        )
+                    )
                 }
             }).start()
 
@@ -472,7 +482,6 @@ class BirthdayInstanceFragment : EventInstanceFragment() {
                 birthday.note = note
             }
 
-            //if (nickname.isNotBlank() && cb_nickname.isChecked) {
             if (nickname.isNotBlank()) {
                 birthday.nickname = nickname
             } else {
