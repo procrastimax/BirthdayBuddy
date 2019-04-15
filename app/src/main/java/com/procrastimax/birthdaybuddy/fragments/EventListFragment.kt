@@ -181,29 +181,44 @@ class EventListFragment : Fragment() {
         fab_layout_add_one_time.visibility = ConstraintLayout.VISIBLE
 
         this.recyclerView.animate().alpha(0.15f).apply {
-            duration = 200
+            duration = 175
         }
 
         //move layouts
         //move add birthday layout up
-        fab_layout_add_birthday.animate().translationYBy(-resources.getDimension(R.dimen.standard_55)).apply {
+        fab_layout_add_birthday.animate().translationYBy(-resources.getDimension(R.dimen.standard_55) - 20).apply {
             duration = 100
+        }.withEndAction {
+            fab_layout_add_birthday.animate().translationYBy(20.toFloat()).apply {
+                duration = 75
+            }
         }
 
         //move add annual event layout up
-        fab_layout_add_annual_event.animate().translationYBy(-resources.getDimension(R.dimen.standard_105)).apply {
-            duration = 100
-        }
+        fab_layout_add_annual_event.animate().translationYBy(-resources.getDimension(R.dimen.standard_105) - 40)
+            .apply {
+                duration = 100
+            }.withEndAction {
+                fab_layout_add_annual_event.animate().translationYBy(40.toFloat()).apply {
+                    duration = 75
+                }
+            }
 
         //move add one time event layout up
-        fab_layout_add_one_time.animate().translationYBy(-resources.getDimension(R.dimen.standard_155)).apply {
+        fab_layout_add_one_time.animate().translationYBy(-resources.getDimension(R.dimen.standard_155) - 60).apply {
             duration = 100
+        }.withEndAction {
+            fab_layout_add_one_time.animate().translationYBy(60.toFloat()).apply {
+                duration = 75
+            }
         }
 
-        fab_show_fab_menu.animate().duration = 75
+        fab_show_fab_menu.animate().duration = 100
         //some fancy overrotated animation
-        fab_show_fab_menu.animate().rotationBy(75.0f).withEndAction {
-            fab_show_fab_menu.animate().rotationBy(-30.0f).withEndAction {
+        fab_show_fab_menu.animate().rotationBy(80.0f).withEndAction {
+            fab_show_fab_menu.animate().rotationBy(-35.0f).apply {
+                duration = 75
+            }.withEndAction {
                 fab_show_fab_menu.isClickable = true
             }
         }
@@ -224,11 +239,12 @@ class EventListFragment : Fragment() {
         this.recyclerView.animate().alpha(1.0f)
 
         //move add birthday event layout down
-        fab_layout_add_birthday.animate().translationYBy(resources.getDimension(R.dimen.standard_55)).withEndAction {
-            if (!immediateAction) {
-                fab_layout_add_birthday.visibility = ConstraintLayout.INVISIBLE
+        fab_layout_add_birthday.animate().translationYBy(resources.getDimension(R.dimen.standard_55))
+            .withEndAction {
+                if (!immediateAction) {
+                    fab_layout_add_birthday.visibility = ConstraintLayout.INVISIBLE
+                }
             }
-        }
 
         //move add annual event layout down
         fab_layout_add_annual_event.animate().translationYBy(resources.getDimension(R.dimen.standard_105))

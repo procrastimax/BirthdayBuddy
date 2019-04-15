@@ -12,6 +12,8 @@ object NotificationHandler {
 
     const val CHANNEL_ID = "channel-birthdaybuddy"
 
+    private const val NOTIFICATION_WINDOW_LENGTH: Long = 10000
+
     //prime factors bc. of math and so
     enum class ReminderStart(val value: Int) {
         EVENTDATE(1),
@@ -130,6 +132,7 @@ object NotificationHandler {
         val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
         intent.putExtra("EVENTSTRING", event.toString())
         intent.putExtra("NOTIFICATIONID", event.eventID * reminderStart.value)
+        intent.putExtra("EVENTID", event.eventID)
         val alarmIntent =
             PendingIntent.getBroadcast(context, event.eventID * reminderStart.value, intent, 0)
 
@@ -141,7 +144,7 @@ object NotificationHandler {
                 alarmManager.setWindow(
                     AlarmManager.RTC_WAKEUP,
                     notificationTime.time,
-                    10000,
+                    NOTIFICATION_WINDOW_LENGTH,
                     alarmIntent
                 )
                 println(" ---> EventBirthday notification added on " + notificationTime + " with ID: " + event.eventID * reminderStart.value)
@@ -150,7 +153,7 @@ object NotificationHandler {
                 alarmManager.setWindow(
                     AlarmManager.RTC_WAKEUP,
                     notificationTime.time,
-                    10000,
+                    NOTIFICATION_WINDOW_LENGTH,
                     alarmIntent
                 )
                 println(" ---> AnnualEvent notification added on " + notificationTime + " with ID: " + event.eventID * reminderStart.value)
@@ -166,7 +169,7 @@ object NotificationHandler {
                     alarmManager.setWindow(
                         AlarmManager.RTC_WAKEUP,
                         notificationTime.time,
-                        10000,
+                        NOTIFICATION_WINDOW_LENGTH,
                         alarmIntent
                     )
                     println(" ---> OneTimeEvent notification added on " + notificationTime + " with ID: " + event.eventID * reminderStart.value)
@@ -204,6 +207,7 @@ object NotificationHandler {
 
         val cal = Calendar.getInstance()
         cal.time = EventDate.dateToCurrentTimeContext(event.eventDate)
+
         when (reminderStart) {
             //set notification time a month before event day
             NotificationHandler.ReminderStart.MONTH -> {
@@ -230,7 +234,7 @@ object NotificationHandler {
         cal.set(Calendar.MINUTE, minute)
 
         if (cal.time.before(Calendar.getInstance().time)) {
-            cal.time = EventDate.dateToCurrentTimeContext(cal.time)
+            cal.set(Calendar.YEAR, cal.get(Calendar.YEAR) + 1)
         }
 
         return cal.time

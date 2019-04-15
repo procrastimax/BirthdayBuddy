@@ -8,7 +8,6 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
-import android.graphics.BitmapFactory
 import android.os.Build
 import android.support.v4.app.NotificationCompat
 import android.support.v4.content.ContextCompat
@@ -23,15 +22,6 @@ import com.procrastimax.birthdaybuddy.models.OneTimeEvent
 
 class AlarmReceiver : BroadcastReceiver() {
 
-    /**
-     * vibrationPattern is a float array describing a pattern for vibration
-     * after 10ms start
-     * vibrate for 100ms
-     * pause 10 ms
-     * vibrate for 100ms
-     */
-    val vibrationPattern: LongArray = longArrayOf(10, 100, 10, 100)
-
     override fun onReceive(context: Context?, intent: Intent?) {
 
         //register IOHandler, really important, really
@@ -39,25 +29,33 @@ class AlarmReceiver : BroadcastReceiver() {
 
         val event = IOHandler.convertStringToEventDate(intent!!.getStringExtra("EVENTSTRING"))
         val notificationID = intent.getIntExtra("NOTIFICATIONID", 0)
+        val eventID = intent.getIntExtra("EVENTID", 0)
+        event?.eventID = eventID
 
         when (event) {
             is EventBirthday -> {
-                buildNotification(context, event, notificationID)
+                buildNotification(context, event, notificationID, eventID)
             }
             is AnnualEvent -> {
-                buildNotification(context, event, notificationID)
+                buildNotification(context, event, notificationID, eventID)
             }
             is OneTimeEvent -> {
-                buildNotification(context, event, notificationID)
+                buildNotification(context, event, notificationID, eventID)
             }
             else -> {
                 Toast.makeText(context, "unidentified toast made", Toast.LENGTH_SHORT).show()
                 println("unidentified toast made")
             }
         }
+
+        //create new notification events for this event
+        if (event != null) {
+            NotificationHandler.cancelNotification(context, event)
+            NotificationHandler.scheduleNotification(context, event)
+        }
     }
 
-    private fun buildNotification(context: Context, event: EventDate, notificationID: Int) {
+    private fun buildNotification(context: Context, event: EventDate, notificationID: Int, eventID: Int) {
 
         // Create an explicit intent for an Activity, so the activity starts when notification is clicked
         val intent = Intent(context, MainActivity::class.java).apply {
@@ -122,20 +120,22 @@ class AlarmReceiver : BroadcastReceiver() {
         if (event is EventBirthday) {
             var bitmap: Bitmap? = null
             if (event.avatarImageUri != null) {
-                IOHandler.registerIO(context)
-                IOHandler.readAll(context)
-                BitmapHandler.loadAllBitmaps(context)
-                bitmap = BitmapHandler.getBitmapAt(event.eventID)
+                bitmap = BitmapHandler.getBitmapFromFile(context, eventID)
+                if (bitmap != null) {
+                    bitmap = BitmapHandler.getCircularBitmap(bitmap, context.resources)
+                }
             }
             if (event.avatarImageUri == null || bitmap == null) {
-                bitmap = BitmapFactory.decodeResource(context.resources, R.drawable.ic_birthday_person)
+                val drawable = ContextCompat.getDrawable(context, R.drawable.ic_birthday_person)
+                bitmap = BitmapHandler.drawableToBitmap(drawable!!)
+                //bitmap = BitmapFactory.decodeResource(context.resources, R.drawable.ic_birthday_person)
             }
 
             var defaults = Notification.DEFAULT_ALL
 
             val builder = NotificationCompat.Builder(context, NotificationHandler.CHANNEL_ID)
                 //TODO: set small icon to app icon
-                .setSmallIcon(R.mipmap.ic_launcher_round)
+                .setSmallIcon(R.drawable.ic_launcher_foreground)
                 .setContentText(
                     context.getString(
                         R.string.notification_content_birthday,
@@ -152,12 +152,14 @@ class AlarmReceiver : BroadcastReceiver() {
                     )
                 )
                 //TODO: add longer detailed text
-                .setPriority(NotificationCompat.PRIORITY_HIGH)
+                .setPriority(NotificationCompat.PRIORITY_MAX)
                 // Set the intent that will fire when the user taps the notification
                 .setContentIntent(pendingIntent)
                 .setAutoCancel(true)
                 .setStyle(NotificationCompat.BigTextStyle())
-                .setLargeIcon(bitmap!!)
+            if (bitmap != null) {
+                builder.setLargeIcon(bitmap)
+            }
 
             if (!IOHandler.getBooleanFromKey(IOHandler.SharedPrefKeys.key_isNotificationVibrationOnBirthday)!!) {
                 defaults -= Notification.DEFAULT_VIBRATE
@@ -186,8 +188,11 @@ class AlarmReceiver : BroadcastReceiver() {
 
             var defaults = Notification.DEFAULT_ALL
 
+            val drawable = ContextCompat.getDrawable(context, R.drawable.ic_birthday_person)
+            val bitmap = BitmapHandler.drawableToBitmap(drawable!!)
+
             val builder = NotificationCompat.Builder(context, NotificationHandler.CHANNEL_ID)
-                .setSmallIcon(R.mipmap.ic_launcher_round)
+                .setSmallIcon(R.drawable.ic_launcher_foreground)
                 .setContentText(
                     context.getString(
                         R.string.notification_content_annual,
@@ -198,15 +203,15 @@ class AlarmReceiver : BroadcastReceiver() {
                 .setContentTitle(
                     context.getString(
                         R.string.notification_title_annual,
-                        "${event.name}"
+                        event.name
                     )
                 )
                 //TODO: add longer detailed text
-                .setPriority(NotificationCompat.PRIORITY_HIGH)
+                .setPriority(NotificationCompat.PRIORITY_MAX)
                 // Set the intent that will fire when the user taps the notification
                 .setContentIntent(pendingIntent)
                 .setAutoCancel(true)
-                .setLargeIcon(BitmapFactory.decodeResource(context.resources, R.drawable.ic_date_range))
+                .setLargeIcon(bitmap)
 
             if (!IOHandler.getBooleanFromKey(IOHandler.SharedPrefKeys.key_isNotificationVibrationOnAnnual)!!) {
                 defaults -= Notification.DEFAULT_VIBRATE
@@ -235,8 +240,11 @@ class AlarmReceiver : BroadcastReceiver() {
 
             var defaults = Notification.DEFAULT_ALL
 
+            val drawable = ContextCompat.getDrawable(context, R.drawable.ic_birthday_person)
+            val bitmap = BitmapHandler.drawableToBitmap(drawable!!)
+
             val builder = NotificationCompat.Builder(context, NotificationHandler.CHANNEL_ID)
-                .setSmallIcon(R.mipmap.ic_launcher_round)
+                .setSmallIcon(R.drawable.ic_launcher_foreground)
                 .setContentText(
                     context.getString(
                         R.string.notification_content_one_time,
@@ -247,15 +255,15 @@ class AlarmReceiver : BroadcastReceiver() {
                 .setContentTitle(
                     context.getString(
                         R.string.notification_title_one_time,
-                        "${event.name}"
+                        event.name
                     )
                 )
                 //TODO: add longer detailed text
-                .setPriority(NotificationCompat.PRIORITY_HIGH)
+                .setPriority(NotificationCompat.PRIORITY_MAX)
                 // Set the intent that will fire when the user taps the notification
                 .setContentIntent(pendingIntent)
                 .setAutoCancel(true)
-                .setLargeIcon(BitmapFactory.decodeResource(context.resources, R.drawable.ic_looks_one_time))
+                .setLargeIcon(bitmap)
 
             if (!IOHandler.getBooleanFromKey(IOHandler.SharedPrefKeys.key_isNotificationVibrationOnOneTime)!!) {
                 defaults -= Notification.DEFAULT_VIBRATE

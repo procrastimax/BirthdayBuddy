@@ -34,7 +34,7 @@
                     android:id="@+id/collapse_toolbar_image_view"
                     android:src="@drawable/ic_birthday_person"
                     app:layout_collapseMode="parallax"
-                    android:scaleType="centerCrop"/>
+                    android:scaleType="fitCenter"/>
 
             <android.support.v7.widget.Toolbar
                     android:id="@+id/toolbar"
