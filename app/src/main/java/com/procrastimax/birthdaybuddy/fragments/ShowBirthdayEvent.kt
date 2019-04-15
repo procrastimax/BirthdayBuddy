@@ -8,12 +8,15 @@ import android.support.v4.content.ContextCompat
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
 import com.procrastimax.birthdaybuddy.MainActivity
 import com.procrastimax.birthdaybuddy.R
+import com.procrastimax.birthdaybuddy.handler.BitmapHandler
 import com.procrastimax.birthdaybuddy.handler.EventHandler
 import com.procrastimax.birthdaybuddy.models.EventBirthday
 import com.procrastimax.birthdaybuddy.models.EventDate
+import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_show_birthday_event.*
 import java.text.DateFormat
 
@@ -125,22 +128,35 @@ class ShowBirthdayEvent : ShowEventFragment() {
         updateAvatarImage()
     }
 
-    fun updateAvatarImage() {
-        /*if (this.iv_avatar != null && this.position >= 0 && (context as MainActivity).collapse_toolbar_image_view != null) {
+    override fun onDetach() {
+        closeExpandableToolbar()
+        super.onDetach()
+    }
 
+    fun updateAvatarImage() {
+        if (this.iv_avatar != null && this.position >= 0 && (context as MainActivity).collapsable_toolbar_iv != null) {
             val bitmap = BitmapHandler.getBitmapFromFile(context!!, this.eventID)
             setBitmapToToolbar(bitmap)
-        }*/
+        }
     }
 
     private fun setBitmapToToolbar(bitmap: Bitmap?) {
-        /*if (bitmap != null) {
-            (context as MainActivity).collapse_toolbar_image_view.scaleType = ImageView.ScaleType.CENTER_CROP
-            (context as MainActivity).collapse_toolbar_image_view.setImageBitmap(bitmap)
+        (context as MainActivity).app_bar.isActivated = true
+        (context as MainActivity).collapsable_toolbar_iv.visibility = ImageView.VISIBLE
+        if (bitmap != null) {
+            (context as MainActivity).collapsable_toolbar_iv.scaleType = ImageView.ScaleType.CENTER_CROP
+            (context as MainActivity).collapsable_toolbar_iv.setImageBitmap(bitmap)
+            (context as MainActivity).app_bar.setExpanded(true, true)
         } else {
-            (context as MainActivity).collapse_toolbar_image_view.scaleType = ImageView.ScaleType.FIT_CENTER
-            (context as MainActivity).collapse_toolbar_image_view.setImageResource(R.drawable.ic_birthday_person)
-        }*/
+            (context as MainActivity).collapsable_toolbar_iv.scaleType = ImageView.ScaleType.FIT_CENTER
+            (context as MainActivity).collapsable_toolbar_iv.setImageResource(R.drawable.ic_birthday_person)
+        }
+    }
+
+    private fun closeExpandableToolbar() {
+        (context as MainActivity).collapsable_toolbar_iv.visibility = ImageView.GONE
+        (context as MainActivity).app_bar.setExpanded(false, false)
+        (context as MainActivity).app_bar.isActivated = false
     }
 
     /**
@@ -209,6 +225,7 @@ class ShowBirthdayEvent : ShowEventFragment() {
         )
         ft.addToBackStack(null)
         ft.commit()
+        closeExpandableToolbar()
     }
 
     companion object {

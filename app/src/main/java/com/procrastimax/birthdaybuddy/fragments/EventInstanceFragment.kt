@@ -6,9 +6,7 @@ import android.support.v4.content.ContextCompat
 import android.support.v7.app.ActionBar
 import android.support.v7.widget.Toolbar
 import android.view.Gravity
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import com.procrastimax.birthdaybuddy.MainActivity
@@ -36,9 +34,6 @@ abstract class EventInstanceFragment : Fragment() {
         toolbar.findViewById<TextView>(R.id.tv_add_fragment_title)
     }*/
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return super.onCreateView(inflater, container, savedInstanceState)
-    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -48,13 +43,10 @@ abstract class EventInstanceFragment : Fragment() {
         //use 16dp as left content insent
         toolbarContentInsentLeft = MainActivity.convertDpToPx(context!!, 16.toFloat())
 
-        //set white color
-        toolbar.setBackgroundColor(ContextCompat.getColor(context as MainActivity, android.R.color.white))
-
         //check if toolbar already has a view inflated
-        var toolbar_view: View? = toolbar.getChildAt(toolbar.childCount - 1)
+        var toolbar_view: View? = toolbar.getChildAt(0)
         if (toolbar_view != null && toolbar_view.id == R.id.constrLayout_toolbar_edit) {
-            toolbar.getChildAt(toolbar.childCount - 1).visibility = View.VISIBLE
+            toolbar.getChildAt(0).visibility = View.VISIBLE
             toolbar.setContentInsetsAbsolute(0, toolbar.contentInsetRight)
         } else {
             //when toolbar doesnt have child of custom view, then inflate and add it to toolbar, also set some params
@@ -63,7 +55,7 @@ abstract class EventInstanceFragment : Fragment() {
                 ActionBar.LayoutParams(ActionBar.LayoutParams.MATCH_PARENT, ActionBar.LayoutParams.MATCH_PARENT)
             actionBar_params.gravity = Gravity.CENTER
             toolbar.setContentInsetsAbsolute(0, toolbar.contentInsetRight)
-            toolbar.addView(toolbar_view, actionBar_params)
+            toolbar.addView(toolbar_view, 0, actionBar_params)
         }
 
         toolbar_view?.findViewById<ImageView>(R.id.btn_edit_event_accept).apply {
@@ -79,7 +71,7 @@ abstract class EventInstanceFragment : Fragment() {
     }
 
     fun setToolbarTitle(title: String) {
-        val toolbar_view: View? = toolbar.getChildAt(toolbar.childCount - 1)
+        val toolbar_view: View? = toolbar.getChildAt(0)
         if (toolbar_view != null && toolbar_view.id == R.id.constrLayout_toolbar_edit) {
             val tv_title = toolbar_view.findViewById<TextView>(R.id.tv_edit_fragment_title)
             tv_title.text = title
@@ -92,10 +84,9 @@ abstract class EventInstanceFragment : Fragment() {
      */
     override fun onDetach() {
         super.onDetach()
-        toolbar.getChildAt(toolbar.childCount - 1).visibility = View.GONE
+        toolbar.getChildAt(0).visibility = View.GONE
         toolbar.setContentInsetsAbsolute(this.toolbarContentInsentLeft, toolbar.contentInsetRight)
-        //set primary color
-        toolbar.setBackgroundColor(ContextCompat.getColor(context as MainActivity, R.color.colorPrimary))
+        toolbar.setBackgroundColor(ContextCompat.getColor(context as MainActivity, android.R.color.transparent))
     }
 
     /**

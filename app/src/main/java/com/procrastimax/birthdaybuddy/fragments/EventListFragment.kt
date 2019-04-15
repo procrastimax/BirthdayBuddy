@@ -12,6 +12,7 @@ import com.procrastimax.birthdaybuddy.R
 import com.procrastimax.birthdaybuddy.handler.EventHandler
 import com.procrastimax.birthdaybuddy.views.EventAdapter
 import com.procrastimax.birthdaybuddy.views.RecycleViewItemDivider
+import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_event_list.*
 import java.util.*
 
@@ -36,6 +37,7 @@ class EventListFragment : Fragment() {
         setHasOptionsMenu(true)
         (context as MainActivity).supportActionBar?.setDisplayHomeAsUpEnabled(false)
         (context as MainActivity).supportActionBar?.setDisplayShowHomeEnabled(false)
+        (context as MainActivity).app_bar.isActivated = false
 
         isFABOpen = false
 
