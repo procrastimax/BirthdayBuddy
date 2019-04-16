@@ -1,8 +1,9 @@
 package com.procrastimax.birthdaybuddy.views
 
 import android.content.Context
-import android.os.Bundle
+import android.content.Intent
 import android.support.v4.app.FragmentManager
+import android.support.v4.content.ContextCompat.startActivity
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
@@ -10,7 +11,6 @@ import android.view.ViewGroup
 import android.widget.TextView
 import com.procrastimax.birthdaybuddy.MainActivity
 import com.procrastimax.birthdaybuddy.R
-import com.procrastimax.birthdaybuddy.fragments.*
 import com.procrastimax.birthdaybuddy.handler.BitmapHandler
 import com.procrastimax.birthdaybuddy.handler.EventHandler
 import com.procrastimax.birthdaybuddy.models.AnnualEvent
@@ -24,7 +24,7 @@ import kotlinx.android.synthetic.main.one_time_event_item_view.view.*
 import java.text.DateFormat
 
 
-class EventAdapter(private val context: Context, private val fragmentManager: FragmentManager) :
+class EventAdapter_Searching(private val context: Context, private val fragmentManager: FragmentManager) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     var isClickable: Boolean = true
@@ -122,45 +122,22 @@ class EventAdapter(private val context: Context, private val fragmentManager: Fr
 
                     //set on click listener for item
                     holder.itemView.setOnClickListener {
-                        if (isClickable) {
-                            val bundle = Bundle()
-                            //do this in more adaptable way
-                            bundle.putInt(
-                                ITEM_ID_PARAM,
-                                position
-                            )
-                            val ft = fragmentManager.beginTransaction()
-                            // add arguments to fragment
-                            val newBirthdayFragment = ShowBirthdayEvent.newInstance()
-                            newBirthdayFragment.arguments = bundle
-                            ft.replace(
-                                R.id.fragment_placeholder,
-                                newBirthdayFragment
-                            )
-                            ft.addToBackStack(null)
-                            ft.commit()
-                        }
+                        //TODO: write a on click listener to shorten code
+                        //replace this activity with the main acitivty to show searched
+                        val intent = Intent(context, MainActivity::class.java)
+                        intent.putExtra("EVENTID", EventHandler.getList()[position].eventID)
+                        intent.putExtra("POSITION", position)
+                        intent.putExtra("TYPE", "SHOW")
+                        startActivity(context, intent, null)
                     }
 
                     holder.itemView.setOnLongClickListener {
-                        if (isClickable) {
-                            val bundle = Bundle()
-                            //do this in more adaptable way
-                            bundle.putInt(
-                                ITEM_ID_PARAM,
-                                position
-                            )
-                            val ft = fragmentManager.beginTransaction()
-                            // add arguments to fragment
-                            val newBirthdayFragment = BirthdayInstanceFragment.newInstance()
-                            newBirthdayFragment.arguments = bundle
-                            ft.replace(
-                                R.id.fragment_placeholder,
-                                newBirthdayFragment
-                            )
-                            ft.addToBackStack(null)
-                            ft.commit()
-                        }
+                        //replace this activity with the main acitivty to show searched
+                        val intent = Intent(context, MainActivity::class.java)
+                        intent.putExtra("EVENTID", EventHandler.getList()[position].eventID)
+                        intent.putExtra("POSITION", position)
+                        intent.putExtra("TYPE", "EDIT")
+                        startActivity(context, intent, null)
                         true
                     }
 
@@ -225,8 +202,18 @@ class EventAdapter(private val context: Context, private val fragmentManager: Fr
                         } else {
                             holder.itemView.iv_birthday_event_item_image.setImageResource(R.drawable.ic_birthday_person)
                         }
+                    } else {
+                        //called from search activity
+                        if (avatarUri != null) {
+                            holder.itemView.iv_birthday_event_item_image.setImageBitmap(
+                                BitmapHandler.getBitmapAt(
+                                    (EventHandler.getList()[position].eventID)
+                                )
+                            )
+                        } else {
+                            holder.itemView.iv_birthday_event_item_image.setImageResource(R.drawable.ic_birthday_person)
+                        }
                     }
-
                 }
             }
 
@@ -237,45 +224,21 @@ class EventAdapter(private val context: Context, private val fragmentManager: Fr
 
                     //set on click listener for item
                     holder.itemView.setOnClickListener {
-                        if (isClickable) {
-                            val bundle = Bundle()
-                            //do this in more adaptable way
-                            bundle.putInt(
-                                ITEM_ID_PARAM,
-                                position
-                            )
-                            val ft = fragmentManager.beginTransaction()
-                            // add arguments to fragment
-                            val newAnnualEvent = ShowAnnualEvent.newInstance()
-                            newAnnualEvent.arguments = bundle
-                            ft.replace(
-                                R.id.fragment_placeholder,
-                                newAnnualEvent
-                            )
-                            ft.addToBackStack(null)
-                            ft.commit()
-                        }
+                        //replace this activity with the main acitivty to show searched
+                        val intent = Intent(context, MainActivity::class.java)
+                        intent.putExtra("EVENTID", EventHandler.getList()[position].eventID)
+                        intent.putExtra("POSITION", position)
+                        intent.putExtra("TYPE", "SHOW")
+                        startActivity(context, intent, null)
                     }
 
                     holder.itemView.setOnLongClickListener {
-                        if (isClickable) {
-                            val bundle = Bundle()
-                            //do this in more adaptable way
-                            bundle.putInt(
-                                ITEM_ID_PARAM,
-                                position
-                            )
-                            val ft = fragmentManager.beginTransaction()
-                            // add arguments to fragment
-                            val newAnnualEvent = AnnualEventInstanceFragment.newInstance()
-                            newAnnualEvent.arguments = bundle
-                            ft.replace(
-                                R.id.fragment_placeholder,
-                                newAnnualEvent
-                            )
-                            ft.addToBackStack(null)
-                            ft.commit()
-                        }
+                        //replace this activity with the main acitivty to show searched
+                        val intent = Intent(context, MainActivity::class.java)
+                        intent.putExtra("EVENTID", EventHandler.getList()[position].eventID)
+                        intent.putExtra("POSITION", position)
+                        intent.putExtra("TYPE", "EDIT")
+                        startActivity(context, intent, null)
                         true
                     }
 
@@ -309,44 +272,21 @@ class EventAdapter(private val context: Context, private val fragmentManager: Fr
 
                     //set on click listener for item
                     holder.itemView.setOnClickListener {
-                        if (isClickable) {
-                            val bundle = Bundle()
-                            bundle.putInt(
-                                ITEM_ID_PARAM,
-                                position
-                            )
-                            val ft = fragmentManager.beginTransaction()
-                            // add arguments to fragment
-                            val newOneTimeEvent = ShowOneTimeEvent.newInstance()
-                            newOneTimeEvent.arguments = bundle
-                            ft.replace(
-                                R.id.fragment_placeholder,
-                                newOneTimeEvent
-                            )
-                            ft.addToBackStack(null)
-                            ft.commit()
-                        }
+                        //replace this activity with the main acitivty to show searched
+                        val intent = Intent(context, MainActivity::class.java)
+                        intent.putExtra("EVENTID", EventHandler.getList()[position].eventID)
+                        intent.putExtra("POSITION", position)
+                        intent.putExtra("TYPE", "SHOW")
+                        startActivity(context, intent, null)
                     }
 
                     holder.itemView.setOnLongClickListener {
-                        if (isClickable) {
-                            val bundle = Bundle()
-                            //do this in more adaptable way
-                            bundle.putInt(
-                                ITEM_ID_PARAM,
-                                position
-                            )
-                            val ft = fragmentManager.beginTransaction()
-                            // add arguments to fragment
-                            val newOneTimeEvent = OneTimeEventInstanceFragment.newInstance()
-                            newOneTimeEvent.arguments = bundle
-                            ft.replace(
-                                R.id.fragment_placeholder,
-                                newOneTimeEvent
-                            )
-                            ft.addToBackStack(null)
-                            ft.commit()
-                        }
+                        //replace this activity with the main acitivty to show searched
+                        val intent = Intent(context, MainActivity::class.java)
+                        intent.putExtra("EVENTID", EventHandler.getList()[position].eventID)
+                        intent.putExtra("POSITION", position)
+                        intent.putExtra("TYPE", "EDIT")
+                        startActivity(context, intent, null)
                         true
                     }
 

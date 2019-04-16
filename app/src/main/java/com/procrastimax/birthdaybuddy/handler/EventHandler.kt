@@ -29,6 +29,8 @@ object EventHandler {
      */
     private var event_list: MutableList<EventDate> = emptyList<EventDate>().toMutableList()
 
+    private var event_map: MutableMap<Int, EventDate> = emptyMap<Int, EventDate>().toMutableMap()
+
     /**
      * addEvent adds a EventDay type to the map and has the possibility to write it to the shared prefernces after adding it
      * this orders all events after the date automatically
@@ -48,6 +50,7 @@ object EventHandler {
 
     ) {
         this.event_list.add(event)
+        this.event_map[event.eventID] = event
 
         if (event is EventBirthday && addBitmap) {
             Thread(Runnable {
@@ -87,25 +90,36 @@ object EventHandler {
         }
     }
 
-    fun addList(list: List<EventDate>) {
+    /*fun addList(list: List<EventDate>) {
         this.event_list = getSortedListBy(list).toMutableList()
-    }
+    }*/
 
     fun clearList() {
         if (this.event_list.isNotEmpty()) {
             this.event_list.clear()
+            this.event_map.clear()
         }
     }
 
     /**
-     * getValueToKey returns the value with type EventDay? to a given integer key
-     *
+     * getEventByPosition returns the value with type EventDay? to a given integer key
      * @param key : Int
      * @return EventDay?
      */
-    fun getEvent(key: Int): EventDate? {
+    fun getEventByPosition(key: Int): EventDate? {
         if (containsIndex(key))
             return event_list[key]
+        return null
+    }
+
+    /**
+     * getEventToEventIndex returns the value with type EventDay? to a given integer key
+     * @param index : Int
+     * @return EventDay?
+     */
+    fun getEventToEventIndex(index: Int): EventDate? {
+        if (event_map.containsKey(index))
+            return event_list[index]
         return null
     }
 
@@ -128,15 +142,16 @@ object EventHandler {
         }
 
         event_list.removeAt(key)
+        event_map.remove(event_list.get(key).eventID)
         this.event_list = this.getSortedListBy(this.event_list).toMutableList()
     }
 
-    fun deleteAllEntries(context: Context, writeAfterAdd: Boolean) {
+    fun deleteAllEntriesAndImages(context: Context, writeAfterAdd: Boolean) {
         this.event_list.forEach {
             NotificationHandler.cancelNotification(context, it)
         }
 
-        this.event_list.clear()
+        this.clearList()
         BitmapHandler.removeAllDrawables(context)
         if (writeAfterAdd) {
             //deletes shared prefs before writing list, but list is empty, so it only clears the shared prefs
@@ -165,7 +180,8 @@ object EventHandler {
 
         event.eventID = event_list[key].eventID
 
-        event_list[key] = event
+        this.event_list[key] = event
+        this.event_map[event.eventID] = event
 
         if (event is EventBirthday) {
             if ((event).avatarImageUri != null) {
@@ -241,6 +257,10 @@ object EventHandler {
 
     fun getList(): List<EventDate> {
         return this.event_list
+    }
+
+    fun getMap(): Map<Int, EventDate> {
+        return this.event_map
     }
 
     /**

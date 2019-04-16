@@ -98,7 +98,7 @@ object BitmapHandler {
     }
 
     fun loadSquaredDrawable(index: Int, uri: Uri, context: Context, scale: Int = 64): Bitmap? {
-        val event = EventHandler.getEvent(index)
+        val event = EventHandler.getEventByPosition(index)
         if (event != null) {
             if (event is EventBirthday && event.avatarImageUri != null) {
                 try {
@@ -124,7 +124,7 @@ object BitmapHandler {
     }
 
     fun removeBitmap(id: Int, context: Context) {
-        val event = EventHandler.getEvent(id)
+        val event = EventHandler.getEventByPosition(id)
         if (event != null) {
             drawable_map.toMutableMap().remove(id)
             removeBitmapFromFiles(context, event.eventID)

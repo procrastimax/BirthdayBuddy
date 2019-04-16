@@ -1,5 +1,7 @@
 package com.procrastimax.birthdaybuddy.fragments
 
+import android.app.SearchManager
+import android.content.Context
 import android.os.Bundle
 import android.support.constraint.ConstraintLayout
 import android.support.v4.app.Fragment
@@ -46,7 +48,7 @@ class EventListFragment : Fragment() {
         fab_layout_add_one_time.visibility = ConstraintLayout.INVISIBLE
 
         viewManager = LinearLayoutManager(view.context)
-        viewAdapter = EventAdapter(view.context)
+        viewAdapter = EventAdapter(view.context, this.fragmentManager!!)
 
         recyclerView = view.findViewById<RecyclerView>(R.id.recyclerView).apply {
             setHasFixedSize(true)
@@ -228,13 +230,24 @@ class EventListFragment : Fragment() {
     override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {
         super.onCreateOptionsMenu(menu, inflater)
         inflater?.inflate(R.menu.toolbar_main, menu)
-        //inflater?.inflate(R.menu.main_menu, menu)
+
+        // Get the SearchView and set the searchable configuration
+        val searchManager = context?.getSystemService(Context.SEARCH_SERVICE) as SearchManager
+        (menu?.findItem(R.id.toolbar_search)?.actionView as android.support.v7.widget.SearchView).apply {
+            //Assume current activity is the searchable activity
+            setSearchableInfo(searchManager.getSearchableInfo(activity?.componentName))
+
+            setIconifiedByDefault(true)
+
+            //submit button in action bar disabled
+            isSubmitButtonEnabled = false
+        }
     }
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
         when (item?.itemId) {
             R.id.toolbar_search -> {
-                searchStarted()
+
             }
             R.id.item_help -> {
                 helpClicked()
@@ -283,10 +296,6 @@ class EventListFragment : Fragment() {
         )
         ft.addToBackStack(null)
         ft.commit()
-    }
-
-    private fun searchStarted() {
-
     }
 
     companion object {

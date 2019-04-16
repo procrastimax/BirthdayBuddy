@@ -513,7 +513,7 @@ class SettingsAdapter(private val context: Context) :
         dialogBuilder.setMessage("Are you sure you want to delete all data?")
         dialogBuilder.setPositiveButton("Yes", DialogInterface.OnClickListener { _, _ ->
             Toast.makeText(context, "All events has been deleted", Toast.LENGTH_LONG).show()
-            EventHandler.deleteAllEntries(context, true)
+            EventHandler.deleteAllEntriesAndImages(context, true)
             (context as MainActivity).addMonthDivider()
         })
         dialogBuilder.setNegativeButton("No", DialogInterface.OnClickListener { dialog, _ -> dialog.dismiss() })
