@@ -27,6 +27,7 @@ import java.text.DateFormat
  *
  * TODO:
  * - add tiny animation for opening this fragment
+ * - scrollable toolbar title isnt at bottom
  */
 class ShowBirthdayEvent : ShowEventFragment() {
 

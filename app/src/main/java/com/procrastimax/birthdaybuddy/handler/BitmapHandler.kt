@@ -31,7 +31,7 @@ object BitmapHandler {
 
     private var drawable_map: MutableMap<Int, Bitmap> = emptyMap<Int, Bitmap>().toMutableMap()
 
-    private val STANDARD_SCALING = 64 * 6
+    private val STANDARD_SCALING = 64 * 4
 
     /**
      * addDrawable adds a drawable to the drawable_map by reading a bitmap from the storage
