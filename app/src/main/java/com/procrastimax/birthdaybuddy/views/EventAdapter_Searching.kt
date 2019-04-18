@@ -2,7 +2,6 @@ package com.procrastimax.birthdaybuddy.views
 
 import android.content.Context
 import android.content.Intent
-import android.support.v4.app.FragmentManager
 import android.support.v4.content.ContextCompat.startActivity
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
@@ -24,10 +23,8 @@ import kotlinx.android.synthetic.main.one_time_event_item_view.view.*
 import java.text.DateFormat
 
 
-class EventAdapter_Searching(private val context: Context, private val fragmentManager: FragmentManager) :
+class EventAdapter_Searching(private val context: Context, private val eventIDs: List<Int>) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
-
-    var isClickable: Boolean = true
 
     class BirthdayEventViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
 
@@ -50,22 +47,25 @@ class EventAdapter_Searching(private val context: Context, private val fragmentM
      */
     override fun getItemViewType(position: Int): Int {
         when (EventHandler.getList()[position]) {
-            is MonthDivider -> {
+            /*is MonthDivider -> {
                 if (position < EventHandler.getList().size - 1) {
                     if (EventHandler.getList()[position + 1] !is MonthDivider) {
                         return 0
                     }
                 }
                 return -1
-            }
+            }*/
             is EventBirthday -> {
-                return 1
+                if (eventIDs.contains(EventHandler.getList()[position].eventID))
+                    return 1
             }
             is AnnualEvent -> {
-                return 2
+                if (eventIDs.contains(EventHandler.getList()[position].eventID))
+                    return 2
             }
             is OneTimeEvent -> {
-                return 3
+                if (eventIDs.contains(EventHandler.getList()[position].eventID))
+                    return 3
             }
         }
         return -1
@@ -92,7 +92,7 @@ class EventAdapter_Searching(private val context: Context, private val fragmentM
             3 -> {
                 val item_view =
                     LayoutInflater.from(parent.context).inflate(R.layout.one_time_event_item_view, parent, false)
-                return AnnualEventViewHolder(item_view)
+                return OneTimeEventViewHolder(item_view)
             }
             else -> {
                 //Default is birthday event

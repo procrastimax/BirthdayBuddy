@@ -7,6 +7,7 @@ import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.view.MenuItem
+import com.procrastimax.birthdaybuddy.handler.SearchHandler
 import com.procrastimax.birthdaybuddy.views.EventAdapter_Searching
 import com.procrastimax.birthdaybuddy.views.RecycleViewItemDivider
 import kotlinx.android.synthetic.main.activity_searchable.*
@@ -18,25 +19,13 @@ class SearchableActivity : AppCompatActivity() {
     private lateinit var viewAdapter: RecyclerView.Adapter<*>
     private lateinit var viewManager: RecyclerView.LayoutManager
 
+    private val eventIndexList = emptyList<Int>().toMutableList()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_searchable)
 
         setSupportActionBar(toolbar_searchable)
-
-        this.supportActionBar?.setDisplayHomeAsUpEnabled(true)
-        this.supportActionBar?.setDisplayShowHomeEnabled(true)
-        this.supportActionBar?.setHomeButtonEnabled(true)
-
-        viewManager = LinearLayoutManager(this)
-        viewAdapter = EventAdapter_Searching(this, this.supportFragmentManager)
-
-        recyclerView = findViewById<RecyclerView>(R.id.recyclerView_search).apply {
-            setHasFixedSize(true)
-            layoutManager = viewManager
-            adapter = viewAdapter
-        }
-        recyclerView.addItemDecoration(RecycleViewItemDivider(this))
 
         // Verify the action and get the query
         if (Intent.ACTION_SEARCH == intent.action) {
@@ -44,6 +33,20 @@ class SearchableActivity : AppCompatActivity() {
                 search(query)
             }
         }
+
+        this.supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        this.supportActionBar?.setDisplayShowHomeEnabled(true)
+        this.supportActionBar?.setHomeButtonEnabled(true)
+
+        viewManager = LinearLayoutManager(this)
+        viewAdapter = EventAdapter_Searching(this, this.eventIndexList)
+
+        recyclerView = findViewById<RecyclerView>(R.id.recyclerView_search).apply {
+            setHasFixedSize(true)
+            layoutManager = viewManager
+            adapter = viewAdapter
+        }
+        recyclerView.addItemDecoration(RecycleViewItemDivider(this))
     }
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
@@ -57,5 +60,6 @@ class SearchableActivity : AppCompatActivity() {
 
     private fun search(query: String) {
         supportActionBar?.title = "Search for: $query"
+        this.eventIndexList.addAll(SearchHandler.searchOnEventData(query).distinct())
     }
 }

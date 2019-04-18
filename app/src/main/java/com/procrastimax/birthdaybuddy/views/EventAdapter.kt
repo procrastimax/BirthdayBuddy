@@ -92,7 +92,7 @@ class EventAdapter(private val context: Context, private val fragmentManager: Fr
             3 -> {
                 val item_view =
                     LayoutInflater.from(parent.context).inflate(R.layout.one_time_event_item_view, parent, false)
-                return AnnualEventViewHolder(item_view)
+                return OneTimeEventViewHolder(item_view)
             }
             else -> {
                 //Default is birthday event

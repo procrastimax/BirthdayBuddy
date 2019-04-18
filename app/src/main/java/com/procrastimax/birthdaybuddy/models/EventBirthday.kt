@@ -72,7 +72,7 @@ class EventBirthday(
             }
         }
 
-    var surname: String?
+    var surname: String
         get() = _surname
         set(value) {
             _surname = if (value.isNullOrBlank() || value.isEmpty()) {
