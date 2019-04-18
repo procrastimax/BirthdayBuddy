@@ -42,13 +42,13 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         setSupportActionBar(toolbar)
 
-        EventHandler.clearList()
+        EventHandler.clearData()
 
-        IOHandler.registerIO(this.applicationContext)
+        IOHandler.registerIO(this)
 
         if (!IOHandler.isFirstStart()) {
             //read all data from shared prefs, when app didnt start for the first time
-            IOHandler.readAll(this.applicationContext)
+            IOHandler.readAll(this)
 
         } else {
             //on first start write standard settings to shared prefs
@@ -63,7 +63,7 @@ class MainActivity : AppCompatActivity() {
                     "Dev",
                     false
                 ),
-                this.applicationContext,
+                this,
                 true
             )
         }
@@ -80,7 +80,8 @@ class MainActivity : AppCompatActivity() {
         Thread(Runnable {
             isLoading = true
             //import all drawables
-            val success = BitmapHandler.loadAllBitmaps(this.applicationContext)
+            //TODO: add checkings
+            val success = BitmapHandler.loadAllBitmaps(this)
             isLoading = false
 
             runOnUiThread {
@@ -91,49 +92,65 @@ class MainActivity : AppCompatActivity() {
 
                 //update avatar images from other fragments, when all drawables have been loaded
                 if (supportFragmentManager.backStackEntryCount > 0) {
-                    val current_fragment =
+                    val currentFragment =
                         supportFragmentManager.fragments[supportFragmentManager.backStackEntryCount - 1]
 
                     //current fragment is ShowBirthdayEvent fragment
-                    if (current_fragment is ShowBirthdayEvent) {
-                        (current_fragment).updateAvatarImage()
+                    if (currentFragment is ShowBirthdayEvent) {
+                        (currentFragment).updateAvatarImage()
 
                         //current fragment is BirthdayInstanceFragment
-                    } else if (current_fragment is BirthdayInstanceFragment) {
-                        (current_fragment).updateAvatarImage()
-                        (current_fragment).iv_add_avatar_btn.isEnabled = true
+                    } else if (currentFragment is BirthdayInstanceFragment) {
+                        (currentFragment).updateAvatarImage()
+                        (currentFragment).iv_add_avatar_btn.isEnabled = true
                     }
                 }
 
                 progress_bar_main.visibility = ProgressBar.GONE
             }
         }).start()
+
+        if (intent != null) {
+            //TODO: when closing and open acitivty again, intent information stays the same, just null it??
+            //TODO: whats happens with multiple pending intents, do they change?
+            if (intent?.getBooleanExtra("LOADALL", false) == true) {
+                val eventID = intent?.getIntExtra("EVENTID", -1)
+                val type = intent?.getStringExtra("TYPE")
+                if (eventID != null && eventID > -1 && type != null) {
+                    startFragments(eventID, type)
+                }
+            }
+            intent = null
+        }
     }
 
     override fun onNewIntent(intent: Intent?) {
         super.onNewIntent(intent)
         val eventID = intent?.getIntExtra("EVENTID", -1)
-        val position = intent?.getIntExtra("POSITION", -1)
         val type = intent?.getStringExtra("TYPE")
+        (toolbar.menu.findItem(R.id.toolbar_search)?.actionView as android.support.v7.widget.SearchView).apply {
+            //close search view
+            toolbar.collapseActionView()
+        }
 
-        if (eventID != null && eventID > -1 && position != null && position > -1 && type != null) {
-            println("-------------EventID - " + eventID + " | POSITION - " + position + " | TYPE - " + type)
+        if (eventID != null && eventID > -1 && type != null) {
+            startFragments(eventID, type)
+        }
+    }
 
-            (toolbar.menu.findItem(R.id.toolbar_search)?.actionView as android.support.v7.widget.SearchView).apply {
-                //close search view
-                toolbar.collapseActionView()
-            }
+    private fun startFragments(eventID: Int, type: String) {
+        val bundle = Bundle()
 
-            val event = EventHandler.getEventByPosition(position)
+        println("------------ EventID - $eventID | TYPE - $type")
+        //do this in more adaptable way
+        bundle.putInt(
+            ITEM_ID_PARAM_EVENTID,
+            eventID
+        )
 
-            val bundle = Bundle()
-            //do this in more adaptable way
-            bundle.putInt(
-                ITEM_ID_PARAM,
-                position
-            )
+        EventHandler.getEventToEventIndex(eventID)?.let { event ->
 
-            val showEventFragment: Fragment? = when (event) {
+            val eventFragment: Fragment? = when (event) {
                 is EventBirthday -> {
                     if (type == "SHOW") {
                         ShowBirthdayEvent.newInstance()
@@ -159,28 +176,18 @@ class MainActivity : AppCompatActivity() {
                     null
                 }
             }
-            if (showEventFragment != null) {
+            if (eventFragment != null) {
                 val ft = supportFragmentManager.beginTransaction()
                 // add arguments to fragment
-                showEventFragment.arguments = bundle
+                eventFragment.arguments = bundle
                 ft.replace(
                     R.id.fragment_placeholder,
-                    showEventFragment
+                    eventFragment
                 )
                 ft.addToBackStack(null)
                 ft.commit()
             }
         }
-    }
-
-    /**
-     * getMonthFromIndex returns a month name specified in the string resources by an index
-     * starts at 0 with january
-     * @param index: Int
-     * @return String
-     */
-    private fun getMonthFromIndex(index: Int): String {
-        return resources.getStringArray(R.array.month_names)[index]
     }
 
     fun addMonthDivider() {
@@ -192,7 +199,7 @@ class MainActivity : AppCompatActivity() {
             cal.set(Calendar.MONTH, i)
             EventHandler.addEvent(
                 MonthDivider(cal.time, resources.getStringArray(R.array.month_names)[i]),
-                this.applicationContext,
+                this,
                 true
             )
         }

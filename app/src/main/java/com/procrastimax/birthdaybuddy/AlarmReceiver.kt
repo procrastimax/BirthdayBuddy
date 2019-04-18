@@ -57,11 +57,15 @@ class AlarmReceiver : BroadcastReceiver() {
 
     private fun buildNotification(context: Context, event: EventDate, notificationID: Int, eventID: Int) {
 
-        // Create an explicit intent for an Activity, so the activity starts when notification is clicked
-        val intent = Intent(context, MainActivity::class.java).apply {
-            flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-        }
-        val pendingIntent: PendingIntent = PendingIntent.getActivity(context, 0, intent, 0)
+        val intent = Intent(context, MainActivity::class.java)
+        intent.putExtra("EVENTID", eventID)
+        intent.putExtra("TYPE", "SHOW")
+        intent.putExtra("LOADALL", true)
+        //TODO: play with these settings, see mainactivity for more todos
+        intent.setAction((notificationID*3).toString())
+        intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP)
+        val pendingIntent: PendingIntent =
+            PendingIntent.getActivity(context, notificationID, intent, PendingIntent.FLAG_UPDATE_CURRENT)
 
         val notificationManager: NotificationManager =
             context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
@@ -117,174 +121,176 @@ class AlarmReceiver : BroadcastReceiver() {
 
         //switch event type
         // EVENT BIRTHDAY
-        if (event is EventBirthday) {
-            var bitmap: Bitmap? = null
-            if (event.avatarImageUri != null) {
-                bitmap = BitmapHandler.getBitmapFromFile(context, eventID)
-                if (bitmap != null) {
-                    bitmap = BitmapHandler.getCircularBitmap(bitmap, context.resources)
+        when (event) {
+            is EventBirthday -> {
+                var bitmap: Bitmap? = null
+                if (event.avatarImageUri != null) {
+                    bitmap = BitmapHandler.getBitmapFromFile(context, eventID)
+                    if (bitmap != null) {
+                        bitmap = BitmapHandler.getCircularBitmap(bitmap, context.resources)
+                    }
                 }
+                if (event.avatarImageUri == null || bitmap == null) {
+                    val drawable = ContextCompat.getDrawable(context, R.drawable.ic_birthday_person)
+                    bitmap = BitmapHandler.drawableToBitmap(drawable!!)
+                    //bitmap = BitmapFactory.decodeResource(context.resources, R.drawable.ic_birthday_person)
+                }
+
+                var defaults = Notification.DEFAULT_ALL
+
+                val builder = NotificationCompat.Builder(context, NotificationHandler.CHANNEL_ID)
+                    //TODO: set small icon to app icon
+                    .setSmallIcon(R.drawable.ic_launcher_foreground)
+                    .setContentText(
+                        context.getString(
+                            R.string.notification_content_birthday,
+                            event.forename,
+                            event.getDaysUntil(),
+                            event.forename,
+                            event.getYearsSince()
+                        )
+                    )
+                    .setContentTitle(
+                        context.getString(
+                            R.string.notification_title_birthday,
+                            "${event.forename} ${event.surname}"
+                        )
+                    )
+                    //TODO: add longer detailed text
+                    .setPriority(NotificationCompat.PRIORITY_MAX)
+                    // Set the intent that will fire when the user taps the notification
+                    .setContentIntent(pendingIntent)
+                    .setAutoCancel(true)
+                    .setStyle(NotificationCompat.BigTextStyle())
+                    .setLargeIcon(bitmap)
+
+                if (!IOHandler.getBooleanFromKey(IOHandler.SharedPrefKeys.key_isNotificationVibrationOnBirthday)!!) {
+                    defaults -= Notification.DEFAULT_VIBRATE
+                }
+
+                if (!IOHandler.getBooleanFromKey(IOHandler.SharedPrefKeys.key_isNotificationSoundOnBirthday)!!) {
+                    defaults -= Notification.DEFAULT_SOUND
+                }
+
+                val lightColor = getLightColor(event, context)
+                if (lightColor != null) {
+                    defaults -= Notification.DEFAULT_LIGHTS
+                    builder.setLights(lightColor, 500, 500)
+                } else {
+                    defaults -= Notification.DEFAULT_LIGHTS
+                }
+
+                builder.setDefaults(defaults)
+
+                with(notificationManager) {
+                    notify(notificationID, builder.build())
+                }
+
+                // ANNUAL EVENT
             }
-            if (event.avatarImageUri == null || bitmap == null) {
+            is AnnualEvent -> {
+
+                var defaults = Notification.DEFAULT_ALL
+
                 val drawable = ContextCompat.getDrawable(context, R.drawable.ic_birthday_person)
-                bitmap = BitmapHandler.drawableToBitmap(drawable!!)
-                //bitmap = BitmapFactory.decodeResource(context.resources, R.drawable.ic_birthday_person)
-            }
+                val bitmap = BitmapHandler.drawableToBitmap(drawable!!)
 
-            var defaults = Notification.DEFAULT_ALL
-
-            val builder = NotificationCompat.Builder(context, NotificationHandler.CHANNEL_ID)
-                //TODO: set small icon to app icon
-                .setSmallIcon(R.drawable.ic_launcher_foreground)
-                .setContentText(
-                    context.getString(
-                        R.string.notification_content_birthday,
-                        event.forename,
-                        event.getDaysUntil(),
-                        event.forename,
-                        event.getYearsSince()
+                val builder = NotificationCompat.Builder(context, NotificationHandler.CHANNEL_ID)
+                    .setSmallIcon(R.drawable.ic_launcher_foreground)
+                    .setContentText(
+                        context.getString(
+                            R.string.notification_content_annual,
+                            event.name,
+                            event.getDaysUntil()
+                        )
                     )
-                )
-                .setContentTitle(
-                    context.getString(
-                        R.string.notification_title_birthday,
-                        "${event.forename} ${event.surname}"
+                    .setContentTitle(
+                        context.getString(
+                            R.string.notification_title_annual,
+                            event.name
+                        )
                     )
-                )
-                //TODO: add longer detailed text
-                .setPriority(NotificationCompat.PRIORITY_MAX)
-                // Set the intent that will fire when the user taps the notification
-                .setContentIntent(pendingIntent)
-                .setAutoCancel(true)
-                .setStyle(NotificationCompat.BigTextStyle())
-            if (bitmap != null) {
-                builder.setLargeIcon(bitmap)
+                    //TODO: add longer detailed text
+                    .setPriority(NotificationCompat.PRIORITY_MAX)
+                    // Set the intent that will fire when the user taps the notification
+                    .setContentIntent(pendingIntent)
+                    .setAutoCancel(true)
+                    .setLargeIcon(bitmap)
+
+                if (!IOHandler.getBooleanFromKey(IOHandler.SharedPrefKeys.key_isNotificationVibrationOnAnnual)!!) {
+                    defaults -= Notification.DEFAULT_VIBRATE
+                }
+
+                if (!IOHandler.getBooleanFromKey(IOHandler.SharedPrefKeys.key_isNotificationSoundOnAnnual)!!) {
+                    defaults -= Notification.DEFAULT_SOUND
+                }
+
+                val lightColor = getLightColor(event, context)
+                if (lightColor != null) {
+                    defaults -= Notification.DEFAULT_LIGHTS
+                    builder.setLights(lightColor, 500, 500)
+                } else {
+                    defaults -= Notification.DEFAULT_LIGHTS
+                }
+
+                builder.setDefaults(defaults)
+
+                with(notificationManager) {
+                    notify(notificationID, builder.build())
+                }
+
+                // ONE TIME EVENT
             }
+            is OneTimeEvent -> {
 
-            if (!IOHandler.getBooleanFromKey(IOHandler.SharedPrefKeys.key_isNotificationVibrationOnBirthday)!!) {
-                defaults -= Notification.DEFAULT_VIBRATE
-            }
+                var defaults = Notification.DEFAULT_ALL
 
-            if (!IOHandler.getBooleanFromKey(IOHandler.SharedPrefKeys.key_isNotificationSoundOnBirthday)!!) {
-                defaults -= Notification.DEFAULT_SOUND
-            }
+                val drawable = ContextCompat.getDrawable(context, R.drawable.ic_birthday_person)
+                val bitmap = BitmapHandler.drawableToBitmap(drawable!!)
 
-            val lightColor = getLightColor(event, context)
-            if (lightColor != null) {
-                defaults -= Notification.DEFAULT_LIGHTS
-                builder.setLights(lightColor, 500, 500)
-            } else {
-                defaults -= Notification.DEFAULT_LIGHTS
-            }
-
-            builder.setDefaults(defaults)
-
-            with(notificationManager) {
-                notify(notificationID, builder.build())
-            }
-
-            // ANNUAL EVENT
-        } else if (event is AnnualEvent) {
-
-            var defaults = Notification.DEFAULT_ALL
-
-            val drawable = ContextCompat.getDrawable(context, R.drawable.ic_birthday_person)
-            val bitmap = BitmapHandler.drawableToBitmap(drawable!!)
-
-            val builder = NotificationCompat.Builder(context, NotificationHandler.CHANNEL_ID)
-                .setSmallIcon(R.drawable.ic_launcher_foreground)
-                .setContentText(
-                    context.getString(
-                        R.string.notification_content_annual,
-                        event.name,
-                        event.getDaysUntil()
+                val builder = NotificationCompat.Builder(context, NotificationHandler.CHANNEL_ID)
+                    .setSmallIcon(R.drawable.ic_launcher_foreground)
+                    .setContentText(
+                        context.getString(
+                            R.string.notification_content_one_time,
+                            event.name,
+                            event.getDaysUntil()
+                        )
                     )
-                )
-                .setContentTitle(
-                    context.getString(
-                        R.string.notification_title_annual,
-                        event.name
+                    .setContentTitle(
+                        context.getString(
+                            R.string.notification_title_one_time,
+                            event.name
+                        )
                     )
-                )
-                //TODO: add longer detailed text
-                .setPriority(NotificationCompat.PRIORITY_MAX)
-                // Set the intent that will fire when the user taps the notification
-                .setContentIntent(pendingIntent)
-                .setAutoCancel(true)
-                .setLargeIcon(bitmap)
+                    //TODO: add longer detailed text
+                    .setPriority(NotificationCompat.PRIORITY_MAX)
+                    // Set the intent that will fire when the user taps the notification
+                    .setContentIntent(pendingIntent)
+                    .setAutoCancel(true)
+                    .setLargeIcon(bitmap)
 
-            if (!IOHandler.getBooleanFromKey(IOHandler.SharedPrefKeys.key_isNotificationVibrationOnAnnual)!!) {
-                defaults -= Notification.DEFAULT_VIBRATE
-            }
+                if (!IOHandler.getBooleanFromKey(IOHandler.SharedPrefKeys.key_isNotificationVibrationOnOneTime)!!) {
+                    defaults -= Notification.DEFAULT_VIBRATE
+                }
 
-            if (!IOHandler.getBooleanFromKey(IOHandler.SharedPrefKeys.key_isNotificationSoundOnAnnual)!!) {
-                defaults -= Notification.DEFAULT_SOUND
-            }
+                if (!IOHandler.getBooleanFromKey(IOHandler.SharedPrefKeys.key_isNotificationSoundOnOneTime)!!) {
+                    defaults -= Notification.DEFAULT_SOUND
+                }
 
-            val lightColor = getLightColor(event, context)
-            if (lightColor != null) {
-                defaults -= Notification.DEFAULT_LIGHTS
-                builder.setLights(lightColor, 500, 500)
-            } else {
-                defaults -= Notification.DEFAULT_LIGHTS
-            }
+                val lightColor = getLightColor(event, context)
+                if (lightColor != null) {
+                    defaults -= Notification.DEFAULT_LIGHTS
+                    builder.setLights(lightColor, 500, 500)
+                } else {
+                    defaults -= Notification.DEFAULT_LIGHTS
+                }
 
-            builder.setDefaults(defaults)
+                builder.setDefaults(defaults)
 
-            with(notificationManager) {
-                notify(notificationID, builder.build())
-            }
-
-            // ONE TIME EVENT
-        } else if (event is OneTimeEvent) {
-
-            var defaults = Notification.DEFAULT_ALL
-
-            val drawable = ContextCompat.getDrawable(context, R.drawable.ic_birthday_person)
-            val bitmap = BitmapHandler.drawableToBitmap(drawable!!)
-
-            val builder = NotificationCompat.Builder(context, NotificationHandler.CHANNEL_ID)
-                .setSmallIcon(R.drawable.ic_launcher_foreground)
-                .setContentText(
-                    context.getString(
-                        R.string.notification_content_one_time,
-                        event.name,
-                        event.getDaysUntil()
-                    )
-                )
-                .setContentTitle(
-                    context.getString(
-                        R.string.notification_title_one_time,
-                        event.name
-                    )
-                )
-                //TODO: add longer detailed text
-                .setPriority(NotificationCompat.PRIORITY_MAX)
-                // Set the intent that will fire when the user taps the notification
-                .setContentIntent(pendingIntent)
-                .setAutoCancel(true)
-                .setLargeIcon(bitmap)
-
-            if (!IOHandler.getBooleanFromKey(IOHandler.SharedPrefKeys.key_isNotificationVibrationOnOneTime)!!) {
-                defaults -= Notification.DEFAULT_VIBRATE
-            }
-
-            if (!IOHandler.getBooleanFromKey(IOHandler.SharedPrefKeys.key_isNotificationSoundOnOneTime)!!) {
-                defaults -= Notification.DEFAULT_SOUND
-            }
-
-            val lightColor = getLightColor(event, context)
-            if (lightColor != null) {
-                defaults -= Notification.DEFAULT_LIGHTS
-                builder.setLights(lightColor, 500, 500)
-            } else {
-                defaults -= Notification.DEFAULT_LIGHTS
-            }
-
-            builder.setDefaults(defaults)
-
-            with(notificationManager) {
-                notify(notificationID, builder.build())
+                with(notificationManager) {
+                    notify(notificationID, builder.build())
+                }
             }
         }
     }

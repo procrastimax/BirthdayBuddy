@@ -27,7 +27,7 @@ object EventHandler {
      * event_list a list used for sorted viewing of the maps content
      * the data is stored in pairs of EventDay and the index of this dataset in the map as an int
      */
-    private var event_list: MutableList<EventDate> = emptyList<EventDate>().toMutableList()
+    private var event_list: List<EventDate> = emptyList<EventDate>()
 
     private var event_map: MutableMap<Int, EventDate> = emptyMap<Int, EventDate>().toMutableMap()
 
@@ -49,7 +49,6 @@ object EventHandler {
         addBitmap: Boolean = true
 
     ) {
-        this.event_list.add(event)
         this.event_map[event.eventID] = event
 
         if (event is EventBirthday && addBitmap) {
@@ -63,7 +62,7 @@ object EventHandler {
                     )
                 }
                 if (context is MainActivity) {
-                    (context as MainActivity).runOnUiThread {
+                    context.runOnUiThread {
                         if (context.recyclerView != null) {
                             context.recyclerView.adapter?.notifyDataSetChanged()
                         }
@@ -82,7 +81,7 @@ object EventHandler {
         }
 
         if (updateEventList) {
-            this.event_list = getSortedListBy(this.event_list).toMutableList()
+            this.event_list = getSortedListBy()
         }
 
         if (writeAfterAdd) {
@@ -90,14 +89,10 @@ object EventHandler {
         }
     }
 
-    /*fun addList(list: List<EventDate>) {
-        this.event_list = getSortedListBy(list).toMutableList()
-    }*/
-
-    fun clearList() {
+    fun clearData() {
         if (this.event_list.isNotEmpty()) {
-            this.event_list.clear()
             this.event_map.clear()
+            this.event_list = getSortedListBy()
         }
     }
 
@@ -119,31 +114,31 @@ object EventHandler {
      */
     fun getEventToEventIndex(index: Int): EventDate? {
         if (event_map.containsKey(index))
-            return event_list[index]
+            return event_map[index]
         return null
     }
 
     /**
      * removeEventByKey removes an event from the by using a key
      *
-     * @param key : Int
+     * @param index : Int
      */
-    fun removeEventByKey(key: Int, context: Context, writeChange: Boolean = false) {
-        if (event_list[key] is EventBirthday) {
-            if ((event_list[key] as EventBirthday).avatarImageUri != null) {
-                BitmapHandler.removeBitmap(key, context)
+    fun removeEventByID(index: Int, context: Context, writeChange: Boolean = false) {
+        getEventToEventIndex(index)?.let { event ->
+
+            if (event is EventBirthday) {
+                BitmapHandler.removeBitmap(index, context)
             }
+
+            NotificationHandler.cancelNotification(context, event)
+
+            if (writeChange) {
+                IOHandler.removeEventFromFile(event.eventID)
+            }
+
+            event_map.remove(index)
+            this.event_list = this.getSortedListBy()
         }
-
-        NotificationHandler.cancelNotification(context, event_list[key])
-
-        if (writeChange) {
-            IOHandler.removeEventFromFile(event_list[key].eventID)
-        }
-
-        event_list.removeAt(key)
-        event_map.remove(event_list.get(key).eventID)
-        this.event_list = this.getSortedListBy(this.event_list).toMutableList()
     }
 
     fun deleteAllEntriesAndImages(context: Context, writeAfterAdd: Boolean) {
@@ -151,7 +146,7 @@ object EventHandler {
             NotificationHandler.cancelNotification(context, it)
         }
 
-        this.clearList()
+        this.clearData()
         BitmapHandler.removeAllDrawables(context)
         if (writeAfterAdd) {
             //deletes shared prefs before writing list, but list is empty, so it only clears the shared prefs
@@ -162,55 +157,51 @@ object EventHandler {
     /**
      * changeEventAt assign new event at key position
      *
-     * @param key : Int
-     * @param event : EventDay
+     * @param ID : Int
+     * @param newEvent : EventDay
      */
-    fun changeEventAt(key: Int, event: EventDate, context: Context, writeAfterChange: Boolean = false) {
+    fun changeEventAt(ID: Int, newEvent: EventDate, context: Context, writeAfterChange: Boolean = false) {
+        getEventToEventIndex(ID)?.let { oldEvent ->
+            newEvent.eventID = ID
+            //set hour of day from all other events except monthdivider to 12h (month divider is at 0h), so when sorting month divider is always at first
+            if (newEvent !is MonthDivider) {
+                val cal = Calendar.getInstance()
+                cal.time = newEvent.eventDate
+                cal.set(Calendar.HOUR_OF_DAY, 12)
+                newEvent.eventDate = cal.time
+            }
 
-        //set hour of day from all other events except monthdivider to 12h (month divider is at 0h), so when sorting month divider is always at first
-        if (event !is MonthDivider) {
-            val cal = Calendar.getInstance()
-            cal.time = event.eventDate
-            cal.set(Calendar.HOUR_OF_DAY, 12)
-            event.eventDate = cal.time
-        }
+            NotificationHandler.cancelNotification(context, oldEvent)
+            NotificationHandler.scheduleNotification(context, newEvent)
 
-        NotificationHandler.cancelNotification(context, event_list[key])
-        NotificationHandler.scheduleNotification(context, event)
+            this.event_map[ID] = newEvent
 
-        event.eventID = event_list[key].eventID
-
-        this.event_list[key] = event
-        this.event_map[event.eventID] = event
-
-        if (event is EventBirthday) {
-            if ((event).avatarImageUri != null) {
+            if (newEvent is EventBirthday && newEvent.avatarImageUri != null) {
                 //force bitmaphandler to load new avatar image from gallery, in case there is already an existant bitmap
                 BitmapHandler.addDrawable(
-                    event_list[key].eventID,
-                    Uri.parse((event).avatarImageUri),
+                    ID,
+                    Uri.parse((newEvent).avatarImageUri),
                     context,
                     readBitmapFromGallery = true
                 )
             }
-        }
 
-        this.event_list = getSortedListBy(this.event_list).toMutableList()
+            this.event_list = getSortedListBy()
 
-        if (writeAfterChange) {
-            IOHandler.writeEventToFile(event.eventID, event)
+            if (writeAfterChange) {
+                IOHandler.writeEventToFile(ID, newEvent)
+            }
         }
     }
 
     /**
      * containsKey checks if the given key is present in the map
      *
-     * @param key: Int
+     * @param index: Int
      * @return Boolean
      */
-    fun containsIndex(key: Int): Boolean {
-        return (event_list.getOrNull(key) != null)
-
+    fun containsIndex(index: Int): Boolean {
+        return event_map.containsKey(index)
     }
 
     /**
@@ -223,7 +214,7 @@ object EventHandler {
      * @return Int
      */
     fun getLastIndex(): Int {
-        return event_list.size
+        return event_map.keys.sorted().last()
     }
 
     /**
@@ -271,11 +262,10 @@ object EventHandler {
      * @return List<EventDay>
      */
     fun getSortedListBy(
-        list: List<EventDate>,
         identifier: SortIdentifier = EventDate.Identifier.Date
     ): List<EventDate> {
         if (identifier == EventDate.Identifier.Date) {
-            return list.sortedWith(
+            return event_map.values.sortedWith(
                 compareBy(
                     { it.getDayOfYear() },
                     { it.getMonth() },

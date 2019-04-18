@@ -35,10 +35,10 @@ class AnnualEventInstanceFragment : EventInstanceFragment() {
     var isEditAnnualEvent = false
 
     /**
-     * itemID is the id the AnnualEvent has in the EventHandler - eventlist
+     * eventID is the id the AnnualEvent has in the EventHandler - eventlist
      * In other words this id is the index of the clicked item from the EventListFragment recyclerview
      */
-    var itemID = -1
+    var eventID = -1
 
     /**
      * edit_name is the TextEdit used for editing/ showing the name of the annual event
@@ -86,67 +86,69 @@ class AnnualEventInstanceFragment : EventInstanceFragment() {
         //retrieve fragment parameter when edited instance
         if (arguments != null) {
             isEditAnnualEvent = true
-            if (arguments!!.size() > 0) {
 
-                setToolbarTitle(context!!.resources.getString(R.string.toolbar_title_edit_annual_event))
+            setToolbarTitle(context!!.resources.getString(R.string.toolbar_title_edit_annual_event))
 
-                itemID = (arguments!!.getInt(ITEM_ID_PARAM))
-                val annual_event = EventHandler.getList()[itemID] as AnnualEvent
+            eventID = (arguments!!.getInt(ITEM_ID_PARAM_EVENTID))
+            EventHandler.getEventToEventIndex(eventID)?.let { annualEvent ->
+                if (annualEvent is AnnualEvent) {
 
-                if (annual_event.hasStartYear) {
-                    edit_date.text = EventDate.parseDateToString(annual_event.eventDate, DateFormat.FULL)
-                } else {
-                    edit_date.text =
-                        EventDate.parseDateToString(annual_event.eventDate, DateFormat.DATE_FIELD).substring(0..5)
-                }
-
-                edit_name.setText(annual_event.name)
-                if (!annual_event.note.isNullOrBlank()) {
-                    edit_note.setText(annual_event.note)
-                }
-                switch_isYearGiven.isChecked = annual_event.hasStartYear
-
-                btn_fragment_annual_event_instance_delete.visibility = Button.VISIBLE
-                btn_fragment_annual_event_instance_delete.setOnClickListener {
-
-                    val alert_builder = AlertDialog.Builder(context)
-                    alert_builder.setTitle(resources.getString(R.string.alert_dialog_title_delete_annual_event))
-                    alert_builder.setMessage(resources.getString(R.string.alert_dialog_body_message_annual_event))
-
-                    val annual_event_temp = EventHandler.getList()[itemID]
-                    val context_temp = context
-
-                    // Set a positive button and its click listener on alert dialog
-                    alert_builder.setPositiveButton(resources.getString(R.string.alert_dialog_accept_delete)) { _, _ ->
-                        // delete annual_event on positive button
-                        Snackbar
-                            .make(
-                                view,
-                                resources.getString(R.string.annual_event_deleted_notification, edit_name.text),
-                                Snackbar.LENGTH_LONG
-                            )
-                            .setAction(R.string.snackbar_undo_action_title, View.OnClickListener {
-                                EventHandler.addEvent(
-                                    annual_event_temp, context_temp!!,
-                                    true
-                                )
-                                //get last fragment in stack list, when its eventlistfragment, we can update the recycler view
-                                val fragment =
-                                    (context_temp as MainActivity).supportFragmentManager.fragments[(context_temp).supportFragmentManager.backStackEntryCount]
-                                if (fragment is EventListFragment) {
-                                    fragment.recyclerView.adapter!!.notifyDataSetChanged()
-                                }
-                            })
-                            .show()
-
-                        EventHandler.removeEventByKey(itemID, context!!, true)
-                        closeBtnPressed()
+                    if (annualEvent.hasStartYear) {
+                        edit_date.text = EventDate.parseDateToString(annualEvent.eventDate, DateFormat.FULL)
+                    } else {
+                        edit_date.text =
+                            EventDate.parseDateToString(annualEvent.eventDate, DateFormat.DATE_FIELD)
+                                .substring(0..5)
                     }
-                    alert_builder.setNegativeButton(resources.getString(R.string.alert_dialog_dismiss_delete)) { dialog, _ -> dialog.dismiss() }
-                    // Finally, make the alert dialog using builder
-                    val dialog: AlertDialog = alert_builder.create()
-                    // Display the alert dialog on app interface
-                    dialog.show()
+
+                    edit_name.setText(annualEvent.name)
+                    if (!annualEvent.note.isNullOrBlank()) {
+                        edit_note.setText(annualEvent.note)
+                    }
+                    switch_isYearGiven.isChecked = annualEvent.hasStartYear
+
+                    btn_fragment_annual_event_instance_delete.visibility = Button.VISIBLE
+                    btn_fragment_annual_event_instance_delete.setOnClickListener {
+
+                        val alertBuilder = AlertDialog.Builder(context)
+                        alertBuilder.setTitle(resources.getString(R.string.alert_dialog_title_delete_annual_event))
+                        alertBuilder.setMessage(resources.getString(R.string.alert_dialog_body_message_annual_event))
+
+                        val annualEventTemp = annualEvent
+                        val contextTemp = context
+
+                        // Set a positive button and its click listener on alert dialog
+                        alertBuilder.setPositiveButton(resources.getString(R.string.alert_dialog_accept_delete)) { _, _ ->
+                            // delete annual_event on positive button
+                            Snackbar
+                                .make(
+                                    view,
+                                    resources.getString(R.string.annual_event_deleted_notification, edit_name.text),
+                                    Snackbar.LENGTH_LONG
+                                )
+                                .setAction(R.string.snackbar_undo_action_title, View.OnClickListener {
+                                    EventHandler.addEvent(
+                                        annualEventTemp, contextTemp!!,
+                                        true
+                                    )
+                                    //get last fragment in stack list, when its eventlistfragment, we can update the recycler view
+                                    val fragment =
+                                        (contextTemp as MainActivity).supportFragmentManager.fragments[(contextTemp).supportFragmentManager.backStackEntryCount]
+                                    if (fragment is EventListFragment) {
+                                        fragment.recyclerView.adapter!!.notifyDataSetChanged()
+                                    }
+                                })
+                                .show()
+
+                            EventHandler.removeEventByID(eventID, context!!, true)
+                            closeBtnPressed()
+                        }
+                        alertBuilder.setNegativeButton(resources.getString(R.string.alert_dialog_dismiss_delete)) { dialog, _ -> dialog.dismiss() }
+                        // Finally, make the alert dialog using builder
+                        val dialog: AlertDialog = alertBuilder.create()
+                        // Display the alert dialog on app interface
+                        dialog.show()
+                    }
                 }
             }
         } else {
@@ -176,7 +178,8 @@ class AnnualEventInstanceFragment : EventInstanceFragment() {
                     //year is not given
                 } else {
                     val date = EventDate.parseStringToDate(edit_date.text.toString(), DateFormat.FULL)
-                    edit_date.text = EventDate.parseDateToString(date, DateFormat.DATE_FIELD).substring(0..5)
+                    edit_date.text =
+                        EventDate.parseDateToString(date, DateFormat.DATE_FIELD).substring(0..5)
                 }
             } else {
                 if (isChecked) {
@@ -187,7 +190,10 @@ class AnnualEventInstanceFragment : EventInstanceFragment() {
                 } else {
                     edit_date.hint = resources.getString(
                         R.string.annual_event_instance_fragment_date_edit_hint,
-                        EventDate.parseDateToString(Calendar.getInstance().time, DateFormat.DATE_FIELD).substring(0..5)
+                        EventDate.parseDateToString(
+                            Calendar.getInstance().time,
+                            DateFormat.DATE_FIELD
+                        ).substring(0..5)
                     )
                 }
             }
@@ -217,26 +223,33 @@ class AnnualEventInstanceFragment : EventInstanceFragment() {
         val day = c.get(Calendar.DAY_OF_MONTH)
 
         val dpd =
-            DatePickerDialog(context!!, DatePickerDialog.OnDateSetListener { view, year_, monthOfYear, dayOfMonth ->
-                // Display Selected date in Toast
-                c.set(Calendar.YEAR, year_)
-                c.set(Calendar.MONTH, monthOfYear)
-                c.set(Calendar.DAY_OF_MONTH, dayOfMonth)
+            DatePickerDialog(
+                context!!,
+                DatePickerDialog.OnDateSetListener { view, year_, monthOfYear, dayOfMonth ->
+                    // Display Selected date in Toast
+                    c.set(Calendar.YEAR, year_)
+                    c.set(Calendar.MONTH, monthOfYear)
+                    c.set(Calendar.DAY_OF_MONTH, dayOfMonth)
 
-                if (c.time.after(Calendar.getInstance().time) && switch_isYearGiven.isChecked) {
-                    Toast.makeText(
-                        view.context,
-                        context!!.resources.getText(R.string.future_annual_event_error),
-                        Toast.LENGTH_LONG
-                    ).show()
-                } else {
-                    if (switch_isYearGiven.isChecked) {
-                        edit_date.text = EventDate.parseDateToString(c.time, DateFormat.FULL)
+                    if (c.time.after(Calendar.getInstance().time) && switch_isYearGiven.isChecked) {
+                        Toast.makeText(
+                            view.context,
+                            context!!.resources.getText(R.string.future_annual_event_error),
+                            Toast.LENGTH_LONG
+                        ).show()
                     } else {
-                        edit_date.text = EventDate.parseDateToString(c.time, DateFormat.DATE_FIELD).substring(0..5)
+                        if (switch_isYearGiven.isChecked) {
+                            edit_date.text = EventDate.parseDateToString(c.time, DateFormat.FULL)
+                        } else {
+                            edit_date.text =
+                                EventDate.parseDateToString(c.time, DateFormat.DATE_FIELD).substring(0..5)
+                        }
                     }
-                }
-            }, year, month, day)
+                },
+                year,
+                month,
+                day
+            )
         dpd.show()
     }
 
@@ -257,12 +270,10 @@ class AnnualEventInstanceFragment : EventInstanceFragment() {
             )
                 .show()
         } else {
-            val annual_event: AnnualEvent
-            if (switch_isYearGiven.isChecked) {
-                annual_event =
-                    AnnualEvent(EventDate.parseStringToDate(date, DateFormat.FULL), name, isYearGiven)
+            val annualEvent = if (switch_isYearGiven.isChecked) {
+                AnnualEvent(EventDate.parseStringToDate(date, DateFormat.FULL), name, isYearGiven)
             } else {
-                annual_event = AnnualEvent(
+                AnnualEvent(
                     EventDate.parseStringToDate(
                         date + (Calendar.getInstance().get(Calendar.YEAR) - 1),
                         DateFormat.DATE_FIELD
@@ -271,13 +282,12 @@ class AnnualEventInstanceFragment : EventInstanceFragment() {
             }
 
             if (note.isNotBlank()) {
-                annual_event.note = note
+                annualEvent.note = note
             }
 
             //new annual event entry, just add a new entry in map
             if (!isEditAnnualEvent) {
-                EventHandler.addEvent(annual_event, this.context!!, true)
-
+                EventHandler.addEvent(annualEvent, this.context!!, true)
                 Snackbar
                     .make(
                         view!!,
@@ -289,15 +299,17 @@ class AnnualEventInstanceFragment : EventInstanceFragment() {
 
                 //already annual event entry, overwrite old entry in map
             } else {
-                if (wasChangeMade(EventHandler.getList()[itemID] as AnnualEvent)) {
-                    EventHandler.changeEventAt(itemID, annual_event, context!!, true)
-                    Snackbar.make(
-                        view!!,
-                        context!!.resources.getString(R.string.annual_event_changed_notification, name),
-                        Snackbar.LENGTH_LONG
-                    ).show()
+                EventHandler.getEventToEventIndex(eventID)?.let { event ->
+                    if (event is AnnualEvent && wasChangeMade(event)) {
+                        EventHandler.changeEventAt(eventID, annualEvent, context!!, true)
+                        Snackbar.make(
+                            view!!,
+                            context!!.resources.getString(R.string.annual_event_changed_notification, name),
+                            Snackbar.LENGTH_LONG
+                        ).show()
+                    }
+                    closeBtnPressed()
                 }
-                closeBtnPressed()
             }
         }
     }

@@ -232,7 +232,6 @@ object IOHandler {
 
         for (i in 0 until EventHandler.getList().size) {
             sharedPrefEdit.putString(i.toString(), EventHandler.getList()[i].toString())
-
         }
         sharedPrefEdit.apply()
     }

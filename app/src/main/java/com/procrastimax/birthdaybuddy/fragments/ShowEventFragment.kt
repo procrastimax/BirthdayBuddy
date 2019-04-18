@@ -12,12 +12,12 @@ import com.procrastimax.birthdaybuddy.R
 import com.procrastimax.birthdaybuddy.handler.EventHandler
 import kotlinx.android.synthetic.main.activity_main.*
 
-const val ITEM_ID_PARAM = "ITEMID"
+const val ITEM_ID_PARAM_EVENTID = "EVENTID"
 
 abstract class ShowEventFragment : Fragment() {
 
     var eventID: Int = -1
-    var position: Int = -1
+    //var position: Int = -1
 
     val toolbar: Toolbar by lazy {
         activity!!.findViewById<Toolbar>(R.id.toolbar)

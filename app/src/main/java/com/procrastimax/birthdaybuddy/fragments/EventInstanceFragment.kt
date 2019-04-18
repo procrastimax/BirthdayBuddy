@@ -27,14 +27,6 @@ abstract class EventInstanceFragment : Fragment() {
 
     var toolbarContentInsentLeft = 56
 
-    /**
-     * title is the title of the toolbar
-     */
-    /*val title: TextView by lazy {
-        toolbar.findViewById<TextView>(R.id.tv_add_fragment_title)
-    }*/
-
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         (context as MainActivity).setSupportActionBar(toolbar)

@@ -28,10 +28,10 @@ class OneTimeEventInstanceFragment : EventInstanceFragment() {
     var isEditOneTimeEvent = false
 
     /**
-     * itemID is the id the one-time event has in the EventHandler - eventlist
+     * eventID is the id the one-time event has in the EventHandler - eventlist
      * In other words this id is the index of the clicked item from the EventListFragment recyclerview
      */
-    var itemID = -1
+    var eventID = -1
 
     /**
      * edit_name is the TextEdit used for editing/ showing the name of the one time event
@@ -71,64 +71,68 @@ class OneTimeEventInstanceFragment : EventInstanceFragment() {
         //retrieve fragment parameter when edited instance
         if (arguments != null) {
             isEditOneTimeEvent = true
-            if (arguments!!.size() > 0) {
 
-                setToolbarTitle(context!!.resources.getString(R.string.toolbar_title_edit_one_time_event))
+            setToolbarTitle(context!!.resources.getString(R.string.toolbar_title_edit_one_time_event))
 
-                itemID = (arguments!!.getInt(ITEM_ID_PARAM))
-                val oneTimeEvent = EventHandler.getList()[itemID] as OneTimeEvent
+            eventID = (arguments!!.getInt(ITEM_ID_PARAM_EVENTID))
+            EventHandler.getEventToEventIndex(eventID)?.let { oneTimeEvent ->
+                if (oneTimeEvent is OneTimeEvent) {
 
-                edit_date.text = EventDate.parseDateToString(
-                    EventDate.dateToCurrentTimeContext(oneTimeEvent.eventDate),
-                    DateFormat.FULL
-                )
+                    edit_date.text = EventDate.parseDateToString(
+                        EventDate.dateToCurrentTimeContext(oneTimeEvent.eventDate),
+                        DateFormat.FULL
+                    )
 
-                edit_name.setText(oneTimeEvent.name)
-                if (!oneTimeEvent.note.isNullOrBlank()) {
-                    edit_note.setText(oneTimeEvent.note)
-                }
-
-                btn_fragment_one_time_event_instance_delete.visibility = Button.VISIBLE
-                btn_fragment_one_time_event_instance_delete.setOnClickListener {
-
-                    val alert_builder = AlertDialog.Builder(context)
-                    alert_builder.setTitle(resources.getString(R.string.alert_dialog_title_delete_one_time_event))
-                    alert_builder.setMessage(resources.getString(R.string.alert_dialog_body_message_one_time_event))
-
-                    val one_time_event_temp = EventHandler.getList()[itemID]
-                    val context_temp = context
-
-                    // Set a positive button and its click listener on alert dialog
-                    alert_builder.setPositiveButton(resources.getString(R.string.alert_dialog_accept_delete)) { _, _ ->
-                        // delete one_time_event on positive button
-                        Snackbar
-                            .make(
-                                view,
-                                resources.getString(R.string.one_time_event_deleted_notification, edit_name.text),
-                                Snackbar.LENGTH_LONG
-                            )
-                            .setAction(R.string.snackbar_undo_action_title, View.OnClickListener {
-                                EventHandler.addEvent(
-                                    one_time_event_temp, context_temp!!,
-                                    true
-                                )
-                                //get last fragment in stack list, which should be eventlistfragment, so we can update the recycler view
-                                val fragment =
-                                    (context_temp as MainActivity).supportFragmentManager.fragments[(context_temp).supportFragmentManager.backStackEntryCount]
-                                if (fragment is EventListFragment) {
-                                    fragment.recyclerView.adapter!!.notifyDataSetChanged()
-                                }
-                            })
-                            .show()
-
-                        EventHandler.removeEventByKey(itemID, context!!, true)
-                        closeBtnPressed()
+                    edit_name.setText(oneTimeEvent.name)
+                    if (!oneTimeEvent.note.isNullOrBlank()) {
+                        edit_note.setText(oneTimeEvent.note)
                     }
-                    alert_builder.setNegativeButton(R.string.alert_dialog_dismiss_delete) { dialog, _ -> dialog.dismiss() }
-                    // Finally, make the alert dialog using builder
-                    val dialog: AlertDialog = alert_builder.create()
-                    // Display the alert dialog on app interface
-                    dialog.show()
+
+                    btn_fragment_one_time_event_instance_delete.visibility = Button.VISIBLE
+                    btn_fragment_one_time_event_instance_delete.setOnClickListener {
+
+                        val alertBuilder = AlertDialog.Builder(context)
+                        alertBuilder.setTitle(resources.getString(R.string.alert_dialog_title_delete_one_time_event))
+                        alertBuilder.setMessage(resources.getString(R.string.alert_dialog_body_message_one_time_event))
+
+                        val oneTimeEventTemp = oneTimeEvent
+                        val contextTemp = context
+
+                        // Set a positive button and its click listener on alert dialog
+                        alertBuilder.setPositiveButton(resources.getString(R.string.alert_dialog_accept_delete)) { _, _ ->
+                            // delete one_time_event on positive button
+                            Snackbar
+                                .make(
+                                    view,
+                                    resources.getString(
+                                        R.string.one_time_event_deleted_notification,
+                                        edit_name.text
+                                    ),
+                                    Snackbar.LENGTH_LONG
+                                )
+                                .setAction(R.string.snackbar_undo_action_title, View.OnClickListener {
+                                    EventHandler.addEvent(
+                                        oneTimeEventTemp, contextTemp!!,
+                                        true
+                                    )
+                                    //get last fragment in stack list, which should be eventlistfragment, so we can update the recycler view
+                                    val fragment =
+                                        (contextTemp as MainActivity).supportFragmentManager.fragments[(contextTemp).supportFragmentManager.backStackEntryCount]
+                                    if (fragment is EventListFragment) {
+                                        fragment.recyclerView.adapter!!.notifyDataSetChanged()
+                                    }
+                                })
+                                .show()
+
+                            EventHandler.removeEventByID(eventID, context!!, true)
+                            closeBtnPressed()
+                        }
+                        alertBuilder.setNegativeButton(R.string.alert_dialog_dismiss_delete) { dialog, _ -> dialog.dismiss() }
+                        // Finally, make the alert dialog using builder
+                        val dialog: AlertDialog = alertBuilder.create()
+                        // Display the alert dialog on app interface
+                        dialog.show()
+                    }
                 }
             }
         } else {
@@ -218,21 +222,23 @@ class OneTimeEventInstanceFragment : EventInstanceFragment() {
 
                 //already existant oneTimeEvent entry, overwrite old entry in map
             } else {
-                if (wasChangeMade(EventHandler.getList()[itemID] as OneTimeEvent)) {
-                    EventHandler.changeEventAt(itemID, oneTimeEvent, context!!, true)
-                    Snackbar.make(
-                        view!!,
-                        context!!.resources.getString(R.string.one_time_event_changed_notification, name),
-                        Snackbar.LENGTH_LONG
-                    ).show()
+                EventHandler.getEventToEventIndex(eventID)?.let { event ->
+                    if (event is OneTimeEvent && wasChangeMade(event)) {
+                        EventHandler.changeEventAt(eventID, oneTimeEvent, context!!, true)
+                        Snackbar.make(
+                            view!!,
+                            context!!.resources.getString(R.string.one_time_event_changed_notification, name),
+                            Snackbar.LENGTH_LONG
+                        ).show()
+                    }
+                    closeBtnPressed()
                 }
-                closeBtnPressed()
             }
         }
     }
 
     /**
-     * wasChangeMade checks wether a change to the edit fields was made or not
+     * wasChangeMade checks whether a change to the edit fields was made or not
      * This is used to avoid unnecessary operations
      * @param event: OneTimeEvent, is the comparative object to check against the TextEdit fields
      * @return Boolean, returns false if nothing has changed

@@ -124,7 +124,7 @@ object BitmapHandler {
     }
 
     fun removeBitmap(id: Int, context: Context) {
-        val event = EventHandler.getEventByPosition(id)
+        val event = EventHandler.getEventToEventIndex(id)
         if (event != null) {
             drawable_map.toMutableMap().remove(id)
             removeBitmapFromFiles(context, event.eventID)

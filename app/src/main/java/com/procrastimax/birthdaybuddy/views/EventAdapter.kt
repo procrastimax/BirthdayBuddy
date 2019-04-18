@@ -118,249 +118,244 @@ class EventAdapter(private val context: Context, private val fragmentManager: Fr
             //BirthdayEventViewHolder
             1 -> {
                 //check if is birthday event and if the year is given
-                if (EventHandler.getList()[position] is EventBirthday) {
-
-                    //set on click listener for item
-                    holder.itemView.setOnClickListener {
-                        if (isClickable) {
-                            val bundle = Bundle()
-                            //do this in more adaptable way
-                            bundle.putInt(
-                                ITEM_ID_PARAM,
-                                position
-                            )
-                            val ft = fragmentManager.beginTransaction()
-                            // add arguments to fragment
-                            val newBirthdayFragment = ShowBirthdayEvent.newInstance()
-                            newBirthdayFragment.arguments = bundle
-                            ft.replace(
-                                R.id.fragment_placeholder,
-                                newBirthdayFragment
-                            )
-                            ft.addToBackStack(null)
-                            ft.commit()
-                        }
-                    }
-
-                    holder.itemView.setOnLongClickListener {
-                        if (isClickable) {
-                            val bundle = Bundle()
-                            //do this in more adaptable way
-                            bundle.putInt(
-                                ITEM_ID_PARAM,
-                                position
-                            )
-                            val ft = fragmentManager.beginTransaction()
-                            // add arguments to fragment
-                            val newBirthdayFragment = BirthdayInstanceFragment.newInstance()
-                            newBirthdayFragment.arguments = bundle
-                            ft.replace(
-                                R.id.fragment_placeholder,
-                                newBirthdayFragment
-                            )
-                            ft.addToBackStack(null)
-                            ft.commit()
-                        }
-                        true
-                    }
-
-                    //set date
-                    holder.itemView.tv_birthday_event_item_date_value.text =
-                        (EventHandler.getList()[position] as EventBirthday).getPrettyShortStringWithoutYear()
-
-                    //set days until
-                    holder.itemView.tv_birthday_event_item_days_until_value.text =
-                        EventHandler.getList()[position].getDaysUntil().toString()
-
-                    //set years since, if specified
-                    if ((EventHandler.getList()[position] as EventBirthday).isYearGiven) {
-                        holder.itemView.tv_birthday_event_item_years_since_value.text =
-                            EventHandler.getList()[position].getYearsSince().toString()
-                    } else {
-                        holder.itemView.tv_birthday_event_item_years_since_value.text =
-                            "-"
-                    }
-
-                    //if a birthday has a nickname, only show nickname
-                    if ((EventHandler.getList()[position] as EventBirthday).nickname != null) {
-
-                        //set forename and surname invisible
-                        holder.itemView.tv_birthday_event_item_forename.visibility = TextView.GONE
-                        holder.itemView.tv_birthday_event_item_surname.visibility = TextView.GONE
-
-                        //set nickname textview visible
-                        holder.itemView.tv_birthday_event_item_nickname.visibility = TextView.VISIBLE
-
-                        //set nickname textview text
-                        holder.itemView.tv_birthday_event_item_nickname.text =
-                            (EventHandler.getList()[position] as EventBirthday).nickname
-
-                    } else {
-
-                        //set forename and surname invisible
-                        holder.itemView.tv_birthday_event_item_forename.visibility = TextView.VISIBLE
-                        holder.itemView.tv_birthday_event_item_surname.visibility = TextView.VISIBLE
-
-                        //set nickname textview visible
-                        holder.itemView.tv_birthday_event_item_nickname.visibility = TextView.GONE
-
-                        holder.itemView.tv_birthday_event_item_forename.text =
-                            (EventHandler.getList()[position] as EventBirthday).forename
-
-                        //set surname
-                        holder.itemView.tv_birthday_event_item_surname.text =
-                            (EventHandler.getList()[position] as EventBirthday).surname
-                    }
-
-                    val avatarUri = (EventHandler.getList()[position] as EventBirthday).avatarImageUri
-
-                    //when called from mainactivity
-                    if (context is MainActivity) {
-                        if (avatarUri != null && !(context).isLoading) {
-                            holder.itemView.iv_birthday_event_item_image.setImageBitmap(
-                                BitmapHandler.getBitmapAt(
-                                    (EventHandler.getList()[position].eventID)
+                EventHandler.getList()[position].let { birthday ->
+                    if (birthday is EventBirthday) {
+                        //set on click listener for item
+                        holder.itemView.setOnClickListener {
+                            if (isClickable) {
+                                val bundle = Bundle()
+                                //do this in more adaptable way
+                                bundle.putInt(
+                                    ITEM_ID_PARAM_EVENTID,
+                                    birthday.eventID
                                 )
-                            )
-                        } else {
-                            holder.itemView.iv_birthday_event_item_image.setImageResource(R.drawable.ic_birthday_person)
+                                val ft = fragmentManager.beginTransaction()
+                                // add arguments to fragment
+                                val newBirthdayFragment = ShowBirthdayEvent.newInstance()
+                                newBirthdayFragment.arguments = bundle
+                                ft.replace(
+                                    R.id.fragment_placeholder,
+                                    newBirthdayFragment
+                                )
+                                ft.addToBackStack(null)
+                                ft.commit()
+                            }
                         }
-                    }
 
+                        holder.itemView.setOnLongClickListener {
+                            if (isClickable) {
+                                val bundle = Bundle()
+                                //do this in more adaptable way
+                                bundle.putInt(
+                                    ITEM_ID_PARAM_EVENTID,
+                                    birthday.eventID
+                                )
+                                val ft = fragmentManager.beginTransaction()
+                                // add arguments to fragment
+                                val newBirthdayFragment = BirthdayInstanceFragment.newInstance()
+                                newBirthdayFragment.arguments = bundle
+                                ft.replace(
+                                    R.id.fragment_placeholder,
+                                    newBirthdayFragment
+                                )
+                                ft.addToBackStack(null)
+                                ft.commit()
+                            }
+                            true
+                        }
+
+                        //set date
+                        holder.itemView.tv_birthday_event_item_date_value.text =
+                            birthday.getPrettyShortStringWithoutYear()
+
+                        //set days until
+                        holder.itemView.tv_birthday_event_item_days_until_value.text =
+                            birthday.getDaysUntil().toString()
+
+                        //set years since, if specified
+                        if (birthday.isYearGiven) {
+                            holder.itemView.tv_birthday_event_item_years_since_value.text =
+                                birthday.getYearsSince().toString()
+                        } else {
+                            holder.itemView.tv_birthday_event_item_years_since_value.text = "-"
+                        }
+
+                        //if a birthday has a nickname, only show nickname
+                        if (birthday.nickname != null) {
+
+                            //set forename and surname invisible
+                            holder.itemView.tv_birthday_event_item_forename.visibility = TextView.GONE
+                            holder.itemView.tv_birthday_event_item_surname.visibility = TextView.GONE
+
+                            //set nickname textview visible
+                            holder.itemView.tv_birthday_event_item_nickname.visibility = TextView.VISIBLE
+
+                            //set nickname textview text
+                            holder.itemView.tv_birthday_event_item_nickname.text = birthday.nickname
+
+                        } else {
+
+                            //set forename and surname invisible
+                            holder.itemView.tv_birthday_event_item_forename.visibility = TextView.VISIBLE
+                            holder.itemView.tv_birthday_event_item_surname.visibility = TextView.VISIBLE
+
+                            //set nickname textview visible
+                            holder.itemView.tv_birthday_event_item_nickname.visibility = TextView.GONE
+
+                            holder.itemView.tv_birthday_event_item_forename.text = birthday.forename
+
+                            //set surname
+                            holder.itemView.tv_birthday_event_item_surname.text = birthday.surname
+                        }
+
+                        val avatarUri = birthday.avatarImageUri
+
+                        //when called from mainactivity
+                        if (context is MainActivity) {
+                            if (avatarUri != null && !(context).isLoading) {
+                                holder.itemView.iv_birthday_event_item_image.setImageBitmap(
+                                    BitmapHandler.getBitmapAt(
+                                        birthday.eventID
+                                    )
+                                )
+                            } else {
+                                holder.itemView.iv_birthday_event_item_image.setImageResource(R.drawable.ic_birthday_person)
+                            }
+                        }
+
+                    }
                 }
             }
 
             //annual event item view holder
             2 -> {
                 //check if is birthday event and if the year is given
-                if (EventHandler.getList()[position] is AnnualEvent) {
 
-                    //set on click listener for item
-                    holder.itemView.setOnClickListener {
-                        if (isClickable) {
-                            val bundle = Bundle()
-                            //do this in more adaptable way
-                            bundle.putInt(
-                                ITEM_ID_PARAM,
-                                position
-                            )
-                            val ft = fragmentManager.beginTransaction()
-                            // add arguments to fragment
-                            val newAnnualEvent = ShowAnnualEvent.newInstance()
-                            newAnnualEvent.arguments = bundle
-                            ft.replace(
-                                R.id.fragment_placeholder,
-                                newAnnualEvent
-                            )
-                            ft.addToBackStack(null)
-                            ft.commit()
+                EventHandler.getList()[position].let { annualEvent ->
+                    if (annualEvent is AnnualEvent) {
+                        //set on click listener for item
+                        holder.itemView.setOnClickListener {
+                            if (isClickable) {
+                                val bundle = Bundle()
+                                //do this in more adaptable way
+                                bundle.putInt(
+                                    ITEM_ID_PARAM_EVENTID,
+                                    annualEvent.eventID
+                                )
+                                val ft = fragmentManager.beginTransaction()
+                                // add arguments to fragment
+                                val newAnnualEvent = ShowAnnualEvent.newInstance()
+                                newAnnualEvent.arguments = bundle
+                                ft.replace(
+                                    R.id.fragment_placeholder,
+                                    newAnnualEvent
+                                )
+                                ft.addToBackStack(null)
+                                ft.commit()
+                            }
                         }
-                    }
 
-                    holder.itemView.setOnLongClickListener {
-                        if (isClickable) {
-                            val bundle = Bundle()
-                            //do this in more adaptable way
-                            bundle.putInt(
-                                ITEM_ID_PARAM,
-                                position
-                            )
-                            val ft = fragmentManager.beginTransaction()
-                            // add arguments to fragment
-                            val newAnnualEvent = AnnualEventInstanceFragment.newInstance()
-                            newAnnualEvent.arguments = bundle
-                            ft.replace(
-                                R.id.fragment_placeholder,
-                                newAnnualEvent
-                            )
-                            ft.addToBackStack(null)
-                            ft.commit()
+                        holder.itemView.setOnLongClickListener {
+                            if (isClickable) {
+                                val bundle = Bundle()
+                                //do this in more adaptable way
+                                bundle.putInt(
+                                    ITEM_ID_PARAM_EVENTID,
+                                    annualEvent.eventID
+                                )
+                                val ft = fragmentManager.beginTransaction()
+                                // add arguments to fragment
+                                val newAnnualEvent = AnnualEventInstanceFragment.newInstance()
+                                newAnnualEvent.arguments = bundle
+                                ft.replace(
+                                    R.id.fragment_placeholder,
+                                    newAnnualEvent
+                                )
+                                ft.addToBackStack(null)
+                                ft.commit()
+                            }
+                            true
                         }
-                        true
+
+                        //set date
+                        holder.itemView.tv_annual_item_date_value.text = annualEvent.getPrettyShortStringWithoutYear()
+
+                        //set days until
+                        holder.itemView.tv_days_until_annual_value.text =
+                            EventHandler.getList()[position].getDaysUntil().toString()
+
+                        //set years since, if specified
+                        if (annualEvent.hasStartYear) {
+                            holder.itemView.tv_years_since_annual_value.text = annualEvent.getYearsSince().toString()
+                        } else {
+                            holder.itemView.tv_years_since_annual_value.text = "-"
+                        }
+
+                        //set name
+                        holder.itemView.tv_annual_item_name.text = annualEvent.name
                     }
-
-                    //set date
-                    holder.itemView.tv_annual_item_date_value.text =
-                        (EventHandler.getList()[position] as AnnualEvent).getPrettyShortStringWithoutYear()
-
-                    //set days until
-                    holder.itemView.tv_days_until_annual_value.text =
-                        EventHandler.getList()[position].getDaysUntil().toString()
-
-                    //set years since, if specified
-                    if ((EventHandler.getList()[position] as AnnualEvent).hasStartYear) {
-                        holder.itemView.tv_years_since_annual_value.text =
-                            EventHandler.getList()[position].getYearsSince().toString()
-                    } else {
-                        holder.itemView.tv_years_since_annual_value.text =
-                            "-"
-                    }
-
-                    //set name
-                    holder.itemView.tv_annual_item_name.text =
-                        (EventHandler.getList()[position] as AnnualEvent).name
                 }
             }
 
             //one time event item view holder
             3 -> {
                 //check if is birthday event and if the year is given
-                if (EventHandler.getList()[position] is OneTimeEvent) {
+                EventHandler.getList()[position].let { oneTimeEvent ->
+                    if (oneTimeEvent is OneTimeEvent) {
 
-                    //set on click listener for item
-                    holder.itemView.setOnClickListener {
-                        if (isClickable) {
-                            val bundle = Bundle()
-                            bundle.putInt(
-                                ITEM_ID_PARAM,
-                                position
-                            )
-                            val ft = fragmentManager.beginTransaction()
-                            // add arguments to fragment
-                            val newOneTimeEvent = ShowOneTimeEvent.newInstance()
-                            newOneTimeEvent.arguments = bundle
-                            ft.replace(
-                                R.id.fragment_placeholder,
-                                newOneTimeEvent
-                            )
-                            ft.addToBackStack(null)
-                            ft.commit()
+                        //set on click listener for item
+                        holder.itemView.setOnClickListener {
+                            if (isClickable) {
+                                val bundle = Bundle()
+                                bundle.putInt(
+                                    ITEM_ID_PARAM_EVENTID,
+                                    oneTimeEvent.eventID
+                                )
+                                val ft = fragmentManager.beginTransaction()
+                                // add arguments to fragment
+                                val newOneTimeEvent = ShowOneTimeEvent.newInstance()
+                                newOneTimeEvent.arguments = bundle
+                                ft.replace(
+                                    R.id.fragment_placeholder,
+                                    newOneTimeEvent
+                                )
+                                ft.addToBackStack(null)
+                                ft.commit()
+                            }
                         }
-                    }
 
-                    holder.itemView.setOnLongClickListener {
-                        if (isClickable) {
-                            val bundle = Bundle()
-                            //do this in more adaptable way
-                            bundle.putInt(
-                                ITEM_ID_PARAM,
-                                position
-                            )
-                            val ft = fragmentManager.beginTransaction()
-                            // add arguments to fragment
-                            val newOneTimeEvent = OneTimeEventInstanceFragment.newInstance()
-                            newOneTimeEvent.arguments = bundle
-                            ft.replace(
-                                R.id.fragment_placeholder,
-                                newOneTimeEvent
-                            )
-                            ft.addToBackStack(null)
-                            ft.commit()
+                        holder.itemView.setOnLongClickListener {
+                            if (isClickable) {
+                                val bundle = Bundle()
+                                //do this in more adaptable way
+                                bundle.putInt(
+                                    ITEM_ID_PARAM_EVENTID,
+                                    oneTimeEvent.eventID
+                                )
+                                val ft = fragmentManager.beginTransaction()
+                                // add arguments to fragment
+                                val newOneTimeEvent = OneTimeEventInstanceFragment.newInstance()
+                                newOneTimeEvent.arguments = bundle
+                                ft.replace(
+                                    R.id.fragment_placeholder,
+                                    newOneTimeEvent
+                                )
+                                ft.addToBackStack(null)
+                                ft.commit()
+                            }
+                            true
                         }
-                        true
+
+                        //set date
+                        holder.itemView.tv_one_time_item_date_value.text =
+                            oneTimeEvent.dateToPrettyString(DateFormat.SHORT)
+
+                        //set days until
+                        holder.itemView.tv_days_until_one_time_value.text = oneTimeEvent.getDaysUntil().toString()
+
+                        //set name
+                        holder.itemView.tv_one_time_item_name.text = oneTimeEvent.name
                     }
-
-                    //set date
-                    holder.itemView.tv_one_time_item_date_value.text =
-                        (EventHandler.getList()[position] as OneTimeEvent).dateToPrettyString(DateFormat.SHORT)
-
-                    //set days until
-                    holder.itemView.tv_days_until_one_time_value.text =
-                        EventHandler.getList()[position].getDaysUntil().toString()
-
-                    //set name
-                    holder.itemView.tv_one_time_item_name.text =
-                        (EventHandler.getList()[position] as OneTimeEvent).name
                 }
             }
         }

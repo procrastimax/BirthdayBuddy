@@ -26,7 +26,6 @@ import kotlinx.android.synthetic.main.fragment_event_list.*
 import java.text.DateFormat
 import java.util.*
 
-
 /**
  *
  * BirthdayInstanceFragment is a fragment class for adding/editing an instance of EventBirthday
@@ -36,7 +35,6 @@ import java.util.*
  * This class inherits from android.support.v4.app.Fragment
  *
  * TODO:
- *  - add animations for accept/close  button
  *  - control behaviour when hold in portrait mode
  *
  *  - add possibility to take new pictures with camera
@@ -49,9 +47,9 @@ class BirthdayInstanceFragment : EventInstanceFragment() {
     var isEditedBirthday: Boolean = false
 
     /**
-     * itemID is the index of the clicked item in EventListFragments recyclerview, this is handy to get the birthday instance from the EventHandler
+     * eventID is the index of the clicked item in EventListFragments recyclerview, this is handy to get the birthday instance from the EventHandler
      */
-    var itemID = -1
+    var eventID = -1
 
     /**
      * birthday_avatar_uri is a string to store the user picked image for the avatar
@@ -169,87 +167,88 @@ class BirthdayInstanceFragment : EventInstanceFragment() {
         //retrieve fragment parameter when edited instance
         if (arguments != null) {
             isEditedBirthday = true
-            //when no arguments are delivered
-            if (arguments!!.size() > 0) {
 
-                setToolbarTitle(context!!.resources.getString(R.string.toolbar_title_edit_birthday))
+            setToolbarTitle(context!!.resources.getString(R.string.toolbar_title_edit_birthday))
 
-                itemID = (arguments!!.getInt(ITEM_ID_PARAM))
-                val birthday = EventHandler.getList()[itemID] as EventBirthday
-
-                if (birthday.isYearGiven) {
-                    edit_date.text = EventDate.parseDateToString(birthday.eventDate, DateFormat.FULL)
-                } else {
-                    edit_date.text =
-                        EventDate.parseDateToString(birthday.eventDate, DateFormat.DATE_FIELD).substring(0..5)
-                }
-
-                edit_surname.setText(birthday.surname)
-                edit_forename.setText(birthday.forename)
-                switch_isYearGiven.isChecked = birthday.isYearGiven
-                birthday_avatar_uri = birthday.avatarImageUri
-
-                if (!birthday.note.isNullOrBlank()) {
-                    edit_note.setText(birthday.note)
-                }
-
-                if (!birthday.nickname.isNullOrBlank()) {
-                    //cb_nickname.isChecked = true
-                    edit_nickname.setText(birthday.nickname)
-                    edit_nickname.visibility = EditText.VISIBLE
-                }
-
-                //title.text = resources.getText(R.string.toolbar_title_edit_birthday)
-                btn_birthday_add_fragment_delete.visibility = Button.VISIBLE
-                //delete functionality
-                btn_birthday_add_fragment_delete.setOnClickListener {
-                    val alert_builder = AlertDialog.Builder(context)
-                    alert_builder.setTitle(resources.getString(R.string.alert_dialog_title_delete_birthday))
-                    alert_builder.setMessage(resources.getString(R.string.alert_dialog_body_message))
-
-                    val context_temp = context
-                    val birthday_pair_temp = EventHandler.getList()[itemID]
-
-                    // Set a positive button and its click listener on alert dialog
-                    alert_builder.setPositiveButton(resources.getString(R.string.alert_dialog_accept_delete)) { _, _ ->
-                        // delete birthday on positive button
-                        Snackbar.make(
-                            view,
-                            resources.getString(R.string.person_deleted_notification, edit_forename.text),
-                            Snackbar.LENGTH_LONG
-                        )
-                            .setAction(R.string.snackbar_undo_action_title, View.OnClickListener {
-                                EventHandler.addEvent(birthday_pair_temp, context_temp!!, true)
-                                //get last fragment in stack list, which should be eventlistfragment, so we can update the recycler view
-                                val fragment =
-                                    (context_temp as MainActivity).supportFragmentManager.fragments[(context_temp).supportFragmentManager.backStackEntryCount]
-                                if (fragment is EventListFragment) {
-                                    fragment.recyclerView.adapter!!.notifyDataSetChanged()
-                                }
-                            })
-                            .show()
-                        EventHandler.removeEventByKey(itemID, context!!, true)
-                        closeBtnPressed()
+            eventID = (arguments!!.getInt(ITEM_ID_PARAM_EVENTID))
+            EventHandler.getEventToEventIndex(eventID)?.let { birthday ->
+                if (birthday is EventBirthday) {
+                    if (birthday.isYearGiven) {
+                        edit_date.text = EventDate.parseDateToString(birthday.eventDate, DateFormat.FULL)
+                    } else {
+                        edit_date.text =
+                            EventDate.parseDateToString(birthday.eventDate, DateFormat.DATE_FIELD).substring(0..5)
                     }
 
-                    // dont do anything on negative button
-                    alert_builder.setNegativeButton(resources.getString(R.string.alert_dialog_dismiss_delete)) { _, _ ->
+                    edit_surname.setText(birthday.surname)
+                    edit_forename.setText(birthday.forename)
+                    switch_isYearGiven.isChecked = birthday.isYearGiven
+                    birthday_avatar_uri = birthday.avatarImageUri
+
+                    if (!birthday.note.isNullOrBlank()) {
+                        edit_note.setText(birthday.note)
                     }
 
-                    // Finally, make the alert dialog using builder
-                    val dialog: AlertDialog = alert_builder.create()
+                    if (!birthday.nickname.isNullOrBlank()) {
+                        //cb_nickname.isChecked = true
+                        edit_nickname.setText(birthday.nickname)
+                        edit_nickname.visibility = EditText.VISIBLE
+                    }
 
-                    // Display the alert dialog on app interface
-                    dialog.show()
-                }
+                    //title.text = resources.getText(R.string.toolbar_title_edit_birthday)
+                    btn_birthday_add_fragment_delete.visibility = Button.VISIBLE
+                    //delete functionality
+                    btn_birthday_add_fragment_delete.setOnClickListener {
+                        val alert_builder = AlertDialog.Builder(context)
+                        alert_builder.setTitle(resources.getString(R.string.alert_dialog_title_delete_birthday))
+                        alert_builder.setMessage(resources.getString(R.string.alert_dialog_body_message))
 
-                if ((context as MainActivity).isLoading) {
-                    this.iv_add_avatar_btn.setImageResource(R.drawable.ic_birthday_person)
-                    this.iv_add_avatar_btn.isEnabled = false
-                } else {
-                    this.updateAvatarImage()
+                        val context_temp = context
+                        val birthday_pair_temp = birthday
+
+                        // Set a positive button and its click listener on alert dialog
+                        alert_builder.setPositiveButton(resources.getString(R.string.alert_dialog_accept_delete)) { _, _ ->
+                            // delete birthday on positive button
+                            Snackbar.make(
+                                view,
+                                resources.getString(R.string.person_deleted_notification, edit_forename.text),
+                                Snackbar.LENGTH_LONG
+                            )
+                                .setAction(R.string.snackbar_undo_action_title, View.OnClickListener {
+                                    EventHandler.addEvent(birthday_pair_temp, context_temp!!, true)
+                                    //get last fragment in stack list, which should be eventlistfragment, so we can update the recycler view
+                                    val fragment =
+                                        (context_temp as MainActivity).supportFragmentManager.fragments[(context_temp).supportFragmentManager.backStackEntryCount]
+                                    if (fragment is EventListFragment) {
+                                        fragment.recyclerView.adapter!!.notifyDataSetChanged()
+                                    }
+                                })
+                                .show()
+                            EventHandler.removeEventByID(eventID, context!!, true)
+                            closeBtnPressed()
+                        }
+
+                        // dont do anything on negative button
+                        alert_builder.setNegativeButton(resources.getString(R.string.alert_dialog_dismiss_delete)) { _, _ ->
+                        }
+
+                        // Finally, make the alert dialog using builder
+                        val dialog: AlertDialog = alert_builder.create()
+
+                        // Display the alert dialog on app interface
+                        dialog.show()
+                    }
+
+                    if ((context as MainActivity).isLoading) {
+                        this.iv_add_avatar_btn.setImageResource(R.drawable.ic_birthday_person)
+                        this.iv_add_avatar_btn.isEnabled = false
+                    } else {
+                        this.updateAvatarImage()
+                    }
                 }
             }
+
+            //new birthday is going to be added
         } else {
             setToolbarTitle(context!!.resources.getString(R.string.toolbar_title_add_birthday))
             btn_birthday_add_fragment_delete.visibility = Button.INVISIBLE
@@ -266,33 +265,36 @@ class BirthdayInstanceFragment : EventInstanceFragment() {
 
         //add image from gallery
         this.frame_layout_add_avatar_image.setOnClickListener {
-            val view_ = layoutInflater.inflate(R.layout.fragment_bottom_sheet_dialog, null)
+            val bottomSheetDialog = layoutInflater.inflate(R.layout.fragment_bottom_sheet_dialog, null)
 
             val dialog = BottomSheetDialog(context!!)
-            dialog.setContentView(view_)
+            dialog.setContentView(bottomSheetDialog)
 
-            val layout_choose_img = dialog.findViewById<ConstraintLayout>(R.id.layout_bottom_sheet_choose)
-            val layout_delete_img = dialog.findViewById<ConstraintLayout>(R.id.layout_bottom_sheet_delete)
+            val layoutChooseImg = dialog.findViewById<ConstraintLayout>(R.id.layout_bottom_sheet_choose)
+            val layoutDeleteImg = dialog.findViewById<ConstraintLayout>(R.id.layout_bottom_sheet_delete)
 
             dialog.show()
 
             //when clicked, that an image from a file should be taken
-            if (layout_choose_img != null) {
-                layout_choose_img.setOnClickListener {
+            if (layoutChooseImg != null) {
+                layoutChooseImg.setOnClickListener {
                     dialog.dismiss()
                     getImageFromFiles()
                 }
             }
 
             //delete current image, and reference to BitmapHandler when clicked
-            if (layout_delete_img != null) {
-                layout_delete_img.setOnClickListener {
+            if (layoutDeleteImg != null) {
+                layoutDeleteImg.setOnClickListener {
                     dialog.dismiss()
-                    if (isEditedBirthday && this.birthday_avatar_uri != null && (EventHandler.getList()[itemID] as EventBirthday).avatarImageUri != null) {
+                    if (isEditedBirthday && this.birthday_avatar_uri != null && (EventHandler.getEventToEventIndex(
+                            eventID
+                        ) as EventBirthday).avatarImageUri != null
+                    ) {
                         this.iv_add_avatar_btn.setImageResource(R.drawable.ic_birthday_person)
                         this.avatar_img_was_edited = true
                         this.birthday_avatar_uri = null
-                        BitmapHandler.removeBitmap(itemID, context!!)
+                        BitmapHandler.removeBitmap(eventID, context!!)
                     } else {
                         this.iv_add_avatar_btn.setImageResource(R.drawable.ic_birthday_person)
                         this.birthday_avatar_uri = null
@@ -315,7 +317,8 @@ class BirthdayInstanceFragment : EventInstanceFragment() {
                     //year is not given
                 } else {
                     val date = EventDate.parseStringToDate(edit_date.text.toString(), DateFormat.FULL)
-                    edit_date.text = EventDate.parseDateToString(date, DateFormat.DATE_FIELD).substring(0..5)
+                    edit_date.text =
+                        EventDate.parseDateToString(date, DateFormat.DATE_FIELD).substring(0..5)
                 }
             } else {
                 if (isChecked) {
@@ -367,7 +370,6 @@ class BirthdayInstanceFragment : EventInstanceFragment() {
                     c.set(Calendar.MONTH, monthOfYear)
                     c.set(Calendar.DAY_OF_MONTH, dayOfMonth)
 
-                    //TODO: undo this, future birthdays are a bad thing
                     if (c.time.after(Calendar.getInstance().time) && switch_isYearGiven.isChecked) {
                         Toast.makeText(
                             view.context,
@@ -418,9 +420,9 @@ class BirthdayInstanceFragment : EventInstanceFragment() {
         if (requestCode == REQUEST_IMAGE_GET && resultCode == Activity.RESULT_OK) {
             val fullPhotoUri: Uri = data!!.data!!
 
-            val take_flags =
+            val takeFlags =
                 (data.flags and (Intent.FLAG_GRANT_READ_URI_PERMISSION or Intent.FLAG_GRANT_WRITE_URI_PERMISSION))
-            context!!.contentResolver.takePersistableUriPermission(fullPhotoUri, take_flags)
+            context!!.contentResolver.takePersistableUriPermission(fullPhotoUri, takeFlags)
 
             Thread(Runnable {
                 val bitmap = MediaStore.Images.Media.getBitmap(context!!.contentResolver, fullPhotoUri)
@@ -503,27 +505,31 @@ class BirthdayInstanceFragment : EventInstanceFragment() {
                 ).show()
                 closeBtnPressed()
 
-                //already existant birthday entry, overwrite old entry in map
+                //already existent birthday entry, overwrite old entry in map
             } else {
-                if (wasChangeMade(EventHandler.getList()[itemID] as EventBirthday)) {
-                    EventHandler.changeEventAt(itemID, birthday, context!!, true)
-                    Snackbar.make(
-                        view!!,
-                        context!!.resources.getString(R.string.person_changed_notification, forename),
-                        Snackbar.LENGTH_LONG
-                    ).show()
+                EventHandler.getEventToEventIndex(eventID)?.let { event ->
+                    if (event is EventBirthday && wasChangeMade(event)) {
+                        EventHandler.changeEventAt(eventID, birthday, context!!, true)
+                        Snackbar.make(
+                            view!!,
+                            context!!.resources.getString(R.string.person_changed_notification, forename),
+                            Snackbar.LENGTH_LONG
+                        ).show()
+                    }
+                    closeBtnPressed()
                 }
-                closeBtnPressed()
             }
         }
     }
 
     fun updateAvatarImage() {
-        if (this.iv_add_avatar_btn != null && this.itemID >= 0) {
+        if (this.iv_add_avatar_btn != null && this.eventID >= 0) {
             //load maybe already existent avatar photo
-            if ((EventHandler.getList()[itemID] as EventBirthday).avatarImageUri != null) {
-                this.iv_add_avatar_btn.setImageBitmap(BitmapHandler.getBitmapAt(EventHandler.getList()[itemID].eventID))
-                this.iv_add_avatar_btn.isEnabled = true
+            EventHandler.getEventToEventIndex(eventID)?.let { event ->
+                if (event is EventBirthday && event.avatarImageUri != null) {
+                    this.iv_add_avatar_btn.setImageBitmap(BitmapHandler.getBitmapAt(eventID))
+                    this.iv_add_avatar_btn.isEnabled = true
+                }
             }
         }
     }
