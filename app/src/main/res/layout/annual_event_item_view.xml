@@ -90,5 +90,5 @@
             app:layout_constraintBottom_toBottomOf="@+id/tv_years_since_annual_value"
             app:layout_constraintEnd_toEndOf="@+id/tv_days_until_annual_title"
             app:layout_constraintStart_toStartOf="@+id/tv_days_until_annual_title"
-            />
+            android:textColor="@color/darkGrey"/>
 </android.support.constraint.ConstraintLayout>

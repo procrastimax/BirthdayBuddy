@@ -22,7 +22,6 @@ import kotlinx.android.synthetic.main.event_month_view_divider.view.*
 import kotlinx.android.synthetic.main.one_time_event_item_view.view.*
 import java.text.DateFormat
 
-
 class EventAdapter_Searching(private val context: Context, private val eventIDs: List<Int>) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
@@ -37,7 +36,6 @@ class EventAdapter_Searching(private val context: Context, private val eventIDs:
     /**
      * getItemViewType overrides the standard function
      * it defines the different viewholder types used for the recycler view
-     * 0 - month description divider
      * 1 - birthday event viewholder
      * 2 - annual event viewholder
      * 3 - one time event viewholder
@@ -47,14 +45,6 @@ class EventAdapter_Searching(private val context: Context, private val eventIDs:
      */
     override fun getItemViewType(position: Int): Int {
         when (EventHandler.getList()[position]) {
-            /*is MonthDivider -> {
-                if (position < EventHandler.getList().size - 1) {
-                    if (EventHandler.getList()[position + 1] !is MonthDivider) {
-                        return 0
-                    }
-                }
-                return -1
-            }*/
             is EventBirthday -> {
                 if (eventIDs.contains(EventHandler.getList()[position].eventID))
                     return 1
@@ -97,7 +87,7 @@ class EventAdapter_Searching(private val context: Context, private val eventIDs:
             else -> {
                 //Default is birthday event
                 val item_view = View(context)
-                return EventMonthDividerViewHolder(item_view)
+                return BirthdayEventViewHolder(item_view)
             }
         }
     }
@@ -242,13 +232,17 @@ class EventAdapter_Searching(private val context: Context, private val eventIDs:
                         true
                     }
 
+                    //set name
+                    val name = (EventHandler.getList()[position] as AnnualEvent).name
+                    holder.itemView.tv_annual_item_name.text = name
+
                     //set date
-                    holder.itemView.tv_annual_item_date_value.text =
-                        (EventHandler.getList()[position] as AnnualEvent).getPrettyShortStringWithoutYear()
+                    val date = (EventHandler.getList()[position] as AnnualEvent).getPrettyShortStringWithoutYear()
+                    holder.itemView.tv_annual_item_date_value.text = date
 
                     //set days until
-                    holder.itemView.tv_days_until_annual_value.text =
-                        EventHandler.getList()[position].getDaysUntil().toString()
+                    val days_until = EventHandler.getList()[position].getDaysUntil().toString()
+                    holder.itemView.tv_days_until_annual_value.text = days_until
 
                     //set years since, if specified
                     if ((EventHandler.getList()[position] as AnnualEvent).hasStartYear) {
@@ -258,10 +252,6 @@ class EventAdapter_Searching(private val context: Context, private val eventIDs:
                         holder.itemView.tv_years_since_annual_value.text =
                             "-"
                     }
-
-                    //set name
-                    holder.itemView.tv_annual_item_name.text =
-                        (EventHandler.getList()[position] as AnnualEvent).name
                 }
             }
 

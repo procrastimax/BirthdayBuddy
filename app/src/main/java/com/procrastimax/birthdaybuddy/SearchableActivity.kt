@@ -7,6 +7,7 @@ import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.view.MenuItem
+import android.widget.TextView
 import com.procrastimax.birthdaybuddy.handler.SearchHandler
 import com.procrastimax.birthdaybuddy.views.EventAdapter_Searching
 import com.procrastimax.birthdaybuddy.views.RecycleViewItemDivider
@@ -34,8 +35,16 @@ class SearchableActivity : AppCompatActivity() {
             }
         }
 
-        this.supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        if (this.eventIndexList.size == 0) {
+            tv_failed_search.visibility = TextView.VISIBLE
+            recyclerView_search.visibility = RecyclerView.GONE
+        } else {
+            tv_failed_search.visibility = TextView.GONE
+            recyclerView_search.visibility = RecyclerView.VISIBLE
+        }
+
         this.supportActionBar?.setDisplayShowHomeEnabled(true)
+        this.supportActionBar?.setDisplayHomeAsUpEnabled(true)
         this.supportActionBar?.setHomeButtonEnabled(true)
 
         viewManager = LinearLayoutManager(this)
