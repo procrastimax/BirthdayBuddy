@@ -341,59 +341,6 @@ class BirthdayInstanceFragment : EventInstanceFragment() {
     }
 
     /**
-     * showDatePickerDialog shows a dialog to let the user pick a date for the edit_date
-     */
-    private fun showDatePickerDialog() {
-        val c = Calendar.getInstance()
-
-        //set calendar to the date which is stored in the edit field, when the edit is not empty
-        if (!edit_date.text.isNullOrBlank()) {
-            if (switch_isYearGiven.isChecked) {
-                c.time = EventDate.parseStringToDate(edit_date.text.toString(), DateFormat.FULL)
-            } else {
-                c.time = EventDate.parseStringToDate(
-                    edit_date.text.toString() + (Calendar.getInstance().get(Calendar.YEAR) - 1),
-                    DateFormat.DATE_FIELD
-                )
-            }
-        }
-        val year = c.get(Calendar.YEAR)
-        val month = c.get(Calendar.MONTH)
-        val day = c.get(Calendar.DAY_OF_MONTH)
-
-        val dpd =
-            DatePickerDialog(
-                context!!,
-                DatePickerDialog.OnDateSetListener { view, year_, monthOfYear, dayOfMonth ->
-                    // Display Selected date in Toast
-                    c.set(Calendar.YEAR, year_)
-                    c.set(Calendar.MONTH, monthOfYear)
-                    c.set(Calendar.DAY_OF_MONTH, dayOfMonth)
-
-                    if (c.time.after(Calendar.getInstance().time) && switch_isYearGiven.isChecked) {
-                        Toast.makeText(
-                            view.context,
-                            context!!.resources.getText(R.string.future_birthday_error),
-                            Toast.LENGTH_LONG
-                        ).show()
-                    } else {
-
-                        if (switch_isYearGiven.isChecked) {
-                            edit_date.text = EventDate.parseDateToString(c.time, DateFormat.FULL)
-                        } else {
-                            edit_date.text =
-                                EventDate.parseDateToString(c.time, DateFormat.DATE_FIELD).substring(0..5)
-                        }
-                    }
-                },
-                year,
-                month,
-                day
-            )
-        dpd.show()
-    }
-
-    /**
      * getImageFromFiles opens an intent to request a photo from the gallery
      * This function is called after the user clicks on the iv_add_avatar_btn
      */
@@ -532,6 +479,59 @@ class BirthdayInstanceFragment : EventInstanceFragment() {
                 }
             }
         }
+    }
+
+    /**
+     * showDatePickerDialog shows a dialog to let the user pick a date for the edit_date
+     */
+    private fun showDatePickerDialog() {
+        val c = Calendar.getInstance()
+
+        //set calendar to the date which is stored in the edit field, when the edit is not empty
+        if (!edit_date.text.isNullOrBlank()) {
+            if (switch_isYearGiven.isChecked) {
+                c.time = EventDate.parseStringToDate(edit_date.text.toString(), DateFormat.FULL)
+            } else {
+                c.time = EventDate.parseStringToDate(
+                    edit_date.text.toString() + (Calendar.getInstance().get(Calendar.YEAR) - 1),
+                    DateFormat.DATE_FIELD
+                )
+            }
+        }
+        val year = c.get(Calendar.YEAR)
+        val month = c.get(Calendar.MONTH)
+        val day = c.get(Calendar.DAY_OF_MONTH)
+
+        val dpd =
+            DatePickerDialog(
+                context!!,
+                DatePickerDialog.OnDateSetListener { view, year_, monthOfYear, dayOfMonth ->
+                    // Display Selected date in Toast
+                    c.set(Calendar.YEAR, year_)
+                    c.set(Calendar.MONTH, monthOfYear)
+                    c.set(Calendar.DAY_OF_MONTH, dayOfMonth)
+
+                    if (c.time.after(Calendar.getInstance().time) && switch_isYearGiven.isChecked) {
+                        Toast.makeText(
+                            view.context,
+                            context!!.resources.getText(R.string.future_birthday_error),
+                            Toast.LENGTH_LONG
+                        ).show()
+                    } else {
+
+                        if (switch_isYearGiven.isChecked) {
+                            edit_date.text = EventDate.parseDateToString(c.time, DateFormat.FULL)
+                        } else {
+                            edit_date.text =
+                                EventDate.parseDateToString(c.time, DateFormat.DATE_FIELD).substring(0..5)
+                        }
+                    }
+                },
+                year,
+                month,
+                day
+            )
+        dpd.show()
     }
 
     companion object {

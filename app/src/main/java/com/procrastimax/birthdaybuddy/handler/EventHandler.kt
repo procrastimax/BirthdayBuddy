@@ -58,7 +58,9 @@ object EventHandler {
                         event.eventID,
                         Uri.parse(event.avatarImageUri),
                         context,
-                        readBitmapFromGallery = false
+                        readBitmapFromGallery = false,
+                        //150 because the app_bar height is 300dp
+                        scale = MainActivity.convertDpToPx(context, 150f)
                     )
                 }
                 if (context is MainActivity) {
@@ -86,6 +88,75 @@ object EventHandler {
 
         if (writeAfterAdd) {
             IOHandler.writeEventToFile(event.eventID, event)
+        }
+    }
+
+
+    /**
+     * changeEventAt assign new event at key position
+     *
+     * @param ID : Int
+     * @param newEvent : EventDay
+     */
+    fun changeEventAt(ID: Int, newEvent: EventDate, context: Context, writeAfterChange: Boolean = false) {
+        getEventToEventIndex(ID)?.let { oldEvent ->
+            newEvent.eventID = ID
+            //set hour of day from all other events except monthdivider to 12h (month divider is at 0h), so when sorting month divider is always at first
+            if (newEvent !is MonthDivider) {
+                val cal = Calendar.getInstance()
+                cal.time = newEvent.eventDate
+                cal.set(Calendar.HOUR_OF_DAY, 12)
+                newEvent.eventDate = cal.time
+            }
+
+            NotificationHandler.cancelNotification(context, oldEvent)
+            NotificationHandler.scheduleNotification(context, newEvent)
+
+            this.event_map[ID] = newEvent
+
+            if (newEvent is EventBirthday && newEvent.avatarImageUri != null) {
+                //remove old drawable if one exists
+                if ((oldEvent as EventBirthday).avatarImageUri != null) {
+                    BitmapHandler.removeBitmap(oldEvent.eventID, context)
+                }
+                //force bitmaphandler to load new avatar image from gallery, in case there is already an existant bitmap
+                BitmapHandler.addDrawable(
+                    ID,
+                    Uri.parse((newEvent).avatarImageUri),
+                    context,
+                    readBitmapFromGallery = true,
+                    scale = MainActivity.convertDpToPx(context, 150f)
+                )
+            }
+
+            this.event_list = getSortedListBy()
+
+            if (writeAfterChange) {
+                IOHandler.writeEventToFile(ID, newEvent)
+            }
+        }
+    }
+
+    /**
+     * removeEventByKey removes an event from the by using a key
+     *
+     * @param index : Int
+     */
+    fun removeEventByID(index: Int, context: Context, writeChange: Boolean = false) {
+        getEventToEventIndex(index)?.let { event ->
+
+            if (event is EventBirthday) {
+                BitmapHandler.removeBitmap(index, context)
+            }
+
+            NotificationHandler.cancelNotification(context, event)
+
+            if (writeChange) {
+                IOHandler.removeEventFromFile(event.eventID)
+            }
+
+            event_map.remove(index)
+            this.event_list = this.getSortedListBy()
         }
     }
 
@@ -118,29 +189,6 @@ object EventHandler {
         return null
     }
 
-    /**
-     * removeEventByKey removes an event from the by using a key
-     *
-     * @param index : Int
-     */
-    fun removeEventByID(index: Int, context: Context, writeChange: Boolean = false) {
-        getEventToEventIndex(index)?.let { event ->
-
-            if (event is EventBirthday) {
-                BitmapHandler.removeBitmap(index, context)
-            }
-
-            NotificationHandler.cancelNotification(context, event)
-
-            if (writeChange) {
-                IOHandler.removeEventFromFile(event.eventID)
-            }
-
-            event_map.remove(index)
-            this.event_list = this.getSortedListBy()
-        }
-    }
-
     fun deleteAllEntriesAndImages(context: Context, writeAfterAdd: Boolean) {
         this.event_list.forEach {
             NotificationHandler.cancelNotification(context, it)
@@ -151,46 +199,6 @@ object EventHandler {
         if (writeAfterAdd) {
             //deletes shared prefs before writing list, but list is empty, so it only clears the shared prefs
             IOHandler.writeAll()
-        }
-    }
-
-    /**
-     * changeEventAt assign new event at key position
-     *
-     * @param ID : Int
-     * @param newEvent : EventDay
-     */
-    fun changeEventAt(ID: Int, newEvent: EventDate, context: Context, writeAfterChange: Boolean = false) {
-        getEventToEventIndex(ID)?.let { oldEvent ->
-            newEvent.eventID = ID
-            //set hour of day from all other events except monthdivider to 12h (month divider is at 0h), so when sorting month divider is always at first
-            if (newEvent !is MonthDivider) {
-                val cal = Calendar.getInstance()
-                cal.time = newEvent.eventDate
-                cal.set(Calendar.HOUR_OF_DAY, 12)
-                newEvent.eventDate = cal.time
-            }
-
-            NotificationHandler.cancelNotification(context, oldEvent)
-            NotificationHandler.scheduleNotification(context, newEvent)
-
-            this.event_map[ID] = newEvent
-
-            if (newEvent is EventBirthday && newEvent.avatarImageUri != null) {
-                //force bitmaphandler to load new avatar image from gallery, in case there is already an existant bitmap
-                BitmapHandler.addDrawable(
-                    ID,
-                    Uri.parse((newEvent).avatarImageUri),
-                    context,
-                    readBitmapFromGallery = true
-                )
-            }
-
-            this.event_list = getSortedListBy()
-
-            if (writeAfterChange) {
-                IOHandler.writeEventToFile(ID, newEvent)
-            }
         }
     }
 

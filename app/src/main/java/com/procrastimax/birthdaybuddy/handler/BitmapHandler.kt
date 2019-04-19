@@ -13,6 +13,7 @@ import android.net.Uri
 import android.provider.MediaStore
 import android.support.v4.graphics.drawable.RoundedBitmapDrawable
 import android.support.v4.graphics.drawable.RoundedBitmapDrawableFactory
+import com.procrastimax.birthdaybuddy.MainActivity
 import com.procrastimax.birthdaybuddy.R
 import com.procrastimax.birthdaybuddy.models.EventBirthday
 import java.io.ByteArrayOutputStream
@@ -32,7 +33,7 @@ object BitmapHandler {
     private var drawable_map: MutableMap<Int, Bitmap> = emptyMap<Int, Bitmap>().toMutableMap()
 
     //TODO: add scaling for screen density
-    private val STANDARD_SCALING = 64 * 4
+    private val STANDARD_SCALING = 64 * 6
 
     /**
      * addDrawable adds a drawable to the drawable_map by reading a bitmap from the storage
