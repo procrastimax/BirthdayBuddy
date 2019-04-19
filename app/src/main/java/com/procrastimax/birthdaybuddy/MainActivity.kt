@@ -205,37 +205,6 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    fun closeAppBar(animated: Boolean = true) {
-        //this.app_bar.setExpanded(false, animated)
-    }
-
-    fun openAppBar(animated: Boolean = true) {
-        //this.app_bar.setExpanded(true, animated)
-    }
-
-
-    fun lockAppBar() {
-        /*val params = app_bar.layoutParams as CoordinatorLayout.LayoutParams
-        params.behavior = AppBarLayout.Behavior()
-        val behavior = params.behavior as AppBarLayout.Behavior
-        behavior.setDragCallback(object : AppBarLayout.Behavior.DragCallback() {
-            override fun canDrag(appBarLayout: AppBarLayout): Boolean {
-                return false
-            }
-        })*/
-    }
-
-    fun unlockAppBar() {
-        /*val params = app_bar.layoutParams as CoordinatorLayout.LayoutParams
-        params.behavior = AppBarLayout.Behavior()
-        val behavior = params.behavior as AppBarLayout.Behavior
-        behavior.setDragCallback(object : AppBarLayout.Behavior.DragCallback() {
-            override fun canDrag(appBarLayout: AppBarLayout): Boolean {
-                return true
-            }
-        })*/
-    }
-
     companion object {
         fun convertPxToDp(context: Context, px: Float): Float {
             val metrics = context.resources.displayMetrics
@@ -245,13 +214,6 @@ class MainActivity : AppCompatActivity() {
         fun convertDpToPx(context: Context, dp: Float): Int {
             val metrics = context.resources.displayMetrics
             return TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, metrics).toInt()
-        }
-
-        enum class ToolbarState {
-            Default,
-            EditEvent,
-            ShowEvent,
-            Fragment
         }
     }
 }

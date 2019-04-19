@@ -1,7 +1,10 @@
 package com.procrastimax.birthdaybuddy.fragments
 
+import android.app.AlarmManager
+import android.app.PendingIntent
 import android.app.SearchManager
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.support.constraint.ConstraintLayout
 import android.support.v4.app.Fragment
@@ -9,6 +12,7 @@ import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.view.*
 import android.widget.TextView
+import com.procrastimax.birthdaybuddy.AlarmReceiver
 import com.procrastimax.birthdaybuddy.MainActivity
 import com.procrastimax.birthdaybuddy.R
 import com.procrastimax.birthdaybuddy.handler.EventHandler
@@ -257,6 +261,14 @@ class EventListFragment : Fragment() {
             }
             R.id.item_settings -> {
                 settingsClicked()
+            }
+            R.id.fire_notification -> {
+                val event = EventHandler.getEventToEventIndex(16)
+                val intent = Intent(context, AlarmReceiver::class.java)
+                intent.putExtra("EVENTSTRING", event.toString())
+                intent.putExtra("NOTIFICATIONID", event!!.eventID)
+                intent.putExtra("EVENTID", event.eventID)
+                activity!!.sendBroadcast(intent)
             }
         }
         return super.onOptionsItemSelected(item)

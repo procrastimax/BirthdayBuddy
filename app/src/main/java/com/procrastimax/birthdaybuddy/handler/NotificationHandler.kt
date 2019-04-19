@@ -147,7 +147,7 @@ object NotificationHandler {
                     NOTIFICATION_WINDOW_LENGTH,
                     alarmIntent
                 )
-                println(" ---> EventBirthday notification added on " + notificationTime + " with ID: " + event.eventID * reminderStart.value)
+                println(" ---> EventBirthday notification added on " + notificationTime + " with ID: " + event.eventID * reminderStart.value+ " name: " + event.forename)
             }
             is AnnualEvent -> {
                 alarmManager.setWindow(

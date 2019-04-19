@@ -31,6 +31,7 @@ object BitmapHandler {
 
     private var drawable_map: MutableMap<Int, Bitmap> = emptyMap<Int, Bitmap>().toMutableMap()
 
+    //TODO: add scaling for screen density
     private val STANDARD_SCALING = 64 * 4
 
     /**
@@ -52,7 +53,7 @@ object BitmapHandler {
         var success = true
 
         //first try to load from files
-        //if this doesnt succeed, then try to read from gallery and save edited bitmap to files
+        //if this doesn't succeed, then try to read from gallery and save edited bitmap to files
         if ((checkExistingBitmapInFiles(context, id) != null) && (!readBitmapFromGallery)) {
             var bitmap = getBitmapFromFile(context, id)
             if (bitmap != null) {
