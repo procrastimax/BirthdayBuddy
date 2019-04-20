@@ -53,7 +53,7 @@ class ShowBirthdayEvent : ShowEventFragment() {
             if (birthdayEvent is EventBirthday) {
 
                 if (birthdayEvent.nickname != null) {
-                    this.tv_show_birthday_forename.text = "$birthdayEvent.forename \"$birthdayEvent.nickname\""
+                    this.tv_show_birthday_forename.text = "${birthdayEvent.forename} \"${birthdayEvent.nickname}\""
                 } else {
                     this.tv_show_birthday_forename.text = birthdayEvent.forename
                 }
