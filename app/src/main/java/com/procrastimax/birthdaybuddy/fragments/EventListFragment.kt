@@ -248,7 +248,7 @@ class EventListFragment : Fragment() {
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
         when (item?.itemId) {
-            R.id.toolbar_search -> {
+            R.id.toolbar_search->{
 
             }
             R.id.item_help -> {

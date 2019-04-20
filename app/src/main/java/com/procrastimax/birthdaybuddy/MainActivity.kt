@@ -168,8 +168,6 @@ class MainActivity : AppCompatActivity() {
 
     private fun startFragments(eventID: Int, type: String) {
         val bundle = Bundle()
-
-        println("------------ EventID - $eventID | TYPE - $type")
         //do this in more adaptable way
         bundle.putInt(
             ITEM_ID_PARAM_EVENTID,
