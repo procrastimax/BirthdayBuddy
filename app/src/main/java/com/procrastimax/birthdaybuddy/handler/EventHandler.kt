@@ -8,7 +8,6 @@ import com.procrastimax.birthdaybuddy.models.EventDate
 import com.procrastimax.birthdaybuddy.models.MonthDivider
 import com.procrastimax.birthdaybuddy.models.SortIdentifier
 import kotlinx.android.synthetic.main.fragment_event_list.*
-import java.text.DateFormat
 import java.util.*
 
 /**
@@ -75,10 +74,6 @@ object EventHandler {
 
         //set hour of day from all other events except monthdivider to 12h (month divider is at 0h), so when sorting month divider is always at first
         if (event !is MonthDivider && addNewNotification) {
-            val cal = Calendar.getInstance()
-            cal.time = event.eventDate
-            cal.set(Calendar.HOUR_OF_DAY, 12)
-            event.eventDate = cal.time
             NotificationHandler.scheduleNotification(context, event)
         }
 
@@ -93,7 +88,7 @@ object EventHandler {
 
 
     /**
-     * changeEventAt assign new event at key position
+     * changeEventAt change event at key position
      *
      * @param ID : Int
      * @param newEvent : EventDay
@@ -225,35 +220,6 @@ object EventHandler {
         return event_map.keys.sorted().last()
     }
 
-    /**
-     * generateRandomEventDates does exactly what the name says
-     * Only used for testing purposes!
-     *
-     * @param count : Int
-     */
-    fun generateRandomEventDates(count: Int, context: Context, writeAfterAdd: Boolean = false) {
-        for (i in 1..count) {
-
-            val day: Int = (1..30).random()
-            val month: Int = (1..12).random()
-            val year: Int = (0..99).random()
-            val random = java.util.Random()
-            val isYearGiven: Boolean = random.nextBoolean()
-
-            val event = EventBirthday(
-                EventDate.parseStringToDate(
-                    "$day.$month.$year",
-                    DateFormat.SHORT,
-                    Locale.GERMAN
-                ), EventHandler.getLastIndex().toString(), (i * i).toString(), isYearGiven
-            )
-            if (isYearGiven) {
-                event.note = (day + month + i).toString()
-            }
-            addEvent(event, context, writeAfterAdd)
-        }
-    }
-
     fun getList(): List<EventDate> {
         return this.event_list
     }
@@ -277,7 +243,7 @@ object EventHandler {
                 compareBy(
                     { it.getDayOfYear() },
                     { it.getMonth() },
-                    { it.getHourOfDay() })
+                    { it.getYear() })
             )
         } else {
             return emptyList()

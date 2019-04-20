@@ -359,30 +359,6 @@ object IOHandler {
             if (avatarImageURI != null) birthday.avatarImageUri = avatarImageURI
             if (nickname != null) birthday.nickname = nickname
             return birthday
-
-            // MONTH DIVIDER
-        } else if (string_array[0] == MonthDivider.Name) {
-
-            var date = "-"
-            var month = "-"
-
-            for (i in 1 until string_array.size) {
-                val property = string_array[i].split(characterDivider_values)
-
-                //use identifier
-                when (property[0]) {
-                    MonthDivider.Identifier.Date.toString() -> {
-                        date = property[1]
-                    }
-                    MonthDivider.Identifier.MonthName.toString() -> {
-                        month = property[1]
-                    }
-                    else ->
-                        Log.w("IOHandler", "Could not find identifier when trying to parse EventMonthDivider")
-                }
-            }
-            return MonthDivider(EventDate.parseStringToDate(date), month)
-
             // ANNUAL EVENT
         } else if (string_array[0] == AnnualEvent.Name) {
             var date = "-"
@@ -445,7 +421,28 @@ object IOHandler {
             if (note != null) {
                 oneTimeEvent.note = note
             }
-            return oneTimeEvent
+            return oneTimeEvent // MONTH DIVIDER
+        } else if (string_array[0] == MonthDivider.Name) {
+
+            var date = "-"
+            var month = "-"
+
+            for (i in 1 until string_array.size) {
+                val property = string_array[i].split(characterDivider_values)
+
+                //use identifier
+                when (property[0]) {
+                    MonthDivider.Identifier.Date.toString() -> {
+                        date = property[1]
+                    }
+                    MonthDivider.Identifier.MonthName.toString() -> {
+                        month = property[1]
+                    }
+                    else ->
+                        Log.w("IOHandler", "Could not find identifier when trying to parse EventMonthDivider")
+                }
+            }
+            return MonthDivider(EventDate.parseStringToDate(date), month)
         }
         return null
     }

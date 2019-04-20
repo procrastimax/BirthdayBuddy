@@ -220,7 +220,6 @@ class MainActivity : AppCompatActivity() {
         val cal = Calendar.getInstance()
         cal.set(Calendar.YEAR, 1)
         cal.set(Calendar.DAY_OF_MONTH, 1)
-        cal.set(Calendar.HOUR_OF_DAY, 1)
         for (i in 0 until 12) {
             cal.set(Calendar.MONTH, i)
             EventHandler.addEvent(
