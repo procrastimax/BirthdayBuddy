@@ -23,12 +23,6 @@ class ShowOneTimeEvent : ShowEventFragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
-        /*val currentEventID = getEventID(position)
-        if (eventID != currentEventID) {
-            (context as MainActivity).supportFragmentManager.popBackStack()
-            return null
-        }*/
         return inflater.inflate(R.layout.fragment_show_one_time_event, container, false)
     }
 

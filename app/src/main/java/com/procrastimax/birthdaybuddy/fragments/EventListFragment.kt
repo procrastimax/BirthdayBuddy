@@ -11,6 +11,7 @@ import android.support.v4.app.Fragment
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.view.*
+import android.widget.ImageView
 import android.widget.TextView
 import com.procrastimax.birthdaybuddy.AlarmReceiver
 import com.procrastimax.birthdaybuddy.MainActivity
@@ -43,7 +44,8 @@ class EventListFragment : Fragment() {
         setHasOptionsMenu(true)
         (context as MainActivity).supportActionBar?.setDisplayHomeAsUpEnabled(false)
         (context as MainActivity).supportActionBar?.setDisplayShowHomeEnabled(false)
-        (context as MainActivity).app_bar.isActivated = false
+        
+        (context as MainActivity).disableAppBarScrolling()
 
         isFABOpen = false
 

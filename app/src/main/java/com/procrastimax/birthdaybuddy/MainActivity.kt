@@ -3,6 +3,8 @@ package com.procrastimax.birthdaybuddy
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.support.design.widget.AppBarLayout
+import android.support.design.widget.CoordinatorLayout
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentTransaction
 import android.support.v7.app.AppCompatActivity
@@ -30,8 +32,6 @@ import java.util.*
  *  - dont show last seperation character in list view ( -> first point)
  *  - add checking for existing forename/surname pair when adding a new birthday/event
  *  - BUG: app closes when switched to potrait mode and changing fragments
- *  - maybe delete all vector darwables and use android defaults in library, to save memory space
- *  - maybe change collapsable toolbar to invisible, and change with standard toolbar
  */
 class MainActivity : AppCompatActivity() {
 
@@ -121,6 +121,34 @@ class MainActivity : AppCompatActivity() {
                 }
             }
             intent = null
+        }
+    }
+
+    fun disableAppBarScrolling() {
+        if (app_bar.layoutParams != null) {
+            val layoutParams = app_bar.layoutParams as CoordinatorLayout.LayoutParams
+            val appBarLayoutBehaviour = AppBarLayout.Behavior()
+            appBarLayoutBehaviour.setDragCallback(object : AppBarLayout.Behavior.DragCallback() {
+                override fun canDrag(appBarLayout: AppBarLayout): Boolean {
+                    return false
+                }
+            })
+            layoutParams.behavior = appBarLayoutBehaviour
+            app_bar.setExpanded(false, false)
+        }
+    }
+
+    fun enableAppBarScrolling() {
+        if (app_bar.layoutParams != null) {
+            val layoutParams = app_bar.layoutParams as CoordinatorLayout.LayoutParams
+            val appBarLayoutBehaviour = AppBarLayout.Behavior()
+            appBarLayoutBehaviour.setDragCallback(object : AppBarLayout.Behavior.DragCallback() {
+                override fun canDrag(appBarLayout: AppBarLayout): Boolean {
+                    return true
+                }
+            })
+            layoutParams.behavior = appBarLayoutBehaviour
+            app_bar.setExpanded(false, false)
         }
     }
 

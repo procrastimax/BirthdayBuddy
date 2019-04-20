@@ -35,17 +35,13 @@ class ShowBirthdayEvent : ShowEventFragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
-        //val currentEventID = getEventID(position)
-        /*if (eventID != currentEventID) {
-            (context as MainActivity).supportFragmentManager.popBackStack()
-            return null
-        }*/
         return inflater.inflate(R.layout.fragment_show_birthday_event, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        (context as MainActivity).enableAppBarScrolling()
 
         //to show the information about the instance, the fragment has to be bundled with an argument
         //fragment was already instantiated
@@ -67,7 +63,7 @@ class ShowBirthdayEvent : ShowEventFragment() {
             if (birthdayEvent is EventBirthday) {
 
                 if (birthdayEvent.nickname != null) {
-                    this.tv_show_birthday_forename.text = "${birthdayEvent.forename} \"${birthdayEvent.nickname}\""
+                    this.tv_show_birthday_forename.text = "$birthdayEvent.forename \"$birthdayEvent.nickname\""
                 } else {
                     this.tv_show_birthday_forename.text = birthdayEvent.forename
                 }
@@ -163,7 +159,6 @@ class ShowBirthdayEvent : ShowEventFragment() {
     }
 
     private fun setBitmapToToolbar(bitmap: Bitmap?) {
-        (context as MainActivity).app_bar.isActivated = true
         (context as MainActivity).collapsable_toolbar_iv.visibility = ImageView.VISIBLE
         if (bitmap != null) {
             (context as MainActivity).collapsable_toolbar_iv.scaleType = ImageView.ScaleType.CENTER_CROP
@@ -179,7 +174,7 @@ class ShowBirthdayEvent : ShowEventFragment() {
         (context as MainActivity).collapsable_toolbar_iv.visibility = ImageView.GONE
         setToolbarTitle(context!!.resources.getString(R.string.app_name))
         (context as MainActivity).app_bar.setExpanded(false, false)
-        (context as MainActivity).app_bar.isActivated = false
+        (context as MainActivity).disableAppBarScrolling()
     }
 
     /**

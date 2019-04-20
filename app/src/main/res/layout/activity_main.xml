@@ -25,12 +25,12 @@
                 android:id="@+id/scrollable_toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="300dp"
+                android:fitsSystemWindows="true"
                 app:contentScrim="?attr/colorPrimary"
                 app:expandedTitleMarginEnd="48dp"
                 app:expandedTitleMarginStart="16dp"
                 app:layout_scrollFlags="scroll|exitUntilCollapsed|snap"
-                app:expandedTitleMarginBottom="16dp"
-                android:fitsSystemWindows="true">
+                app:expandedTitleMarginBottom="16dp">
 
             <ImageView
                     android:id="@+id/collapsable_toolbar_iv"
