@@ -301,7 +301,7 @@ class EventAdapter_Searching(private val context: Context, private val eventIDs:
         return if (EventHandler.getList().isEmpty()) {
             0
         } else {
-            EventHandler.getLastIndex()
+            EventHandler.getList().size
         }
     }
 }

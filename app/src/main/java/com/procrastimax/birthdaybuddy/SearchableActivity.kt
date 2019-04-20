@@ -20,7 +20,7 @@ class SearchableActivity : AppCompatActivity() {
     private lateinit var viewAdapter: RecyclerView.Adapter<*>
     private lateinit var viewManager: RecyclerView.LayoutManager
 
-    private val eventIndexList = emptyList<Int>().toMutableList()
+    private var eventIndexList = emptyList<Int>().toMutableList()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -69,6 +69,10 @@ class SearchableActivity : AppCompatActivity() {
 
     private fun search(query: String) {
         supportActionBar?.title = "Search for: $query"
-        this.eventIndexList.addAll(SearchHandler.searchOnEventData(query).distinct())
+        val searchTerms = SearchHandler.splitStringToList(query)
+        searchTerms?.forEach {
+            this.eventIndexList.addAll(SearchHandler.searchOnEventData(it))
+        }
+        this.eventIndexList = this.eventIndexList.distinct().toMutableList()
     }
 }

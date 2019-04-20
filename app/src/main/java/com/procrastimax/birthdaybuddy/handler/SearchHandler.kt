@@ -45,9 +45,9 @@ object SearchHandler {
             //has forename, surname, nickname
             is EventBirthday -> {
                 //all names which are seperated by whitespaces/ minus char should be handled as independent words
-                val forenames = splitString(eventData.forename)
-                val surnames = splitString(eventData.surname)
-                val nicknames = splitString(eventData.nickname)
+                val forenames = splitStringToList(eventData.forename)
+                val surnames = splitStringToList(eventData.surname)
+                val nicknames = splitStringToList(eventData.nickname)
 
                 val nameList = emptyList<String>().toMutableList().apply {
                     if (forenames != null) {
@@ -65,11 +65,11 @@ object SearchHandler {
 
             //only has a description name
             is AnnualEvent -> {
-                return Pair(eventData.eventID, processStringList(splitString(eventData.name)!!.toMutableList()))
+                return Pair(eventData.eventID, processStringList(splitStringToList(eventData.name)!!.toMutableList()))
             }
             //only has a description name
             is OneTimeEvent -> {
-                return Pair(eventData.eventID, processStringList(splitString(eventData.name)!!.toMutableList()))
+                return Pair(eventData.eventID, processStringList(splitStringToList(eventData.name)!!.toMutableList()))
             }
         }
         //dont add month dividers
@@ -83,7 +83,7 @@ object SearchHandler {
         return dataString
     }
 
-    private fun splitString(dataString: String?): List<String>? {
+    fun splitStringToList(dataString: String?): List<String>? {
         //split all string into lists
         //split string at whitespace char or "-"
         //only return a list containing NOTEMPTY elements
