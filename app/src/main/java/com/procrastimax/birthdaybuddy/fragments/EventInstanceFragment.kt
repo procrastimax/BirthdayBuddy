@@ -86,7 +86,7 @@ abstract class EventInstanceFragment : Fragment() {
      */
     fun closeBtnPressed() {
         if (context != null) {
-            (context as MainActivity).supportFragmentManager.popBackStackImmediate()
+            (context as MainActivity).supportFragmentManager.popBackStack()
         }
     }
 

@@ -42,16 +42,6 @@ class ShowBirthdayEvent : ShowEventFragment() {
         super.onViewCreated(view, savedInstanceState)
 
         (context as MainActivity).enableAppBarScrolling()
-
-        //to show the information about the instance, the fragment has to be bundled with an argument
-        //fragment was already instantiated
-        if (eventID >= 0) {
-            updateUI()
-        } else if (arguments != null) {
-            //position = arguments!!.getInt(ITEM_ID_PARAM_POSITION, -1)
-            eventID = arguments!!.getInt(ITEM_ID_PARAM_EVENTID, -1)
-            updateUI()
-        }
     }
 
     /**

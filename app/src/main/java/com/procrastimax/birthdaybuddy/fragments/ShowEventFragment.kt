@@ -17,7 +17,6 @@ const val ITEM_ID_PARAM_EVENTID = "EVENTID"
 abstract class ShowEventFragment : Fragment() {
 
     var eventID: Int = -1
-    //var position: Int = -1
 
     val toolbar: Toolbar by lazy {
         activity!!.findViewById<Toolbar>(R.id.toolbar)
@@ -43,8 +42,24 @@ abstract class ShowEventFragment : Fragment() {
 
         (context as MainActivity).supportActionBar?.setHomeAsUpIndicator(R.drawable.ic_arrow_back)
         (context as MainActivity).supportActionBar?.setDisplayHomeAsUpEnabled(true)
-
         setToolbarTitle(context!!.resources.getString(R.string.app_name))
+
+        //to show the information about the instance, the fragment has to be bundled with an argument
+        //fragment was already instantiated
+        if (eventID >= 0) {
+
+            //if a event was deleted in the edit_event fragment "above"
+            //then we land at this point, so we have to check whether the event to the ID is existent
+            if (EventHandler.getEventToEventIndex(eventID) != null) {
+                this.updateUI()
+            } else {
+                closeButtonPressed()
+            }
+        } else if (arguments != null) {
+            //position = arguments!!.getInt(ITEM_ID_PARAM)
+            eventID = arguments!!.getInt(ITEM_ID_PARAM_EVENTID)
+            updateUI()
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {
@@ -72,19 +87,11 @@ abstract class ShowEventFragment : Fragment() {
     fun setToolbarTitle(title: String) {
         (context as MainActivity).scrollable_toolbar.title = title
     }
-
-    fun getEventID(position: Int): Int {
-        return if (EventHandler.getList().isNotEmpty() && (position in 0 until EventHandler.getList().size)) {
-            EventHandler.getList()[position].eventID
-        } else {
-            -1
-        }
-    }
-
+    
     /**
      * closeButtonPressed emulated a press on androids "back button" to close/ detach a fragment
      */
     fun closeButtonPressed() {
-        (context as MainActivity).supportFragmentManager.popBackStackImmediate()
+        (context as MainActivity).supportFragmentManager.popBackStack()
     }
 }

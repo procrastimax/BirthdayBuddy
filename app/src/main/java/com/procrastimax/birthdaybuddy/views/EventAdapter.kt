@@ -49,6 +49,7 @@ class EventAdapter(private val context: Context, private val fragmentManager: Fr
      * @return Int
      */
     override fun getItemViewType(position: Int): Int {
+        val list = EventHandler.getList()[position]
         when (EventHandler.getList()[position]) {
             is MonthDivider -> {
                 if (position < EventHandler.getList().size - 1) {
@@ -366,7 +367,7 @@ class EventAdapter(private val context: Context, private val fragmentManager: Fr
         return if (EventHandler.getList().isEmpty()) {
             0
         } else {
-            EventHandler.getLastIndex()
+            EventHandler.getList().size
         }
     }
 }

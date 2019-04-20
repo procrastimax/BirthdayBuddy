@@ -155,7 +155,7 @@ object EventHandler {
                 IOHandler.removeEventFromFile(event.eventID)
             }
 
-            event_map.remove(index)
+            this.event_map.remove(index)
             this.event_list = this.getSortedListBy()
         }
     }

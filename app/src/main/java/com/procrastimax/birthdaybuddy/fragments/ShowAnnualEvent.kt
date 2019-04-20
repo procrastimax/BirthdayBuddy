@@ -27,20 +27,6 @@ class ShowAnnualEvent : ShowEventFragment() {
         return inflater.inflate(R.layout.fragment_show_annual_event, container, false)
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
-        //to show the information about the instance, the fragment has to be bundled with an argument
-        //fragment was already instantiated
-        if (eventID >= 0) {
-            updateUI()
-        } else if (arguments != null) {
-            //position = arguments!!.getInt(ITEM_ID_PARAM)
-            eventID = arguments!!.getInt(ITEM_ID_PARAM_EVENTID)
-            updateUI()
-        }
-    }
-
     /**
      * updateUI updates all TextViews and other views to the current instance(AnnualEvent, Birthday) data
      */
