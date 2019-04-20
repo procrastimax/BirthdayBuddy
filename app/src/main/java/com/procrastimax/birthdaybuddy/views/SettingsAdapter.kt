@@ -2,6 +2,7 @@ package com.procrastimax.birthdaybuddy.views
 
 import android.app.AlertDialog
 import android.app.TimePickerDialog
+import android.app.backup.BackupManager
 import android.content.Context
 import android.content.DialogInterface
 import android.support.constraint.ConstraintLayout
@@ -405,15 +406,15 @@ class SettingsAdapter(private val context: Context) :
 
                 //export layout was pressed
                 //TODO: implement this
-                holder.itemView.layout_export_data.setOnClickListener {
-                    Toast.makeText(context, "exported clicked", Toast.LENGTH_LONG).show()
+                /*holder.itemView.layout_export_data.setOnClickListener {
+                    Toast.makeText(context, "exported", Toast.LENGTH_LONG).show()
                 }
 
                 //import layout was pressed
                 //TODO: implement this
                 holder.itemView.layout_import_data.setOnClickListener {
-                    Toast.makeText(context, "imported clicked", Toast.LENGTH_LONG).show()
-                }
+                    Toast.makeText(context, "imported", Toast.LENGTH_LONG).show()
+                }*/
             }
         }
     }
@@ -491,7 +492,7 @@ class SettingsAdapter(private val context: Context) :
 
                 tv_notification_time.text = timeString
                 IOHandler.writeSetting(
-                    notifcationTimeKey.toString(),
+                    notifcationTimeKey,
                     timeString
                 )
             },

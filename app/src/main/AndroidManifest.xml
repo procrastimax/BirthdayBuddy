@@ -14,7 +14,9 @@
             android:roundIcon="@mipmap/ic_launcher_round"
             android:supportsRtl="true"
             android:theme="@style/AppTheme"
-            tools:ignore="GoogleAppIndexingWarning">
+            tools:ignore="GoogleAppIndexingWarning"
+            android:fullBackupContent="true"
+            android:restoreAnyVersion="true">
 
         <!-- Search activity -->
         <activity
@@ -27,6 +29,10 @@
             <meta-data
                     android:name="android.app.searchable"
                     android:resource="@xml/searchable"/>
+            <!-- registered backup service key
+            <meta-data
+                    android:name="com.google.android.backup.api_key"
+                    android:value="AEdPqrEAAAAIggCN4lqkiORinWVvfQ0f9ncjukxCiV202c9r_g"/>-->
         </activity>
 
         <!-- Main activity -->

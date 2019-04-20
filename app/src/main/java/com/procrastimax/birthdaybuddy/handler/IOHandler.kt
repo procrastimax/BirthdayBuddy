@@ -60,8 +60,8 @@ object IOHandler {
     }
 
     //Filename of shared preference to store event data and settings data
-    private val fileName_eventData = BuildConfig.APPLICATION_ID + ".EventData"
-    private val fileName_settings = BuildConfig.APPLICATION_ID + ".Settings"
+    val fileNameEventData = BuildConfig.APPLICATION_ID + ".EventData"
+    val fileNameSettings = BuildConfig.APPLICATION_ID + ".Settings"
 
     private lateinit var sharedPrefEventData: SharedPreferences
     private lateinit var sharedPrefSettings: SharedPreferences
@@ -76,8 +76,8 @@ object IOHandler {
      * @param context : Context
      */
     fun registerIO(context: Context) {
-        sharedPrefEventData = context.getSharedPreferences(fileName_eventData, Context.MODE_PRIVATE)
-        sharedPrefSettings = context.getSharedPreferences(fileName_settings, Context.MODE_PRIVATE)
+        sharedPrefEventData = context.getSharedPreferences(fileNameEventData, Context.MODE_PRIVATE)
+        sharedPrefSettings = context.getSharedPreferences(fileNameSettings, Context.MODE_PRIVATE)
     }
 
     fun initializeAllSettings() {
