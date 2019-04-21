@@ -4,6 +4,7 @@ import android.app.AlarmManager
 import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
+import android.util.Log
 import com.procrastimax.birthdaybuddy.AlarmReceiver
 import com.procrastimax.birthdaybuddy.models.*
 import java.util.*
@@ -264,6 +265,7 @@ object NotificationHandler {
         events.forEach {
             if (it !is MonthDivider) {
                 scheduleNotification(context, it)
+                Log.i("NotificationHandler", "Notification - " + it.toString())
             }
         }
     }

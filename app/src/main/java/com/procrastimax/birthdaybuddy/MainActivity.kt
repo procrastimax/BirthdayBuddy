@@ -141,6 +141,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun enableAppBarScrolling() {
+        app_bar.isActivated = true
         if (app_bar.layoutParams != null) {
             val layoutParams = app_bar.layoutParams as CoordinatorLayout.LayoutParams
             val appBarLayoutBehaviour = AppBarLayout.Behavior()
@@ -150,8 +151,6 @@ class MainActivity : AppCompatActivity() {
                 }
             })
             layoutParams.behavior = appBarLayoutBehaviour
-            app_bar.isActivated = true
-            app_bar.setExpanded(false, false)
         }
     }
 

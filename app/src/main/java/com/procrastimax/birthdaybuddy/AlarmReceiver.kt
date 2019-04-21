@@ -11,7 +11,6 @@ import android.graphics.Bitmap
 import android.os.Build
 import android.support.v4.app.NotificationCompat
 import android.support.v4.content.ContextCompat
-import android.widget.Toast
 import com.procrastimax.birthdaybuddy.handler.BitmapHandler
 import com.procrastimax.birthdaybuddy.handler.IOHandler
 import com.procrastimax.birthdaybuddy.handler.NotificationHandler
@@ -23,47 +22,46 @@ import com.procrastimax.birthdaybuddy.models.OneTimeEvent
 class AlarmReceiver : BroadcastReceiver() {
 
     override fun onReceive(context: Context?, intent: Intent?) {
-
         //register IOHandler, really important, really
-        IOHandler.registerIO(context!!)
+        if (context != null) {
+            IOHandler.registerIO(context)
 
-        val event = IOHandler.convertStringToEventDate(intent!!.getStringExtra("EVENTSTRING"))
-        val notificationID = intent.getIntExtra("NOTIFICATIONID", 0)
-        val eventID = intent.getIntExtra("EVENTID", 0)
-        event?.eventID = eventID
+            val event = IOHandler.convertStringToEventDate(intent!!.getStringExtra("EVENTSTRING"))
+            val notificationID = intent.getIntExtra("NOTIFICATIONID", 0)
+            val eventID = intent.getIntExtra("EVENTID", 0)
+            event?.eventID = eventID
 
-        when (event) {
-            is EventBirthday -> {
-                buildNotification(context, event, notificationID, eventID)
-            }
-            is AnnualEvent -> {
-                buildNotification(context, event, notificationID, eventID)
-            }
-            is OneTimeEvent -> {
-                buildNotification(context, event, notificationID, eventID)
-            }
-            else -> {
-                Toast.makeText(context, "unidentified toast made", Toast.LENGTH_SHORT).show()
-                println("unidentified toast made")
-            }
-        }
+            when (event) {
+                is EventBirthday -> {
+                    buildNotification(context, event, notificationID, eventID)
+                }
+                is AnnualEvent -> {
+                    buildNotification(context, event, notificationID, eventID)
+                }
+                is OneTimeEvent -> {
+                    buildNotification(context, event, notificationID, eventID)
+                }
+                else -> {
 
-        //create new notification events for this event
-        if (event != null) {
-            NotificationHandler.cancelNotification(context, event)
-            NotificationHandler.scheduleNotification(context, event)
+                }
+            }
+
+            //create new notification events for this event, except when its an onetimevent
+            if (event != null && event !is OneTimeEvent) {
+                NotificationHandler.cancelNotification(context, event)
+                NotificationHandler.scheduleNotification(context, event)
+            }
         }
     }
 
     private fun buildNotification(context: Context, event: EventDate, notificationID: Int, eventID: Int) {
-
         val intent = Intent(context, MainActivity::class.java)
         intent.putExtra("EVENTID", eventID)
         intent.putExtra("TYPE", "SHOW")
         intent.putExtra("LOADALL", true)
         //TODO: play with these settings, see mainactivity for more todos
-        intent.setAction((notificationID*3).toString())
-        intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP)
+        intent.action = (notificationID * 3).toString()
+        intent.flags = Intent.FLAG_ACTIVITY_SINGLE_TOP
         val pendingIntent: PendingIntent =
             PendingIntent.getActivity(context, notificationID, intent, PendingIntent.FLAG_UPDATE_CURRENT)
 
@@ -82,11 +80,6 @@ class AlarmReceiver : BroadcastReceiver() {
 
             //setting the notification light
             when (event) {
-                // 0 = no light
-                // 1 = white light
-                // 2 = red light
-                // 3 = green light
-                // 4 = blue light
                 is EventBirthday -> {
                     val lightColor = getLightColor(event, context)
                     if (lightColor != null) {
@@ -133,7 +126,6 @@ class AlarmReceiver : BroadcastReceiver() {
                 if (event.avatarImageUri == null || bitmap == null) {
                     val drawable = ContextCompat.getDrawable(context, R.drawable.ic_birthday_person)
                     bitmap = BitmapHandler.drawableToBitmap(drawable!!)
-                    //bitmap = BitmapFactory.decodeResource(context.resources, R.drawable.ic_birthday_person)
                 }
 
                 var defaults = Notification.DEFAULT_ALL
