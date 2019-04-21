@@ -21,7 +21,6 @@ import kotlinx.android.synthetic.main.annual_event_item_view.view.*
 import kotlinx.android.synthetic.main.birthday_event_item_view.view.*
 import kotlinx.android.synthetic.main.event_month_view_divider.view.*
 import kotlinx.android.synthetic.main.one_time_event_item_view.view.*
-import java.text.DateFormat
 
 
 class EventAdapter(private val context: Context, private val fragmentManager: FragmentManager) :
@@ -167,7 +166,7 @@ class EventAdapter(private val context: Context, private val fragmentManager: Fr
 
                         //set date
                         holder.itemView.tv_birthday_event_item_date_value.text =
-                            birthday.getPrettyShortStringWithoutYear()
+                            birthday.getPrettyShortStringWithoutYear(context)
 
                         //set days until
                         holder.itemView.tv_birthday_event_item_days_until_value.text =
@@ -279,7 +278,8 @@ class EventAdapter(private val context: Context, private val fragmentManager: Fr
                         }
 
                         //set date
-                        holder.itemView.tv_annual_item_date_value.text = annualEvent.getPrettyShortStringWithoutYear()
+                        holder.itemView.tv_annual_item_date_value.text =
+                            annualEvent.getPrettyShortStringWithoutYear(context)
 
                         //set days until
                         holder.itemView.tv_days_until_annual_value.text =
@@ -349,7 +349,7 @@ class EventAdapter(private val context: Context, private val fragmentManager: Fr
 
                         //set date
                         holder.itemView.tv_one_time_item_date_value.text =
-                            oneTimeEvent.dateToPrettyString(DateFormat.SHORT)
+                            oneTimeEvent.getPrettyShortStringWithoutYear(context)
 
                         //set days until
                         holder.itemView.tv_days_until_one_time_value.text = oneTimeEvent.getDaysUntil().toString()

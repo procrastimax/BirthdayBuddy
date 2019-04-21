@@ -7,7 +7,7 @@
                                              android:background="@android:color/white">
 
     <TextView
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:id="@+id/tv_edit_fragment_title"
             android:layout_alignParentEnd="true"
@@ -22,7 +22,8 @@
             android:layout_marginEnd="8dp"
             app:layout_constraintEnd_toStartOf="@+id/btn_edit_event_accept"
             android:textAlignment="center"
-            android:text="Hier steht was"/>
+            android:text="Hier steht was"
+            />
 
     <ImageView
             android:src="@drawable/ic_close"

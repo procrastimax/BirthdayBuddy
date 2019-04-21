@@ -133,7 +133,7 @@ class EventAdapter_Searching(private val context: Context, private val eventIDs:
 
                     //set date
                     holder.itemView.tv_birthday_event_item_date_value.text =
-                        (EventHandler.getList()[position] as EventBirthday).getPrettyShortStringWithoutYear()
+                        (EventHandler.getList()[position] as EventBirthday).getPrettyShortStringWithoutYear(context)
 
                     //set days until
                     holder.itemView.tv_birthday_event_item_days_until_value.text =
@@ -237,7 +237,8 @@ class EventAdapter_Searching(private val context: Context, private val eventIDs:
                     holder.itemView.tv_annual_item_name.text = name
 
                     //set date
-                    val date = (EventHandler.getList()[position] as AnnualEvent).getPrettyShortStringWithoutYear()
+                    val date =
+                        (EventHandler.getList()[position] as AnnualEvent).getPrettyShortStringWithoutYear(context)
                     holder.itemView.tv_annual_item_date_value.text = date
 
                     //set days until

@@ -4,6 +4,7 @@ import com.procrastimax.birthdaybuddy.models.EventDate
 import org.junit.Assert
 import org.junit.Test
 import java.text.DateFormat
+import java.text.SimpleDateFormat
 import java.util.*
 
 class EventDateTest {
@@ -12,6 +13,20 @@ class EventDateTest {
     fun dateToString() {
         val date = EventDate(EventDate.parseStringToDate("06.02.01", DateFormat.DEFAULT, Locale.GERMAN))
         Assert.assertEquals("EventDate||Date::06.02.0001", date.toString())
+    }
+
+    @Test
+    fun dateFormatTest() {
+        val cal = Calendar.getInstance()
+        println(EventDate.parseDateToString(cal.time, DateFormat.SHORT))
+
+        val dateString = EventDate.getDayMonthDateString(cal.time, Locale.JAPANESE )
+        println(dateString)
+
+        //val fmtOut = SimpleDateFormat(dateFormat.toString())
+        //println(fmtOut.format(cal.time))
+
+        assert(true)
     }
 
     @Test
@@ -35,11 +50,11 @@ class EventDateTest {
         calender.set(Calendar.DAY_OF_YEAR, Calendar.getInstance().get(Calendar.DAY_OF_YEAR) + 1)
 
         val event = EventDate(calender.time)
-        Assert.assertEquals(1, event.getDaysUntil())
+        Assert.assertEquals(2, event.getDaysUntil())
 
         calender.set(Calendar.DAY_OF_YEAR, Calendar.getInstance().get(Calendar.DAY_OF_YEAR) - 1)
         event.eventDate = calender.time
-        Assert.assertEquals(365, event.getDaysUntil())
+        Assert.assertEquals(366, event.getDaysUntil())
     }
 
     @Test

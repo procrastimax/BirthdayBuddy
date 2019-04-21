@@ -11,6 +11,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import com.procrastimax.birthdaybuddy.MainActivity
 import com.procrastimax.birthdaybuddy.R
+import java.util.*
 
 
 /**
@@ -26,6 +27,8 @@ abstract class EventInstanceFragment : Fragment() {
     }
 
     var toolbarContentInsentLeft = 56
+
+    protected var eventDate: Date = Calendar.getInstance().time
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

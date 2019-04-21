@@ -172,11 +172,12 @@ class BirthdayInstanceFragment : EventInstanceFragment() {
             eventID = (arguments!!.getInt(ITEM_ID_PARAM_EVENTID))
             EventHandler.getEventToEventIndex(eventID)?.let { birthday ->
                 if (birthday is EventBirthday) {
+                    this.eventDate = birthday.eventDate
                     if (birthday.isYearGiven) {
-                        edit_date.text = EventDate.parseDateToString(birthday.eventDate, DateFormat.FULL)
+                        edit_date.text = EventDate.parseDateToString(this.eventDate, DateFormat.DEFAULT)
                     } else {
                         edit_date.text =
-                            EventDate.parseDateToString(birthday.eventDate, DateFormat.DATE_FIELD).substring(0..5)
+                            EventDate.getLocalizedDayAndMonth(context!!, this.eventDate)
                     }
 
                     edit_surname.setText(birthday.surname)
@@ -254,7 +255,7 @@ class BirthdayInstanceFragment : EventInstanceFragment() {
             (context as MainActivity).progress_bar_main.visibility = ProgressBar.GONE
             edit_date.hint = resources.getString(
                 R.string.birthday_instance_fragment_date_edit_hint,
-                EventDate.parseDateToString(Calendar.getInstance().time, DateFormat.FULL)
+                EventDate.parseDateToString(this.eventDate, DateFormat.DEFAULT)
             )
         }
 
@@ -306,33 +307,24 @@ class BirthdayInstanceFragment : EventInstanceFragment() {
             if (edit_date.text.isNotBlank()) {
                 //year is given
                 if (isChecked) {
-                    val date = EventDate.parseStringToDate(
-                        edit_date.text.toString() + (Calendar.getInstance().get(Calendar.YEAR) - 1),
-                        DateFormat.DATE_FIELD
-                    )
-
-                    edit_date.text = EventDate.parseDateToString(date, DateFormat.FULL)
+                    edit_date.text = EventDate.parseDateToString(this.eventDate, DateFormat.DEFAULT)
 
                     //year is not given
                 } else {
-                    val date = EventDate.parseStringToDate(edit_date.text.toString(), DateFormat.FULL)
-                    edit_date.text =
-                        EventDate.parseDateToString(date, DateFormat.DATE_FIELD).substring(0..5)
+                    edit_date.text = EventDate.getLocalizedDayAndMonth(context!!, this.eventDate)
                 }
             } else {
                 if (isChecked) {
                     edit_date.hint = resources.getString(
                         R.string.birthday_instance_fragment_date_edit_hint,
-                        EventDate.parseDateToString(Calendar.getInstance().time, DateFormat.FULL)
+                        EventDate.parseDateToString(Calendar.getInstance().time, DateFormat.DEFAULT)
                     )
                 } else {
                     edit_date.hint =
                         resources.getString(
                             R.string.birthday_instance_fragment_date_edit_hint,
-                            EventDate.parseDateToString(
-                                Calendar.getInstance().time,
-                                DateFormat.DATE_FIELD
-                            ).substring(0..5)
+                            EventDate.getLocalizedDayAndMonth(context!!, Calendar.getInstance().time)
+
                         )
                 }
             }
@@ -409,23 +401,13 @@ class BirthdayInstanceFragment : EventInstanceFragment() {
         } else {
 
             //create new instance from edit fields
-            val birthday: EventBirthday
-            if (switch_isYearGiven.isChecked) {
-                birthday =
-                    EventBirthday(
-                        EventDate.parseStringToDate(date, DateFormat.FULL),
-                        forename,
-                        surname,
-                        isYearGiven
-                    )
-            } else {
-                birthday = EventBirthday(
-                    EventDate.parseStringToDate(
-                        date + (Calendar.getInstance().get(Calendar.YEAR) - 1),
-                        DateFormat.DATE_FIELD
-                    ), forename, surname, isYearGiven
-                )
-            }
+            val birthday = EventBirthday(
+                this.eventDate,
+                forename,
+                surname,
+                isYearGiven
+            )
+
             if (note.isNotBlank()) {
                 birthday.note = note
             }
@@ -485,17 +467,9 @@ class BirthdayInstanceFragment : EventInstanceFragment() {
      */
     private fun showDatePickerDialog() {
         val c = Calendar.getInstance()
-
         //set calendar to the date which is stored in the edit field, when the edit is not empty
         if (!edit_date.text.isNullOrBlank()) {
-            if (switch_isYearGiven.isChecked) {
-                c.time = EventDate.parseStringToDate(edit_date.text.toString(), DateFormat.FULL)
-            } else {
-                c.time = EventDate.parseStringToDate(
-                    edit_date.text.toString() + (Calendar.getInstance().get(Calendar.YEAR) - 1),
-                    DateFormat.DATE_FIELD
-                )
-            }
+            c.time = this.eventDate
         }
         val year = c.get(Calendar.YEAR)
         val month = c.get(Calendar.MONTH)
@@ -517,12 +491,12 @@ class BirthdayInstanceFragment : EventInstanceFragment() {
                             Toast.LENGTH_LONG
                         ).show()
                     } else {
-
+                        this.eventDate = c.time
                         if (switch_isYearGiven.isChecked) {
-                            edit_date.text = EventDate.parseDateToString(c.time, DateFormat.FULL)
+                            edit_date.text = EventDate.parseDateToString(c.time, DateFormat.DEFAULT)
                         } else {
                             edit_date.text =
-                                EventDate.parseDateToString(c.time, DateFormat.DATE_FIELD).substring(0..5)
+                                EventDate.getLocalizedDayAndMonth(context!!, c.time)
                         }
                     }
                 },

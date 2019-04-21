@@ -27,11 +27,10 @@ import java.util.*
  *
  * TODO:
  *  - workout different localizations, f.e. curently the dates include substrings for german locales like .substring(0..5) => obviously dont do this
- *  - bug when localization is changed after first start of app -> add possibility to change all encodings at app start when error occurs -> fix this by only use one format for saving
- *  - when language of devices changes, month divider names should also change -> save localization and compare to last start?
  *  - dont show last seperation character in list view ( -> first point)
  *  - BUG: app closes when switched to potrait mode and changing fragments
  *  - Import/Export, inform user about androids passive backup/ restoring
+ *  - landscape mode, bottom up menu for image seleciton in eventbirthday doesnt scroll completely up
  */
 class MainActivity : AppCompatActivity() {
 

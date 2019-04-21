@@ -93,12 +93,12 @@ class AnnualEventInstanceFragment : EventInstanceFragment() {
             EventHandler.getEventToEventIndex(eventID)?.let { annualEvent ->
                 if (annualEvent is AnnualEvent) {
 
+                    this.eventDate = annualEvent.eventDate
+
                     if (annualEvent.hasStartYear) {
-                        edit_date.text = EventDate.parseDateToString(annualEvent.eventDate, DateFormat.FULL)
+                        edit_date.text = EventDate.parseDateToString(this.eventDate, DateFormat.DEFAULT)
                     } else {
-                        edit_date.text =
-                            EventDate.parseDateToString(annualEvent.eventDate, DateFormat.DATE_FIELD)
-                                .substring(0..5)
+                        edit_date.text = EventDate.getLocalizedDayAndMonth(context!!, this.eventDate)
                     }
 
                     edit_name.setText(annualEvent.name)
@@ -157,7 +157,7 @@ class AnnualEventInstanceFragment : EventInstanceFragment() {
             (context as MainActivity).progress_bar_main.visibility = ProgressBar.GONE
             edit_date.hint = resources.getString(
                 R.string.annual_event_instance_fragment_date_edit_hint,
-                EventDate.parseDateToString(Calendar.getInstance().time, DateFormat.FULL)
+                EventDate.parseDateToString(this.eventDate, DateFormat.DEFAULT)
             )
         }
 
@@ -169,31 +169,21 @@ class AnnualEventInstanceFragment : EventInstanceFragment() {
             if (edit_date.text.isNotBlank()) {
                 //year is given
                 if (isChecked) {
-                    val date = EventDate.parseStringToDate(
-                        edit_date.text.toString() + (Calendar.getInstance().get(Calendar.YEAR) - 1),
-                        DateFormat.DATE_FIELD
-                    )
-                    edit_date.text = EventDate.parseDateToString(date, DateFormat.FULL)
-
+                    edit_date.text = EventDate.parseDateToString(this.eventDate, DateFormat.DEFAULT)
                     //year is not given
                 } else {
-                    val date = EventDate.parseStringToDate(edit_date.text.toString(), DateFormat.FULL)
-                    edit_date.text =
-                        EventDate.parseDateToString(date, DateFormat.DATE_FIELD).substring(0..5)
+                    edit_date.text = EventDate.getLocalizedDayAndMonth(context!!, this.eventDate)
                 }
             } else {
                 if (isChecked) {
                     edit_date.hint = resources.getString(
                         R.string.annual_event_instance_fragment_date_edit_hint,
-                        EventDate.parseDateToString(Calendar.getInstance().time, DateFormat.FULL)
+                        EventDate.parseDateToString(this.eventDate, DateFormat.DEFAULT)
                     )
                 } else {
                     edit_date.hint = resources.getString(
                         R.string.annual_event_instance_fragment_date_edit_hint,
-                        EventDate.parseDateToString(
-                            Calendar.getInstance().time,
-                            DateFormat.DATE_FIELD
-                        ).substring(0..5)
+                        EventDate.getLocalizedDayAndMonth(context!!, this.eventDate)
                     )
                 }
             }
@@ -202,21 +192,13 @@ class AnnualEventInstanceFragment : EventInstanceFragment() {
 
     /**
      * showDatePickerDialog shows a standard android date picker dialog
-     * The choosen date in the dialog is set to the edit_date field
+     * The chosen date in the dialog is set to the edit_date field
      */
     private fun showDatePickerDialog() {
         val c = Calendar.getInstance()
-
         //set calendar to the date which is stored in the edit field, when the edit is not empty
         if (!edit_date.text.isNullOrBlank()) {
-            if (switch_isYearGiven.isChecked) {
-                c.time = EventDate.parseStringToDate(edit_date.text.toString(), DateFormat.FULL)
-            } else {
-                c.time = EventDate.parseStringToDate(
-                    edit_date.text.toString() + (Calendar.getInstance().get(Calendar.YEAR) - 1),
-                    DateFormat.DATE_FIELD
-                )
-            }
+            c.time = this.eventDate
         }
         val year = c.get(Calendar.YEAR)
         val month = c.get(Calendar.MONTH)
@@ -234,15 +216,16 @@ class AnnualEventInstanceFragment : EventInstanceFragment() {
                     if (c.time.after(Calendar.getInstance().time) && switch_isYearGiven.isChecked) {
                         Toast.makeText(
                             view.context,
-                            context!!.resources.getText(R.string.future_annual_event_error),
+                            context!!.resources.getText(R.string.future_birthday_error),
                             Toast.LENGTH_LONG
                         ).show()
                     } else {
+                        this.eventDate = c.time
                         if (switch_isYearGiven.isChecked) {
-                            edit_date.text = EventDate.parseDateToString(c.time, DateFormat.FULL)
+                            edit_date.text = EventDate.parseDateToString(c.time, DateFormat.DEFAULT)
                         } else {
                             edit_date.text =
-                                EventDate.parseDateToString(c.time, DateFormat.DATE_FIELD).substring(0..5)
+                                EventDate.getLocalizedDayAndMonth(context!!, c.time)
                         }
                     }
                 },
@@ -270,16 +253,8 @@ class AnnualEventInstanceFragment : EventInstanceFragment() {
             )
                 .show()
         } else {
-            val annualEvent = if (switch_isYearGiven.isChecked) {
-                AnnualEvent(EventDate.parseStringToDate(date, DateFormat.FULL), name, isYearGiven)
-            } else {
-                AnnualEvent(
-                    EventDate.parseStringToDate(
-                        date + (Calendar.getInstance().get(Calendar.YEAR) - 1),
-                        DateFormat.DATE_FIELD
-                    ), name, isYearGiven
-                )
-            }
+
+            val annualEvent = AnnualEvent(this.eventDate, name, isYearGiven)
 
             if (note.isNotBlank()) {
                 annualEvent.note = note

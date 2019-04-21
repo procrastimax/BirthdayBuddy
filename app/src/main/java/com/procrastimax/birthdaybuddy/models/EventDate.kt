@@ -1,5 +1,6 @@
 package com.procrastimax.birthdaybuddy.models
 
+import android.content.Context
 import com.procrastimax.birthdaybuddy.handler.IOHandler
 import java.text.DateFormat
 import java.text.SimpleDateFormat
@@ -58,8 +59,8 @@ open class EventDate(var eventDate: Date) : Comparable<EventDate> {
      * @param locale : Locale = Locale.getDefault()
      * @return String
      */
-    fun getPrettyShortStringWithoutYear(locale: Locale = Locale.getDefault()): String {
-        return this.dateToPrettyString(DateFormat.SHORT, locale).substring(0..4)
+    fun getPrettyShortStringWithoutYear(context: Context, locale: Locale = Locale.getDefault()): String {
+        return getLocalizedDayAndMonth(context, this.eventDate, locale)
     }
 
     /**
@@ -304,6 +305,23 @@ open class EventDate(var eventDate: Date) : Comparable<EventDate> {
             } else return ""
         }
 
+        @JvmStatic
+        fun getLocalizedDayAndMonth(context: Context, date: Date, locale: Locale = Locale.getDefault()): String {
+
+            /*val textPattern: String
+            val shortDateFormat = android.text.format.DateFormat.getDateFormat(context)
+            if (shortDateFormat is SimpleDateFormat) {
+                textPattern = shortDateFormat.toPattern()
+            }*/
+
+            val skeletonPattern = "ddMM"
+
+            val workingFormat = android.text.format.DateFormat.getBestDateTimePattern(locale, skeletonPattern)
+
+            //val order = android.text.format.DateFormat.getDateFormatOrder(context)
+
+            return SimpleDateFormat(workingFormat, locale).format(date)
+        }
 
         const val Name: String = "EventDate"
     }
