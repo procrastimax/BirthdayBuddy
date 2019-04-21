@@ -30,7 +30,6 @@ import java.util.*
  *  - bug when localization is changed after first start of app -> add possibility to change all encodings at app start when error occurs -> fix this by only use one format for saving
  *  - when language of devices changes, month divider names should also change -> save localization and compare to last start?
  *  - dont show last seperation character in list view ( -> first point)
- *  - add checking for existing forename/surname pair when adding a new birthday/event
  *  - BUG: app closes when switched to potrait mode and changing fragments
  *  - Import/Export, inform user about androids passive backup/ restoring
  */
@@ -127,12 +126,12 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    fun unlockAppBar(){
+    fun unlockAppBar() {
         app_bar.isActivated = true
         setAppBarDragging(true)
     }
 
-    fun lockAppbar(){
+    fun lockAppbar() {
         this.app_bar.setExpanded(false, false)
         app_bar.isActivated = false
         setAppBarDragging(false)
@@ -153,13 +152,16 @@ class MainActivity : AppCompatActivity() {
         super.onNewIntent(intent)
         val eventID = intent?.getIntExtra("EVENTID", -1)
         val type = intent?.getStringExtra("TYPE")
-        (toolbar.menu.findItem(R.id.toolbar_search)?.actionView as android.support.v7.widget.SearchView).apply {
-            //close search view
-            toolbar.collapseActionView()
-        }
+        if (toolbar.menu.findItem(R.id.toolbar_search)?.actionView != null) {
 
-        if (eventID != null && eventID > -1 && type != null) {
-            startFragments(eventID, type)
+            (toolbar.menu.findItem(R.id.toolbar_search)?.actionView as android.support.v7.widget.SearchView).apply {
+                //close search view
+                toolbar.collapseActionView()
+            }
+
+            if (eventID != null && eventID > -1 && type != null) {
+                startFragments(eventID, type)
+            }
         }
     }
 

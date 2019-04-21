@@ -80,9 +80,10 @@ open class EventDate(var eventDate: Date) : Comparable<EventDate> {
      */
     override fun toString(): String {
         return "$Name${getStringFromValue(
-            Identifier.Date, EventDate.parseDateToString(
+            Identifier.Date, parseDateToString(
                 this.eventDate,
-                DateFormat.DEFAULT
+                DateFormat.DEFAULT,
+                Locale.GERMAN
             )
         )}"
     }

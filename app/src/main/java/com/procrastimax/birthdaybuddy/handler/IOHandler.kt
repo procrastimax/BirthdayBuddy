@@ -5,6 +5,7 @@ import android.content.SharedPreferences
 import android.util.Log
 import com.procrastimax.birthdaybuddy.BuildConfig
 import com.procrastimax.birthdaybuddy.models.*
+import java.util.*
 
 /**
  * DataHandler is a singleton and is used to store/read event data from shared preferences
@@ -148,16 +149,16 @@ object IOHandler {
     }
 
     fun getStringFromKey(key: String): String? {
-        if (::sharedPrefSettings.isInitialized) {
-            return sharedPrefSettings.getString(key, null)
-        } else return null
+        return if (::sharedPrefSettings.isInitialized) {
+            sharedPrefSettings.getString(key, null)
+        } else null
     }
 
     fun getIntFromKey(key: String): Int? {
-        if (settingsContainsKey(key)) {
-            return sharedPrefSettings.getInt(key, -1)
+        return if (settingsContainsKey(key)) {
+            sharedPrefSettings.getInt(key, -1)
         } else {
-            return null
+            null
         }
     }
 
@@ -175,13 +176,13 @@ object IOHandler {
 
     fun isFirstStart(): Boolean {
         //when the key doesnt exist -> its the first start, so we have to invert the contains function
-        if (!settingsContainsKey(SharedPrefKeys.key_firstStart)) {
+        return if (!settingsContainsKey(SharedPrefKeys.key_firstStart)) {
             Log.i("IOHandler", "shared pref files didnt exist before")
             val sharedPrefEditor = sharedPrefSettings.edit()
             sharedPrefEditor.putBoolean(SharedPrefKeys.key_firstStart, false)
             sharedPrefEditor.apply()
-            return true
-        } else return false
+            true
+        } else false
     }
 
     /**
@@ -314,7 +315,6 @@ object IOHandler {
 
         // BIRTHDAY EVENT
         if (string_array[0] == EventBirthday.Name) {
-
             var forename = "-"
             var surname = "-"
             var date = "-"
@@ -354,11 +354,13 @@ object IOHandler {
                 }
             }
 
-            val birthday = EventBirthday(EventDate.parseStringToDate(date), forename, surname, isyeargiven)
+            val birthday =
+                EventBirthday(EventDate.parseStringToDate(date, locale = Locale.GERMAN), forename, surname, isyeargiven)
             if (note != null) birthday.note = note
             if (avatarImageURI != null) birthday.avatarImageUri = avatarImageURI
             if (nickname != null) birthday.nickname = nickname
             return birthday
+
             // ANNUAL EVENT
         } else if (string_array[0] == AnnualEvent.Name) {
             var date = "-"
@@ -387,7 +389,7 @@ object IOHandler {
                         Log.w("IOHandler", "Could not find identifier when trying to parse AnnualEvent")
                 }
             }
-            val anniversary = AnnualEvent(EventDate.parseStringToDate(date), name, hasStartYear)
+            val anniversary = AnnualEvent(EventDate.parseStringToDate(date, locale = Locale.GERMAN), name, hasStartYear)
             if (note != null) {
                 anniversary.note = note
             }
@@ -417,7 +419,7 @@ object IOHandler {
                         Log.w("IOHandler", "Could not find identifier when trying to parse OneTimeEvent")
                 }
             }
-            val oneTimeEvent = OneTimeEvent(EventDate.parseStringToDate(date), name)
+            val oneTimeEvent = OneTimeEvent(EventDate.parseStringToDate(date, locale = Locale.GERMAN), name)
             if (note != null) {
                 oneTimeEvent.note = note
             }
@@ -442,7 +444,7 @@ object IOHandler {
                         Log.w("IOHandler", "Could not find identifier when trying to parse EventMonthDivider")
                 }
             }
-            return MonthDivider(EventDate.parseStringToDate(date), month)
+            return MonthDivider(EventDate.parseStringToDate(date, locale = Locale.GERMAN), month)
         }
         return null
     }

@@ -19,9 +19,10 @@ class MonthDivider(date: Date, val month_name: String) : EventDate(date) {
     }
 
     override fun toString(): String {
-        return "$Name${IOHandler.characterDivider_properties}${Identifier.Date}${IOHandler.characterDivider_values}${EventDate.parseDateToString(
+        return "$Name${IOHandler.characterDivider_properties}${Identifier.Date}${IOHandler.characterDivider_values}${parseDateToString(
             this.eventDate,
-            DateFormat.DEFAULT
+            DateFormat.DEFAULT,
+            Locale.GERMAN
         )}${IOHandler.characterDivider_properties}${Identifier.MonthName}${IOHandler.characterDivider_values}$month_name"
     }
 

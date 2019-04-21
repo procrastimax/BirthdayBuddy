@@ -99,18 +99,19 @@ class EventBirthday(
     override fun toString(): String {
         return "$Name${IOHandler.characterDivider_properties}${Identifier.Forename}${IOHandler.characterDivider_values}${this._forename}${IOHandler.characterDivider_properties}" +
                 "${Identifier.Surname}${IOHandler.characterDivider_values}${this._surname}${IOHandler.characterDivider_properties}" +
-                "${Identifier.Date}${IOHandler.characterDivider_values}${EventDate.parseDateToString(
+                "${Identifier.Date}${IOHandler.characterDivider_values}${parseDateToString(
                     this.eventDate,
-                    DateFormat.DEFAULT
+                    DateFormat.DEFAULT,
+                    Locale.GERMAN
                 )}" +
                 "${IOHandler.characterDivider_properties}${Identifier.IsYearGiven}${IOHandler.characterDivider_values}${this.isYearGiven}" +
-                "${EventDate.getStringFromValue(
+                "${getStringFromValue(
                     Identifier.Note,
                     this.note
-                )}${EventDate.getStringFromValue(
+                )}${getStringFromValue(
                     Identifier.AvatarUri,
                     this.avatarImageUri
-                )}${EventDate.getStringFromValue(Identifier.Nickname, this.nickname)}"
+                )}${getStringFromValue(Identifier.Nickname, this.nickname)}"
     }
 
     companion object {

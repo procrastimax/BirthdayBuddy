@@ -2,7 +2,6 @@ package com.procrastimax.birthdaybuddy.views
 
 import android.app.AlertDialog
 import android.app.TimePickerDialog
-import android.app.backup.BackupManager
 import android.content.Context
 import android.content.DialogInterface
 import android.support.constraint.ConstraintLayout

@@ -63,12 +63,13 @@ class AnnualEvent(_eventDate: Date, var name: String, var hasStartYear: Boolean)
     override fun toString(): String {
         return "$Name${IOHandler.characterDivider_properties}" +
                 "${Identifier.Name}${IOHandler.characterDivider_values}${this.name}" +
-                "${IOHandler.characterDivider_properties}${Identifier.Date}${IOHandler.characterDivider_values}${EventDate.parseDateToString(
+                "${IOHandler.characterDivider_properties}${Identifier.Date}${IOHandler.characterDivider_values}${parseDateToString(
                     this.eventDate,
-                    DateFormat.DEFAULT
+                    DateFormat.DEFAULT,
+                    Locale.GERMAN
                 )}${IOHandler.characterDivider_properties}" +
                 "${Identifier.HasStartYear}${IOHandler.characterDivider_values}${this.hasStartYear}" +
-                EventDate.getStringFromValue(
+                getStringFromValue(
                     Identifier.Note,
                     this.note
                 )

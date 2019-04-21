@@ -11,7 +11,7 @@ class BootReceiver : BroadcastReceiver() {
             val bootService = BootNotificationService()
             if (context != null) {
                 bootService.addWork(context, intent)
-                Log.i("BootReceiver","work added")
+                Log.i("BootReceiver", "work added")
             }
         }
     }

@@ -85,13 +85,14 @@ class OneTimeEvent(_eventdate: Date, var name: String) : EventDate(_eventdate) {
 
     override fun toString(): String {
         return "$Name${IOHandler.characterDivider_properties}" +
-                "${OneTimeEvent.Identifier.Name}${IOHandler.characterDivider_values}${this.name}" +
-                "${IOHandler.characterDivider_properties}${OneTimeEvent.Identifier.Date}${IOHandler.characterDivider_values}${EventDate.parseDateToString(
+                "${Identifier.Name}${IOHandler.characterDivider_values}${this.name}" +
+                "${IOHandler.characterDivider_properties}${Identifier.Date}${IOHandler.characterDivider_values}${parseDateToString(
                     this.eventDate,
-                    DateFormat.DEFAULT
+                    DateFormat.DEFAULT,
+                    Locale.GERMAN
                 )}" +
-                EventDate.getStringFromValue(
-                    OneTimeEvent.Identifier.Note,
+                getStringFromValue(
+                    Identifier.Note,
                     this.note
                 )
     }

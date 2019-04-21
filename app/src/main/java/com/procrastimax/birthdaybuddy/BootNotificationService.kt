@@ -13,13 +13,13 @@ class BootNotificationService : JobIntentService() {
 
     fun addWork(context: Context, work: Intent) {
         enqueueWork(context, BootNotificationService::class.java, JOB_ID, work)
-        Log.i("BootNotificationService","add Work called")
+        Log.i("BootNotificationService", "add Work called")
     }
 
     override fun onHandleWork(intent: Intent) {
         IOHandler.registerIO(this)
         IOHandler.readAll(this)
         NotificationHandler.scheduleListEventNotifications(this, EventHandler.getList())
-        Log.i("BootNotificationService","notifications added")
+        Log.i("BootNotificationService", "notifications added")
     }
 }

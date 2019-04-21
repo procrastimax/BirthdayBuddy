@@ -13,7 +13,6 @@ import android.net.Uri
 import android.provider.MediaStore
 import android.support.v4.graphics.drawable.RoundedBitmapDrawable
 import android.support.v4.graphics.drawable.RoundedBitmapDrawableFactory
-import com.procrastimax.birthdaybuddy.MainActivity
 import com.procrastimax.birthdaybuddy.R
 import com.procrastimax.birthdaybuddy.models.EventBirthday
 import java.io.ByteArrayOutputStream
