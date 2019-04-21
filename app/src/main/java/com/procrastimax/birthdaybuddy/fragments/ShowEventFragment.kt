@@ -2,7 +2,6 @@ package com.procrastimax.birthdaybuddy.fragments
 
 import android.os.Bundle
 import android.support.v4.app.Fragment
-import android.support.v7.widget.Toolbar
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
@@ -17,10 +16,6 @@ const val ITEM_ID_PARAM_EVENTID = "EVENTID"
 abstract class ShowEventFragment : Fragment() {
 
     var eventID: Int = -1
-
-    val toolbar: Toolbar by lazy {
-        activity!!.findViewById<Toolbar>(R.id.toolbar)
-    }
 
     /**
      * updateUI updates all TextViews and other views to the current instance(Anniversary, Birthday) data
@@ -37,7 +32,6 @@ abstract class ShowEventFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        (context as MainActivity).setSupportActionBar(toolbar)
         setHasOptionsMenu(true)
 
         (context as MainActivity).supportActionBar?.setHomeAsUpIndicator(R.drawable.ic_arrow_back)
@@ -87,11 +81,11 @@ abstract class ShowEventFragment : Fragment() {
     fun setToolbarTitle(title: String) {
         (context as MainActivity).scrollable_toolbar.title = title
     }
-    
+
     /**
      * closeButtonPressed emulated a press on androids "back button" to close/ detach a fragment
      */
-    fun closeButtonPressed() {
+    private fun closeButtonPressed() {
         (context as MainActivity).supportFragmentManager.popBackStack()
     }
 }

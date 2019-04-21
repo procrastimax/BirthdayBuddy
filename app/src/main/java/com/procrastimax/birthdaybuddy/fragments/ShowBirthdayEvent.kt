@@ -35,18 +35,15 @@ class ShowBirthdayEvent : ShowEventFragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        (context as MainActivity).unlockAppBar()
         return inflater.inflate(R.layout.fragment_show_birthday_event, container, false)
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
     }
 
     /**
      * updateUI updates all TextViews and other views to the current instance(Anniversary, Birthday) data
      */
     override fun updateUI() {
-
+        (context as MainActivity).scrollable_toolbar.isTitleEnabled = true
         EventHandler.getEventToEventIndex(eventID)?.let { birthdayEvent ->
             if (birthdayEvent is EventBirthday) {
 
@@ -147,23 +144,22 @@ class ShowBirthdayEvent : ShowEventFragment() {
     }
 
     private fun setBitmapToToolbar(bitmap: Bitmap?) {
-        (context as MainActivity).enableAppBarScrolling()
         (context as MainActivity).collapsable_toolbar_iv.visibility = ImageView.VISIBLE
         if (bitmap != null) {
-            (context as MainActivity).collapsable_toolbar_iv.scaleType = ImageView.ScaleType.CENTER_CROP
             (context as MainActivity).collapsable_toolbar_iv.setImageBitmap(bitmap)
+            (context as MainActivity).collapsable_toolbar_iv.scaleType = ImageView.ScaleType.CENTER_CROP
             (context as MainActivity).app_bar.setExpanded(true, true)
         } else {
+            (context as MainActivity).app_bar.setExpanded(false, false)
             (context as MainActivity).collapsable_toolbar_iv.scaleType = ImageView.ScaleType.FIT_CENTER
             (context as MainActivity).collapsable_toolbar_iv.setImageResource(R.drawable.ic_birthday_person)
         }
     }
 
     private fun closeExpandableToolbar() {
-        (context as MainActivity).collapsable_toolbar_iv.visibility = ImageView.GONE
         setToolbarTitle(context!!.resources.getString(R.string.app_name))
-        (context as MainActivity).app_bar.setExpanded(false, false)
-        (context as MainActivity).disableAppBarScrolling()
+        (context as MainActivity).collapsable_toolbar_iv.visibility = ImageView.GONE
+        (context as MainActivity).lockAppbar()
     }
 
     /**

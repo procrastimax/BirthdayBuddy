@@ -32,7 +32,7 @@ import java.util.*
  *  - dont show last seperation character in list view ( -> first point)
  *  - add checking for existing forename/surname pair when adding a new birthday/event
  *  - BUG: app closes when switched to potrait mode and changing fragments
- *  - Import/Export, inform user about androids passive backup7 restoring
+ *  - Import/Export, inform user about androids passive backup/ restoring
  */
 class MainActivity : AppCompatActivity() {
 
@@ -46,6 +46,8 @@ class MainActivity : AppCompatActivity() {
         EventHandler.clearData()
 
         IOHandler.registerIO(this)
+
+        lockAppbar()
 
         if (!IOHandler.isFirstStart()) {
             //read all data from shared prefs, when app didnt start for the first time
@@ -125,33 +127,26 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    fun disableAppBarScrolling() {
-        if (app_bar.layoutParams != null) {
-            val layoutParams = app_bar.layoutParams as CoordinatorLayout.LayoutParams
-            val appBarLayoutBehaviour = AppBarLayout.Behavior()
-            appBarLayoutBehaviour.setDragCallback(object : AppBarLayout.Behavior.DragCallback() {
-                override fun canDrag(appBarLayout: AppBarLayout): Boolean {
-                    return false
-                }
-            })
-            layoutParams.behavior = appBarLayoutBehaviour
-            app_bar.isActivated = false
-            app_bar.setExpanded(false, false)
-        }
+    fun unlockAppBar(){
+        app_bar.isActivated = true
+        setAppBarDragging(true)
     }
 
-    fun enableAppBarScrolling() {
-        app_bar.isActivated = true
-        if (app_bar.layoutParams != null) {
-            val layoutParams = app_bar.layoutParams as CoordinatorLayout.LayoutParams
-            val appBarLayoutBehaviour = AppBarLayout.Behavior()
-            appBarLayoutBehaviour.setDragCallback(object : AppBarLayout.Behavior.DragCallback() {
-                override fun canDrag(appBarLayout: AppBarLayout): Boolean {
-                    return true
-                }
-            })
-            layoutParams.behavior = appBarLayoutBehaviour
-        }
+    fun lockAppbar(){
+        this.app_bar.setExpanded(false, false)
+        app_bar.isActivated = false
+        setAppBarDragging(false)
+    }
+
+    private fun setAppBarDragging(isEnabled: Boolean) {
+        val params = this.app_bar.layoutParams as CoordinatorLayout.LayoutParams
+        val behavior = AppBarLayout.Behavior()
+        behavior.setDragCallback(object : AppBarLayout.Behavior.DragCallback() {
+            override fun canDrag(appBarLayout: AppBarLayout): Boolean {
+                return isEnabled
+            }
+        })
+        params.behavior = behavior
     }
 
     override fun onNewIntent(intent: Intent?) {

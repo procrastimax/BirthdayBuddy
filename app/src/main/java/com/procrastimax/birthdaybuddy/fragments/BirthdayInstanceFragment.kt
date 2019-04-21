@@ -161,7 +161,6 @@ class BirthdayInstanceFragment : EventInstanceFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        (context as MainActivity).setSupportActionBar(toolbar)
         setHasOptionsMenu(false)
 
         //retrieve fragment parameter when edited instance
