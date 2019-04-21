@@ -40,8 +40,6 @@ class ShowBirthdayEvent : ShowEventFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        (context as MainActivity).enableAppBarScrolling()
     }
 
     /**
@@ -149,6 +147,7 @@ class ShowBirthdayEvent : ShowEventFragment() {
     }
 
     private fun setBitmapToToolbar(bitmap: Bitmap?) {
+        (context as MainActivity).enableAppBarScrolling()
         (context as MainActivity).collapsable_toolbar_iv.visibility = ImageView.VISIBLE
         if (bitmap != null) {
             (context as MainActivity).collapsable_toolbar_iv.scaleType = ImageView.ScaleType.CENTER_CROP

@@ -32,6 +32,7 @@ import java.util.*
  *  - dont show last seperation character in list view ( -> first point)
  *  - add checking for existing forename/surname pair when adding a new birthday/event
  *  - BUG: app closes when switched to potrait mode and changing fragments
+ *  - Import/Export, inform user about androids passive backup7 restoring
  */
 class MainActivity : AppCompatActivity() {
 
@@ -134,6 +135,7 @@ class MainActivity : AppCompatActivity() {
                 }
             })
             layoutParams.behavior = appBarLayoutBehaviour
+            app_bar.isActivated = false
             app_bar.setExpanded(false, false)
         }
     }
@@ -148,6 +150,7 @@ class MainActivity : AppCompatActivity() {
                 }
             })
             layoutParams.behavior = appBarLayoutBehaviour
+            app_bar.isActivated = true
             app_bar.setExpanded(false, false)
         }
     }

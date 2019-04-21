@@ -3,10 +3,6 @@
           xmlns:tools="http://schemas.android.com/tools"
           package="com.procrastimax.birthdaybuddy">
 
-    <uses-permission android:name="android.permission.CAMERA"/>
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
-    <uses-permission android:name="android.permission.VIBRATE"/>
-
     <application
             android:allowBackup="true"
             android:icon="@mipmap/ic_launcher"
@@ -17,23 +13,6 @@
             tools:ignore="GoogleAppIndexingWarning"
             android:fullBackupContent="true"
             android:restoreAnyVersion="true">
-
-        <!-- Search activity -->
-        <activity
-                android:name=".SearchableActivity"
-                android:theme="@style/AppTheme_Searching">
-            <intent-filter>
-                <action android:name="android.intent.action.SEARCH"/>
-            </intent-filter>
-
-            <meta-data
-                    android:name="android.app.searchable"
-                    android:resource="@xml/searchable"/>
-            <!-- registered backup service key
-            <meta-data
-                    android:name="com.google.android.backup.api_key"
-                    android:value="AEdPqrEAAAAIggCN4lqkiORinWVvfQ0f9ncjukxCiV202c9r_g"/>-->
-        </activity>
 
         <!-- Main activity -->
         <activity
@@ -47,11 +26,27 @@
             <meta-data
                     android:name="android.app.default_searchable"
                     android:value=".SearchableActivity"/>
-
+            <!-- registered backup service key
+                      <meta-data
+                              android:name="com.google.android.backup.api_key"
+                              android:value="AEdPqrEAAAAIggCN4lqkiORinWVvfQ0f9ncjukxCiV202c9r_g"/>-->
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
+        </activity>
+
+        <!-- Search activity -->
+        <activity
+                android:name=".SearchableActivity"
+                android:theme="@style/AppTheme_Searching">
+            <intent-filter>
+                <action android:name="android.intent.action.SEARCH"/>
+            </intent-filter>
+
+            <meta-data
+                    android:name="android.app.searchable"
+                    android:resource="@xml/searchable"/>
         </activity>
 
         <receiver android:name=".AlarmReceiver">
