@@ -237,6 +237,11 @@ object IOHandler {
         sharedPrefEdit.apply()
     }
 
+    fun clearSharedPrefEventData(){
+        val sharedPrefEdit = sharedPrefEventData.edit()
+        sharedPrefEdit.clear()
+    }
+
     /**
      * getHighestIndex returns the max index value of shared pref keys
      */

@@ -33,7 +33,7 @@
             android:textStyle="bold"/>
 
     <TextView
-            android:text="@string/tv_one_time_event_date_title"
+            android:text="@string/event_property_date"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/tv_one_time_item_date_title"
@@ -44,7 +44,7 @@
             android:layout_marginTop="4dp"/>
 
     <TextView
-            android:text="@string/tv_one_time_event_days_until_title"
+            android:text="@string/event_property_days"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/tv_days_until_one_time_title"

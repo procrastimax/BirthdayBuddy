@@ -75,11 +75,11 @@ class OneTimeEvent(_eventdate: Date, var name: String) : EventDate(_eventdate) {
     fun dateIsExpired(): Boolean {
         //function is date in future doesnt consider the case that the day of the one-time event is the current day, bc. all events are normalized
         //so when its the same day, as today, the one-time event doesnt expire, so it still appears in the list
-        if (getDayOfYear() == Calendar.getInstance().get(Calendar.DAY_OF_YEAR)) {
-            return false
+        return if (getDayOfYear() == Calendar.getInstance().get(Calendar.DAY_OF_YEAR)) {
+            false
         } else {
             //when event is in past, than it is expired
-            return (!EventDate.isDateInFuture(eventDate))
+            (!isDateInFuture(eventDate))
         }
     }
 

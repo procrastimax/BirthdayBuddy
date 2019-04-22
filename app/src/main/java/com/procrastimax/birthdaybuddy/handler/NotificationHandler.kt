@@ -6,6 +6,7 @@ import android.content.Context
 import android.content.Intent
 import android.util.Log
 import com.procrastimax.birthdaybuddy.AlarmReceiver
+import com.procrastimax.birthdaybuddy.MainActivity
 import com.procrastimax.birthdaybuddy.models.*
 import java.util.*
 
@@ -131,9 +132,9 @@ object NotificationHandler {
     private fun setUpNotification(context: Context, event: EventDate, reminderStart: ReminderStart) {
         val intent = Intent(context, AlarmReceiver::class.java)
         val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
-        intent.putExtra("EVENTSTRING", event.toString())
-        intent.putExtra("NOTIFICATIONID", event.eventID * reminderStart.value)
-        intent.putExtra("EVENTID", event.eventID)
+        intent.putExtra(MainActivity.FRAGMENT_EXTRA_TITLE_EVENTSTRING, event.toString())
+        intent.putExtra(MainActivity.FRAGMENT_EXTRA_TITLE_NOTIFICATIONID, event.eventID * reminderStart.value)
+        intent.putExtra(MainActivity.FRAGMENT_EXTRA_TITLE_EVENTID, event.eventID)
         val alarmIntent =
             PendingIntent.getBroadcast(context, event.eventID * reminderStart.value, intent, 0)
 

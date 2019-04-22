@@ -35,7 +35,7 @@
                     android:layout_height="wrap_content"
                     android:id="@+id/edit_add_fragment_date_one_time_event"
                     android:textSize="@dimen/larger_text_size"
-                    android:hint="@string/one_time_event_instance_fragment_date_edit_hint"
+                    android:hint="@string/event_property_date"
                     style="@android:style/Widget.Holo.Light.Spinner"
                     app:layout_constraintStart_toStartOf="@+id/edit_add_fragment_name_one_time_event"
                     android:layout_marginTop="16dp"
@@ -66,7 +66,7 @@
                     android:layout_marginTop="16dp"
                     app:layout_constraintTop_toBottomOf="@+id/edit_add_fragment_date_one_time_event"
                     app:layout_constraintStart_toStartOf="@+id/edit_add_fragment_date_one_time_event"
-                    android:hint="@string/edit_annual_event_note_hint"
+                    android:hint="@string/event_property_note"
                     app:layout_constraintEnd_toEndOf="@+id/edit_add_fragment_date_one_time_event"/>
         </android.support.constraint.ConstraintLayout>
     </ScrollView>

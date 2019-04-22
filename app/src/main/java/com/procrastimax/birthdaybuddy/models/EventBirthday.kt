@@ -13,12 +13,7 @@ import java.util.*
  * isYearGiven is flag to indicate wether the birthday-year is known/given
  *
  * TODO:
- *  - Add a path/link to an image of the person
- *  - what to do with unset note value
- *  - add possibility for nicknames
  *  - add possibility for favorites
- *  - rework note working
- *  - function to return forename or nickname
  *
  *  @param _birthday : Date
  *  @param _forename : String
@@ -88,6 +83,14 @@ class EventBirthday(
     var nickname: String? = null
 
     var avatarImageUri: String? = null
+
+    fun getNicknameOrForename(): String {
+        return if (this.nickname != null) {
+            this.nickname!!
+        } else {
+            forename
+        }
+    }
 
     /**
      * TODO: only save not null member vars

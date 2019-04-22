@@ -33,7 +33,7 @@
             android:textStyle="bold"/>
 
     <TextView
-            android:text="@string/tv_annual_event_date_title"
+            android:text="@string/event_property_date"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/tv_annual_item_date_title"
@@ -43,7 +43,7 @@
             app:layout_constraintTop_toTopOf="@+id/tv_days_until_annual_title"/>
 
     <TextView
-            android:text="@string/tv_annual_event_days_until_title"
+            android:text="@string/event_property_days"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/tv_days_until_annual_title"
@@ -53,7 +53,7 @@
             app:layout_constraintTop_toTopOf="@+id/tv_years_since_annual_title"/>
 
     <TextView
-            android:text="@string/tv_annual_event_years_since_title"
+            android:text="@string/event_property_years"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/tv_years_since_annual_title"

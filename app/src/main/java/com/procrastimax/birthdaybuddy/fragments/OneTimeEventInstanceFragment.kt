@@ -74,7 +74,7 @@ class OneTimeEventInstanceFragment : EventInstanceFragment() {
 
             setToolbarTitle(context!!.resources.getString(R.string.toolbar_title_edit_one_time_event))
 
-            eventID = (arguments!!.getInt(ITEM_ID_PARAM_EVENTID))
+            eventID = (arguments!!.getInt(MainActivity.FRAGMENT_EXTRA_TITLE_EVENTID))
             EventHandler.getEventToEventIndex(eventID)?.let { oneTimeEvent ->
                 if (oneTimeEvent is OneTimeEvent) {
 
@@ -99,7 +99,7 @@ class OneTimeEventInstanceFragment : EventInstanceFragment() {
                         val contextTemp = context
 
                         // Set a positive button and its click listener on alert dialog
-                        alertBuilder.setPositiveButton(resources.getString(R.string.alert_dialog_accept_delete)) { _, _ ->
+                        alertBuilder.setPositiveButton(resources.getString(R.string.yes)) { _, _ ->
                             // delete one_time_event on positive button
                             Snackbar
                                 .make(
@@ -110,7 +110,7 @@ class OneTimeEventInstanceFragment : EventInstanceFragment() {
                                     ),
                                     Snackbar.LENGTH_LONG
                                 )
-                                .setAction(R.string.snackbar_undo_action_title, View.OnClickListener {
+                                .setAction(R.string.undo, View.OnClickListener {
                                     EventHandler.addEvent(
                                         oneTimeEventTemp, contextTemp!!,
                                         true
@@ -127,7 +127,7 @@ class OneTimeEventInstanceFragment : EventInstanceFragment() {
                             EventHandler.removeEventByID(eventID, context!!, true)
                             closeBtnPressed()
                         }
-                        alertBuilder.setNegativeButton(R.string.alert_dialog_dismiss_delete) { dialog, _ -> dialog.dismiss() }
+                        alertBuilder.setNegativeButton(R.string.no) { dialog, _ -> dialog.dismiss() }
                         // Finally, make the alert dialog using builder
                         val dialog: AlertDialog = alertBuilder.create()
                         // Display the alert dialog on app interface
@@ -139,10 +139,9 @@ class OneTimeEventInstanceFragment : EventInstanceFragment() {
             setToolbarTitle(context!!.resources.getString(R.string.toolbar_title_add_one_time_event))
             btn_fragment_one_time_event_instance_delete.visibility = Button.INVISIBLE
             (context as MainActivity).progress_bar_main.visibility = ProgressBar.GONE
-            edit_date.hint = resources.getString(
-                R.string.one_time_event_instance_fragment_date_edit_hint,
-                EventDate.parseDateToString(Calendar.getInstance().time, DateFormat.FULL)
-            )
+            edit_date.hint = "${resources.getString(
+                R.string.event_property_date
+            )}: ${EventDate.parseDateToString(Calendar.getInstance().time, DateFormat.FULL)}"
         }
 
         edit_date.setOnClickListener {

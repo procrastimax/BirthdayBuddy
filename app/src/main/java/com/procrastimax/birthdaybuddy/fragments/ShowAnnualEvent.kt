@@ -62,7 +62,7 @@ class ShowAnnualEvent : ShowEventFragment() {
 
                 if (!annualEvent.note.isNullOrBlank()) {
                     this.tv_show_annual_event_note.text =
-                        context!!.resources.getString(R.string.annual_event_note, annualEvent.note)
+                        "${context!!.resources.getText(R.string.event_property_note)}: $annualEvent.note"
                     this.tv_show_annual_event_note.setTextColor(ContextCompat.getColor(context!!, R.color.darkGrey))
                 } else {
                     this.tv_show_annual_event_note.visibility = TextView.GONE
@@ -125,7 +125,7 @@ class ShowAnnualEvent : ShowEventFragment() {
     override fun editEvent() {
         val bundle = Bundle()
         bundle.putInt(
-            ITEM_ID_PARAM_EVENTID,
+            MainActivity.FRAGMENT_EXTRA_TITLE_EVENTID,
             eventID
         )
         val ft = (context as MainActivity).supportFragmentManager.beginTransaction()

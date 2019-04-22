@@ -265,18 +265,18 @@ class EventListFragment : Fragment() {
                 settingsClicked()
             }
             R.id.fire_notification -> {
-                val event = EventHandler.getEventToEventIndex(16)
+                val event = EventHandler.getEventToEventIndex(EventHandler.getLastIndex())
                 val intent = Intent(context, AlarmReceiver::class.java)
-                intent.putExtra("EVENTSTRING", event.toString())
-                intent.putExtra("NOTIFICATIONID", event!!.eventID)
-                intent.putExtra("EVENTID", event.eventID)
+                intent.putExtra(MainActivity.FRAGMENT_EXTRA_TITLE_EVENTSTRING, event.toString())
+                intent.putExtra(MainActivity.FRAGMENT_EXTRA_TITLE_NOTIFICATIONID, event!!.eventID)
+                intent.putExtra(MainActivity.FRAGMENT_EXTRA_TITLE_EVENTID, event.eventID)
                 activity!!.sendBroadcast(intent)
             }
             R.id.test_date -> {
                 val cal = Calendar.getInstance()
                 Toast.makeText(
                     context,
-                    EventDate.getLocalizedDayAndMonth(context!!, cal.time, Locale.GERMAN),
+                    EventDate.getLocalizedDayAndMonth(cal.time, Locale.GERMAN),
                     Toast.LENGTH_SHORT
                 )
                     .show()

@@ -89,7 +89,7 @@ class AnnualEventInstanceFragment : EventInstanceFragment() {
 
             setToolbarTitle(context!!.resources.getString(R.string.toolbar_title_edit_annual_event))
 
-            eventID = (arguments!!.getInt(ITEM_ID_PARAM_EVENTID))
+            eventID = (arguments!!.getInt(MainActivity.FRAGMENT_EXTRA_TITLE_EVENTID))
             EventHandler.getEventToEventIndex(eventID)?.let { annualEvent ->
                 if (annualEvent is AnnualEvent) {
 
@@ -98,7 +98,7 @@ class AnnualEventInstanceFragment : EventInstanceFragment() {
                     if (annualEvent.hasStartYear) {
                         edit_date.text = EventDate.parseDateToString(this.eventDate, DateFormat.DEFAULT)
                     } else {
-                        edit_date.text = EventDate.getLocalizedDayAndMonth(context!!, this.eventDate)
+                        edit_date.text = EventDate.getLocalizedDayAndMonth(this.eventDate)
                     }
 
                     edit_name.setText(annualEvent.name)
@@ -118,7 +118,7 @@ class AnnualEventInstanceFragment : EventInstanceFragment() {
                         val contextTemp = context
 
                         // Set a positive button and its click listener on alert dialog
-                        alertBuilder.setPositiveButton(resources.getString(R.string.alert_dialog_accept_delete)) { _, _ ->
+                        alertBuilder.setPositiveButton(resources.getString(R.string.yes)) { _, _ ->
                             // delete annual_event on positive button
                             Snackbar
                                 .make(
@@ -126,7 +126,7 @@ class AnnualEventInstanceFragment : EventInstanceFragment() {
                                     resources.getString(R.string.annual_event_deleted_notification, edit_name.text),
                                     Snackbar.LENGTH_LONG
                                 )
-                                .setAction(R.string.snackbar_undo_action_title, View.OnClickListener {
+                                .setAction(R.string.undo, View.OnClickListener {
                                     EventHandler.addEvent(
                                         annualEventTemp, contextTemp!!,
                                         true
@@ -143,7 +143,7 @@ class AnnualEventInstanceFragment : EventInstanceFragment() {
                             EventHandler.removeEventByID(eventID, context!!, true)
                             closeBtnPressed()
                         }
-                        alertBuilder.setNegativeButton(resources.getString(R.string.alert_dialog_dismiss_delete)) { dialog, _ -> dialog.dismiss() }
+                        alertBuilder.setNegativeButton(resources.getString(R.string.no)) { dialog, _ -> dialog.dismiss() }
                         // Finally, make the alert dialog using builder
                         val dialog: AlertDialog = alertBuilder.create()
                         // Display the alert dialog on app interface
@@ -155,10 +155,9 @@ class AnnualEventInstanceFragment : EventInstanceFragment() {
             setToolbarTitle(context!!.resources.getString(R.string.toolbar_title_add_annual_event))
             btn_fragment_annual_event_instance_delete.visibility = Button.INVISIBLE
             (context as MainActivity).progress_bar_main.visibility = ProgressBar.GONE
-            edit_date.hint = resources.getString(
-                R.string.annual_event_instance_fragment_date_edit_hint,
-                EventDate.parseDateToString(this.eventDate, DateFormat.DEFAULT)
-            )
+            edit_date.hint = "${resources.getString(
+                R.string.event_property_date
+            )}: ${EventDate.parseDateToString(this.eventDate, DateFormat.DEFAULT)}"
         }
 
         edit_date.setOnClickListener {
@@ -172,19 +171,20 @@ class AnnualEventInstanceFragment : EventInstanceFragment() {
                     edit_date.text = EventDate.parseDateToString(this.eventDate, DateFormat.DEFAULT)
                     //year is not given
                 } else {
-                    edit_date.text = EventDate.getLocalizedDayAndMonth(context!!, this.eventDate)
+                    edit_date.text = EventDate.getLocalizedDayAndMonth(this.eventDate)
                 }
             } else {
                 if (isChecked) {
-                    edit_date.hint = resources.getString(
-                        R.string.annual_event_instance_fragment_date_edit_hint,
-                        EventDate.parseDateToString(this.eventDate, DateFormat.DEFAULT)
-                    )
+                    edit_date.hint =
+                        "${resources.getString(R.string.event_property_date)}: ${EventDate.parseDateToString(
+                            this.eventDate,
+                            DateFormat.DEFAULT
+                        )}"
+
                 } else {
-                    edit_date.hint = resources.getString(
-                        R.string.annual_event_instance_fragment_date_edit_hint,
-                        EventDate.getLocalizedDayAndMonth(context!!, this.eventDate)
-                    )
+                    edit_date.hint = "${resources.getString(
+                        R.string.event_property_year
+                    )}: ${EventDate.getLocalizedDayAndMonth(this.eventDate)}"
                 }
             }
         }
@@ -225,7 +225,7 @@ class AnnualEventInstanceFragment : EventInstanceFragment() {
                             edit_date.text = EventDate.parseDateToString(c.time, DateFormat.DEFAULT)
                         } else {
                             edit_date.text =
-                                EventDate.getLocalizedDayAndMonth(context!!, c.time)
+                                EventDate.getLocalizedDayAndMonth(c.time)
                         }
                     }
                 },

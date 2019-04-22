@@ -25,7 +25,7 @@
             android:scaleType="fitCenter"/>
 
     <TextView
-            android:text="@string/tv_birthday_forename_title"
+            android:text="@string/event_property_forename"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="@dimen/smaller_text_size"
@@ -38,7 +38,7 @@
             android:layout_marginTop="4dp"/>
 
     <TextView
-            android:text="@string/tv_birthday_nickname_title"
+            android:text="@string/event_property_nickname"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/tv_birthday_event_item_nickname"
@@ -52,7 +52,7 @@
             android:layout_marginStart="8dp"/>
 
     <TextView
-            android:text="@string/tv_birthday_surname_title"
+            android:text="@string/event_property_surname"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/tv_birthday_event_item_surname"
@@ -65,7 +65,7 @@
             android:layout_marginBottom="4dp"/>
 
     <TextView
-            android:text="@string/tv_birthday_date_title"
+            android:text="@string/event_property_date"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/tv_birthday_event_item_date_title"
@@ -76,7 +76,7 @@
             android:layout_marginTop="4dp"/>
 
     <TextView
-            android:text="@string/tv_birthday_days_until_title"
+            android:text="@string/event_property_days"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/tv_birthday_event_item_days_until_title"
@@ -86,7 +86,7 @@
             app:layout_constraintTop_toTopOf="@+id/tv_birthday_event_item_date_title"/>
 
     <TextView
-            android:text="@string/tv_birthday_years_since_title"
+            android:text="@string/event_property_years"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/tv_birthday_event_item_years_since_title"

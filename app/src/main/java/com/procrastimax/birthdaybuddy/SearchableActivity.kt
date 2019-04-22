@@ -13,7 +13,6 @@ import com.procrastimax.birthdaybuddy.views.EventAdapter_Searching
 import com.procrastimax.birthdaybuddy.views.RecycleViewItemDivider
 import kotlinx.android.synthetic.main.activity_searchable.*
 
-//TODO: home button isnt clickable
 class SearchableActivity : AppCompatActivity() {
 
     private lateinit var recyclerView: RecyclerView
@@ -68,7 +67,7 @@ class SearchableActivity : AppCompatActivity() {
     }
 
     private fun search(query: String) {
-        supportActionBar?.title = "Search for: $query"
+        supportActionBar?.title = this.resources.getString(R.string.searching_toolbar_title, query)
         val searchTerms = SearchHandler.splitStringToList(query)
         searchTerms?.forEach {
             this.eventIndexList.addAll(SearchHandler.searchOnEventData(it))

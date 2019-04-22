@@ -114,9 +114,9 @@ class MainActivity : AppCompatActivity() {
         if (intent != null) {
             //TODO: when closing and open acitivty again, intent information stays the same, just null it??
             //TODO: whats happens with multiple pending intents, do they change?
-            if (intent?.getBooleanExtra("LOADALL", false) == true) {
-                val eventID = intent?.getIntExtra("EVENTID", -1)
-                val type = intent?.getStringExtra("TYPE")
+            if (intent?.getBooleanExtra(FRAGMENT_EXTRA_TITLE_LOADALL, false) == true) {
+                val eventID = intent?.getIntExtra(FRAGMENT_EXTRA_TITLE_EVENTID, -1)
+                val type = intent?.getStringExtra(FRAGMENT_EXTRA_TITLE_TYPE)
                 if (eventID != null && eventID > -1 && type != null) {
                     startFragments(eventID, type)
                 }
@@ -149,8 +149,8 @@ class MainActivity : AppCompatActivity() {
 
     override fun onNewIntent(intent: Intent?) {
         super.onNewIntent(intent)
-        val eventID = intent?.getIntExtra("EVENTID", -1)
-        val type = intent?.getStringExtra("TYPE")
+        val eventID = intent?.getIntExtra(FRAGMENT_EXTRA_TITLE_EVENTID, -1)
+        val type = intent?.getStringExtra(FRAGMENT_EXTRA_TITLE_TYPE)
         if (toolbar.menu.findItem(R.id.toolbar_search)?.actionView != null) {
 
             (toolbar.menu.findItem(R.id.toolbar_search)?.actionView as android.support.v7.widget.SearchView).apply {
@@ -168,7 +168,7 @@ class MainActivity : AppCompatActivity() {
         val bundle = Bundle()
         //do this in more adaptable way
         bundle.putInt(
-            ITEM_ID_PARAM_EVENTID,
+            FRAGMENT_EXTRA_TITLE_EVENTID,
             eventID
         )
 
@@ -176,21 +176,21 @@ class MainActivity : AppCompatActivity() {
 
             val eventFragment: Fragment? = when (event) {
                 is EventBirthday -> {
-                    if (type == "SHOW") {
+                    if (type == FRAGMENT_TYPE_SHOW) {
                         ShowBirthdayEvent.newInstance()
                     } else {
                         BirthdayInstanceFragment.newInstance()
                     }
                 }
                 is AnnualEvent -> {
-                    if (type == "SHOW") {
+                    if (type == FRAGMENT_TYPE_SHOW) {
                         ShowAnnualEvent.newInstance()
                     } else {
                         AnnualEventInstanceFragment.newInstance()
                     }
                 }
                 is OneTimeEvent -> {
-                    if (type == "SHOW") {
+                    if (type == FRAGMENT_TYPE_SHOW) {
                         ShowOneTimeEvent.newInstance()
                     } else {
                         OneTimeEventInstanceFragment.newInstance()
@@ -238,5 +238,15 @@ class MainActivity : AppCompatActivity() {
             val metrics = context.resources.displayMetrics
             return TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, metrics).toInt()
         }
+
+        const val FRAGMENT_TYPE_SHOW = "SHOW"
+        const val FRAGMENT_TYPE_EDIT = "EDIT"
+
+        const val FRAGMENT_EXTRA_TITLE_TYPE = "TYPE"
+        const val FRAGMENT_EXTRA_TITLE_EVENTID = "EVENTID"
+        const val FRAGMENT_EXTRA_TITLE_EVENTSTRING = "EVENTSTRING"
+        const val FRAGMENT_EXTRA_TITLE_NOTIFICATIONID = "NOTIFICATIONID"
+        const val FRAGMENT_EXTRA_TITLE_POSITION = "POSITION"
+        const val FRAGMENT_EXTRA_TITLE_LOADALL = "LOADALL"
     }
 }

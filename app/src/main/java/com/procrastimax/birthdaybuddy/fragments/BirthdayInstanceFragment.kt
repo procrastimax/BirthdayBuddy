@@ -36,7 +36,6 @@ import java.util.*
  *
  * TODO:
  *  - control behaviour when hold in portrait mode
- *
  *  - add possibility to take new pictures with camera
  */
 class BirthdayInstanceFragment : EventInstanceFragment() {
@@ -169,7 +168,7 @@ class BirthdayInstanceFragment : EventInstanceFragment() {
 
             setToolbarTitle(context!!.resources.getString(R.string.toolbar_title_edit_birthday))
 
-            eventID = (arguments!!.getInt(ITEM_ID_PARAM_EVENTID))
+            eventID = (arguments!!.getInt(MainActivity.FRAGMENT_EXTRA_TITLE_EVENTID))
             EventHandler.getEventToEventIndex(eventID)?.let { birthday ->
                 if (birthday is EventBirthday) {
                     this.eventDate = birthday.eventDate
@@ -177,7 +176,7 @@ class BirthdayInstanceFragment : EventInstanceFragment() {
                         edit_date.text = EventDate.parseDateToString(this.eventDate, DateFormat.DEFAULT)
                     } else {
                         edit_date.text =
-                            EventDate.getLocalizedDayAndMonth(context!!, this.eventDate)
+                            EventDate.getLocalizedDayAndMonth(this.eventDate)
                     }
 
                     edit_surname.setText(birthday.surname)
@@ -207,14 +206,14 @@ class BirthdayInstanceFragment : EventInstanceFragment() {
                         val birthday_pair_temp = birthday
 
                         // Set a positive button and its click listener on alert dialog
-                        alert_builder.setPositiveButton(resources.getString(R.string.alert_dialog_accept_delete)) { _, _ ->
+                        alert_builder.setPositiveButton(resources.getString(R.string.yes)) { _, _ ->
                             // delete birthday on positive button
                             Snackbar.make(
                                 view,
                                 resources.getString(R.string.person_deleted_notification, edit_forename.text),
                                 Snackbar.LENGTH_LONG
                             )
-                                .setAction(R.string.snackbar_undo_action_title, View.OnClickListener {
+                                .setAction(R.string.undo, View.OnClickListener {
                                     EventHandler.addEvent(birthday_pair_temp, context_temp!!, true)
                                     //get last fragment in stack list, which should be eventlistfragment, so we can update the recycler view
                                     val fragment =
@@ -229,7 +228,7 @@ class BirthdayInstanceFragment : EventInstanceFragment() {
                         }
 
                         // dont do anything on negative button
-                        alert_builder.setNegativeButton(resources.getString(R.string.alert_dialog_dismiss_delete)) { _, _ ->
+                        alert_builder.setNegativeButton(resources.getString(R.string.no)) { _, _ ->
                         }
 
                         // Finally, make the alert dialog using builder
@@ -260,7 +259,7 @@ class BirthdayInstanceFragment : EventInstanceFragment() {
         }
 
         edit_date.setOnClickListener {
-            showDatePickerDialog()
+            showDatePickerDialog(switch_isYearGiven.isChecked)
         }
 
         //add image from gallery
@@ -311,7 +310,7 @@ class BirthdayInstanceFragment : EventInstanceFragment() {
 
                     //year is not given
                 } else {
-                    edit_date.text = EventDate.getLocalizedDayAndMonth(context!!, this.eventDate)
+                    edit_date.text = EventDate.getLocalizedDayAndMonth(this.eventDate)
                 }
             } else {
                 if (isChecked) {
@@ -323,7 +322,7 @@ class BirthdayInstanceFragment : EventInstanceFragment() {
                     edit_date.hint =
                         resources.getString(
                             R.string.birthday_instance_fragment_date_edit_hint,
-                            EventDate.getLocalizedDayAndMonth(context!!, Calendar.getInstance().time)
+                            EventDate.getLocalizedDayAndMonth(Calendar.getInstance().time)
 
                         )
                 }
@@ -465,7 +464,7 @@ class BirthdayInstanceFragment : EventInstanceFragment() {
     /**
      * showDatePickerDialog shows a dialog to let the user pick a date for the edit_date
      */
-    private fun showDatePickerDialog() {
+    private fun showDatePickerDialog(showYear: Boolean) {
         val c = Calendar.getInstance()
         //set calendar to the date which is stored in the edit field, when the edit is not empty
         if (!edit_date.text.isNullOrBlank()) {
@@ -484,7 +483,7 @@ class BirthdayInstanceFragment : EventInstanceFragment() {
                     c.set(Calendar.MONTH, monthOfYear)
                     c.set(Calendar.DAY_OF_MONTH, dayOfMonth)
 
-                    if (c.time.after(Calendar.getInstance().time) && switch_isYearGiven.isChecked) {
+                    if (c.time.after(Calendar.getInstance().time) && showYear) {
                         Toast.makeText(
                             view.context,
                             context!!.resources.getText(R.string.future_birthday_error),
@@ -492,11 +491,11 @@ class BirthdayInstanceFragment : EventInstanceFragment() {
                         ).show()
                     } else {
                         this.eventDate = c.time
-                        if (switch_isYearGiven.isChecked) {
+                        if (showYear) {
                             edit_date.text = EventDate.parseDateToString(c.time, DateFormat.DEFAULT)
                         } else {
                             edit_date.text =
-                                EventDate.getLocalizedDayAndMonth(context!!, c.time)
+                                EventDate.getLocalizedDayAndMonth(c.time)
                         }
                     }
                 },

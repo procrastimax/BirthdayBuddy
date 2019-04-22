@@ -61,7 +61,7 @@ class SettingsAdapter(private val context: Context) :
         when (holder.itemViewType) {
             // BIRTHDAY NOTIFICATION SETTINGS
             1 -> {
-                holder.itemView.tv_settings_title.text = "Birthday"
+                holder.itemView.tv_settings_title.text = context.getText(R.string.event_type_birthday)
 
                 val isEnabled = IOHandler.getBooleanFromKey(IOHandler.SharedPrefKeys.key_isNotificationOnBirthday)!!
                 if (!isEnabled) changeEnabledStatus(holder.itemView, isEnabled)
@@ -106,8 +106,8 @@ class SettingsAdapter(private val context: Context) :
                 //show checkbox dialog on click
                 constrLayoutNotificationDay.setOnClickListener {
                     val alertDialogBuilder = AlertDialog.Builder(context)
-                    alertDialogBuilder.setTitle("Notification Date")
-                        .setPositiveButton("Apply") { _, _ ->
+                    alertDialogBuilder.setTitle(R.string.dialog_title_notification_date)
+                        .setPositiveButton(R.string.apply) { _, _ ->
 
                             holder.itemView.tv_settings_notification_day_value.text =
                                 getNotifcationDateValueStringFromBooleanArray(notificationDateArray)
@@ -130,7 +130,12 @@ class SettingsAdapter(private val context: Context) :
                             )
                         }
                         .setMultiChoiceItems(
-                            arrayOf("Month before", "Week before", "Day before", "Eventday"),
+                            arrayOf(
+                                context.getText(R.string.tv_notification_interval_month),
+                                context.getText(R.string.tv_notification_interval_week),
+                                context.getText(R.string.tv_notification_interval_day),
+                                context.getText(R.string.tv_notification_interval_eventday)
+                            ),
                             notificationDateArray
                         ) { _, which, isChecked ->
                             notificationDateArray[which] = isChecked
@@ -145,8 +150,8 @@ class SettingsAdapter(private val context: Context) :
                 //show checkbox dialog on click
                 constrLayoutNotificationLight.setOnClickListener {
                     val alertDialogBuilder = AlertDialog.Builder(context)
-                    alertDialogBuilder.setTitle("Notification Date")
-                        .setPositiveButton("Apply") { _, _ ->
+                    alertDialogBuilder.setTitle(R.string.dialog_title_notification_date)
+                        .setPositiveButton(R.string.apply) { _, _ ->
 
                             holder.itemView.tv_settings_notification_light_value.text =
                                 getNotifcationLightValueFromInt(notificationLight)
@@ -157,7 +162,7 @@ class SettingsAdapter(private val context: Context) :
                             )
                         }
                         .setSingleChoiceItems(
-                            arrayOf("no light", "white light", "red light", "green light", "blue light"),
+                            context.resources.getStringArray(R.array.light_modes),
                             notificationLight
                         ) { _: DialogInterface?, which: Int ->
                             notificationLight = which
@@ -174,7 +179,7 @@ class SettingsAdapter(private val context: Context) :
 
             // ANNUAL NOTIFICATION SETTINGS
             2 -> {
-                holder.itemView.tv_settings_title.text = "Annual event"
+                holder.itemView.tv_settings_title.text = context.getText(R.string.event_type_annual_event)
 
                 val isEnabled = IOHandler.getBooleanFromKey(IOHandler.SharedPrefKeys.key_isNotificationOnAnnual)!!
                 if (!isEnabled) changeEnabledStatus(holder.itemView, isEnabled)
@@ -219,8 +224,8 @@ class SettingsAdapter(private val context: Context) :
                 //show checkbox dialog on click
                 constrLayoutNotificationDay.setOnClickListener {
                     val alertDialogBuilder = AlertDialog.Builder(context)
-                    alertDialogBuilder.setTitle("Notification Date")
-                        .setPositiveButton("Apply") { _, _ ->
+                    alertDialogBuilder.setTitle(R.string.dialog_title_notification_date)
+                        .setPositiveButton(R.string.apply) { _, _ ->
 
                             holder.itemView.tv_settings_notification_day_value.text =
                                 getNotifcationDateValueStringFromBooleanArray(notificationDateArray)
@@ -243,7 +248,12 @@ class SettingsAdapter(private val context: Context) :
                             )
                         }
                         .setMultiChoiceItems(
-                            arrayOf("Month before", "Week before", "Day before", "Eventday"),
+                            arrayOf(
+                                context.getText(R.string.tv_notification_interval_month),
+                                context.getText(R.string.tv_notification_interval_week),
+                                context.getText(R.string.tv_notification_interval_day),
+                                context.getText(R.string.tv_notification_interval_eventday)
+                            ),
                             notificationDateArray
                         ) { _, which, isChecked ->
                             notificationDateArray[which] = isChecked
@@ -258,8 +268,8 @@ class SettingsAdapter(private val context: Context) :
                 //show checkbox dialog on click
                 constrLayoutNotificationLight.setOnClickListener {
                     val alertDialogBuilder = AlertDialog.Builder(context)
-                    alertDialogBuilder.setTitle("Notification Date")
-                        .setPositiveButton("Apply") { _, _ ->
+                    alertDialogBuilder.setTitle(R.string.dialog_title_notification_date)
+                        .setPositiveButton(R.string.apply) { _, _ ->
 
                             holder.itemView.tv_settings_notification_light_value.text =
                                 getNotifcationLightValueFromInt(notificationLight)
@@ -270,7 +280,7 @@ class SettingsAdapter(private val context: Context) :
                             )
                         }
                         .setSingleChoiceItems(
-                            arrayOf("no light", "white light", "red light", "green light", "blue light"),
+                            context.resources.getStringArray(R.array.light_modes),
                             notificationLight
                         ) { _: DialogInterface?, which: Int ->
                             notificationLight = which
@@ -287,7 +297,7 @@ class SettingsAdapter(private val context: Context) :
 
             // ONE-TIME NOTIFICATION SETTINGS
             3 -> {
-                holder.itemView.tv_settings_title.text = "OneTime event"
+                holder.itemView.tv_settings_title.text = context.getText(R.string.event_type_one_time_event)
 
                 val isEnabled = IOHandler.getBooleanFromKey(IOHandler.SharedPrefKeys.key_isNotificationOnOneTime)!!
                 if (!isEnabled) changeEnabledStatus(holder.itemView, isEnabled)
@@ -332,8 +342,8 @@ class SettingsAdapter(private val context: Context) :
                 //show checkbox dialog on click
                 constrLayoutNotificationDay.setOnClickListener {
                     val alertDialogBuilder = AlertDialog.Builder(context)
-                    alertDialogBuilder.setTitle("Notification Date")
-                        .setPositiveButton("Apply") { _, _ ->
+                    alertDialogBuilder.setTitle(R.string.dialog_title_notification_date)
+                        .setPositiveButton(R.string.apply) { _, _ ->
 
                             holder.itemView.tv_settings_notification_day_value.text =
                                 getNotifcationDateValueStringFromBooleanArray(notificationDateArray)
@@ -356,7 +366,12 @@ class SettingsAdapter(private val context: Context) :
                             )
                         }
                         .setMultiChoiceItems(
-                            arrayOf("Month before", "Week before", "Day before", "Eventday"),
+                            arrayOf(
+                                context.getText(R.string.tv_notification_interval_month),
+                                context.getText(R.string.tv_notification_interval_week),
+                                context.getText(R.string.tv_notification_interval_day),
+                                context.getText(R.string.tv_notification_interval_eventday)
+                            ),
                             notificationDateArray
                         ) { _, which, isChecked ->
                             notificationDateArray[which] = isChecked
@@ -371,8 +386,8 @@ class SettingsAdapter(private val context: Context) :
                 //show checkbox dialog on click
                 constrLayoutNotificationLight.setOnClickListener {
                     val alertDialogBuilder = AlertDialog.Builder(context)
-                    alertDialogBuilder.setTitle("Notification Date")
-                        .setPositiveButton("Apply") { _, _ ->
+                    alertDialogBuilder.setTitle(R.string.dialog_title_notification_date)
+                        .setPositiveButton(context.getText(R.string.apply)) { _, _ ->
 
                             holder.itemView.tv_settings_notification_light_value.text =
                                 getNotifcationLightValueFromInt(notificationLight)
@@ -383,7 +398,7 @@ class SettingsAdapter(private val context: Context) :
                             )
                         }
                         .setSingleChoiceItems(
-                            arrayOf("no light", "white light", "red light", "green light", "blue light"),
+                            context.resources.getStringArray(R.array.light_modes),
                             notificationLight
                         ) { _: DialogInterface?, which: Int ->
                             notificationLight = which
@@ -421,16 +436,16 @@ class SettingsAdapter(private val context: Context) :
     private fun getNotifcationDateValueStringFromBooleanArray(array: BooleanArray): String {
         var reminderString = ""
         if (array[0]) {
-            reminderString += "Month before\n"
+            reminderString += "${context.getText(R.string.tv_notification_interval_month)}\n"
         }
         if (array[1]) {
-            reminderString += "Week before\n"
+            reminderString += "${context.getText(R.string.tv_notification_interval_week)}\n"
         }
         if (array[2]) {
-            reminderString += "Day before\n"
+            reminderString += "${context.getText(R.string.tv_notification_interval_day)}\n"
         }
         if (array[3]) {
-            reminderString += "Eventday"
+            reminderString += "${context.getText(R.string.tv_notification_interval_eventday)}"
         }
         return reminderString
     }
@@ -441,26 +456,7 @@ class SettingsAdapter(private val context: Context) :
         // 2 = red light
         // 3 = green light
         // 4 = blue light
-        when (value) {
-            0 -> {
-                return "no light"
-            }
-            1 -> {
-                return "white light"
-            }
-            2 -> {
-                return "red light"
-            }
-            3 -> {
-                return "green light"
-            }
-            4 -> {
-                return "blue light"
-            }
-            else -> {
-                return "no light"
-            }
-        }
+        return context.resources.getStringArray(R.array.light_modes)[value]
     }
 
     private fun changeEnabledStatus(view: View, isEnabled: Boolean) {
@@ -509,14 +505,14 @@ class SettingsAdapter(private val context: Context) :
     private fun deleteAllData() {
         //TODO: hardcoded strings
         val dialogBuilder = AlertDialog.Builder(this.context)
-        dialogBuilder.setTitle("Delete all Data?")
-        dialogBuilder.setMessage("Are you sure you want to delete all data?")
-        dialogBuilder.setPositiveButton("Yes", DialogInterface.OnClickListener { _, _ ->
-            Toast.makeText(context, "All events has been deleted", Toast.LENGTH_LONG).show()
+        dialogBuilder.setTitle(R.string.delete_all_dialog_title)
+        dialogBuilder.setMessage(R.string.delete_all_dialog_body)
+        dialogBuilder.setPositiveButton(R.string.yes, DialogInterface.OnClickListener { _, _ ->
+            Toast.makeText(context, R.string.delete_all_dialog_confirmation, Toast.LENGTH_LONG).show()
             EventHandler.deleteAllEntriesAndImages(context, true)
             (context as MainActivity).addMonthDivider()
         })
-        dialogBuilder.setNegativeButton("No", DialogInterface.OnClickListener { dialog, _ -> dialog.dismiss() })
+        dialogBuilder.setNegativeButton(R.string.no, DialogInterface.OnClickListener { dialog, _ -> dialog.dismiss() })
         dialogBuilder.setIcon(R.drawable.ic_error_outline)
         dialogBuilder.show()
     }

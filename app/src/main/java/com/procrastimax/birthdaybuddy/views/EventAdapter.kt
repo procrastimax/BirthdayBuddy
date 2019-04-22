@@ -48,7 +48,6 @@ class EventAdapter(private val context: Context, private val fragmentManager: Fr
      * @return Int
      */
     override fun getItemViewType(position: Int): Int {
-        val list = EventHandler.getList()[position]
         when (EventHandler.getList()[position]) {
             is MonthDivider -> {
                 if (position < EventHandler.getList().size - 1) {
@@ -126,7 +125,7 @@ class EventAdapter(private val context: Context, private val fragmentManager: Fr
                                 val bundle = Bundle()
                                 //do this in more adaptable way
                                 bundle.putInt(
-                                    ITEM_ID_PARAM_EVENTID,
+                                    MainActivity.FRAGMENT_EXTRA_TITLE_EVENTID,
                                     birthday.eventID
                                 )
                                 val ft = fragmentManager.beginTransaction()
@@ -147,7 +146,7 @@ class EventAdapter(private val context: Context, private val fragmentManager: Fr
                                 val bundle = Bundle()
                                 //do this in more adaptable way
                                 bundle.putInt(
-                                    ITEM_ID_PARAM_EVENTID,
+                                    MainActivity.FRAGMENT_EXTRA_TITLE_EVENTID,
                                     birthday.eventID
                                 )
                                 val ft = fragmentManager.beginTransaction()
@@ -166,7 +165,7 @@ class EventAdapter(private val context: Context, private val fragmentManager: Fr
 
                         //set date
                         holder.itemView.tv_birthday_event_item_date_value.text =
-                            birthday.getPrettyShortStringWithoutYear(context)
+                            birthday.getPrettyShortStringWithoutYear()
 
                         //set days until
                         holder.itemView.tv_birthday_event_item_days_until_value.text =
@@ -222,7 +221,6 @@ class EventAdapter(private val context: Context, private val fragmentManager: Fr
                                 holder.itemView.iv_birthday_event_item_image.setImageResource(R.drawable.ic_birthday_person)
                             }
                         }
-
                     }
                 }
             }
@@ -230,7 +228,6 @@ class EventAdapter(private val context: Context, private val fragmentManager: Fr
             //annual event item view holder
             2 -> {
                 //check if is birthday event and if the year is given
-
                 EventHandler.getList()[position].let { annualEvent ->
                     if (annualEvent is AnnualEvent) {
                         //set on click listener for item
@@ -239,7 +236,7 @@ class EventAdapter(private val context: Context, private val fragmentManager: Fr
                                 val bundle = Bundle()
                                 //do this in more adaptable way
                                 bundle.putInt(
-                                    ITEM_ID_PARAM_EVENTID,
+                                    MainActivity.FRAGMENT_EXTRA_TITLE_EVENTID,
                                     annualEvent.eventID
                                 )
                                 val ft = fragmentManager.beginTransaction()
@@ -260,7 +257,7 @@ class EventAdapter(private val context: Context, private val fragmentManager: Fr
                                 val bundle = Bundle()
                                 //do this in more adaptable way
                                 bundle.putInt(
-                                    ITEM_ID_PARAM_EVENTID,
+                                    MainActivity.FRAGMENT_EXTRA_TITLE_EVENTID,
                                     annualEvent.eventID
                                 )
                                 val ft = fragmentManager.beginTransaction()
@@ -279,7 +276,7 @@ class EventAdapter(private val context: Context, private val fragmentManager: Fr
 
                         //set date
                         holder.itemView.tv_annual_item_date_value.text =
-                            annualEvent.getPrettyShortStringWithoutYear(context)
+                            annualEvent.getPrettyShortStringWithoutYear()
 
                         //set days until
                         holder.itemView.tv_days_until_annual_value.text =
@@ -309,7 +306,7 @@ class EventAdapter(private val context: Context, private val fragmentManager: Fr
                             if (isClickable) {
                                 val bundle = Bundle()
                                 bundle.putInt(
-                                    ITEM_ID_PARAM_EVENTID,
+                                    MainActivity.FRAGMENT_EXTRA_TITLE_EVENTID,
                                     oneTimeEvent.eventID
                                 )
                                 val ft = fragmentManager.beginTransaction()
@@ -330,7 +327,7 @@ class EventAdapter(private val context: Context, private val fragmentManager: Fr
                                 val bundle = Bundle()
                                 //do this in more adaptable way
                                 bundle.putInt(
-                                    ITEM_ID_PARAM_EVENTID,
+                                    MainActivity.FRAGMENT_EXTRA_TITLE_EVENTID,
                                     oneTimeEvent.eventID
                                 )
                                 val ft = fragmentManager.beginTransaction()
@@ -349,7 +346,7 @@ class EventAdapter(private val context: Context, private val fragmentManager: Fr
 
                         //set date
                         holder.itemView.tv_one_time_item_date_value.text =
-                            oneTimeEvent.getPrettyShortStringWithoutYear(context)
+                            oneTimeEvent.getPrettyShortStringWithoutYear()
 
                         //set days until
                         holder.itemView.tv_days_until_one_time_value.text = oneTimeEvent.getDaysUntil().toString()

@@ -13,12 +13,6 @@ import java.util.*
 /**
  * EventHandler singleton object map to store all occurring eventdates (birthdays, anniversaries, etc.)
  * This is useful to compare all objects more easily, f.e. when you want to traverse all entries in event dates
- *
- * TODO:
- *  - rework whole month divider system
- *      - when item is deleted or changed, and no other item needs a month divider for this month, delete month divider
- *  - save events in more map like way, so later adding of properties likes nicknames/favorites are easier to parse
- *
  */
 object EventHandler {
 
@@ -26,7 +20,7 @@ object EventHandler {
      * event_list a list used for sorted viewing of the maps content
      * the data is stored in pairs of EventDay and the index of this dataset in the map as an int
      */
-    private var event_list: List<EventDate> = emptyList<EventDate>()
+    private var event_list: List<EventDate> = emptyList()
 
     private var event_map: MutableMap<Int, EventDate> = emptyMap<Int, EventDate>().toMutableMap()
 
@@ -37,7 +31,9 @@ object EventHandler {
      * @param event: EventDay
      * @param context: Context
      * @param writeAfterAdd: Boolean whether this event should be written to sharedpref after adding to list
-     * @param newEntry : Boolean, whether a new notification should be created after adding this event
+     * @param addNewNotification : Boolean, whether a new notification should be created after adding this event
+     * @param updateEventList : Boolean, whether to update the eventlist, updating the eventlist means sorting event values by their date
+     * @param addBitmap : Boolean whether a new bitmap should be added
      */
     fun addEvent(
         event: EventDate,
@@ -58,7 +54,7 @@ object EventHandler {
                         Uri.parse(event.avatarImageUri),
                         context,
                         readBitmapFromGallery = false,
-                        //150 because the app_bar height is 300dp
+                        //150dp because the app_bar height is 300dp
                         scale = MainActivity.convertDpToPx(context, 150f)
                     )
                 }
@@ -192,8 +188,7 @@ object EventHandler {
         this.clearData()
         BitmapHandler.removeAllDrawables(context)
         if (writeAfterAdd) {
-            //deletes shared prefs before writing list, but list is empty, so it only clears the shared prefs
-            IOHandler.writeAll()
+            IOHandler.clearSharedPrefEventData()
         }
     }
 
@@ -238,15 +233,15 @@ object EventHandler {
     fun getSortedListBy(
         identifier: SortIdentifier = EventDate.Identifier.Date
     ): List<EventDate> {
-        if (identifier == EventDate.Identifier.Date) {
-            return event_map.values.sortedWith(
+        return if (identifier == EventDate.Identifier.Date) {
+            event_map.values.sortedWith(
                 compareBy(
                     { it.getDayOfYear() },
                     { it.getMonth() },
                     { it.getYear() })
             )
         } else {
-            return emptyList()
+            emptyList()
         }
     }
 }

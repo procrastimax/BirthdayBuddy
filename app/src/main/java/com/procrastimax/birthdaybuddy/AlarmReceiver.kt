@@ -26,9 +26,10 @@ class AlarmReceiver : BroadcastReceiver() {
         if (context != null) {
             IOHandler.registerIO(context)
 
-            val event = IOHandler.convertStringToEventDate(intent!!.getStringExtra("EVENTSTRING"))
-            val notificationID = intent.getIntExtra("NOTIFICATIONID", 0)
-            val eventID = intent.getIntExtra("EVENTID", 0)
+            val event =
+                IOHandler.convertStringToEventDate(intent!!.getStringExtra(MainActivity.FRAGMENT_EXTRA_TITLE_EVENTSTRING))
+            val notificationID = intent.getIntExtra(MainActivity.FRAGMENT_EXTRA_TITLE_NOTIFICATIONID, 0)
+            val eventID = intent.getIntExtra(MainActivity.FRAGMENT_EXTRA_TITLE_EVENTID, 0)
             event?.eventID = eventID
 
             when (event) {
@@ -56,9 +57,9 @@ class AlarmReceiver : BroadcastReceiver() {
 
     private fun buildNotification(context: Context, event: EventDate, notificationID: Int, eventID: Int) {
         val intent = Intent(context, MainActivity::class.java)
-        intent.putExtra("EVENTID", eventID)
-        intent.putExtra("TYPE", "SHOW")
-        intent.putExtra("LOADALL", true)
+        intent.putExtra(MainActivity.FRAGMENT_EXTRA_TITLE_EVENTID, eventID)
+        intent.putExtra(MainActivity.FRAGMENT_EXTRA_TITLE_TYPE, MainActivity.FRAGMENT_TYPE_SHOW)
+        intent.putExtra(MainActivity.FRAGMENT_EXTRA_TITLE_LOADALL, true)
         //TODO: play with these settings, see mainactivity for more todos
         intent.action = (notificationID * 3).toString()
         intent.flags = Intent.FLAG_ACTIVITY_SINGLE_TOP

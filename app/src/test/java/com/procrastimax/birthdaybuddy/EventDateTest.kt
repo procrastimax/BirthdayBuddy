@@ -4,7 +4,6 @@ import com.procrastimax.birthdaybuddy.models.EventDate
 import org.junit.Assert
 import org.junit.Test
 import java.text.DateFormat
-import java.text.SimpleDateFormat
 import java.util.*
 
 class EventDateTest {
@@ -20,7 +19,7 @@ class EventDateTest {
         val cal = Calendar.getInstance()
         println(EventDate.parseDateToString(cal.time, DateFormat.SHORT))
 
-        val dateString = EventDate.getDayMonthDateString(cal.time, Locale.JAPANESE )
+        val dateString = EventDate.getDayMonthDateString(cal.time, Locale.JAPANESE)
         println(dateString)
 
         //val fmtOut = SimpleDateFormat(dateFormat.toString())

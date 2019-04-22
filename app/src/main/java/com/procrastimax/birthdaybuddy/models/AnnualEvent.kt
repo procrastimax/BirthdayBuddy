@@ -5,10 +5,6 @@ import com.procrastimax.birthdaybuddy.handler.IOHandler
 import java.text.DateFormat
 import java.util.*
 
-/**
- * TODO:
- * - rework note workings (null)
- */
 class AnnualEvent(_eventDate: Date, var name: String, var hasStartYear: Boolean) :
     EventDate(_eventDate) {
 
@@ -33,13 +29,13 @@ class AnnualEvent(_eventDate: Date, var name: String, var hasStartYear: Boolean)
 
     var note: String? = null
         get() {
-            if (field == null) {
-                return null
+            return if (field == null) {
+                null
             } else if (field!!.isEmpty() || field!!.isBlank()) {
                 Log.d("AnnualEvent", "member var NOTE is blank/empty when trying to access it")
-                return null
+                null
             } else {
-                return field!!.trim()
+                field!!.trim()
             }
         }
         set(value) {

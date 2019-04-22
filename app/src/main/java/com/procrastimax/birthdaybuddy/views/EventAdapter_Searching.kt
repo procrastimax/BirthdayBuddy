@@ -115,25 +115,31 @@ class EventAdapter_Searching(private val context: Context, private val eventIDs:
                         //TODO: write a on click listener to shorten code
                         //replace this activity with the main acitivty to show searched
                         val intent = Intent(context, MainActivity::class.java)
-                        intent.putExtra("EVENTID", EventHandler.getList()[position].eventID)
-                        intent.putExtra("POSITION", position)
-                        intent.putExtra("TYPE", "SHOW")
+                        intent.putExtra(
+                            MainActivity.FRAGMENT_EXTRA_TITLE_EVENTID,
+                            EventHandler.getList()[position].eventID
+                        )
+                        intent.putExtra(MainActivity.FRAGMENT_EXTRA_TITLE_POSITION, position)
+                        intent.putExtra(MainActivity.FRAGMENT_EXTRA_TITLE_TYPE, MainActivity.FRAGMENT_TYPE_SHOW)
                         startActivity(context, intent, null)
                     }
 
                     holder.itemView.setOnLongClickListener {
                         //replace this activity with the main acitivty to show searched
                         val intent = Intent(context, MainActivity::class.java)
-                        intent.putExtra("EVENTID", EventHandler.getList()[position].eventID)
-                        intent.putExtra("POSITION", position)
-                        intent.putExtra("TYPE", "EDIT")
+                        intent.putExtra(
+                            MainActivity.FRAGMENT_EXTRA_TITLE_EVENTID,
+                            EventHandler.getList()[position].eventID
+                        )
+                        intent.putExtra(MainActivity.FRAGMENT_EXTRA_TITLE_POSITION, position)
+                        intent.putExtra(MainActivity.FRAGMENT_EXTRA_TITLE_TYPE, MainActivity.FRAGMENT_TYPE_EDIT)
                         startActivity(context, intent, null)
                         true
                     }
 
                     //set date
                     holder.itemView.tv_birthday_event_item_date_value.text =
-                        (EventHandler.getList()[position] as EventBirthday).getPrettyShortStringWithoutYear(context)
+                        (EventHandler.getList()[position] as EventBirthday).getPrettyShortStringWithoutYear()
 
                     //set days until
                     holder.itemView.tv_birthday_event_item_days_until_value.text =
@@ -214,20 +220,27 @@ class EventAdapter_Searching(private val context: Context, private val eventIDs:
 
                     //set on click listener for item
                     holder.itemView.setOnClickListener {
+                        //TODO: write a on click listener to shorten code
                         //replace this activity with the main acitivty to show searched
                         val intent = Intent(context, MainActivity::class.java)
-                        intent.putExtra("EVENTID", EventHandler.getList()[position].eventID)
-                        intent.putExtra("POSITION", position)
-                        intent.putExtra("TYPE", "SHOW")
+                        intent.putExtra(
+                            MainActivity.FRAGMENT_EXTRA_TITLE_EVENTID,
+                            EventHandler.getList()[position].eventID
+                        )
+                        intent.putExtra(MainActivity.FRAGMENT_EXTRA_TITLE_POSITION, position)
+                        intent.putExtra(MainActivity.FRAGMENT_EXTRA_TITLE_TYPE, MainActivity.FRAGMENT_TYPE_SHOW)
                         startActivity(context, intent, null)
                     }
 
                     holder.itemView.setOnLongClickListener {
                         //replace this activity with the main acitivty to show searched
                         val intent = Intent(context, MainActivity::class.java)
-                        intent.putExtra("EVENTID", EventHandler.getList()[position].eventID)
-                        intent.putExtra("POSITION", position)
-                        intent.putExtra("TYPE", "EDIT")
+                        intent.putExtra(
+                            MainActivity.FRAGMENT_EXTRA_TITLE_EVENTID,
+                            EventHandler.getList()[position].eventID
+                        )
+                        intent.putExtra(MainActivity.FRAGMENT_EXTRA_TITLE_POSITION, position)
+                        intent.putExtra(MainActivity.FRAGMENT_EXTRA_TITLE_TYPE, MainActivity.FRAGMENT_TYPE_EDIT)
                         startActivity(context, intent, null)
                         true
                     }
@@ -238,7 +251,7 @@ class EventAdapter_Searching(private val context: Context, private val eventIDs:
 
                     //set date
                     val date =
-                        (EventHandler.getList()[position] as AnnualEvent).getPrettyShortStringWithoutYear(context)
+                        (EventHandler.getList()[position] as AnnualEvent).getPrettyShortStringWithoutYear()
                     holder.itemView.tv_annual_item_date_value.text = date
 
                     //set days until
@@ -263,20 +276,27 @@ class EventAdapter_Searching(private val context: Context, private val eventIDs:
 
                     //set on click listener for item
                     holder.itemView.setOnClickListener {
+                        //TODO: write a on click listener to shorten code
                         //replace this activity with the main acitivty to show searched
                         val intent = Intent(context, MainActivity::class.java)
-                        intent.putExtra("EVENTID", EventHandler.getList()[position].eventID)
-                        intent.putExtra("POSITION", position)
-                        intent.putExtra("TYPE", "SHOW")
+                        intent.putExtra(
+                            MainActivity.FRAGMENT_EXTRA_TITLE_EVENTID,
+                            EventHandler.getList()[position].eventID
+                        )
+                        intent.putExtra(MainActivity.FRAGMENT_EXTRA_TITLE_POSITION, position)
+                        intent.putExtra(MainActivity.FRAGMENT_EXTRA_TITLE_TYPE, MainActivity.FRAGMENT_TYPE_SHOW)
                         startActivity(context, intent, null)
                     }
 
                     holder.itemView.setOnLongClickListener {
                         //replace this activity with the main acitivty to show searched
                         val intent = Intent(context, MainActivity::class.java)
-                        intent.putExtra("EVENTID", EventHandler.getList()[position].eventID)
-                        intent.putExtra("POSITION", position)
-                        intent.putExtra("TYPE", "EDIT")
+                        intent.putExtra(
+                            MainActivity.FRAGMENT_EXTRA_TITLE_EVENTID,
+                            EventHandler.getList()[position].eventID
+                        )
+                        intent.putExtra(MainActivity.FRAGMENT_EXTRA_TITLE_POSITION, position)
+                        intent.putExtra(MainActivity.FRAGMENT_EXTRA_TITLE_TYPE, MainActivity.FRAGMENT_TYPE_EDIT)
                         startActivity(context, intent, null)
                         true
                     }

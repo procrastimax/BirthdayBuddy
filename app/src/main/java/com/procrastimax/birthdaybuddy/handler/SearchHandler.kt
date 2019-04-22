@@ -44,7 +44,7 @@ object SearchHandler {
         when (eventData) {
             //has forename, surname, nickname
             is EventBirthday -> {
-                //all names which are seperated by whitespaces/ minus char should be handled as independent words
+                //all names which are separated by whitespaces/ minus char should be handled as independent words
                 val forenames = splitStringToList(eventData.forename)
                 val surnames = splitStringToList(eventData.surname)
                 val nicknames = splitStringToList(eventData.nickname)

@@ -1,6 +1,5 @@
 package com.procrastimax.birthdaybuddy.models
 
-import android.content.Context
 import com.procrastimax.birthdaybuddy.handler.IOHandler
 import java.text.DateFormat
 import java.text.SimpleDateFormat
@@ -59,8 +58,8 @@ open class EventDate(var eventDate: Date) : Comparable<EventDate> {
      * @param locale : Locale = Locale.getDefault()
      * @return String
      */
-    fun getPrettyShortStringWithoutYear(context: Context, locale: Locale = Locale.getDefault()): String {
-        return getLocalizedDayAndMonth(context, this.eventDate, locale)
+    fun getPrettyShortStringWithoutYear(locale: Locale = Locale.getDefault()): String {
+        return getLocalizedDayAndMonth(this.eventDate, locale)
     }
 
     /**
@@ -272,7 +271,7 @@ open class EventDate(var eventDate: Date) : Comparable<EventDate> {
         /**
          * isDateInFuture checks if the member var eventDate is in the future (>currentDate)
          * @return Boolean
-         * @param Date
+         * @param date : Date
          */
         @JvmStatic
         fun isDateInFuture(date: Date): Boolean {
@@ -299,27 +298,16 @@ open class EventDate(var eventDate: Date) : Comparable<EventDate> {
          */
         @JvmStatic
         fun <T> getStringFromValue(identifier: SortIdentifier, value: T): String {
-            if (value != null) {
-                return "${IOHandler.characterDivider_properties}${identifier}${IOHandler.characterDivider_values}${value}"
+            return if (value != null) {
+                "${IOHandler.characterDivider_properties}${identifier}${IOHandler.characterDivider_values}${value}"
 
-            } else return ""
+            } else ""
         }
 
         @JvmStatic
-        fun getLocalizedDayAndMonth(context: Context, date: Date, locale: Locale = Locale.getDefault()): String {
-
-            /*val textPattern: String
-            val shortDateFormat = android.text.format.DateFormat.getDateFormat(context)
-            if (shortDateFormat is SimpleDateFormat) {
-                textPattern = shortDateFormat.toPattern()
-            }*/
-
+        fun getLocalizedDayAndMonth(date: Date, locale: Locale = Locale.getDefault()): String {
             val skeletonPattern = "ddMM"
-
             val workingFormat = android.text.format.DateFormat.getBestDateTimePattern(locale, skeletonPattern)
-
-            //val order = android.text.format.DateFormat.getDateFormatOrder(context)
-
             return SimpleDateFormat(workingFormat, locale).format(date)
         }
 

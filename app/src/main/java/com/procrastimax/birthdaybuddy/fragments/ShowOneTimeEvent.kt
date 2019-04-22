@@ -57,8 +57,7 @@ class ShowOneTimeEvent : ShowEventFragment() {
                 }
 
                 if (!oneTimeEvent.note.isNullOrBlank()) {
-                    this.tv_show_one_time_event_note.text =
-                        context!!.resources.getString(R.string.one_time_event_note, oneTimeEvent.note)
+                    this.tv_show_one_time_event_note.text = "${context!!.resources.getText(R.string.event_property_note)}: ${oneTimeEvent.note}"
                     this.tv_show_one_time_event_note.setTextColor(ContextCompat.getColor(context!!, R.color.darkGrey))
                 } else {
                     this.tv_show_one_time_event_note.visibility = TextView.GONE
@@ -116,7 +115,7 @@ class ShowOneTimeEvent : ShowEventFragment() {
     override fun editEvent() {
         val bundle = Bundle()
         bundle.putInt(
-            ITEM_ID_PARAM_EVENTID,
+            MainActivity.FRAGMENT_EXTRA_TITLE_EVENTID,
             eventID
         )
         val ft = (context as MainActivity).supportFragmentManager.beginTransaction()

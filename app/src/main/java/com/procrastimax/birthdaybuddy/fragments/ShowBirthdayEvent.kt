@@ -222,7 +222,7 @@ class ShowBirthdayEvent : ShowEventFragment() {
         val bundle = Bundle()
         //do this in more adaptable way
         bundle.putInt(
-            ITEM_ID_PARAM_EVENTID,
+            MainActivity.FRAGMENT_EXTRA_TITLE_EVENTID,
             eventID
         )
         val ft = (context as MainActivity).supportFragmentManager.beginTransaction()

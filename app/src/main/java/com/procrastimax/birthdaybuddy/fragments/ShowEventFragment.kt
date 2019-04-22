@@ -11,8 +11,6 @@ import com.procrastimax.birthdaybuddy.R
 import com.procrastimax.birthdaybuddy.handler.EventHandler
 import kotlinx.android.synthetic.main.activity_main.*
 
-const val ITEM_ID_PARAM_EVENTID = "EVENTID"
-
 abstract class ShowEventFragment : Fragment() {
 
     var eventID: Int = -1
@@ -51,7 +49,7 @@ abstract class ShowEventFragment : Fragment() {
             }
         } else if (arguments != null) {
             //position = arguments!!.getInt(ITEM_ID_PARAM)
-            eventID = arguments!!.getInt(ITEM_ID_PARAM_EVENTID)
+            eventID = arguments!!.getInt(MainActivity.FRAGMENT_EXTRA_TITLE_EVENTID)
             updateUI()
         }
     }

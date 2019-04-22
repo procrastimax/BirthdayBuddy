@@ -19,19 +19,12 @@ import java.io.ByteArrayOutputStream
 import java.io.File
 import java.io.FileOutputStream
 
-
-/**
- * TODO:
- * -> throw error/ catch case that wrong image path or image was deleted
- * -> or when the persistance of the uri access is denied/deleted
- */
 object BitmapHandler {
 
     private var bitmapFolder = "Bitmaps"
 
     private var drawable_map: MutableMap<Int, Bitmap> = emptyMap<Int, Bitmap>().toMutableMap()
 
-    //TODO: add scaling for screen density
     private val STANDARD_SCALING = 64 * 6
 
     /**
@@ -96,32 +89,6 @@ object BitmapHandler {
         this.drawable_map.clear()
         val bitmap_dir = context.getDir(this.bitmapFolder, Context.MODE_PRIVATE)
         bitmap_dir.deleteRecursively()
-    }
-
-    fun loadSquaredDrawable(index: Int, uri: Uri, context: Context, scale: Int = 64): Bitmap? {
-        val event = EventHandler.getEventByPosition(index)
-        if (event != null) {
-            if (event is EventBirthday && event.avatarImageUri != null) {
-                try {
-                    // we mostly dont need a try catch here, because this function should only be called after all drawables have once been loaded into the map
-                    //TODO: dont load whole bitmap, load compressed bitmap
-                    val bitmap =
-                        getScaledBitmap(MediaStore.Images.Media.getBitmap(context.contentResolver, uri), scale)
-                    return bitmap
-
-                } catch (e: Exception) {
-                    //when gallery file has been corrupted, or deleted, or renamed
-                    //delete reference in map and delete created bitmap in files
-                    e.printStackTrace()
-                    event.avatarImageUri = null
-                    EventHandler.changeEventAt(index, event, context, writeAfterChange = true)
-                    removeBitmap(index, context)
-                    showMissingImageAlertDialog(context)
-                    return null
-                }
-            }
-        }
-        return null
     }
 
     fun removeBitmap(id: Int, context: Context) {

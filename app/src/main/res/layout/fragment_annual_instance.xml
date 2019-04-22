@@ -35,7 +35,7 @@
                     android:layout_height="wrap_content"
                     android:id="@+id/edit_add_fragment_date_annual_event"
                     android:textSize="@dimen/larger_text_size"
-                    android:hint="@string/annual_event_instance_fragment_date_edit_hint"
+                    android:hint="@string/event_property_date"
                     style="@android:style/Widget.Holo.Light.Spinner"
                     app:layout_constraintStart_toStartOf="@+id/edit_add_fragment_name_annual_event"
                     android:layout_marginTop="16dp"
@@ -44,7 +44,7 @@
                     app:layout_constraintEnd_toStartOf="@+id/sw_is_year_given_annual_event"/>
 
             <Switch
-                    android:text="@string/sw_annual_event_date_with_year_title"
+                    android:text="@string/event_property_year"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:id="@+id/sw_is_year_given_annual_event"
@@ -80,7 +80,7 @@
                     app:layout_constraintTop_toBottomOf="@+id/edit_add_fragment_date_annual_event"
                     app:layout_constraintEnd_toEndOf="@+id/sw_is_year_given_annual_event"
                     app:layout_constraintStart_toStartOf="@+id/edit_add_fragment_date_annual_event"
-                    android:hint="@string/edit_annual_event_note_hint"/>
+                    android:hint="@string/event_property_note"/>
         </android.support.constraint.ConstraintLayout>
     </ScrollView>
 
