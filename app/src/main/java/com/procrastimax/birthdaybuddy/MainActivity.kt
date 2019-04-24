@@ -22,7 +22,6 @@ import kotlinx.android.synthetic.main.fragment_event_list.*
 import java.text.DateFormat
 import java.util.*
 
-
 /**
  *
  * TODO:
@@ -31,6 +30,7 @@ import java.util.*
  *  - BUG: app closes when switched to potrait mode and changing fragments
  *  - Import/Export, inform user about androids passive backup/ restoring
  *  - landscape mode, bottom up menu for image seleciton in eventbirthday doesnt scroll completely up
+ *  - when open softkeyboard, scroll scrollview up
  */
 class MainActivity : AppCompatActivity() {
 
