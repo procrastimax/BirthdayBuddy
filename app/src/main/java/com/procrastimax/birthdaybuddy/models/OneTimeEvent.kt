@@ -54,7 +54,6 @@ class OneTimeEvent(_eventdate: Date, var name: String) : EventDate(_eventdate) {
     }
 
     override fun getDaysUntil(): Int {
-
         //when its the same day in the same year, always return 0
         if (getYear() == Calendar.getInstance().get(Calendar.YEAR)) {
             if (getDayOfYear() == Calendar.getInstance().get(Calendar.DAY_OF_YEAR)) return 0
@@ -64,7 +63,7 @@ class OneTimeEvent(_eventdate: Date, var name: String) : EventDate(_eventdate) {
         futureDateCal.time = this.eventDate
 
         val dayDiff = futureDateCal.time.time - Calendar.getInstance().time.time
-        return (dayDiff / (1000 * 60 * 60 * 24)).toInt()
+        return (dayDiff / (1000 * 60 * 60 * 24)).toInt() + 1
     }
 
     /**
