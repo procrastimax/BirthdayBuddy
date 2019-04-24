@@ -161,13 +161,13 @@ object NotificationHandler {
                 println(" ---> AnnualEvent notification added on " + notificationTime + " with ID: " + event.eventID * reminderStart.value)
             }
             is OneTimeEvent -> {
-                val calNotif = Calendar.getInstance()
-                val calEvent = Calendar.getInstance()
 
-                calNotif.time = notificationTime
-                calEvent.time = event.eventDate
+                val dayAfterEvent = Calendar.getInstance().apply {
+                    time = event.eventDate
+                    this.set(Calendar.DAY_OF_YEAR, this.get(Calendar.DAY_OF_YEAR) + 1)
+                }
 
-                if (calNotif.get(Calendar.DAY_OF_YEAR) <= calEvent.get(Calendar.DAY_OF_YEAR)) {
+                if (notificationTime.before(dayAfterEvent.time)) {
                     alarmManager.setWindow(
                         AlarmManager.RTC_WAKEUP,
                         notificationTime.time,
