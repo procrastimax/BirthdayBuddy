@@ -339,8 +339,7 @@ class BirthdayInstanceFragment : EventInstanceFragment() {
             type = "image/*"
         }
         intent.addFlags(
-            Intent.FLAG_GRANT_READ_URI_PERMISSION or Intent.FLAG_GRANT_WRITE_URI_PERMISSION or Intent.FLAG_GRANT_PERSISTABLE_URI_PERMISSION
-                    or Intent.FLAG_GRANT_PREFIX_URI_PERMISSION
+            Intent.FLAG_GRANT_READ_URI_PERMISSION
         )
         if (intent.resolveActivity(context!!.packageManager) != null) {
             startActivityForResult(intent, REQUEST_IMAGE_GET)
@@ -356,10 +355,6 @@ class BirthdayInstanceFragment : EventInstanceFragment() {
         //handle image/photo file choosing
         if (requestCode == REQUEST_IMAGE_GET && resultCode == Activity.RESULT_OK) {
             val fullPhotoUri: Uri = data!!.data!!
-
-            val takeFlags =
-                (data.flags and (Intent.FLAG_GRANT_READ_URI_PERMISSION or Intent.FLAG_GRANT_WRITE_URI_PERMISSION))
-            context!!.contentResolver.takePersistableUriPermission(fullPhotoUri, takeFlags)
 
             Thread(Runnable {
                 val bitmap = MediaStore.Images.Media.getBitmap(context!!.contentResolver, fullPhotoUri)
