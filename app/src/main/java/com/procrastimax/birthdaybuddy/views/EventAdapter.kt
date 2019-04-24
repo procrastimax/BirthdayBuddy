@@ -1,6 +1,7 @@
 package com.procrastimax.birthdaybuddy.views
 
 import android.content.Context
+import android.graphics.Typeface
 import android.os.Bundle
 import android.support.v4.app.FragmentManager
 import android.support.v7.widget.RecyclerView
@@ -168,8 +169,20 @@ class EventAdapter(private val context: Context, private val fragmentManager: Fr
                             birthday.getPrettyShortStringWithoutYear()
 
                         //set days until
-                        holder.itemView.tv_birthday_event_item_days_until_value.text =
-                            birthday.getDaysUntil().toString()
+                        val daysUntil = birthday.getDaysUntil()
+                        if (daysUntil > 0) {
+                            holder.itemView.tv_birthday_event_item_days_until_value.text =
+                                daysUntil.toString()
+                            holder.itemView.tv_birthday_event_item_days_until_value.let {
+                                it.setTypeface(it.typeface, Typeface.NORMAL)
+                            }
+                        } else {
+                            holder.itemView.tv_birthday_event_item_days_until_value.text =
+                                context.getText(R.string.today)
+                            holder.itemView.tv_birthday_event_item_days_until_value.let {
+                                it.setTypeface(it.typeface, Typeface.BOLD)
+                            }
+                        }
 
                         //set years since, if specified
                         if (birthday.isYearGiven) {

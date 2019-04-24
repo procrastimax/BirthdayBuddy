@@ -5,6 +5,7 @@
     <string name="yes">Yes</string>
     <string name="no">No</string>
     <string name="apply">Apply</string>
+    <string name="today">today</string>
 
     <string-array name="month_names">
         <item>January</item>
@@ -36,22 +37,22 @@
 
     <!-- birthday event view -->
     <string name="alert_dialog_missing_avatar_img_title">Error when trying to load image!</string>
-    <string name="alert_dialog_missing_avatar_img_text">There occurred an error when trying to load an avatar image.\nMaybe you deleted or moved an existing image from your galleries?\nThe image reference is going to be deleted.</string>
+    <string name="alert_dialog_missing_avatar_img_text">There occurred an error when trying to load an avatar image.\nThe image reference is going to be deleted.</string>
 
     <!-- fragment add new birthday -->
     <string name="toolbar_title_add_birthday">Add new birthday</string>
     <string name="toolbar_title_edit_birthday">Edit birthday</string>
-    <string name="future_birthday_error">You can\'t add future birthdays!</string>
+    <string name="future_birthday_error">You can\'t add future birthdays!\nPlease only use birthday dates in the past.</string>
     <string name="birthday_instance_fragment_date_edit_hint">Date: %1$s</string>
     <string name="empty_fields_error_birthday">Make sure to fill fields forename, surname and date!</string>
-    <string name="person_added_notification">%1$s\'s birthday added</string>
-    <string name="person_changed_notification">%1$s\'s birthday changed</string>
-    <string name="person_deleted_notification">%1$s\'s birthday deleted</string>
+    <string name="person_added_notification">Birthday added</string>
+    <string name="person_changed_notification">Birthday changed</string>
+    <string name="person_deleted_notification">Birthday deleted</string>
     <string name="btn_birthday_delete">Delete birthday</string>
 
-    <string name="avatar_btn_clicked_menu_item_select_photo">Choose photo from gallery</string>
+    <string name="avatar_btn_clicked_menu_item_select_photo">Choose from gallery</string>
     <!--<string name="avatar_btn_clicked_menu_item_take_new_photo">Take new photo</string>-->
-    <string name="avatar_btn_clicked_menu_item_delete_photo">Delete photo</string>
+    <string name="avatar_btn_clicked_menu_item_delete_photo">Remove photo</string>
 
     <!-- alert dialog delete -->
     <string name="alert_dialog_title_delete_birthday">Delete birthday</string>
@@ -60,32 +61,36 @@
     <!-- fragment show birthday -->
     <string name="intent_share_chooser_title">Choose your app to share</string>
     <string name="person_show_date">Born on %1$s</string>
-    <string name="person_no_note">No note was made</string>
-    <string name="person_note">Note: %1$s</string>
+    <string name="person_days_until_today">The birthday of %1$s is today!</string>
+
     <plurals name="person_days_until">
-        <item quantity="one">%1$s\'s birthday is in %2$d day\non %3$s</item>
-        <item quantity="other">%1$s\'s birthday is in %2$d days\non %3$s</item>
+        <item quantity="one">The birthday of %1$s is in %2$d day\non %3$s</item>
+        <item quantity="other">The birthday of %1$s is in %2$d days\non %3$s</item>
     </plurals>
     <plurals name="person_years_old">
-        <item quantity="one">%1$s is getting %2$d year old</item>
-        <item quantity="other">%1$s is getting %2$d years old</item>
+        <item quantity="one">%1$s will be %2$d year old</item>
+        <item quantity="other">%1$s will be %2$d years old</item>
     </plurals>
 
     <!-- sharing strings birthday -->
     <string name="share_birthday_name">%1$s %2$s</string>
-    <string name="share_birthday_date_next">Has birthday on %1$s</string>
-    <string name="share_birthday_date_start">Was born on %1$s</string>
+    <string name="share_birthday_date_start">Born on: %1$s</string>
+    <string name="share_birthday_date_next">Next birthday: %1$s</string>
+    <string name="share_birthday_days_today">That\'s TODAY!</string>
     <plurals name="share_birthday_days">
         <item quantity="one">In %1$d day</item>
         <item quantity="other">In %1$d days</item>
     </plurals>
-    <plurals name="share_birthday_year">
-        <item quantity="one">Is %1$d year old</item>
-        <item quantity="other">Is %1$d years old</item>
-    </plurals>
+
+    <!-- birthday event notifications -->
+    <string name="notification_title_birthday">%1$s</string>
+    <string name="notification_content_birthday_future">The birthday of %1$s is in %2$d days.</string>
+    <string name="notification_content_birthday_tomorrow">The birthday of %1$s is tomorrow!</string>
+    <string name="notification_content_birthday_today">The birthday of %1$s is TODAY!</string>
+    <string name="notification_content_birthday_years_old">%1$s will be %2$d years old</string>
 
 
-    <!-- ANNUAL EVENT -->
+    <!--- ANNUAL EVENT -->
     <!-- annual event view -->
     <!-- fragment add new annual event -->
     <string name="toolbar_title_add_annual_event">Add new annual event</string>
@@ -184,9 +189,6 @@
     <string name="tv_notification_events_birthdays">Birthdays</string>
     <string name="tv_notification_events_one_time_events">One-Time events</string>
     <string name="tv_notification_events_annual_events">Annual events</string>
-
-    <string name="notification_title_birthday">%1$s</string>
-    <string name="notification_content_birthday">%1$s\'s birthday is in %2$d days.\n%3$s is getting %4$d years old</string>
 
     <string name="notification_title_annual">%1$s</string>
     <string name="notification_content_annual">%1$s is in %2$d days</string>

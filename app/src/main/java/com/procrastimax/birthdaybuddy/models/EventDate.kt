@@ -4,6 +4,7 @@ import com.procrastimax.birthdaybuddy.handler.IOHandler
 import java.text.DateFormat
 import java.text.SimpleDateFormat
 import java.util.*
+import java.util.concurrent.TimeUnit
 
 /**
  * A model class to provide basic event data.
@@ -105,10 +106,18 @@ open class EventDate(var eventDate: Date) : Comparable<EventDate> {
      * @return Int
      */
     open fun getDaysUntil(): Int {
-        if (getDayOfYear() == Calendar.getInstance().get(Calendar.DAY_OF_YEAR)) return 0
-        val dateInCurrentTimeContext = dateToCurrentTimeContext(this.eventDate)
-        val dayDiff = dateInCurrentTimeContext.time - EventDate.normalizeDate(Calendar.getInstance().time).time
-        return (dayDiff / (1000 * 60 * 60 * 24)).toInt() + 1
+        return if (getDayOfYear() > Calendar.getInstance().get(Calendar.DAY_OF_YEAR)) {
+            getDayOfYear() - Calendar.getInstance().get(Calendar.DAY_OF_YEAR)
+
+        } else if (getDayOfYear() < Calendar.getInstance().get(Calendar.DAY_OF_YEAR)) {
+            val nextYear = Calendar.getInstance()
+            nextYear.time = eventDate
+            nextYear.set(Calendar.YEAR, Calendar.getInstance().get(Calendar.YEAR) + 1)
+            return TimeUnit.MILLISECONDS.toDays(nextYear.timeInMillis - Calendar.getInstance().timeInMillis).toInt() + 1
+
+        } else {
+            0
+        }
     }
 
     fun getYear(): Int {

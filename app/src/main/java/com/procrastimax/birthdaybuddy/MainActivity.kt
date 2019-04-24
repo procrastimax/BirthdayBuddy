@@ -59,7 +59,7 @@ class MainActivity : AppCompatActivity() {
 
             EventHandler.addEvent(
                 EventBirthday(
-                    EventDate.parseStringToDate("06.02.00", DateFormat.SHORT, Locale.GERMAN),
+                    EventDate.parseStringToDate("06.02.19", DateFormat.SHORT, Locale.GERMAN),
                     "Procrastimax",
                     "Dev",
                     false

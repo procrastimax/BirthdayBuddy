@@ -35,7 +35,8 @@
                 android:textSize="24sp"
                 android:textStyle="bold"
                 android:layout_marginEnd="16dp"
-                app:layout_constraintEnd_toEndOf="parent"/>
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"/>
 
         <TextView
                 android:text="surname"
@@ -47,7 +48,8 @@
                 android:layout_marginTop="8dp"
                 android:textSize="24sp"
                 app:layout_constraintEnd_toEndOf="parent"
-                android:layout_marginEnd="16dp"/>
+                android:layout_marginEnd="16dp"
+                app:layout_constraintHorizontal_bias="0.0"/>
 
         <TextView
                 android:text="date"
@@ -59,7 +61,8 @@
                 android:layout_marginTop="16dp"
                 android:textSize="18sp"
                 app:layout_constraintEnd_toEndOf="parent"
-                android:layout_marginEnd="16dp"/>
+                android:layout_marginEnd="16dp"
+                app:layout_constraintHorizontal_bias="0.0"/>
 
         <TextView
                 android:text="note"
@@ -73,7 +76,8 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
                 android:layout_marginBottom="8dp"
-                android:layout_marginEnd="16dp"/>
+                android:layout_marginEnd="16dp"
+                app:layout_constraintHorizontal_bias="0.0"/>
 
         <TextView
                 android:text="days"
@@ -85,7 +89,8 @@
                 app:layout_constraintTop_toBottomOf="@+id/tv_show_birthday_date"
                 android:textSize="18sp"
                 app:layout_constraintEnd_toEndOf="parent"
-                android:layout_marginEnd="16dp"/>
+                android:layout_marginEnd="16dp"
+                app:layout_constraintHorizontal_bias="0.0"/>
 
         <TextView
                 android:text="years"
@@ -97,7 +102,8 @@
                 app:layout_constraintStart_toStartOf="@+id/tv_show_birthday_days"
                 android:textSize="18sp"
                 app:layout_constraintEnd_toEndOf="parent"
-                android:layout_marginEnd="16dp"/>
+                android:layout_marginEnd="16dp"
+                app:layout_constraintHorizontal_bias="0.0"/>
 
     </android.support.constraint.ConstraintLayout>
 </android.widget.ScrollView>

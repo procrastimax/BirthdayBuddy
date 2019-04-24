@@ -237,7 +237,7 @@ object IOHandler {
         sharedPrefEdit.apply()
     }
 
-    fun clearSharedPrefEventData(){
+    fun clearSharedPrefEventData() {
         val sharedPrefEdit = sharedPrefEventData.edit()
         sharedPrefEdit.clear()
     }

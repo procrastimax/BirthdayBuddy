@@ -63,7 +63,7 @@ class OneTimeEvent(_eventdate: Date, var name: String) : EventDate(_eventdate) {
         futureDateCal.time = this.eventDate
 
         val dayDiff = futureDateCal.time.time - Calendar.getInstance().time.time
-        return (dayDiff / (1000 * 60 * 60 * 24)).toInt() + 1
+        return (dayDiff / (1000 * 60 * 60 * 24)).toInt()
     }
 
     /**

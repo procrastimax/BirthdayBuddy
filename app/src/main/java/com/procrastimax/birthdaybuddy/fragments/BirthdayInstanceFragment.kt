@@ -3,6 +3,7 @@ package com.procrastimax.birthdaybuddy.fragments
 import android.app.Activity
 import android.app.AlertDialog
 import android.app.DatePickerDialog
+import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
@@ -172,6 +173,12 @@ class BirthdayInstanceFragment : EventInstanceFragment() {
             EventHandler.getEventToEventIndex(eventID)?.let { birthday ->
                 if (birthday is EventBirthday) {
                     this.eventDate = birthday.eventDate
+                    if (this.eventDate.after(Calendar.getInstance().time)) {
+                        val cal = Calendar.getInstance()
+                        cal.time = this.eventDate
+                        cal.set(Calendar.YEAR, Calendar.getInstance().get(Calendar.YEAR) - 1)
+                        this.eventDate = cal.time
+                    }
                     if (birthday.isYearGiven) {
                         edit_date.text = EventDate.parseDateToString(this.eventDate, DateFormat.DEFAULT)
                     } else {
@@ -210,7 +217,7 @@ class BirthdayInstanceFragment : EventInstanceFragment() {
                             // delete birthday on positive button
                             Snackbar.make(
                                 view,
-                                resources.getString(R.string.person_deleted_notification, edit_forename.text),
+                                resources.getString(R.string.person_deleted_notification),
                                 Snackbar.LENGTH_LONG
                             )
                                 .setAction(R.string.undo, View.OnClickListener {
@@ -306,7 +313,11 @@ class BirthdayInstanceFragment : EventInstanceFragment() {
             if (edit_date.text.isNotBlank()) {
                 //year is given
                 if (isChecked) {
-                    edit_date.text = EventDate.parseDateToString(this.eventDate, DateFormat.DEFAULT)
+                    val lastYear = Calendar.getInstance().apply {
+                        time = eventDate
+                        set(Calendar.YEAR, Calendar.getInstance().get(Calendar.YEAR) - 1)
+                    }
+                    edit_date.text = EventDate.parseDateToString(lastYear.time, DateFormat.DEFAULT)
 
                     //year is not given
                 } else {
@@ -422,7 +433,7 @@ class BirthdayInstanceFragment : EventInstanceFragment() {
                 EventHandler.addEvent(birthday, this.context!!, true)
                 Snackbar.make(
                     view!!,
-                    context!!.resources.getString(R.string.person_added_notification, forename),
+                    context!!.resources.getString(R.string.person_added_notification),
                     Snackbar.LENGTH_LONG
                 ).show()
                 closeBtnPressed()
@@ -434,7 +445,7 @@ class BirthdayInstanceFragment : EventInstanceFragment() {
                         EventHandler.changeEventAt(eventID, birthday, context!!, true)
                         Snackbar.make(
                             view!!,
-                            context!!.resources.getString(R.string.person_changed_notification, forename),
+                            context!!.resources.getString(R.string.person_changed_notification),
                             Snackbar.LENGTH_LONG
                         ).show()
                     }
@@ -479,11 +490,7 @@ class BirthdayInstanceFragment : EventInstanceFragment() {
                     c.set(Calendar.DAY_OF_MONTH, dayOfMonth)
 
                     if (c.time.after(Calendar.getInstance().time) && showYear) {
-                        Toast.makeText(
-                            view.context,
-                            context!!.resources.getText(R.string.future_birthday_error),
-                            Toast.LENGTH_LONG
-                        ).show()
+                        showFutureDateErrorToast(view.context)
                     } else {
                         this.eventDate = c.time
                         if (showYear) {
@@ -499,6 +506,14 @@ class BirthdayInstanceFragment : EventInstanceFragment() {
                 day
             )
         dpd.show()
+    }
+
+    private fun showFutureDateErrorToast(context: Context) {
+        Toast.makeText(
+            context,
+            context.resources.getText(R.string.future_birthday_error),
+            Toast.LENGTH_LONG
+        ).show()
     }
 
     companion object {

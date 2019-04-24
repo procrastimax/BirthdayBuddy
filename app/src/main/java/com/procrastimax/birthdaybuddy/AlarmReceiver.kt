@@ -134,27 +134,18 @@ class AlarmReceiver : BroadcastReceiver() {
                 val builder = NotificationCompat.Builder(context, NotificationHandler.CHANNEL_ID)
                     //TODO: set small icon to app icon
                     .setSmallIcon(R.drawable.ic_launcher_foreground)
-                    .setContentText(
-                        context.getString(
-                            R.string.notification_content_birthday,
-                            event.forename,
-                            event.getDaysUntil(),
-                            event.forename,
-                            event.getYearsSince()
-                        )
-                    )
                     .setContentTitle(
                         context.getString(
                             R.string.notification_title_birthday,
                             "${event.forename} ${event.surname}"
                         )
                     )
-                    //TODO: add longer detailed text
                     .setPriority(NotificationCompat.PRIORITY_MAX)
                     // Set the intent that will fire when the user taps the notification
                     .setContentIntent(pendingIntent)
                     .setAutoCancel(true)
                     .setStyle(NotificationCompat.BigTextStyle())
+                    .setContentText(buildBirthdayNotificaitonBodyText(context, event))
                     .setLargeIcon(bitmap)
 
                 if (!IOHandler.getBooleanFromKey(IOHandler.SharedPrefKeys.key_isNotificationVibrationOnBirthday)!!) {
@@ -178,9 +169,8 @@ class AlarmReceiver : BroadcastReceiver() {
                 with(notificationManager) {
                     notify(notificationID, builder.build())
                 }
-
-                // ANNUAL EVENT
             }
+            // ANNUAL EVENT
             is AnnualEvent -> {
 
                 var defaults = Notification.DEFAULT_ALL
@@ -286,6 +276,41 @@ class AlarmReceiver : BroadcastReceiver() {
                 }
             }
         }
+    }
+
+    private fun buildBirthdayNotificaitonBodyText(context: Context, birthday: EventBirthday): String {
+        var returnString: String = ""
+        when (birthday.getDaysUntil()) {
+            //today
+            0 -> {
+                returnString = context.resources.getString(
+                    R.string.notification_content_birthday_today,
+                    birthday.getNicknameOrForename()
+                )
+            }
+            //tomorrow
+            1 -> {
+                returnString = context.resources.getString(
+                    R.string.notification_content_birthday_tomorrow,
+                    birthday.getNicknameOrForename()
+                )
+            }
+            else -> {
+                returnString = context.resources.getString(
+                    R.string.notification_content_birthday_future,
+                    birthday.getNicknameOrForename(),
+                    birthday.getDaysUntil()
+                )
+            }
+        }
+        if (birthday.isYearGiven) {
+            returnString += "\n${context.resources.getString(
+                R.string.notification_content_birthday_years_old,
+                birthday.getNicknameOrForename(),
+                birthday.getYearsSince() + 1
+            )}"
+        }
+        return returnString
     }
 
     private fun getLightColor(event: EventDate, context: Context): Int? {

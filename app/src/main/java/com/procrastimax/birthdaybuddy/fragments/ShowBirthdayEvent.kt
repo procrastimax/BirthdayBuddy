@@ -81,7 +81,7 @@ class ShowBirthdayEvent : ShowEventFragment() {
                     tv_show_birthday_years_old.text = resources.getQuantityString(
                         R.plurals.person_years_old,
                         birthdayEvent.getYearsSince() + 1,
-                        birthdayEvent.forename,
+                        birthdayEvent.getNicknameOrForename(),
                         birthdayEvent.getYearsSince() + 1
                     )
 
@@ -93,35 +93,44 @@ class ShowBirthdayEvent : ShowEventFragment() {
                 tv_show_birthday_date.text = context!!.resources.getString(R.string.person_show_date, date)
 
                 //show adapted string for 1 day, not 1 days
-                if (birthdayEvent.getDaysUntil() == 1) {
-                    tv_show_birthday_days.text =
-                        resources.getQuantityString(
-                            R.plurals.person_days_until,
-                            birthdayEvent.getDaysUntil(),
-                            birthdayEvent.forename,
-                            birthdayEvent.getDaysUntil(),
-                            EventDate.parseDateToString(
-                                EventDate.dateToCurrentTimeContext(birthdayEvent.eventDate),
-                                DateFormat.FULL
-                            )
+                when (birthdayEvent.getDaysUntil()) {
+                    0 -> {
+                        tv_show_birthday_days.text = resources.getString(
+                            R.string.person_days_until_today,
+                            birthdayEvent.getNicknameOrForename()
                         )
-                } else {
-                    tv_show_birthday_days.text =
-                        resources.getQuantityString(
-                            R.plurals.person_days_until,
-                            birthdayEvent.getDaysUntil(),
-                            birthdayEvent.forename,
-                            birthdayEvent.getDaysUntil(),
-                            EventDate.parseDateToString(
-                                EventDate.dateToCurrentTimeContext(birthdayEvent.eventDate),
-                                DateFormat.FULL
+                    }
+                    1 -> {
+                        tv_show_birthday_days.text =
+                            resources.getQuantityString(
+                                R.plurals.person_days_until,
+                                birthdayEvent.getDaysUntil(),
+                                birthdayEvent.getNicknameOrForename(),
+                                birthdayEvent.getDaysUntil(),
+                                EventDate.parseDateToString(
+                                    EventDate.dateToCurrentTimeContext(birthdayEvent.eventDate),
+                                    DateFormat.FULL
+                                )
                             )
-                        )
+                    }
+                    else -> {
+                        tv_show_birthday_days.text =
+                            resources.getQuantityString(
+                                R.plurals.person_days_until,
+                                birthdayEvent.getDaysUntil(),
+                                birthdayEvent.getNicknameOrForename(),
+                                birthdayEvent.getDaysUntil(),
+                                EventDate.parseDateToString(
+                                    EventDate.dateToCurrentTimeContext(birthdayEvent.eventDate),
+                                    DateFormat.FULL
+                                )
+                            )
+                    }
                 }
 
                 if (!birthdayEvent.note.isNullOrBlank()) {
                     this.tv_show_birthday_note.text =
-                        context!!.resources.getString(R.string.person_note, birthdayEvent.note)
+                        "${resources.getString(R.string.event_property_note)}: ${birthdayEvent.note}"
                     this.tv_show_birthday_note.setTextColor(ContextCompat.getColor(context!!, R.color.darkGrey))
                 } else {
                     this.tv_show_birthday_note.visibility = TextView.GONE
@@ -171,12 +180,24 @@ class ShowBirthdayEvent : ShowEventFragment() {
             if (birthday is EventBirthday) {
                 val intent = Intent(Intent.ACTION_SEND)
                 intent.type = "text/plain"
-                var shareBirthdayMsg: String
-                // forename/ surname
-                shareBirthdayMsg =
-                    context!!.resources.getString(
-                        R.string.share_birthday_name, birthday, birthday.surname
+                var shareBirthdayMsg =
+                    if (birthday.nickname != null) {
+                        context!!.resources.getString(
+                            R.string.share_birthday_name,
+                            "${birthday.forename} \"${birthday.nickname}\"",
+                            birthday.surname
+                        )
+                    } else {
+                        context!!.resources.getString(R.string.share_birthday_name, birthday.forename, birthday.surname)
+                    }
+
+                if (birthday.isYearGiven) {
+                    //date person was born
+                    shareBirthdayMsg += "\n" + context!!.resources.getString(
+                        R.string.share_birthday_date_start,
+                        EventDate.parseDateToString(birthday.eventDate, DateFormat.FULL)
                     )
+                }
 
                 //next birthday
                 shareBirthdayMsg += "\n" + context!!.resources.getString(
@@ -187,26 +208,31 @@ class ShowBirthdayEvent : ShowEventFragment() {
                     )
                 )
 
-                // in X days
-                shareBirthdayMsg += "\n" + context!!.resources.getQuantityString(
-                    R.plurals.share_birthday_days,
-                    birthday.getDaysUntil(),
-                    birthday.getDaysUntil()
-                )
-
-                if (birthday.isYearGiven) {
-                    //date person was born
+                val daysUntil = birthday.getDaysUntil()
+                if (daysUntil == 0) {
+                    //today
                     shareBirthdayMsg += "\n" + context!!.resources.getString(
-                        R.string.share_birthday_date_start,
-                        EventDate.parseDateToString(birthday.eventDate, DateFormat.FULL)
+                        R.string.share_birthday_days_today
                     )
-                    //person currently X years old
+                } else {
+                    // in X days
                     shareBirthdayMsg += "\n" + context!!.resources.getQuantityString(
-                        R.plurals.share_birthday_year,
-                        birthday.getYearsSince(),
-                        birthday.getYearsSince()
+                        R.plurals.share_birthday_days,
+                        daysUntil,
+                        daysUntil
                     )
                 }
+
+                if (birthday.isYearGiven) {
+                    //person will be years old
+                    shareBirthdayMsg += "\n" + context!!.resources.getQuantityString(
+                        R.plurals.person_years_old,
+                        birthday.getYearsSince() + 1,
+                        birthday.getNicknameOrForename(),
+                        birthday.getYearsSince() + 1
+                    )
+                }
+
                 intent.putExtra(Intent.EXTRA_TEXT, shareBirthdayMsg)
                 startActivity(
                     Intent.createChooser(

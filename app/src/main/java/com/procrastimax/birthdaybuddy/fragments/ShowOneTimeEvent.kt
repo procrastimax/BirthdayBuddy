@@ -57,7 +57,8 @@ class ShowOneTimeEvent : ShowEventFragment() {
                 }
 
                 if (!oneTimeEvent.note.isNullOrBlank()) {
-                    this.tv_show_one_time_event_note.text = "${context!!.resources.getText(R.string.event_property_note)}: ${oneTimeEvent.note}"
+                    this.tv_show_one_time_event_note.text =
+                        "${context!!.resources.getText(R.string.event_property_note)}: ${oneTimeEvent.note}"
                     this.tv_show_one_time_event_note.setTextColor(ContextCompat.getColor(context!!, R.color.darkGrey))
                 } else {
                     this.tv_show_one_time_event_note.visibility = TextView.GONE
