@@ -29,9 +29,4 @@
             android:id="@+id/fire_notification"
             app:showAsAction="never"
             android:title="fire notification"/>
-
-    <item
-            android:id="@+id/test_date"
-            app:showAsAction="never"
-            android:title="test date"/>
 </menu>

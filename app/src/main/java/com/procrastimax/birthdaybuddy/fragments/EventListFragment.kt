@@ -10,12 +10,10 @@ import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.view.*
 import android.widget.TextView
-import android.widget.Toast
 import com.procrastimax.birthdaybuddy.AlarmReceiver
 import com.procrastimax.birthdaybuddy.MainActivity
 import com.procrastimax.birthdaybuddy.R
 import com.procrastimax.birthdaybuddy.handler.EventHandler
-import com.procrastimax.birthdaybuddy.models.EventDate
 import com.procrastimax.birthdaybuddy.views.EventAdapter
 import com.procrastimax.birthdaybuddy.views.RecycleViewItemDivider
 import kotlinx.android.synthetic.main.activity_main.*
@@ -271,15 +269,6 @@ class EventListFragment : Fragment() {
                 intent.putExtra(MainActivity.FRAGMENT_EXTRA_TITLE_NOTIFICATIONID, event!!.eventID)
                 intent.putExtra(MainActivity.FRAGMENT_EXTRA_TITLE_EVENTID, event.eventID)
                 activity!!.sendBroadcast(intent)
-            }
-            R.id.test_date -> {
-                val cal = Calendar.getInstance()
-                Toast.makeText(
-                    context,
-                    EventDate.getLocalizedDayAndMonth(cal.time, Locale.GERMAN),
-                    Toast.LENGTH_SHORT
-                )
-                    .show()
             }
         }
         return super.onOptionsItemSelected(item)
