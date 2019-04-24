@@ -62,7 +62,7 @@ class ShowAnnualEvent : ShowEventFragment() {
 
                 if (!annualEvent.note.isNullOrBlank()) {
                     this.tv_show_annual_event_note.text =
-                        "${context!!.resources.getText(R.string.event_property_note)}: $annualEvent.note"
+                        "${context!!.resources.getText(R.string.event_property_note)}: ${annualEvent.note}"
                     this.tv_show_annual_event_note.setTextColor(ContextCompat.getColor(context!!, R.color.darkGrey))
                 } else {
                     this.tv_show_annual_event_note.visibility = TextView.GONE

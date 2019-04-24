@@ -21,6 +21,7 @@
                     android:layout_height="wrap_content"
                     android:inputType="textPersonName"
                     android:ems="10"
+                    android:maxLength="25"
                     android:id="@+id/edit_add_fragment_name_annual_event"
                     android:layout_marginEnd="8dp"
                     app:layout_constraintEnd_toEndOf="parent"
