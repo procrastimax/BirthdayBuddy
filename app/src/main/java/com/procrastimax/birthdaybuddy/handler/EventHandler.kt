@@ -237,8 +237,9 @@ object EventHandler {
             event_map.values.sortedWith(
                 compareBy(
                     { it.getDayOfYear() },
-                    { it.getMonth() },
-                    { it.getYear() })
+                    { it.getDayOfMonth() },
+                    { it.getYear() },
+                    { it.eventID })
             )
         } else {
             emptyList()
