@@ -24,7 +24,8 @@
                 android:textColor="@color/darkGrey"
                 android:textStyle="bold"
                 android:layout_marginEnd="16dp"
-                app:layout_constraintEnd_toEndOf="parent"/>
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"/>
 
         <TextView
                 android:text="date"
@@ -33,11 +34,12 @@
                 android:id="@+id/tv_show_one_time_event_date"
                 android:layout_marginTop="24dp"
                 app:layout_constraintTop_toBottomOf="@+id/tv_show_one_time_event_name"
-                app:layout_constraintStart_toStartOf="@+id/tv_show_one_time_event_name"
+                app:layout_constraintStart_toStartOf="parent"
                 android:textSize="@dimen/larger_text_size"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
-                android:layout_marginEnd="16dp"/>
+                android:layout_marginEnd="16dp"
+                android:layout_marginStart="16dp"/>
 
         <TextView
                 android:text="years"
@@ -46,11 +48,11 @@
                 android:id="@+id/tv_show_one_time_event_years"
                 android:layout_marginTop="24dp"
                 app:layout_constraintTop_toBottomOf="@+id/tv_show_one_time_event_date"
-                app:layout_constraintStart_toStartOf="@+id/tv_show_one_time_event_date"
                 android:textSize="@dimen/larger_text_size"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.0"
-                android:layout_marginEnd="16dp"/>
+                android:layout_marginEnd="16dp"
+                android:layout_marginStart="16dp"
+                app:layout_constraintStart_toStartOf="parent"/>
 
         <TextView
                 android:text="note"
@@ -59,12 +61,14 @@
                 android:id="@+id/tv_show_one_time_event_note"
                 android:layout_marginTop="24dp"
                 app:layout_constraintTop_toBottomOf="@+id/tv_show_one_time_event_years"
-                app:layout_constraintStart_toStartOf="@+id/tv_show_one_time_event_years"
                 android:textSize="@dimen/larger_text_size"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintBottom_toBottomOf="parent"
                 android:layout_marginBottom="8dp"
-                android:layout_marginEnd="16dp"/>
+                android:layout_marginEnd="16dp"
+                android:layout_marginStart="16dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                android:textAlignment="textStart"/>
     </android.support.constraint.ConstraintLayout>
 </ScrollView>

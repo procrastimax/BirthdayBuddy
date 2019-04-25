@@ -41,28 +41,53 @@ class ShowAnnualEvent : ShowEventFragment() {
                         EventDate.dateToCurrentTimeContext(annualEvent.eventDate),
                         DateFormat.FULL
                     )
+
                 if (annualEvent.hasStartYear) {
                     //show adapted string for first birthday of a person, 1 year, not 1 years
                     tv_show_annual_event_years.text = resources.getQuantityString(
                         R.plurals.annual_event_years,
-                        annualEvent.getYearsSince(),
-                        annualEvent.getYearsSince()
+                        annualEvent.getYearsSince() + 1,
+                        annualEvent.getYearsSince() + 1
                     )
 
+                    tv_show_annual_event_first_date.text = resources.getString(
+                        R.string.annual_event_start_date,
+                        EventDate.parseDateToString(
+                            annualEvent.eventDate,
+                            DateFormat.FULL
+                        )
+                    )
                 } else {
                     this.tv_show_annual_event_years.visibility = TextView.GONE
+                    this.tv_show_annual_event_first_date.visibility = TextView.GONE
                 }
 
-                tv_show_annual_event_date.text = resources.getQuantityString(
-                    R.plurals.annual_event_show_date,
-                    annualEvent.getDaysUntil(),
-                    annualEvent.getDaysUntil(),
-                    date
-                )
+                when (annualEvent.getDaysUntil()) {
+                    0 -> {
+                        tv_show_annual_event_date.text = resources.getString(
+                            R.string.annual_event_show_date_today,
+                            annualEvent.name
+                        )
+                    }
+                    1 -> {
+                        tv_show_annual_event_date.text = resources.getString(
+                            R.string.annual_event_show_date_tomorrow,
+                            date
+                        )
+                    }
+                    else -> {
+                        tv_show_annual_event_date.text = resources.getQuantityString(
+                            R.plurals.annual_event_show_date,
+                            annualEvent.getDaysUntil(),
+                            annualEvent.getDaysUntil(),
+                            date
+                        )
+                    }
+                }
 
                 if (!annualEvent.note.isNullOrBlank()) {
                     this.tv_show_annual_event_note.text =
-                        "${context!!.resources.getText(R.string.event_property_note)}: ${annualEvent.note}"
+                        "${context!!.resources.getString(R.string.event_property_note)}: ${annualEvent.note}"
                     this.tv_show_annual_event_note.setTextColor(ContextCompat.getColor(context!!, R.color.darkGrey))
                 } else {
                     this.tv_show_annual_event_note.visibility = TextView.GONE

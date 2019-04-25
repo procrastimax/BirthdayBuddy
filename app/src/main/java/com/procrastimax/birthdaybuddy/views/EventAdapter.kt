@@ -173,15 +173,15 @@ class EventAdapter(private val context: Context, private val fragmentManager: Fr
                         if (daysUntil > 0) {
                             holder.itemView.tv_birthday_event_item_days_until_value.text =
                                 daysUntil.toString()
-                            holder.itemView.tv_birthday_event_item_days_until_value.let {
+                            /*holder.itemView.tv_birthday_event_item_days_until_value.let {
                                 it.setTypeface(it.typeface, Typeface.NORMAL)
-                            }
+                            }*/
                         } else {
                             holder.itemView.tv_birthday_event_item_days_until_value.text =
                                 context.getText(R.string.today)
-                            holder.itemView.tv_birthday_event_item_days_until_value.let {
+                            /*holder.itemView.tv_birthday_event_item_days_until_value.let {
                                 it.setTypeface(it.typeface, Typeface.BOLD)
-                            }
+                            }*/
                         }
 
                         //set years since, if specified
@@ -292,8 +292,12 @@ class EventAdapter(private val context: Context, private val fragmentManager: Fr
                             annualEvent.getPrettyShortStringWithoutYear()
 
                         //set days until
-                        holder.itemView.tv_days_until_annual_value.text =
-                            EventHandler.getList()[position].getDaysUntil().toString()
+                        val daysUntil = EventHandler.getList()[position].getDaysUntil()
+                        if (daysUntil == 0) {
+                            holder.itemView.tv_days_until_annual_value.text = context.resources.getText(R.string.today)
+                        } else {
+                            holder.itemView.tv_days_until_annual_value.text = daysUntil.toString()
+                        }
 
                         //set years since, if specified
                         if (annualEvent.hasStartYear) {

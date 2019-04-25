@@ -168,6 +168,13 @@ class AnnualEventInstanceFragment : EventInstanceFragment() {
             if (edit_date.text.isNotBlank()) {
                 //year is given
                 if (isChecked) {
+                    val cal = Calendar.getInstance()
+                    if (this.eventDate.after(cal.time)) {
+                        cal.time = this.eventDate
+                        cal.set(Calendar.YEAR, Calendar.getInstance().get(Calendar.YEAR) - 1)
+                        this.eventDate = cal.time
+                    }
+
                     edit_date.text = EventDate.parseDateToString(this.eventDate, DateFormat.DEFAULT)
                     //year is not given
                 } else {
@@ -216,7 +223,7 @@ class AnnualEventInstanceFragment : EventInstanceFragment() {
                     if (c.time.after(Calendar.getInstance().time) && switch_isYearGiven.isChecked) {
                         Toast.makeText(
                             view.context,
-                            context!!.resources.getText(R.string.future_birthday_error),
+                            context!!.resources.getText(R.string.future_annual_event_error),
                             Toast.LENGTH_LONG
                         ).show()
                     } else {

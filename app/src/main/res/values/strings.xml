@@ -108,20 +108,22 @@
     <string name="alert_dialog_body_message_annual_event">Are you sure you want to delete this annual event?</string>
 
     <!-- fragment show birthday -->
+    <string name="annual_event_start_date">Started on %1$s</string>
+    <string name="annual_event_show_date_tomorrow">Next time tomorrow\non %1$s!</string>
+    <string name="annual_event_show_date_today">%1$s is TODAY!</string>
     <plurals name="annual_event_show_date">
-        <item quantity="one">That\'s in %1$d day\non %2$s</item>
-        <item quantity="other">That\'s in %1$d days\non %2$s</item>
+        <item quantity="one">Next time in %1$d day\non %2$s</item>
+        <item quantity="other">Next time in %1$d days\non %2$s</item>
     </plurals>
-    <string name="annual_event_no_note">No note was made</string>
     <plurals name="annual_event_years">
-        <item quantity="one">Since %1$d year</item>
-        <item quantity="other">Since %1$d years</item>
+        <item quantity="one">For the first time!</item>
+        <item quantity="other">For the %1$d. time!</item>
     </plurals>
 
     <!-- sharing strings annual event -->
     <string name="share_annual_event_name">%1$s</string>
-    <string name="share_annual_event_date_next">Next on %1$s</string>
-    <string name="share_annual_event_date_start">First on %1$s</string>
+    <string name="share_annual_event_date_next">Next on: %1$s</string>
+    <string name="share_annual_event_date_start">First on: %1$s</string>
     <plurals name="share_annual_event_days">
         <item quantity="one">In %1$d day</item>
         <item quantity="other">In %1$d days</item>
@@ -131,6 +133,15 @@
         <item quantity="other">Since %1$d years</item>
     </plurals>
 
+    <!-- annual_event notifications -->
+    <string name="notification_title_annual_event">%1$s</string>
+    <string name="notification_content_annual_event_future">%1$s is in %2$d days</string>
+    <string name="notification_content_annual_event_tomorrow">%1$s is tomorrow!</string>
+    <string name="notification_content_annual_event_today">%1$s is TODAY!</string>
+    <plurals name="notification_content_annual_event_times">
+        <item quantity="one">For the first time since starting</item>
+        <item quantity="other">For the %1$s. time since starting</item>
+    </plurals>
 
     <!-- ONE TIME EVENT -->
     <!-- one time event view -->
@@ -189,9 +200,6 @@
     <string name="tv_notification_events_birthdays">Birthdays</string>
     <string name="tv_notification_events_one_time_events">One-Time events</string>
     <string name="tv_notification_events_annual_events">Annual events</string>
-
-    <string name="notification_title_annual">%1$s</string>
-    <string name="notification_content_annual">%1$s is in %2$d days</string>
 
     <string name="notification_title_one_time">%1$s</string>
     <string name="notification_content_one_time">%1$s is in %2$d days</string>

@@ -8,8 +8,8 @@
                                              android:background="@drawable/ripple_recycler_view_item">
 
     <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
             android:tint="@color/brightGrey"
             app:srcCompat="@drawable/ic_date_range"
             android:id="@+id/iv_annual_item"

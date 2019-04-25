@@ -132,7 +132,6 @@ class AlarmReceiver : BroadcastReceiver() {
                 var defaults = Notification.DEFAULT_ALL
 
                 val builder = NotificationCompat.Builder(context, NotificationHandler.CHANNEL_ID)
-                    //TODO: set small icon to app icon
                     .setSmallIcon(R.drawable.ic_launcher_foreground)
                     .setContentTitle(
                         context.getString(
@@ -145,7 +144,7 @@ class AlarmReceiver : BroadcastReceiver() {
                     .setContentIntent(pendingIntent)
                     .setAutoCancel(true)
                     .setStyle(NotificationCompat.BigTextStyle())
-                    .setContentText(buildBirthdayNotificaitonBodyText(context, event))
+                    .setContentText(builEventBirthdayNotificationBodyText(context, event))
                     .setLargeIcon(bitmap)
 
                 if (!IOHandler.getBooleanFromKey(IOHandler.SharedPrefKeys.key_isNotificationVibrationOnBirthday)!!) {
@@ -175,25 +174,19 @@ class AlarmReceiver : BroadcastReceiver() {
 
                 var defaults = Notification.DEFAULT_ALL
 
-                val drawable = ContextCompat.getDrawable(context, R.drawable.ic_birthday_person)
+                val drawable = ContextCompat.getDrawable(context, R.drawable.ic_date_range)
                 val bitmap = BitmapHandler.drawableToBitmap(drawable!!)
 
                 val builder = NotificationCompat.Builder(context, NotificationHandler.CHANNEL_ID)
                     .setSmallIcon(R.drawable.ic_launcher_foreground)
-                    .setContentText(
-                        context.getString(
-                            R.string.notification_content_annual,
-                            event.name,
-                            event.getDaysUntil()
-                        )
-                    )
                     .setContentTitle(
                         context.getString(
-                            R.string.notification_title_annual,
+                            R.string.notification_title_annual_event,
                             event.name
                         )
                     )
-                    //TODO: add longer detailed text
+                    .setStyle(NotificationCompat.BigTextStyle())
+                    .setContentText(buildAnnualEventNotificationBodyText(context, event))
                     .setPriority(NotificationCompat.PRIORITY_MAX)
                     // Set the intent that will fire when the user taps the notification
                     .setContentIntent(pendingIntent)
@@ -278,7 +271,7 @@ class AlarmReceiver : BroadcastReceiver() {
         }
     }
 
-    private fun buildBirthdayNotificaitonBodyText(context: Context, birthday: EventBirthday): String {
+    private fun builEventBirthdayNotificationBodyText(context: Context, birthday: EventBirthday): String {
         var returnString: String = ""
         when (birthday.getDaysUntil()) {
             //today
@@ -308,6 +301,41 @@ class AlarmReceiver : BroadcastReceiver() {
                 R.string.notification_content_birthday_years_old,
                 birthday.getNicknameOrForename(),
                 birthday.getYearsSince() + 1
+            )}"
+        }
+        return returnString
+    }
+
+    private fun buildAnnualEventNotificationBodyText(context: Context, annualEvent: AnnualEvent): String {
+        var returnString: String = ""
+        when (annualEvent.getDaysUntil()) {
+            //today
+            0 -> {
+                returnString += context.resources.getString(
+                    R.string.notification_content_annual_event_today,
+                    annualEvent.name
+                )
+            }
+            //tomorrow
+            1 -> {
+                returnString += context.resources.getString(
+                    R.string.notification_content_annual_event_tomorrow,
+                    annualEvent.name
+                )
+            }
+            else -> {
+                returnString += context.resources.getString(
+                    R.string.notification_content_annual_event_future,
+                    annualEvent.name,
+                    annualEvent.getDaysUntil()
+                )
+            }
+        }
+        if (annualEvent.hasStartYear) {
+            returnString += "\n${context.resources.getQuantityString(
+                R.plurals.notification_content_annual_event_times,
+                annualEvent.getYearsSince() + 1,
+                annualEvent.getYearsSince() + 1
             )}"
         }
         return returnString
