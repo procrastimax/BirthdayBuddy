@@ -6,6 +6,8 @@
     <string name="no">No</string>
     <string name="apply">Apply</string>
     <string name="today">today</string>
+    <string name="noEntries">No entries :(</string>
+    <string name="noEventsFound">No events found:(</string>
 
     <string-array name="month_names">
         <item>January</item>

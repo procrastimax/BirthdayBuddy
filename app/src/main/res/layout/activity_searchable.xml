@@ -36,7 +36,7 @@
         </android.support.v7.widget.RecyclerView>
 
         <TextView
-                android:text="No events found :("
+                android:text="@string/noEventsFound"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/tv_failed_search"

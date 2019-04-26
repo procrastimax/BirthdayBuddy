@@ -7,7 +7,7 @@
                                              tools:context=".fragments.EventListFragment">
 
     <TextView
-            android:text="No entries  :("
+            android:text="@string/noEntries"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/tv_no_events"
@@ -35,7 +35,6 @@
             android:clipToPadding="false"
             android:nestedScrollingEnabled="false"
             app:layout_constraintVertical_bias="0.0"/>
-
 
     <android.support.constraint.ConstraintLayout
             android:layout_width="wrap_content"
@@ -77,7 +76,6 @@
                 android:layout_marginEnd="8dp"
                 android:layout_marginBottom="8dp"/>
     </android.support.constraint.ConstraintLayout>
-
 
     <android.support.constraint.ConstraintLayout
             android:layout_width="wrap_content"
