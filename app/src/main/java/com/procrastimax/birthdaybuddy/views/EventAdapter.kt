@@ -1,7 +1,6 @@
 package com.procrastimax.birthdaybuddy.views
 
 import android.content.Context
-import android.graphics.Typeface
 import android.os.Bundle
 import android.support.v4.app.FragmentManager
 import android.support.v7.widget.RecyclerView
@@ -366,7 +365,13 @@ class EventAdapter(private val context: Context, private val fragmentManager: Fr
                             oneTimeEvent.getPrettyShortStringWithoutYear()
 
                         //set days until
-                        holder.itemView.tv_days_until_one_time_value.text = oneTimeEvent.getDaysUntil().toString()
+                        val daysUntil = oneTimeEvent.getDaysUntil()
+                        if (daysUntil == 0) {
+                            holder.itemView.tv_days_until_one_time_value.text =
+                                context.resources.getText(R.string.today)
+                        } else {
+                            holder.itemView.tv_days_until_one_time_value.text = oneTimeEvent.getDaysUntil().toString()
+                        }
 
                         //set name
                         holder.itemView.tv_one_time_item_name.text = oneTimeEvent.name

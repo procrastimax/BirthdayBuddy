@@ -221,25 +221,19 @@ class AlarmReceiver : BroadcastReceiver() {
 
                 var defaults = Notification.DEFAULT_ALL
 
-                val drawable = ContextCompat.getDrawable(context, R.drawable.ic_birthday_person)
+                val drawable = ContextCompat.getDrawable(context, R.drawable.ic_looks_one_time)
                 val bitmap = BitmapHandler.drawableToBitmap(drawable!!)
 
                 val builder = NotificationCompat.Builder(context, NotificationHandler.CHANNEL_ID)
                     .setSmallIcon(R.drawable.ic_launcher_foreground)
-                    .setContentText(
-                        context.getString(
-                            R.string.notification_content_one_time,
-                            event.name,
-                            event.getDaysUntil()
-                        )
-                    )
                     .setContentTitle(
                         context.getString(
-                            R.string.notification_title_one_time,
+                            R.string.notification_title_one_time_event,
                             event.name
                         )
                     )
-                    //TODO: add longer detailed text
+                    .setStyle(NotificationCompat.BigTextStyle())
+                    .setContentText(buildOneTimeEventNotificationBodyText(context, event))
                     .setPriority(NotificationCompat.PRIORITY_MAX)
                     // Set the intent that will fire when the user taps the notification
                     .setContentIntent(pendingIntent)
@@ -272,7 +266,7 @@ class AlarmReceiver : BroadcastReceiver() {
     }
 
     private fun builEventBirthdayNotificationBodyText(context: Context, birthday: EventBirthday): String {
-        var returnString: String = ""
+        var returnString = ""
         when (birthday.getDaysUntil()) {
             //today
             0 -> {
@@ -307,7 +301,7 @@ class AlarmReceiver : BroadcastReceiver() {
     }
 
     private fun buildAnnualEventNotificationBodyText(context: Context, annualEvent: AnnualEvent): String {
-        var returnString: String = ""
+        var returnString = ""
         when (annualEvent.getDaysUntil()) {
             //today
             0 -> {
@@ -337,6 +331,34 @@ class AlarmReceiver : BroadcastReceiver() {
                 annualEvent.getYearsSince() + 1,
                 annualEvent.getYearsSince() + 1
             )}"
+        }
+        return returnString
+    }
+
+    private fun buildOneTimeEventNotificationBodyText(context: Context, oneTimeEvent: OneTimeEvent): String {
+        var returnString = ""
+        when (oneTimeEvent.getDaysUntil()) {
+            //today
+            0 -> {
+                returnString += context.resources.getString(
+                    R.string.notification_content_one_time_event_today,
+                    oneTimeEvent.name
+                )
+            }
+            //tomorrow
+            1 -> {
+                returnString += context.resources.getString(
+                    R.string.notification_content_one_time_event_tomorrow,
+                    oneTimeEvent.name
+                )
+            }
+            else -> {
+                returnString += context.resources.getString(
+                    R.string.notification_content_one_time_event_future,
+                    oneTimeEvent.name,
+                    oneTimeEvent.getDaysUntil()
+                )
+            }
         }
         return returnString
     }

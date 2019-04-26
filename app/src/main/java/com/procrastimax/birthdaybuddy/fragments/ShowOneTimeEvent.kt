@@ -39,12 +39,22 @@ class ShowOneTimeEvent : ShowEventFragment() {
 
                 val daysUntil = oneTimeEvent.getDaysUntil()
 
-                this.tv_show_one_time_event_date.text = resources.getQuantityString(
-                    R.plurals.one_time_event_show_date,
-                    daysUntil,
-                    daysUntil,
-                    date
-                )
+                when (daysUntil) {
+                    0 -> {
+                        this.tv_show_one_time_event_date.text = resources.getString(R.string.one_time_event_today)
+                    }
+                    1 -> {
+                        this.tv_show_one_time_event_date.text = resources.getString(R.string.one_time_event_tomorrow)
+                    }
+                    else -> {
+                        this.tv_show_one_time_event_date.text = resources.getQuantityString(
+                            R.plurals.one_time_event_show_date,
+                            daysUntil,
+                            daysUntil,
+                            date
+                        )
+                    }
+                }
 
                 if (oneTimeEvent.getYearsUntil() > 0) {
                     this.tv_show_one_time_event_years.text = resources.getQuantityString(
@@ -92,18 +102,25 @@ class ShowOneTimeEvent : ShowEventFragment() {
                     )
                 )
 
-                //annual_event days until
-                share_Annual_Event_Msg += "\n" + context!!.resources.getQuantityString(
-                    R.plurals.share_one_time_event_days,
-                    oneTimeEvent.getDaysUntil(),
-                    oneTimeEvent.getDaysUntil()
-                )
-
                 if (oneTimeEvent.getYearsUntil() > 0) {
                     share_Annual_Event_Msg += "\n" + context!!.resources.getQuantityString(
                         R.plurals.share_one_time_event_year,
                         oneTimeEvent.getYearsUntil(),
                         oneTimeEvent.getYearsUntil()
+                    )
+                }
+
+                //annual_event days until
+                val daysUntil = oneTimeEvent.getDaysUntil()
+                share_Annual_Event_Msg += if (daysUntil == 0) {
+                    "\n" + context!!.resources.getString(
+                        R.string.share_one_time_event_days_today
+                    )
+                } else {
+                    "\n" + context!!.resources.getQuantityString(
+                        R.plurals.share_one_time_event_days,
+                        daysUntil,
+                        daysUntil
                     )
                 }
 

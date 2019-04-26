@@ -78,8 +78,10 @@ class OneTimeEventInstanceFragment : EventInstanceFragment() {
             EventHandler.getEventToEventIndex(eventID)?.let { oneTimeEvent ->
                 if (oneTimeEvent is OneTimeEvent) {
 
+                    this.eventDate = oneTimeEvent.eventDate
+
                     edit_date.text = EventDate.parseDateToString(
-                        EventDate.dateToCurrentTimeContext(oneTimeEvent.eventDate),
+                        this.eventDate,
                         DateFormat.FULL
                     )
 
@@ -178,6 +180,7 @@ class OneTimeEventInstanceFragment : EventInstanceFragment() {
                         Toast.LENGTH_LONG
                     ).show()
                 } else {
+                    this.eventDate = c.time
                     edit_date.text = EventDate.parseDateToString(c.time, DateFormat.FULL)
                 }
             }, year, month, day)
@@ -200,7 +203,7 @@ class OneTimeEventInstanceFragment : EventInstanceFragment() {
             )
                 .show()
         } else {
-            val oneTimeEvent = OneTimeEvent(EventDate.parseStringToDate(date, DateFormat.FULL), name)
+            val oneTimeEvent = OneTimeEvent(this.eventDate, name)
 
             if (note.isNotBlank()) {
                 oneTimeEvent.note = note

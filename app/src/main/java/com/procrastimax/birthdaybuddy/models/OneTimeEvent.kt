@@ -53,19 +53,6 @@ class OneTimeEvent(_eventdate: Date, var name: String) : EventDate(_eventdate) {
         return (futureDateCal.get(Calendar.YEAR) - Calendar.getInstance().get(Calendar.YEAR))
     }
 
-    override fun getDaysUntil(): Int {
-        //when its the same day in the same year, always return 0
-        if (getYear() == Calendar.getInstance().get(Calendar.YEAR)) {
-            if (getDayOfYear() == Calendar.getInstance().get(Calendar.DAY_OF_YEAR)) return 0
-        }
-
-        val futureDateCal = Calendar.getInstance()
-        futureDateCal.time = this.eventDate
-
-        val dayDiff = futureDateCal.time.time - Calendar.getInstance().time.time
-        return (dayDiff / (1000 * 60 * 60 * 24)).toInt() + 1
-    }
-
     /**
      * dateIsExpired returns false of the date is in the future
      * If this returns true, the event expired
