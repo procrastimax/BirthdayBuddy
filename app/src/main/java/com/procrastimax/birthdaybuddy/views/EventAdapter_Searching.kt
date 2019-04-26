@@ -142,8 +142,13 @@ class EventAdapter_Searching(private val context: Context, private val eventIDs:
                             birthdayEvent.getPrettyShortStringWithoutYear()
 
                         //set days until
-                        holder.itemView.tv_birthday_event_item_days_until_value.text =
-                            birthdayEvent.getDaysUntil().toString()
+                        val daysUntil = birthdayEvent.getDaysUntil()
+                        if (daysUntil == 0) {
+                            holder.itemView.tv_birthday_event_item_days_until_value.text =
+                                context.resources.getText(R.string.today)
+                        } else {
+                            holder.itemView.tv_birthday_event_item_days_until_value.text = birthdayEvent.getDaysUntil().toString()
+                        }
 
                         //set years since, if specified
                         if (birthdayEvent.isYearGiven) {
@@ -256,8 +261,13 @@ class EventAdapter_Searching(private val context: Context, private val eventIDs:
                         holder.itemView.tv_annual_item_date_value.text = date
 
                         //set days until
-                        val days_until = annualEvent.getDaysUntil().toString()
-                        holder.itemView.tv_days_until_annual_value.text = days_until
+                        val daysUntil = annualEvent.getDaysUntil()
+                        if (daysUntil == 0) {
+                            holder.itemView.tv_days_until_annual_value.text =
+                                context.resources.getText(R.string.today)
+                        } else {
+                            holder.itemView.tv_days_until_annual_value.text = annualEvent.getDaysUntil().toString()
+                        }
 
                         //set years since, if specified
                         if (annualEvent.hasStartYear) {
@@ -308,7 +318,7 @@ class EventAdapter_Searching(private val context: Context, private val eventIDs:
                         //set date
                         holder.itemView.tv_one_time_item_date_value.text =
                             oneTimeEvent.getPrettyShortStringWithoutYear()
-                        
+
                         //set days until
                         val daysUntil = oneTimeEvent.getDaysUntil()
                         if (daysUntil == 0) {

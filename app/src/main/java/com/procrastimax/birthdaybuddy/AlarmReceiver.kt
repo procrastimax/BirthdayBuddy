@@ -60,7 +60,6 @@ class AlarmReceiver : BroadcastReceiver() {
         intent.putExtra(MainActivity.FRAGMENT_EXTRA_TITLE_EVENTID, eventID)
         intent.putExtra(MainActivity.FRAGMENT_EXTRA_TITLE_TYPE, MainActivity.FRAGMENT_TYPE_SHOW)
         intent.putExtra(MainActivity.FRAGMENT_EXTRA_TITLE_LOADALL, true)
-        //TODO: play with these settings, see mainactivity for more todos
         intent.action = (notificationID * 3).toString()
         intent.flags = Intent.FLAG_ACTIVITY_SINGLE_TOP
         val pendingIntent: PendingIntent =
