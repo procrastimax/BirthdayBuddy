@@ -147,7 +147,8 @@ class EventAdapter_Searching(private val context: Context, private val eventIDs:
                             holder.itemView.tv_birthday_event_item_days_until_value.text =
                                 context.resources.getText(R.string.today)
                         } else {
-                            holder.itemView.tv_birthday_event_item_days_until_value.text = birthdayEvent.getDaysUntil().toString()
+                            holder.itemView.tv_birthday_event_item_days_until_value.text =
+                                birthdayEvent.getDaysUntil().toString()
                         }
 
                         //set years since, if specified
@@ -200,8 +201,15 @@ class EventAdapter_Searching(private val context: Context, private val eventIDs:
                                         birthdayEvent.eventID
                                     )
                                 )
+                                holder.itemView.iv_birthday_event_item_image.clearColorFilter()
                             } else {
                                 holder.itemView.iv_birthday_event_item_image.setImageResource(R.drawable.ic_birthday_person)
+                                holder.itemView.iv_birthday_event_item_image.setColorFilter(
+                                    EventHandler.getColorByID(
+                                        context,
+                                        birthdayEvent.eventID
+                                    )
+                                )
                             }
                         } else {
                             //called from search activity
@@ -211,8 +219,15 @@ class EventAdapter_Searching(private val context: Context, private val eventIDs:
                                         birthdayEvent.eventID
                                     )
                                 )
+                                //holder.itemView.iv_birthday_event_item_image.clearColorFilter()
                             } else {
                                 holder.itemView.iv_birthday_event_item_image.setImageResource(R.drawable.ic_birthday_person)
+                                /*holder.itemView.iv_birthday_event_item_image.setColorFilter(
+                                    EventHandler.getColorByID(
+                                        context,
+                                        birthdayEvent.eventID
+                                    )
+                                )*/
                             }
                         }
                     }

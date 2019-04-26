@@ -1,8 +1,10 @@
 package com.procrastimax.birthdaybuddy.views
 
 import android.content.Context
+import android.graphics.Typeface
 import android.os.Bundle
 import android.support.v4.app.FragmentManager
+import android.support.v4.content.ContextCompat
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
@@ -21,6 +23,7 @@ import kotlinx.android.synthetic.main.annual_event_item_view.view.*
 import kotlinx.android.synthetic.main.birthday_event_item_view.view.*
 import kotlinx.android.synthetic.main.event_month_view_divider.view.*
 import kotlinx.android.synthetic.main.one_time_event_item_view.view.*
+import java.util.*
 
 
 class EventAdapter(private val context: Context, private val fragmentManager: FragmentManager) :
@@ -110,8 +113,34 @@ class EventAdapter(private val context: Context, private val fragmentManager: Fr
 
             //EventMonthDividerViewHolder
             0 -> {
-                holder.itemView.tv_divider_description_month.text =
-                    (EventHandler.getList()[position] as MonthDivider).month_name
+                EventHandler.getList()[position].let { monthDivider ->
+                    if (monthDivider is MonthDivider) {
+                        holder.itemView.tv_divider_description_month.text =
+                            monthDivider.month_name
+                        //if month divider is current month, set monthdivider text to bold
+                        if (monthDivider.getMonth() == Calendar.getInstance().get(Calendar.MONTH)) {
+                            holder.itemView.tv_divider_description_month.apply {
+                                setTypeface(this.typeface, Typeface.BOLD)
+                            }
+                            holder.itemView.constraint_layout_month_divider.setBackgroundColor(
+                                ContextCompat.getColor(
+                                    context,
+                                    R.color.highlight_flat_blue
+                                )
+                            )
+                        } else {
+                            holder.itemView.tv_divider_description_month.apply {
+                                setTypeface(this.typeface, Typeface.NORMAL)
+                            }
+                            holder.itemView.constraint_layout_month_divider.setBackgroundColor(
+                                ContextCompat.getColor(
+                                    context,
+                                    R.color.colorPrimaryDark
+                                )
+                            )
+                        }
+                    }
+                }
             }
 
             //BirthdayEventViewHolder
@@ -172,15 +201,9 @@ class EventAdapter(private val context: Context, private val fragmentManager: Fr
                         if (daysUntil > 0) {
                             holder.itemView.tv_birthday_event_item_days_until_value.text =
                                 daysUntil.toString()
-                            /*holder.itemView.tv_birthday_event_item_days_until_value.let {
-                                it.setTypeface(it.typeface, Typeface.NORMAL)
-                            }*/
                         } else {
                             holder.itemView.tv_birthday_event_item_days_until_value.text =
                                 context.getText(R.string.today)
-                            /*holder.itemView.tv_birthday_event_item_days_until_value.let {
-                                it.setTypeface(it.typeface, Typeface.BOLD)
-                            }*/
                         }
 
                         //set years since, if specified
@@ -221,7 +244,7 @@ class EventAdapter(private val context: Context, private val fragmentManager: Fr
 
                         val avatarUri = birthday.avatarImageUri
 
-                        //when called from mainactivity
+                        //when context is mainactivity
                         if (context is MainActivity) {
                             if (avatarUri != null && !(context).isLoading) {
                                 holder.itemView.iv_birthday_event_item_image.setImageBitmap(
@@ -229,8 +252,15 @@ class EventAdapter(private val context: Context, private val fragmentManager: Fr
                                         birthday.eventID
                                     )
                                 )
+                                //holder.itemView.iv_birthday_event_item_image.clearColorFilter()
                             } else {
                                 holder.itemView.iv_birthday_event_item_image.setImageResource(R.drawable.ic_birthday_person)
+                                /*holder.itemView.iv_birthday_event_item_image.setColorFilter(
+                                    EventHandler.getColorByID(
+                                        context,
+                                        birthday.eventID
+                                    )
+                                )*/
                             }
                         }
                     }

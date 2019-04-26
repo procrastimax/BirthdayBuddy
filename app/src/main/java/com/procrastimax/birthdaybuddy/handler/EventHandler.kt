@@ -2,7 +2,9 @@ package com.procrastimax.birthdaybuddy.handler
 
 import android.content.Context
 import android.net.Uri
+import android.support.v4.content.ContextCompat
 import com.procrastimax.birthdaybuddy.MainActivity
+import com.procrastimax.birthdaybuddy.R
 import com.procrastimax.birthdaybuddy.models.EventBirthday
 import com.procrastimax.birthdaybuddy.models.EventDate
 import com.procrastimax.birthdaybuddy.models.MonthDivider
@@ -243,6 +245,32 @@ object EventHandler {
             )
         } else {
             emptyList()
+        }
+    }
+
+    fun getColorByID(context: Context, id: Int): Int {
+        return when (id.rem(6)) {
+            0 -> {
+                ContextCompat.getColor(context, R.color.flat_red)
+            }
+            1 -> {
+                ContextCompat.getColor(context, R.color.flat_blue)
+            }
+            2 -> {
+                ContextCompat.getColor(context, R.color.flat_green)
+            }
+            3 -> {
+                ContextCompat.getColor(context, R.color.flat_violett)
+            }
+            4 -> {
+                ContextCompat.getColor(context, R.color.flat_orange)
+            }
+            5 -> {
+                ContextCompat.getColor(context, R.color.flat_turkise)
+            }
+            else -> {
+                ContextCompat.getColor(context, R.color.flat_red)
+            }
         }
     }
 }
