@@ -26,7 +26,8 @@
 
     <TextView
             android:text="@string/event_property_forename"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
+            android:gravity="center|start"
             android:layout_height="wrap_content"
             android:textSize="@dimen/smaller_text_size"
             android:id="@+id/tv_birthday_event_item_forename"
@@ -35,12 +36,15 @@
             android:layout_marginStart="8dp"
             android:textColor="@color/darkGrey"
             android:textStyle="bold"
-            android:layout_marginTop="4dp"/>
+            android:layout_marginTop="4dp"
+            android:layout_marginEnd="8dp"
+            app:layout_constraintEnd_toStartOf="@+id/tv_birthday_event_item_date_value"/>
 
     <TextView
             android:text="@string/event_property_nickname"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="0dp"
+            android:gravity="center|start"
+            android:layout_height="0dp"
             android:id="@+id/tv_birthday_event_item_nickname"
             android:textColor="@color/darkGrey"
             android:textStyle="bold"
@@ -49,11 +53,15 @@
             app:layout_constraintBottom_toBottomOf="@+id/iv_birthday_event_item_image"
             app:layout_constraintStart_toEndOf="@+id/iv_birthday_event_item_image"
             android:visibility="gone"
-            android:layout_marginStart="8dp"/>
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
+            app:layout_constraintEnd_toStartOf="@+id/tv_birthday_event_item_date_value"
+            android:layout_marginTop="4dp"/>
 
     <TextView
             android:text="@string/event_property_surname"
-            android:layout_width="wrap_content"
+            android:gravity="center|start"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:id="@+id/tv_birthday_event_item_surname"
             app:layout_constraintBottom_toBottomOf="@+id/iv_birthday_event_item_image"
@@ -83,17 +91,19 @@
             app:layout_constraintEnd_toStartOf="@+id/tv_birthday_event_item_years_since_title"
             android:layout_marginEnd="16dp"
             android:textColor="@color/brightGrey"
-            app:layout_constraintTop_toTopOf="@+id/tv_birthday_event_item_date_title"/>
+            app:layout_constraintTop_toTopOf="@+id/iv_birthday_event_item_image"
+            android:layout_marginTop="4dp"/>
 
     <TextView
             android:text="@string/event_property_years"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/tv_birthday_event_item_years_since_title"
-            app:layout_constraintTop_toTopOf="@+id/tv_birthday_event_item_days_until_title"
+            app:layout_constraintTop_toTopOf="@+id/iv_birthday_event_item_image"
             app:layout_constraintEnd_toEndOf="parent"
             android:textColor="@color/brightGrey"
-            android:layout_marginEnd="16dp"/>
+            android:layout_marginEnd="16dp"
+            android:layout_marginTop="4dp"/>
 
     <TextView
             android:layout_width="wrap_content"
@@ -104,7 +114,10 @@
             android:textColor="@color/darkGrey"
             android:textSize="@dimen/smaller_text_size"
             app:layout_constraintBottom_toBottomOf="@+id/iv_birthday_event_item_image"
-            android:layout_marginBottom="4dp"/>
+            android:layout_marginBottom="4dp"
+            android:text="06.02"
+            app:layout_constraintTop_toBottomOf="@+id/tv_birthday_event_item_date_title"
+            app:layout_constraintVertical_bias="1.0"/>
 
     <TextView
             android:layout_width="wrap_content"
@@ -114,7 +127,11 @@
             app:layout_constraintStart_toStartOf="@+id/tv_birthday_event_item_days_until_title"
             android:textColor="@color/darkGrey"
             android:textSize="@dimen/smaller_text_size"
-            app:layout_constraintBottom_toBottomOf="@+id/tv_birthday_event_item_date_value"/>
+            app:layout_constraintBottom_toBottomOf="@+id/iv_birthday_event_item_image"
+            android:text="2"
+            app:layout_constraintTop_toBottomOf="@+id/tv_birthday_event_item_days_until_title"
+            app:layout_constraintVertical_bias="1.0"
+            android:layout_marginBottom="4dp"/>
 
     <TextView
             android:layout_width="wrap_content"
@@ -124,5 +141,9 @@
             app:layout_constraintEnd_toEndOf="@+id/tv_birthday_event_item_years_since_title"
             android:textColor="@color/darkGrey"
             android:textSize="@dimen/smaller_text_size"
-            app:layout_constraintBottom_toBottomOf="@+id/tv_birthday_event_item_days_until_value"/>
+            app:layout_constraintBottom_toBottomOf="@+id/iv_birthday_event_item_image"
+            android:text="2"
+            app:layout_constraintTop_toBottomOf="@+id/tv_birthday_event_item_years_since_title"
+            android:layout_marginBottom="4dp"
+            app:layout_constraintVertical_bias="1.0"/>
 </android.support.constraint.ConstraintLayout>

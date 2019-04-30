@@ -343,6 +343,9 @@ class EventAdapter_Searching(private val context: Context, private val eventIDs:
                             holder.itemView.tv_days_until_one_time_value.text = oneTimeEvent.getDaysUntil().toString()
                         }
 
+                        //set years until
+                        holder.itemView.tv_years_one_time_value.text = oneTimeEvent.getYearsUntil().toString()
+
                         //set name
                         holder.itemView.tv_one_time_item_name.text = oneTimeEvent.name
                     }

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
                                              xmlns:app="http://schemas.android.com/apk/res-auto"
+                                             xmlns:tools="http://schemas.android.com/tools"
                                              android:layout_width="match_parent"
                                              android:layout_height="wrap_content"
                                              android:focusable="true"
@@ -21,16 +22,20 @@
             app:layout_constraintBottom_toBottomOf="parent"/>
 
     <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
             android:id="@+id/tv_one_time_item_name"
+            android:text="name"
             app:layout_constraintTop_toTopOf="@+id/iv_one_time_item"
             app:layout_constraintBottom_toBottomOf="@+id/iv_one_time_item"
             app:layout_constraintStart_toEndOf="@+id/iv_one_time_item"
             android:layout_marginStart="8dp"
+            android:gravity="center|start"
             android:textSize="14sp"
             android:textColor="@color/darkGrey"
-            android:textStyle="bold"/>
+            android:textStyle="bold"
+            app:layout_constraintEnd_toStartOf="@+id/tv_one_time_item_date_value"
+            android:layout_marginEnd="8dp"/>
 
     <TextView
             android:text="@string/event_property_date"
@@ -39,7 +44,7 @@
             android:id="@+id/tv_one_time_item_date_title"
             android:textColor="@color/brightGrey"
             app:layout_constraintEnd_toStartOf="@+id/tv_days_until_one_time_title"
-            android:layout_marginEnd="32dp"
+            android:layout_marginEnd="16dp"
             app:layout_constraintTop_toTopOf="@+id/iv_one_time_item"
             android:layout_marginTop="4dp"/>
 
@@ -49,10 +54,10 @@
             android:layout_height="wrap_content"
             android:id="@+id/tv_days_until_one_time_title"
             android:textColor="@color/brightGrey"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginEnd="16dp"
             app:layout_constraintTop_toTopOf="@+id/iv_one_time_item"
-            android:layout_marginTop="4dp"/>
+            android:layout_marginTop="4dp"
+            android:layout_marginEnd="16dp"
+            app:layout_constraintEnd_toStartOf="@+id/tv_one_time_item_years_value"/>
 
     <TextView
             android:layout_width="wrap_content"
@@ -62,8 +67,10 @@
             app:layout_constraintEnd_toEndOf="@+id/tv_one_time_item_date_title"
             app:layout_constraintStart_toStartOf="@+id/tv_one_time_item_date_title"
             app:layout_constraintTop_toBottomOf="@+id/tv_one_time_item_date_title"
-            android:layout_marginTop="4dp"
-            app:layout_constraintBottom_toBottomOf="@+id/iv_one_time_item"/>
+            app:layout_constraintBottom_toBottomOf="@+id/iv_one_time_item"
+            android:layout_marginBottom="4dp"
+            android:text="06.02"
+            app:layout_constraintVertical_bias="1.0"/>
 
 
     <TextView
@@ -74,7 +81,33 @@
             app:layout_constraintStart_toStartOf="@+id/tv_days_until_one_time_title"
             app:layout_constraintTop_toBottomOf="@+id/tv_days_until_one_time_title"
             android:textColor="@color/darkGrey"
-            android:layout_marginTop="8dp"
             app:layout_constraintBottom_toBottomOf="@+id/iv_one_time_item"
-            android:layout_marginBottom="4dp"/>
+            android:layout_marginBottom="4dp"
+            android:text="2"
+            app:layout_constraintVertical_bias="1.0"/>
+
+    <TextView
+            android:text="@string/event_property_years"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/tv_one_time_item_years_value"
+            android:textColor="@color/brightGrey"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginEnd="16dp"
+            android:layout_marginTop="4dp"
+            app:layout_constraintTop_toTopOf="@+id/iv_one_time_item"/>
+
+
+    <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/tv_years_one_time_value"
+            android:textColor="@color/darkGrey"
+            app:layout_constraintStart_toStartOf="@+id/tv_one_time_item_years_value"
+            app:layout_constraintEnd_toEndOf="@+id/tv_one_time_item_years_value"
+            app:layout_constraintBottom_toBottomOf="@+id/iv_one_time_item"
+            android:layout_marginBottom="4dp"
+            android:text="2"
+            app:layout_constraintTop_toBottomOf="@+id/tv_one_time_item_years_value"
+            app:layout_constraintVertical_bias="1.0"/>
 </android.support.constraint.ConstraintLayout>
