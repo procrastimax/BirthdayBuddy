@@ -66,8 +66,8 @@
     <string name="person_days_until_today">The birthday of %1$s is today!</string>
 
     <plurals name="person_days_until">
-        <item quantity="one">The birthday of %1$s is in %2$d day\non %3$s</item>
-        <item quantity="other">The birthday of %1$s is in %2$d days\non %3$s</item>
+        <item quantity="one">Next birthday of %1$s is in %2$d day\non %3$s</item>
+        <item quantity="other">Next birthday of %1$s is in %2$d days\non %3$s</item>
     </plurals>
     <plurals name="person_years_old">
         <item quantity="one">%1$s will be %2$d year old</item>
@@ -228,6 +228,7 @@
 
     <!-- Searching -->
     <string name="searching_toolbar_title">Search for: %1$s</string>
+    <string name="searching_toolbar_actionview_hint">Search</string>
 
     <!-- main menu -->
     <string name="main_menu_item_settings">Settings</string>

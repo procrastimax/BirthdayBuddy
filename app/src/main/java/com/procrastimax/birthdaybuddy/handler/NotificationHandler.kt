@@ -139,8 +139,6 @@ object NotificationHandler {
             PendingIntent.getBroadcast(context, event.eventID * reminderStart.value, intent, 0)
 
         val notificationTime = getNotificationTime(event, reminderStart)
-
-        //TODO: set window values higher
         when (event) {
             is EventBirthday -> {
                 alarmManager.setWindow(
@@ -266,7 +264,6 @@ object NotificationHandler {
         events.forEach {
             if (it !is MonthDivider) {
                 scheduleNotification(context, it)
-                Log.i("NotificationHandler", "Notification - " + it.toString())
             }
         }
     }
