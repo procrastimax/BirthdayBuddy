@@ -29,4 +29,9 @@
             android:id="@+id/fire_notification"
             app:showAsAction="never"
             android:title="fire notification"/>
+
+    <item
+            android:id="@+id/cancel_notification"
+            app:showAsAction="never"
+            android:title="cancel last event notification"/>
 </menu>

@@ -25,13 +25,13 @@ class OneTimeEvent(_eventdate: Date, var name: String) : EventDate(_eventdate) {
 
     var note: String? = null
         get() {
-            if (field == null) {
-                return null
+            return if (field == null) {
+                null
             } else if (field!!.isEmpty() || field!!.isBlank()) {
                 Log.d("OneTimeEvent", "member var NOTE is blank/empty when trying to access it")
-                return null
+                null
             } else {
-                return field!!.trim()
+                field!!.trim()
             }
         }
         set(value) {

@@ -4,7 +4,6 @@ import android.app.AlarmManager
 import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
-import android.util.Log
 import com.procrastimax.birthdaybuddy.AlarmReceiver
 import com.procrastimax.birthdaybuddy.MainActivity
 import com.procrastimax.birthdaybuddy.models.*
@@ -19,9 +18,9 @@ object NotificationHandler {
     //prime factors bc. of math and so
     enum class ReminderStart(val value: Int) {
         EVENTDATE(1),
-        DAY(3),
-        WEEK(5),
-        MONTH(7)
+        DAY(2),
+        WEEK(3),
+        MONTH(4)
     }
 
     fun scheduleNotification(context: Context, event: EventDate) {
@@ -129,14 +128,21 @@ object NotificationHandler {
         }
     }
 
+    private fun getRequestCode(event: EventDate, reminderStart: ReminderStart): Int {
+        return (event.toString() + reminderStart.value.toString()).hashCode()
+    }
+
     private fun setUpNotification(context: Context, event: EventDate, reminderStart: ReminderStart) {
         val intent = Intent(context, AlarmReceiver::class.java)
         val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
         intent.putExtra(MainActivity.FRAGMENT_EXTRA_TITLE_EVENTSTRING, event.toString())
-        intent.putExtra(MainActivity.FRAGMENT_EXTRA_TITLE_NOTIFICATIONID, event.eventID * reminderStart.value)
+        intent.putExtra(
+            MainActivity.FRAGMENT_EXTRA_TITLE_NOTIFICATIONID,
+            getRequestCode(event, reminderStart)
+        )
         intent.putExtra(MainActivity.FRAGMENT_EXTRA_TITLE_EVENTID, event.eventID)
         val alarmIntent =
-            PendingIntent.getBroadcast(context, event.eventID * reminderStart.value, intent, 0)
+            PendingIntent.getBroadcast(context, getRequestCode(event, reminderStart), intent, 0)
 
         val notificationTime = getNotificationTime(event, reminderStart)
         when (event) {
@@ -147,7 +153,11 @@ object NotificationHandler {
                     NOTIFICATION_WINDOW_LENGTH,
                     alarmIntent
                 )
-                println(" ---> EventBirthday notification added on " + notificationTime + " with ID: " + event.eventID * reminderStart.value + " name: " + event.forename)
+                println(
+                    " ---> EventBirthday notification added on " + notificationTime + " with ID: " +
+                            getRequestCode(event, reminderStart)
+                            + " name: " + event.forename
+                )
             }
             is AnnualEvent -> {
                 alarmManager.setWindow(
@@ -156,7 +166,10 @@ object NotificationHandler {
                     NOTIFICATION_WINDOW_LENGTH,
                     alarmIntent
                 )
-                println(" ---> AnnualEvent notification added on " + notificationTime + " with ID: " + event.eventID * reminderStart.value)
+                println(
+                    " ---> AnnualEvent notification added on " + notificationTime + " with ID: " +
+                            getRequestCode(event, reminderStart)
+                )
             }
             is OneTimeEvent -> {
 
@@ -172,7 +185,10 @@ object NotificationHandler {
                         NOTIFICATION_WINDOW_LENGTH,
                         alarmIntent
                     )
-                    println(" ---> OneTimeEvent notification added on " + notificationTime + " with ID: " + event.eventID * reminderStart.value)
+                    println(
+                        " ---> OneTimeEvent notification added on " + notificationTime + " with ID: " +
+                                getRequestCode(event, reminderStart)
+                    )
                 }
             }
         }
@@ -245,7 +261,7 @@ object NotificationHandler {
         for (it in ReminderStart.values()) {
             val intent = Intent(context, AlarmReceiver::class.java)
             val pendingIntent =
-                PendingIntent.getBroadcast(context, event.eventID * it.value, intent, PendingIntent.FLAG_NO_CREATE)
+                PendingIntent.getBroadcast(context, getRequestCode(event, it), intent, PendingIntent.FLAG_NO_CREATE)
 
             if (pendingIntent != null) {
                 val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager

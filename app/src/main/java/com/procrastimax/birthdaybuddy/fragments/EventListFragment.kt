@@ -14,6 +14,7 @@ import com.procrastimax.birthdaybuddy.AlarmReceiver
 import com.procrastimax.birthdaybuddy.MainActivity
 import com.procrastimax.birthdaybuddy.R
 import com.procrastimax.birthdaybuddy.handler.EventHandler
+import com.procrastimax.birthdaybuddy.handler.NotificationHandler
 import com.procrastimax.birthdaybuddy.views.EventAdapter
 import com.procrastimax.birthdaybuddy.views.RecycleViewItemDivider
 import kotlinx.android.synthetic.main.activity_main.*
@@ -269,6 +270,10 @@ class EventListFragment : Fragment() {
                 intent.putExtra(MainActivity.FRAGMENT_EXTRA_TITLE_NOTIFICATIONID, event!!.eventID)
                 intent.putExtra(MainActivity.FRAGMENT_EXTRA_TITLE_EVENTID, event.eventID)
                 activity!!.sendBroadcast(intent)
+            }
+            R.id.cancel_notification -> {
+                val event = EventHandler.getEventToEventIndex(EventHandler.getLastIndex())
+                NotificationHandler.cancelNotification(context!!, event!!)
             }
         }
         return super.onOptionsItemSelected(item)

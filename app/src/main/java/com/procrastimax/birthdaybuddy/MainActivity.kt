@@ -25,11 +25,9 @@ import java.util.*
 /**
  *
  * TODO:
- *  - workout different localizations, f.e. curently the dates include substrings for german locales like .substring(0..5) => obviously dont do this
- *  - dont show last seperation character in list view ( -> first point)
  *  - BUG: app closes when switched to potrait mode and changing fragments
- *  - Import/Export, inform user about androids passive backup/ restoring
  *  - landscape mode, bottom up menu for image seleciton in eventbirthday doesnt scroll completely up
+ *  - Import/Export, inform user about androids passive backup/ restoring
  *  - when open softkeyboard, scroll scrollview up
  */
 class MainActivity : AppCompatActivity() {
@@ -112,8 +110,6 @@ class MainActivity : AppCompatActivity() {
         }).start()
 
         if (intent != null) {
-            //TODO: when closing and open acitivty again, intent information stays the same, just null it??
-            //TODO: whats happens with multiple pending intents, do they change?
             if (intent?.getBooleanExtra(FRAGMENT_EXTRA_TITLE_LOADALL, false) == true) {
                 val eventID = intent?.getIntExtra(FRAGMENT_EXTRA_TITLE_EVENTID, -1)
                 val type = intent?.getStringExtra(FRAGMENT_EXTRA_TITLE_TYPE)

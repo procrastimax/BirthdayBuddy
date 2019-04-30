@@ -22,8 +22,8 @@ import com.procrastimax.birthdaybuddy.models.OneTimeEvent
 class AlarmReceiver : BroadcastReceiver() {
 
     override fun onReceive(context: Context?, intent: Intent?) {
-        //register IOHandler, really important, really
         if (context != null) {
+            //register IOHandler, really important, really
             IOHandler.registerIO(context)
 
             val event =
@@ -47,7 +47,8 @@ class AlarmReceiver : BroadcastReceiver() {
                 }
             }
 
-            //create new notification events for this event, except when its an onetimevent
+            //create new notification events for this event, except when its an onetime-event
+            //currently all notifications for a specific event get cancelled before new notifications are created, this may be ineffective but its simple (sorry)
             if (event != null && event !is OneTimeEvent) {
                 NotificationHandler.cancelNotification(context, event)
                 NotificationHandler.scheduleNotification(context, event)
@@ -60,7 +61,7 @@ class AlarmReceiver : BroadcastReceiver() {
         intent.putExtra(MainActivity.FRAGMENT_EXTRA_TITLE_EVENTID, eventID)
         intent.putExtra(MainActivity.FRAGMENT_EXTRA_TITLE_TYPE, MainActivity.FRAGMENT_TYPE_SHOW)
         intent.putExtra(MainActivity.FRAGMENT_EXTRA_TITLE_LOADALL, true)
-        intent.action = (notificationID * 3).toString()
+        intent.action = notificationID.toString()
         intent.flags = Intent.FLAG_ACTIVITY_SINGLE_TOP
         val pendingIntent: PendingIntent =
             PendingIntent.getActivity(context, notificationID, intent, PendingIntent.FLAG_UPDATE_CURRENT)
