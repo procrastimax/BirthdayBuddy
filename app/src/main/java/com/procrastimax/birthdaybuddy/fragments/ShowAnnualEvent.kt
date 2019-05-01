@@ -2,7 +2,6 @@ package com.procrastimax.birthdaybuddy.fragments
 
 import android.content.Intent
 import android.os.Bundle
-import android.support.v4.content.ContextCompat
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -88,7 +87,7 @@ class ShowAnnualEvent : ShowEventFragment() {
                 if (!annualEvent.note.isNullOrBlank()) {
                     this.tv_show_annual_event_note.text =
                         "${context!!.resources.getString(R.string.event_property_note)}: ${annualEvent.note}"
-                    this.tv_show_annual_event_note.setTextColor(ContextCompat.getColor(context!!, R.color.darkGrey))
+                    this.tv_show_annual_event_note.visibility = TextView.VISIBLE
                 } else {
                     this.tv_show_annual_event_note.visibility = TextView.GONE
                 }

@@ -147,7 +147,7 @@ class ShowBirthdayEvent : ShowEventFragment() {
                 if (!birthdayEvent.note.isNullOrBlank()) {
                     this.tv_show_birthday_note.text =
                         "${resources.getString(R.string.event_property_note)}: ${birthdayEvent.note}"
-                    this.tv_show_birthday_note.setTextColor(ContextCompat.getColor(context!!, R.color.darkGrey))
+                    this.tv_show_birthday_note.visibility = TextView.VISIBLE
                 } else {
                     this.tv_show_birthday_note.visibility = TextView.GONE
                 }
