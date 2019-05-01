@@ -13,16 +13,17 @@
             android:layout_alignParentEnd="true"
             android:layout_alignParentStart="true"
             android:layout_alignParentTop="true"
-            android:textColor="@color/colorPrimaryDark"
+            android:textColor="@color/textVeryDark"
             android:textSize="24sp"
-            app:layout_constraintStart_toEndOf="@+id/btn_edit_event_close"
             android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
+            android:textAlignment="center"
+            android:gravity="center"
+            android:text="Hier steht was"
             app:layout_constraintTop_toTopOf="@+id/btn_edit_event_close"
             app:layout_constraintBottom_toBottomOf="@+id/btn_edit_event_close"
-            android:layout_marginEnd="8dp"
+            app:layout_constraintStart_toEndOf="@+id/btn_edit_event_close"
             app:layout_constraintEnd_toStartOf="@+id/btn_edit_event_accept"
-            android:textAlignment="center"
-            android:text="Hier steht was"
             />
 
     <ImageView

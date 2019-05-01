@@ -14,7 +14,7 @@
             app:layout_constraintBottom_toBottomOf="@+id/iv_toolbar_show_event_back"
             app:layout_constraintHorizontal_bias="0.05"
             android:textSize="@dimen/larg_text_size"
-            android:textColor="@color/white"
+            android:textColor="@color/darkGrey"
             android:textStyle="bold"
             app:layout_constraintStart_toEndOf="@+id/iv_toolbar_show_event_back"
             app:layout_constraintEnd_toStartOf="@+id/iv_toolbar_show_event_share"

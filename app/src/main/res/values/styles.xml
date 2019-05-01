@@ -7,17 +7,9 @@
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
         <item name="actionOverflowButtonStyle">@style/BirthdayBuddyOverFlowButtonStyle</item>
-        <item name="android:windowTranslucentStatus">true</item>
-    </style>
-
-    <!-- Base application theme for searching activity -->
-    <style name="AppTheme_Searching" parent="Theme.AppCompat.Light.DarkActionBar">
-        <!-- Customize your theme here. -->
-        <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorAccent">@color/colorAccent</item>
-        <item name="windowActionBar">false</item>
-        <item name="windowNoTitle">true</item>
+        <item name="android:windowDrawsSystemBarBackgrounds">true</item>
+        <item name="android:textColorPrimary">@color/darkGrey</item>
+        <item name="android:statusBarColor">@color/darkGrey</item>
     </style>
 
     <style name="AppTheme.NoActionBar">
@@ -25,12 +17,16 @@
         <item name="windowNoTitle">true</item>
     </style>
 
+    <style name="AppTheme.WhiteActionIconTint">
+        <item name="android:tint">@color/white</item>
+    </style>
+
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar"/>
 
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light"/>
 
     <style name="SelectableItemTheme">
-        <item name="android:colorControlHighlight">@android:color/white</item>
+        <item name="android:colorControlHighlight">@color/darkGrey</item>
     </style>
 
     <style name="SelectableItemBackground">
@@ -39,7 +35,7 @@
     </style>
 
     <style name="BirthdayBuddyOverFlowButtonStyle" parent="Widget.AppCompat.ActionButton.Overflow">
-        <item name="android:tint">@android:color/white</item>
+        <item name="android:tint">@color/darkGrey</item>
     </style>
 
 </resources>

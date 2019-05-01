@@ -13,7 +13,7 @@
     <item
             android:id="@+id/item_settings"
             app:showAsAction="never"
-            android:title="@string/main_menu_item_settings"/>
+            android:title="@string/settings_title"/>
 
     <item
             android:id="@+id/item_about"
@@ -29,9 +29,4 @@
             android:id="@+id/fire_notification"
             app:showAsAction="never"
             android:title="fire notification"/>
-
-    <item
-            android:id="@+id/cancel_notification"
-            app:showAsAction="never"
-            android:title="cancel last event notification"/>
 </menu>

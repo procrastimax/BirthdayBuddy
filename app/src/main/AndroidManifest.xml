@@ -42,7 +42,7 @@
         <!-- Search activity -->
         <activity
                 android:name=".SearchableActivity"
-                android:theme="@style/AppTheme_Searching">
+                android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.SEARCH"/>
             </intent-filter>

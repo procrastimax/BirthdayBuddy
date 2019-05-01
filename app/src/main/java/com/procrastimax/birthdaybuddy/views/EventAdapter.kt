@@ -178,7 +178,7 @@ class EventAdapter(private val context: Context, private val fragmentManager: Fr
                                 context.getText(R.string.today)
                             holder.itemView.tv_birthday_event_item_days_until_value.setTextColor(textColor)
                         } else {
-                            textColor = ContextCompat.getColor(context, R.color.darkGrey)
+                            textColor = ContextCompat.getColor(context, R.color.textDark)
                             holder.itemView.tv_birthday_event_item_days_until_value.text =
                                 daysUntil.toString()
                             holder.itemView.tv_birthday_event_item_days_until_value.setTextColor(textColor)
@@ -215,6 +215,7 @@ class EventAdapter(private val context: Context, private val fragmentManager: Fr
 
                             //set nickname textview visible
                             holder.itemView.tv_birthday_event_item_nickname.visibility = TextView.VISIBLE
+                            holder.itemView.tv_birthday_event_item_nickname.setTextColor(textColor)
 
                             //set nickname textview text
                             holder.itemView.tv_birthday_event_item_nickname.text = birthday.nickname
@@ -229,9 +230,11 @@ class EventAdapter(private val context: Context, private val fragmentManager: Fr
                             holder.itemView.tv_birthday_event_item_nickname.visibility = TextView.GONE
 
                             holder.itemView.tv_birthday_event_item_forename.text = birthday.forename
+                            holder.itemView.tv_birthday_event_item_forename.setTextColor(textColor)
 
                             //set surname
                             holder.itemView.tv_birthday_event_item_surname.text = birthday.surname
+                            holder.itemView.tv_birthday_event_item_surname.setTextColor(textColor)
                         }
 
                         val avatarUri = birthday.avatarImageUri
@@ -310,7 +313,7 @@ class EventAdapter(private val context: Context, private val fragmentManager: Fr
                             holder.itemView.tv_days_until_annual_value.text = context.resources.getText(R.string.today)
                             holder.itemView.tv_days_until_annual_value.setTextColor(textColor)
                         } else {
-                            textColor = ContextCompat.getColor(context, R.color.darkGrey)
+                            textColor = ContextCompat.getColor(context, R.color.textDark)
                             holder.itemView.tv_days_until_annual_value.text = daysUntil.toString()
                             holder.itemView.tv_days_until_annual_value.setTextColor(textColor)
                         }
@@ -401,7 +404,7 @@ class EventAdapter(private val context: Context, private val fragmentManager: Fr
                                 context.resources.getText(R.string.today)
                             holder.itemView.tv_days_until_one_time_value.setTextColor(textColor)
                         } else {
-                            textColor = ContextCompat.getColor(context, R.color.darkGrey)
+                            textColor = ContextCompat.getColor(context, R.color.textDark)
                             holder.itemView.tv_days_until_one_time_value.text = oneTimeEvent.getDaysUntil().toString()
                             holder.itemView.tv_days_until_one_time_value.setTextColor(textColor)
                         }

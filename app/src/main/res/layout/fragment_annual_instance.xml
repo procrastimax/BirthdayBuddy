@@ -29,7 +29,8 @@
                     app:layout_constraintStart_toStartOf="parent"
                     android:hint="@string/edit_annual_event_name_hint"
                     android:layout_marginTop="24dp"
-                    app:layout_constraintTop_toTopOf="parent"/>
+                    app:layout_constraintTop_toTopOf="parent"
+                    android:textColor="@color/dark"/>
 
             <TextView
                     android:layout_width="0dp"
@@ -42,7 +43,8 @@
                     android:layout_marginTop="16dp"
                     app:layout_constraintTop_toBottomOf="@+id/edit_add_fragment_name_annual_event"
                     android:layout_marginEnd="8dp"
-                    app:layout_constraintEnd_toStartOf="@+id/sw_is_year_given_annual_event"/>
+                    app:layout_constraintEnd_toStartOf="@+id/sw_is_year_given_annual_event"
+                    android:textColor="@color/dark"/>
 
             <Switch
                     android:text="@string/event_property_year"
@@ -54,7 +56,8 @@
                     android:splitTrack="false"
                     app:layout_constraintEnd_toEndOf="@+id/edit_add_fragment_name_annual_event"
                     app:layout_constraintTop_toTopOf="@+id/edit_add_fragment_date_annual_event"
-                    app:layout_constraintBottom_toBottomOf="@+id/edit_add_fragment_date_annual_event"/>
+                    app:layout_constraintBottom_toBottomOf="@+id/edit_add_fragment_date_annual_event"
+                    android:textColor="#808080"/>
 
             <Button
                     android:text="@string/btn_annual_event_delete"
@@ -81,7 +84,8 @@
                     app:layout_constraintTop_toBottomOf="@+id/edit_add_fragment_date_annual_event"
                     app:layout_constraintEnd_toEndOf="@+id/sw_is_year_given_annual_event"
                     app:layout_constraintStart_toStartOf="@+id/edit_add_fragment_date_annual_event"
-                    android:hint="@string/event_property_note"/>
+                    android:hint="@string/event_property_note"
+                    android:textColor="@color/dark"/>
         </android.support.constraint.ConstraintLayout>
     </ScrollView>
 

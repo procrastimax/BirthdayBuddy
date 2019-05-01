@@ -5,7 +5,7 @@
                                              android:layout_height="wrap_content"
                                              android:id="@+id/constraint_layout_month_divider"
                                              android:background="@color/colorPrimaryLight"
-                                             android:elevation="3dp">
+                                             android:elevation="1dp">
 
     <TextView
             android:text="January"

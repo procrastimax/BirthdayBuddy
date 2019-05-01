@@ -6,23 +6,22 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/main_layout_searchable"
+        android:fitsSystemWindows="true"
         tools:context=".SearchableActivity"
-        android:orientation="vertical"
-        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
         >
 
     <android.support.v7.widget.Toolbar
             android:id="@+id/toolbar_searchable"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
-            android:background="@color/colorPrimary"
+            android:elevation="3dp"
             />
 
     <android.support.constraint.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:paddingTop="?attr/actionBarSize">
+            android:elevation="0dp"
+            android:layout_marginTop="?attr/actionBarSize">
 
         <android.support.v7.widget.RecyclerView
                 android:id="@+id/recyclerView_search"
@@ -45,7 +44,6 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 android:textSize="18sp"
-                android:textColor="@color/darkGrey"
                 />
     </android.support.constraint.ConstraintLayout>
 

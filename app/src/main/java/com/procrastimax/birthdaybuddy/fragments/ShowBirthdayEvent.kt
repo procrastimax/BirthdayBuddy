@@ -70,6 +70,23 @@ class ShowBirthdayEvent : ShowEventFragment() {
                     }
                 })
 
+                //only set expanded title color to white, when background is not white, background is white when no avatar image is set
+                if (birthdayEvent.avatarImageUri != null) {
+                    (context as MainActivity).scrollable_toolbar.setExpandedTitleColor(
+                        ContextCompat.getColor(
+                            context!!,
+                            R.color.white
+                        )
+                    )
+                } else {
+                    (context as MainActivity).scrollable_toolbar.setExpandedTitleColor(
+                        ContextCompat.getColor(
+                            context!!,
+                            R.color.darkGrey
+                        )
+                    )
+                }
+
                 this.tv_show_birthday_surname.text = birthdayEvent.surname
 
                 val date: String

@@ -27,7 +27,8 @@
                     android:layout_marginEnd="8dp"
                     app:layout_constraintEnd_toEndOf="parent"
                     android:layout_marginTop="24dp"
-                    app:layout_constraintTop_toBottomOf="@+id/frame_layout_add_avatar_image"/>
+                    app:layout_constraintTop_toBottomOf="@+id/frame_layout_add_avatar_image"
+                    android:textColor="@color/dark"/>
 
             <EditText
                     android:layout_width="0dp"
@@ -40,7 +41,8 @@
                     android:layout_marginTop="8dp"
                     app:layout_constraintTop_toBottomOf="@+id/edit_add_fragment_surname"
                     app:layout_constraintStart_toStartOf="@+id/edit_add_fragment_surname"
-                    app:layout_constraintEnd_toEndOf="@+id/edit_add_fragment_surname"/>
+                    app:layout_constraintEnd_toEndOf="@+id/edit_add_fragment_surname"
+                    android:textColor="@color/dark"/>
 
             <EditText
                     android:layout_width="0dp"
@@ -53,7 +55,7 @@
                     app:layout_constraintEnd_toEndOf="@+id/edit_add_fragment_forename"
                     app:layout_constraintStart_toStartOf="@+id/edit_add_fragment_forename"
                     android:hint="@string/event_property_surname"
-                    />
+                    android:textColor="@color/dark"/>
 
             <TextView
                     android:layout_width="0dp"
@@ -66,7 +68,8 @@
                     app:layout_constraintStart_toStartOf="@+id/edit_add_fragment_surname"
                     android:layout_marginEnd="8dp"
                     app:layout_constraintEnd_toStartOf="@+id/sw_is_year_given"
-                    app:layout_constraintTop_toBottomOf="@+id/edit_add_fragment_nickname"/>
+                    app:layout_constraintTop_toBottomOf="@+id/edit_add_fragment_nickname"
+                    android:textColor="@color/dark"/>
 
             <Switch
                     android:text="@string/event_property_year"
@@ -78,7 +81,8 @@
                     android:splitTrack="false"
                     app:layout_constraintTop_toTopOf="@+id/edit_add_fragment_date"
                     app:layout_constraintBottom_toBottomOf="@+id/edit_add_fragment_date"
-                    app:layout_constraintEnd_toEndOf="@+id/edit_add_fragment_nickname"/>
+                    app:layout_constraintEnd_toEndOf="@+id/edit_add_fragment_nickname"
+                    android:textColor="#808080"/>
 
             <Button
                     android:text="@string/btn_birthday_delete"
@@ -103,7 +107,8 @@
                     app:layout_constraintTop_toBottomOf="@+id/edit_add_fragment_date"
                     app:layout_constraintEnd_toEndOf="@+id/sw_is_year_given"
                     app:layout_constraintStart_toStartOf="@+id/edit_add_fragment_date"
-                    android:hint="@string/event_property_note"/>
+                    android:hint="@string/event_property_note"
+                    android:textColor="@color/dark"/>
 
             <FrameLayout
                     android:layout_width="wrap_content"

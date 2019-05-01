@@ -39,7 +39,7 @@
                     android:layout_height="wrap_content"
                     android:id="@+id/tv_settings_extras_delete_all"
                     android:textSize="18sp"
-                    android:textColor="@color/dark"
+                    android:textColor="@color/textVeryDark"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintStart_toEndOf="@+id/iv_delete_all_data"

@@ -47,6 +47,8 @@ class SettingsFragment : Fragment() {
         (context as MainActivity).supportActionBar?.setDisplayHomeAsUpEnabled(true)
         this.settingsContext = context!!
 
+        toolbar.setTitle(R.string.settings_title)
+
         viewManager = LinearLayoutManager(view.context)
         viewAdapter = SettingsAdapter(view.context)
 

@@ -2,6 +2,7 @@ package com.procrastimax.birthdaybuddy.fragments
 
 import android.os.Bundle
 import android.support.v4.app.Fragment
+import android.support.v4.content.ContextCompat
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
@@ -9,6 +10,7 @@ import android.view.View
 import com.procrastimax.birthdaybuddy.MainActivity
 import com.procrastimax.birthdaybuddy.R
 import com.procrastimax.birthdaybuddy.handler.EventHandler
+import com.procrastimax.birthdaybuddy.models.EventBirthday
 import kotlinx.android.synthetic.main.activity_main.*
 
 abstract class ShowEventFragment : Fragment() {

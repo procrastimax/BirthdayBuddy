@@ -39,7 +39,7 @@
                 android:layout_marginTop="24dp"
                 app:layout_constraintTop_toBottomOf="@+id/tv_settings_title"
                 android:textSize="18sp"
-                android:textColor="@color/dark"/>
+                android:textColor="@color/textVeryDark"/>
 
         <Switch
                 android:layout_width="wrap_content"
@@ -63,7 +63,7 @@
                 android:layout_marginTop="24dp"
                 app:layout_constraintTop_toBottomOf="@+id/tv_settings_notification"
                 android:textSize="18sp"
-                android:textColor="@color/dark"
+                android:textColor="@color/textVeryDark"
                 />
 
         <Switch
@@ -87,7 +87,7 @@
                 android:layout_marginTop="24dp"
                 app:layout_constraintTop_toBottomOf="@+id/tv_settings_sound"
                 android:textSize="18sp"
-                android:textColor="@color/dark"
+                android:textColor="@color/textVeryDark"
                 />
 
         <Switch
@@ -108,7 +108,7 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/tv_settings_notification_time_title"
                 android:textSize="18sp"
-                android:textColor="@color/dark"
+                android:textColor="@color/textVeryDark"
                 app:layout_constraintStart_toStartOf="@+id/tv_settings_vibration"
                 android:layout_marginTop="24dp"
                 app:layout_constraintTop_toBottomOf="@+id/tv_settings_vibration"/>
@@ -127,7 +127,8 @@
                 app:layout_constraintStart_toEndOf="@+id/tv_settings_notification_time_title"
                 android:layout_marginStart="8dp"
                 app:layout_constraintBottom_toBottomOf="@+id/tv_settings_notification_time_title"
-                />
+                android:textColor="@color/darkGrey"
+                app:layout_constraintTop_toTopOf="@+id/tv_settings_notification_time_title"/>
 
         <android.support.constraint.ConstraintLayout
                 android:layout_width="0dp"
@@ -146,7 +147,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:id="@+id/tv_settings_notification_day_title"
-                    android:textColor="@color/dark"
+                    android:textColor="@color/textVeryDark"
                     android:textSize="18sp"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -159,7 +160,7 @@
                     android:id="@+id/tv_settings_notification_day_value"
                     app:layout_constraintTop_toBottomOf="@+id/tv_settings_notification_day_title"
                     app:layout_constraintStart_toStartOf="parent"
-                    />
+                    android:textColor="@color/textDark"/>
         </android.support.constraint.ConstraintLayout>
 
         <android.support.constraint.ConstraintLayout
@@ -181,7 +182,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:id="@+id/tv_settings_notification_light_title"
-                    android:textColor="@color/dark"
+                    android:textColor="@color/textVeryDark"
                     android:textSize="18sp"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -194,7 +195,8 @@
                     android:id="@+id/tv_settings_notification_light_value"
                     app:layout_constraintTop_toBottomOf="@+id/tv_settings_notification_light_title"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintBottom_toBottomOf="parent"/>
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    android:textColor="@color/textDark"/>
         </android.support.constraint.ConstraintLayout>
 
     </android.support.constraint.ConstraintLayout>
