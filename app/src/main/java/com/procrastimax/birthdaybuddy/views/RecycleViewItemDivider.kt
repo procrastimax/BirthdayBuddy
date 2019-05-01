@@ -18,14 +18,14 @@ class RecycleViewItemDivider(private val context: Context) : RecyclerView.ItemDe
         val right = parent.width - parent.paddingRight - MainActivity.convertPxToDp(context, 24f).toInt()
 
         val childCount = parent.childCount
-        for (i in 0 until childCount) {
+        for (i in 1 until childCount-1) {
 
             val child = parent.getChildAt(i)
 
             //dont render a decoration when the child after this is a month divider/ not-decoration-view
             if (i < childCount - 1) {
-                val child_following = parent.getChildAt(i + 1)
-                if (!isDecorated(child_following, parent)) {
+                val childFollowing = parent.getChildAt(i + 1)
+                if (!isDecorated(childFollowing, parent)) {
                     continue
                 }
             }

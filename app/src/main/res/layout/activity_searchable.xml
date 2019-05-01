@@ -13,14 +13,15 @@
     <android.support.v7.widget.Toolbar
             android:id="@+id/toolbar_searchable"
             android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
+            android:layout_height="wrap_content"
+            android:background="@color/colorPrimary"
+            android:fitsSystemWindows="true"
             android:elevation="3dp"
             />
 
     <android.support.constraint.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:elevation="0dp"
             android:layout_marginTop="?attr/actionBarSize">
 
         <android.support.v7.widget.RecyclerView
@@ -31,7 +32,6 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent">
-
         </android.support.v7.widget.RecyclerView>
 
         <TextView
