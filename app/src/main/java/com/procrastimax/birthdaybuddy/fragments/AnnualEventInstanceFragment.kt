@@ -190,7 +190,7 @@ class AnnualEventInstanceFragment : EventInstanceFragment() {
 
                 } else {
                     edit_date.hint = "${resources.getString(
-                        R.string.event_property_year
+                        R.string.event_property_date
                     )}: ${EventDate.getLocalizedDayAndMonth(this.eventDate)}"
                 }
             }
