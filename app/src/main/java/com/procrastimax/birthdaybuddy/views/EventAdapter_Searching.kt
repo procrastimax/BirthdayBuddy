@@ -204,12 +204,6 @@ class EventAdapter_Searching(private val context: Context, private val eventIDs:
                                 holder.itemView.iv_birthday_event_item_image.clearColorFilter()
                             } else {
                                 holder.itemView.iv_birthday_event_item_image.setImageResource(R.drawable.ic_birthday_person)
-                                holder.itemView.iv_birthday_event_item_image.setColorFilter(
-                                    EventHandler.getColorByID(
-                                        context,
-                                        birthdayEvent.eventID
-                                    )
-                                )
                             }
                         } else {
                             //called from search activity
@@ -222,12 +216,6 @@ class EventAdapter_Searching(private val context: Context, private val eventIDs:
                                 //holder.itemView.iv_birthday_event_item_image.clearColorFilter()
                             } else {
                                 holder.itemView.iv_birthday_event_item_image.setImageResource(R.drawable.ic_birthday_person)
-                                /*holder.itemView.iv_birthday_event_item_image.setColorFilter(
-                                    EventHandler.getColorByID(
-                                        context,
-                                        birthdayEvent.eventID
-                                    )
-                                )*/
                             }
                         }
                     }

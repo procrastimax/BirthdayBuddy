@@ -1,7 +1,6 @@
 package com.procrastimax.birthdaybuddy.views
 
 import android.content.Context
-import android.graphics.Typeface
 import android.os.Bundle
 import android.support.v4.app.FragmentManager
 import android.support.v4.content.ContextCompat
@@ -23,7 +22,6 @@ import kotlinx.android.synthetic.main.annual_event_item_view.view.*
 import kotlinx.android.synthetic.main.birthday_event_item_view.view.*
 import kotlinx.android.synthetic.main.event_month_view_divider.view.*
 import kotlinx.android.synthetic.main.one_time_event_item_view.view.*
-import java.util.*
 
 
 class EventAdapter(private val context: Context, private val fragmentManager: FragmentManager) :
@@ -117,28 +115,6 @@ class EventAdapter(private val context: Context, private val fragmentManager: Fr
                     if (monthDivider is MonthDivider) {
                         holder.itemView.tv_divider_description_month.text =
                             monthDivider.month_name
-                        //if month divider is current month, set monthdivider text to bold
-                        if (monthDivider.getMonth() == Calendar.getInstance().get(Calendar.MONTH)) {
-                            holder.itemView.tv_divider_description_month.apply {
-                                setTypeface(this.typeface, Typeface.BOLD)
-                            }
-                            holder.itemView.constraint_layout_month_divider.setBackgroundColor(
-                                ContextCompat.getColor(
-                                    context,
-                                    R.color.highlight_flat_blue
-                                )
-                            )
-                        } else {
-                            holder.itemView.tv_divider_description_month.apply {
-                                setTypeface(this.typeface, Typeface.NORMAL)
-                            }
-                            holder.itemView.constraint_layout_month_divider.setBackgroundColor(
-                                ContextCompat.getColor(
-                                    context,
-                                    R.color.colorPrimaryDark
-                                )
-                            )
-                        }
                     }
                 }
             }
@@ -192,19 +168,26 @@ class EventAdapter(private val context: Context, private val fragmentManager: Fr
                             true
                         }
 
-                        //set date
-                        holder.itemView.tv_birthday_event_item_date_value.text =
-                            birthday.getPrettyShortStringWithoutYear()
+                        val textColor: Int
 
                         //set days until
                         val daysUntil = birthday.getDaysUntil()
-                        if (daysUntil > 0) {
-                            holder.itemView.tv_birthday_event_item_days_until_value.text =
-                                daysUntil.toString()
-                        } else {
+                        if (daysUntil == 0) {
+                            textColor = ContextCompat.getColor(context, R.color.colorAccent)
                             holder.itemView.tv_birthday_event_item_days_until_value.text =
                                 context.getText(R.string.today)
+                            holder.itemView.tv_birthday_event_item_days_until_value.setTextColor(textColor)
+                        } else {
+                            textColor = ContextCompat.getColor(context, R.color.darkGrey)
+                            holder.itemView.tv_birthday_event_item_days_until_value.text =
+                                daysUntil.toString()
+                            holder.itemView.tv_birthday_event_item_days_until_value.setTextColor(textColor)
                         }
+
+                        //set date
+                        holder.itemView.tv_birthday_event_item_date_value.text =
+                            birthday.getPrettyShortStringWithoutYear()
+                        holder.itemView.tv_birthday_event_item_date_value.setTextColor(textColor)
 
                         //set years since, if specified
                         if (birthday.isYearGiven) {
@@ -212,6 +195,15 @@ class EventAdapter(private val context: Context, private val fragmentManager: Fr
                                 birthday.getYearsSince().toString()
                         } else {
                             holder.itemView.tv_birthday_event_item_years_since_value.text = "-"
+                        }
+                        holder.itemView.tv_birthday_event_item_years_since_value.setTextColor(textColor)
+
+                        if (birthday.eventAlreadyOccurred()) {
+                            holder.itemView.constraint_layout_birthday_item_view.background =
+                                ContextCompat.getDrawable(context, R.drawable.ripple_recycler_view_item_dark)
+                        } else {
+                            holder.itemView.constraint_layout_birthday_item_view.background =
+                                ContextCompat.getDrawable(context, R.drawable.ripple_recycler_view_item)
                         }
 
                         //if a birthday has a nickname, only show nickname
@@ -252,15 +244,8 @@ class EventAdapter(private val context: Context, private val fragmentManager: Fr
                                         birthday.eventID
                                     )
                                 )
-                                //holder.itemView.iv_birthday_event_item_image.clearColorFilter()
                             } else {
                                 holder.itemView.iv_birthday_event_item_image.setImageResource(R.drawable.ic_birthday_person)
-                                /*holder.itemView.iv_birthday_event_item_image.setColorFilter(
-                                    EventHandler.getColorByID(
-                                        context,
-                                        birthday.eventID
-                                    )
-                                )*/
                             }
                         }
                     }
@@ -316,23 +301,39 @@ class EventAdapter(private val context: Context, private val fragmentManager: Fr
                             true
                         }
 
-                        //set date
-                        holder.itemView.tv_annual_item_date_value.text =
-                            annualEvent.getPrettyShortStringWithoutYear()
+                        val textColor: Int
 
                         //set days until
                         val daysUntil = EventHandler.getList()[position].getDaysUntil()
                         if (daysUntil == 0) {
+                            textColor = ContextCompat.getColor(context, R.color.colorAccent)
                             holder.itemView.tv_days_until_annual_value.text = context.resources.getText(R.string.today)
+                            holder.itemView.tv_days_until_annual_value.setTextColor(textColor)
                         } else {
+                            textColor = ContextCompat.getColor(context, R.color.darkGrey)
                             holder.itemView.tv_days_until_annual_value.text = daysUntil.toString()
+                            holder.itemView.tv_days_until_annual_value.setTextColor(textColor)
                         }
+
+                        //set date
+                        holder.itemView.tv_annual_item_date_value.text =
+                            annualEvent.getPrettyShortStringWithoutYear()
+                        holder.itemView.tv_annual_item_date_value.setTextColor(textColor)
 
                         //set years since, if specified
                         if (annualEvent.hasStartYear) {
                             holder.itemView.tv_years_since_annual_value.text = annualEvent.getYearsSince().toString()
                         } else {
                             holder.itemView.tv_years_since_annual_value.text = "-"
+                        }
+                        holder.itemView.tv_years_since_annual_value.setTextColor(textColor)
+
+                        if (annualEvent.eventAlreadyOccurred()) {
+                            holder.itemView.constraint_layout_annual_item_view.background =
+                                ContextCompat.getDrawable(context, R.drawable.ripple_recycler_view_item_dark)
+                        } else {
+                            holder.itemView.constraint_layout_annual_item_view.background =
+                                ContextCompat.getDrawable(context, R.drawable.ripple_recycler_view_item)
                         }
 
                         //set name
@@ -390,21 +391,37 @@ class EventAdapter(private val context: Context, private val fragmentManager: Fr
                             true
                         }
 
-                        //set date
-                        holder.itemView.tv_one_time_item_date_value.text =
-                            oneTimeEvent.getPrettyShortStringWithoutYear()
+                        val textColor: Int
 
                         //set days until
                         val daysUntil = oneTimeEvent.getDaysUntil()
                         if (daysUntil == 0) {
+                            textColor = ContextCompat.getColor(context, R.color.colorAccent)
                             holder.itemView.tv_days_until_one_time_value.text =
                                 context.resources.getText(R.string.today)
+                            holder.itemView.tv_days_until_one_time_value.setTextColor(textColor)
                         } else {
+                            textColor = ContextCompat.getColor(context, R.color.darkGrey)
                             holder.itemView.tv_days_until_one_time_value.text = oneTimeEvent.getDaysUntil().toString()
+                            holder.itemView.tv_days_until_one_time_value.setTextColor(textColor)
                         }
+
+                        //set date
+                        holder.itemView.tv_one_time_item_date_value.text =
+                            oneTimeEvent.getPrettyShortStringWithoutYear()
+                        holder.itemView.tv_one_time_item_date_value.setTextColor(textColor)
 
                         //set years until
                         holder.itemView.tv_years_one_time_value.text = oneTimeEvent.getYearsUntil().toString()
+                        holder.itemView.tv_years_one_time_value.setTextColor(textColor)
+
+                        if (oneTimeEvent.eventAlreadyOccurred()) {
+                            holder.itemView.constraint_layout_onetime_item_view.background =
+                                ContextCompat.getDrawable(context, R.drawable.ripple_recycler_view_item_dark)
+                        } else {
+                            holder.itemView.constraint_layout_onetime_item_view.background =
+                                ContextCompat.getDrawable(context, R.drawable.ripple_recycler_view_item)
+                        }
 
                         //set name
                         holder.itemView.tv_one_time_item_name.text = oneTimeEvent.name

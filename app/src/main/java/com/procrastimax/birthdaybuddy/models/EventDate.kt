@@ -150,6 +150,13 @@ open class EventDate(var eventDate: Date) : Comparable<EventDate> {
         return cal.get(Calendar.HOUR_OF_DAY)
     }
 
+    fun eventAlreadyOccurred(): Boolean {
+        val current = Calendar.getInstance().apply {
+            time = eventDate
+        }
+        return (current.get(Calendar.DAY_OF_YEAR) < Calendar.getInstance().get(Calendar.DAY_OF_YEAR))
+    }
+
     /**
      * getYearsSince returns the difference between the member var EVENTDATE and the current date in years
      * This function respects the case, that a date which has not occurred in the current year, is decremented by one

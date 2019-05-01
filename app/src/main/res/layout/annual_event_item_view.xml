@@ -5,7 +5,9 @@
                                              android:layout_height="wrap_content"
                                              android:focusable="true"
                                              android:clickable="true"
-                                             android:background="@drawable/ripple_recycler_view_item">
+                                             android:id="@+id/constraint_layout_annual_item_view"
+                                             android:background="@drawable/ripple_recycler_view_item"
+                                             android:elevation="0dp">
 
     <ImageView
             android:layout_width="48dp"

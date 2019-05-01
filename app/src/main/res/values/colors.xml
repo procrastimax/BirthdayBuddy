@@ -1,31 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!-- App basic colors -->
-    <color name="colorPrimary">#34495e</color>
-    <color name="colorPrimaryDark">#2c3e50</color>
-    <color name="colorAccent">#E74C3C</color>
+    <color name="colorPrimary">#324463</color>
+    <color name="colorPrimaryDark">#324463</color>
+    <color name="colorPrimaryLight">#5e6f91</color>
+    <color name="colorAccent">#c54860</color>
 
     <!-- Grey color values -->
     <color name="brightGrey">#bdc3c7</color>
+    <color name="veryBrightGrey">#e3e6e8</color>
     <color name="darkGrey">#7a7a7c</color>
     <color name="dark">#2a2a2c</color>
-    <color name="white">#ecf0f1</color>
+    <color name="white">#ffffff</color>
     <color name="transparent">#FFFFFFFF</color>
-    <color name="material_light_white_background">#fffafafa</color>
 
     <!-- NOTIFICATION LIGHTS -->
     <color name="notification_light_white">#ffffff</color>
     <color name="notification_light_red">#ff0000</color>
     <color name="notification_light_green">#00ff00</color>
     <color name="notification_light_blue">#0066ff</color>
-
-    <!-- Flat UI Colors -->
-    <color name="flat_red">#e74c3c</color>
-    <color name="flat_blue">#3498db</color>
-    <color name="flat_green">#e74c3c</color>
-    <color name="flat_violett">#9b59b6</color>
-    <color name="flat_orange">#e67e22</color>
-    <color name="flat_turkise">#1abc9c</color>
 
     <color name="highlight_flat_blue">#3b5999</color>
 

@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
                                              xmlns:app="http://schemas.android.com/apk/res-auto"
-                                             xmlns:tools="http://schemas.android.com/tools"
                                              android:layout_width="match_parent"
                                              android:layout_height="wrap_content"
                                              android:focusable="true"
                                              android:clickable="true"
-                                             android:background="@drawable/ripple_recycler_view_item">
+                                             android:id="@+id/constraint_layout_onetime_item_view"
+                                             android:background="@drawable/ripple_recycler_view_item"
+                                             android:elevation="0dp">
 
     <ImageView
             android:layout_width="48dp"
