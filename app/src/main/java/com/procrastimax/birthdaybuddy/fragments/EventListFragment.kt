@@ -280,7 +280,7 @@ class EventListFragment : Fragment() {
         val ft = fragmentManager!!.beginTransaction()
         ft.replace(
             R.id.fragment_placeholder,
-            AboutFragment.newInstance()
+            HelpFragment.newInstance()
         )
         ft.addToBackStack(null)
         ft.commit()

@@ -240,4 +240,15 @@
     <!-- settings -->
     <string name="settings_title">Settings</string>
 
+    <!-- About information -->
+    <string name="about_title_version">Version</string>
+    <string name="about_title_appName">App name</string>
+    <string name="about_title_buildNumber">Build number</string>
+    <string name="about_title_license">License</string>
+    <string name="about_title_openSource">OpenSource</string>
+    <string name="about_title_contactInformation">Contact</string>
+
+    <string name="about_content_license">This app underlies the terms and conditions of the GNU General Public License v3.0.\nFor more detailed information read this: <a href="https://www.gnu.org/licenses/gpl-3.0.en.html">https://www.gnu.org/licenses/gpl-3.0.en.html</a></string>
+    <string name="about_content_openSource">BirthdayBuddy is a non-profit private project. The basic idea for me was to learn more about the android framework and kotlin (and also to have a nice tool for remembering birthdays). Therefore the code of this kotlin written android project is public on my github page (<a href="https://github.com/procrastimax/BirthdayBuddy">https://github.com/procrastimax/BirthdayBuddy</a>). If you want to contribute to this project with creative ideas or just want to criticize my code, then just create a GitHub issue or fork it and create a merge request :)</string>
+    <string name="about_content_contact">E-Mail: heykeroth.dev@gmail.com\nGitHub: procrastimax</string>
 </resources>

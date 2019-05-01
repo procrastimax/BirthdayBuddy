@@ -12,6 +12,7 @@ import android.view.ViewGroup
 import com.procrastimax.birthdaybuddy.MainActivity
 import com.procrastimax.birthdaybuddy.R
 import com.procrastimax.birthdaybuddy.views.AboutAdapter
+import com.procrastimax.birthdaybuddy.views.HelpAdapter
 
 class HelpFragment : Fragment() {
 
@@ -40,7 +41,7 @@ class HelpFragment : Fragment() {
         (context as MainActivity).supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
         viewManager = LinearLayoutManager(view.context)
-        viewAdapter = AboutAdapter()
+        viewAdapter = HelpAdapter()
 
         recyclerView = view.findViewById<RecyclerView>(R.id.recycler_view_help).apply {
             setHasFixedSize(true)

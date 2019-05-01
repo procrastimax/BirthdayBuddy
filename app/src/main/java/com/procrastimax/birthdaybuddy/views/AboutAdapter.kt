@@ -1,25 +1,34 @@
 package com.procrastimax.birthdaybuddy.views
 
+import android.content.Context
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.procrastimax.birthdaybuddy.BuildConfig
 import com.procrastimax.birthdaybuddy.R
+import kotlinx.android.synthetic.main.card_view_about.view.*
 
-class AboutAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class AboutAdapter(private val context: Context) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
-    enum class AboutInstance(val value: Int) {
-        App(0),
-        Version(1),
-        Contact(2)
+    enum class AboutInstance {
+        App,
+        Version,
+        BuildNumber,
+        License,
+        OpenSource,
+        Contact,
     }
 
     class AboutCardViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
 
-    val itemList = listOf<AboutInstance>(
+    val itemList = listOf(
         AboutInstance.App,
-        AboutInstance.Contact,
-        AboutInstance.Version
+        AboutInstance.Version,
+        AboutInstance.BuildNumber,
+        AboutInstance.OpenSource,
+        AboutInstance.License,
+        AboutInstance.Contact
     )
 
     override fun onCreateViewHolder(parent: ViewGroup, viewtype: Int): RecyclerView.ViewHolder {
@@ -32,20 +41,36 @@ class AboutAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     }
 
     override fun getItemViewType(position: Int): Int {
-        return this.itemList[position].value
+        return this.itemList[position].ordinal
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        when (position) {
-            0 -> {
-
+        when (itemList[position]) {
+            AboutInstance.App -> {
+                holder.itemView.tv_about_title.text = context.getText(R.string.about_title_appName)
+                holder.itemView.tv_about_content.text = context.getText(R.string.app_name)
             }
-            1 -> {
-
+            AboutInstance.Version -> {
+                holder.itemView.tv_about_title.text = context.getText(R.string.about_title_version)
+                holder.itemView.tv_about_content.text = BuildConfig.VERSION_NAME
             }
-            2 -> {
-
+            AboutInstance.BuildNumber -> {
+                holder.itemView.tv_about_title.text = context.getText(R.string.about_title_buildNumber)
+                holder.itemView.tv_about_content.text = BuildConfig.VERSION_CODE.toString()
+            }
+            AboutInstance.License -> {
+                holder.itemView.tv_about_title.text = context.getText(R.string.about_title_license)
+                holder.itemView.tv_about_content.text = context.getText(R.string.about_content_license)
+            }
+            AboutInstance.OpenSource -> {
+                holder.itemView.tv_about_title.text = context.getText(R.string.about_title_openSource)
+                holder.itemView.tv_about_content.text = context.getText(R.string.about_content_openSource)
+            }
+            AboutInstance.Contact -> {
+                holder.itemView.tv_about_title.text = context.getText(R.string.about_title_contactInformation)
+                holder.itemView.tv_about_content.text = context.getText(R.string.about_content_contact)
             }
         }
+
     }
 }

@@ -40,8 +40,10 @@ class AboutFragment : Fragment() {
         (context as MainActivity).supportActionBar?.setHomeAsUpIndicator(R.drawable.ic_arrow_back)
         (context as MainActivity).supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
+        toolbar.setTitle(R.string.main_menu_item_about)
+
         viewManager = LinearLayoutManager(view.context)
-        viewAdapter = AboutAdapter()
+        viewAdapter = AboutAdapter(context!!)
 
         recyclerView = view.findViewById<RecyclerView>(R.id.recyclerView_about).apply {
             setHasFixedSize(true)
@@ -57,10 +59,6 @@ class AboutFragment : Fragment() {
             }
         }
         return super.onOptionsItemSelected(item)
-    }
-
-    private fun backPressed() {
-        (context as MainActivity).onBackPressed()
     }
 
     companion object {
