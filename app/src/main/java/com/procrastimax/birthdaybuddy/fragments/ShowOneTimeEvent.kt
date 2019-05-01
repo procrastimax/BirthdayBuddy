@@ -35,7 +35,7 @@ class ShowOneTimeEvent : ShowEventFragment() {
                 //set name of one_time event
                 this.tv_show_one_time_event_name.text = oneTimeEvent.name
 
-                val date: String = oneTimeEvent.dateToPrettyString(DateFormat.DEFAULT)
+                val date: String = oneTimeEvent.dateToPrettyString(DateFormat.FULL)
 
                 val daysUntil = oneTimeEvent.getDaysUntil()
 
