@@ -18,7 +18,7 @@ class RecycleViewItemDivider(private val context: Context) : RecyclerView.ItemDe
         val right = parent.width - parent.paddingRight - MainActivity.convertPxToDp(context, 24f).toInt()
 
         val childCount = parent.childCount
-        for (i in 1 until childCount-1) {
+        for (i in 0 until childCount-1) {
 
             val child = parent.getChildAt(i)
 
