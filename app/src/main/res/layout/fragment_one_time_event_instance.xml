@@ -26,11 +26,11 @@
                     android:layout_marginEnd="8dp"
                     app:layout_constraintEnd_toEndOf="parent"
                     android:layout_marginStart="8dp"
-                    app:layout_constraintStart_toStartOf="parent"
                     android:hint="@string/edit_one_time_event_name_hint"
                     android:layout_marginTop="24dp"
                     app:layout_constraintTop_toTopOf="parent"
-                    android:textColor="@color/dark"/>
+                    android:textColor="@color/dark"
+                    app:layout_constraintStart_toEndOf="@+id/iv_onetime_name"/>
 
             <TextView
                     android:layout_width="0dp"
@@ -39,11 +39,12 @@
                     android:textSize="@dimen/larger_text_size"
                     android:hint="@string/event_property_date"
                     style="@android:style/Widget.Holo.Light.Spinner"
-                    app:layout_constraintStart_toStartOf="@+id/edit_add_fragment_name_one_time_event"
-                    android:layout_marginTop="16dp"
+                    android:layout_marginTop="24dp"
                     app:layout_constraintTop_toBottomOf="@+id/edit_add_fragment_name_one_time_event"
                     app:layout_constraintEnd_toEndOf="@+id/edit_add_fragment_name_one_time_event"
-                    android:textColor="@color/dark"/>
+                    android:textColor="@color/dark"
+                    app:layout_constraintStart_toEndOf="@+id/iv_onetime_date"
+                    android:layout_marginStart="8dp"/>
 
             <Button
                     android:text="@string/btn_one_time_event_delete"
@@ -66,12 +67,45 @@
                     android:inputType="textMultiLine"
                     android:ems="10"
                     android:id="@+id/edit_add_fragment_note_one_time_event"
-                    android:layout_marginTop="16dp"
+                    android:layout_marginTop="24dp"
                     app:layout_constraintTop_toBottomOf="@+id/edit_add_fragment_date_one_time_event"
-                    app:layout_constraintStart_toStartOf="@+id/edit_add_fragment_date_one_time_event"
                     android:hint="@string/event_property_note"
                     app:layout_constraintEnd_toEndOf="@+id/edit_add_fragment_date_one_time_event"
-                    android:textColor="@color/dark"/>
+                    android:textColor="@color/dark"
+                    app:layout_constraintStart_toEndOf="@+id/iv_onetime_note"
+                    android:layout_marginStart="8dp"/>
+
+            <ImageView
+                    android:src="@drawable/ic_event_note"
+                    android:layout_width="32dp"
+                    android:layout_height="0dp"
+                    android:id="@+id/iv_onetime_name"
+                    app:layout_constraintStart_toStartOf="parent"
+                    android:layout_marginStart="8dp"
+                    app:layout_constraintTop_toTopOf="@+id/edit_add_fragment_name_one_time_event"
+                    app:layout_constraintBottom_toBottomOf="@+id/edit_add_fragment_name_one_time_event"
+                    app:layout_constraintDimensionRatio="h,1:1"/>
+
+            <ImageView
+                    android:src="@drawable/ic_today"
+                    android:layout_width="32dp"
+                    android:layout_height="0dp"
+                    android:id="@+id/iv_onetime_date"
+                    app:layout_constraintTop_toTopOf="@+id/edit_add_fragment_date_one_time_event"
+                    app:layout_constraintBottom_toBottomOf="@+id/edit_add_fragment_date_one_time_event"
+                    app:layout_constraintStart_toStartOf="parent"
+                    android:layout_marginStart="8dp"
+                    app:layout_constraintDimensionRatio="h,1:1"/>
+
+            <ImageView
+                    android:src="@drawable/ic_notes"
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:id="@+id/iv_onetime_note"
+                    app:layout_constraintStart_toStartOf="parent"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="8dp"
+                    app:layout_constraintTop_toTopOf="@+id/edit_add_fragment_note_one_time_event"/>
         </android.support.constraint.ConstraintLayout>
     </ScrollView>
 
