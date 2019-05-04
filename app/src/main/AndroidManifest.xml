@@ -23,6 +23,7 @@
                 android:label="@string/app_name"
                 android:screenOrientation="portrait"
                 android:theme="@style/AppTheme.NoActionBar"
+                android:windowSoftInputMode="adjustResize|stateVisible"
                 android:launchMode="singleTask">
 
             <!-- enable the search widget to send searches to SearchableActivity -->
@@ -42,7 +43,8 @@
         <!-- Search activity -->
         <activity
                 android:name=".SearchableActivity"
-                android:theme="@style/AppTheme.NoActionBar">
+                android:theme="@style/AppTheme.NoActionBar"
+                android:windowSoftInputMode="adjustResize">
             <intent-filter>
                 <action android:name="android.intent.action.SEARCH"/>
             </intent-filter>

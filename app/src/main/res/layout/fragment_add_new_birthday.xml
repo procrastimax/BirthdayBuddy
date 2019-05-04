@@ -1,14 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                                             xmlns:app="http://schemas.android.com/apk/res-auto"
-                                             xmlns:tools="http://schemas.android.com/tools"
-                                             android:layout_width="match_parent"
-                                             android:layout_height="match_parent"
-                                             tools:context=".fragments.BirthdayInstanceFragment">
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                xmlns:tools="http://schemas.android.com/tools"
+                android:layout_width="match_parent"
+                android:orientation="vertical"
+                android:layout_height="match_parent"
+                android:fitsSystemWindows="false"
+                tools:context=".fragments.BirthdayInstanceFragment">
 
     <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:isScrollContainer="true">
 
         <android.support.constraint.ConstraintLayout
                 android:layout_width="match_parent"
@@ -92,11 +95,13 @@
                     android:id="@+id/btn_birthday_add_fragment_delete"
                     android:layout_marginTop="24dp"
                     app:layout_constraintTop_toBottomOf="@+id/edit_add_fragment_note"
-                    app:layout_constraintEnd_toEndOf="@+id/edit_add_fragment_note"
-                    app:layout_constraintStart_toStartOf="@+id/edit_add_fragment_note"
+                    app:layout_constraintStart_toStartOf="parent"
                     android:layout_marginBottom="24dp"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    style="@style/Widget.AppCompat.Button.Colored"/>
+                    style="@style/Widget.AppCompat.Button.Colored"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginEnd="8dp"
+                    app:layout_constraintEnd_toEndOf="parent"/>
 
             <EditText
                     android:layout_width="0dp"
@@ -179,4 +184,4 @@
         </android.support.constraint.ConstraintLayout>
     </ScrollView>
 
-</android.support.constraint.ConstraintLayout>
+</LinearLayout>
