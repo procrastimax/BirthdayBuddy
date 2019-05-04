@@ -139,7 +139,7 @@ class AlarmReceiver : BroadcastReceiver() {
                     .setPriority(NotificationCompat.PRIORITY_MAX)
                     // Set the intent that will fire when the user taps the notification
                     .setContentIntent(pendingIntent)
-                    .setSubText(context.getText(R.string.birthdayEvent))
+                    .setSubText(context.getText(R.string.event_type_birthday))
                     .setAutoCancel(true)
                     .setStyle(NotificationCompat.BigTextStyle())
                     .setContentText(buildEventBirthdayNotificationBodyText(context, event))
@@ -188,7 +188,7 @@ class AlarmReceiver : BroadcastReceiver() {
                     .setPriority(NotificationCompat.PRIORITY_MAX)
                     // Set the intent that will fire when the user taps the notification
                     .setContentIntent(pendingIntent)
-                    .setSubText(context.getText(R.string.annualEvent))
+                    .setSubText(context.getText(R.string.event_type_annual_event))
                     .setAutoCancel(true)
 
                 if (!IOHandler.getBooleanFromKey(IOHandler.SharedPrefKeys.key_isNotificationVibrationOnAnnual)!!) {
@@ -232,7 +232,7 @@ class AlarmReceiver : BroadcastReceiver() {
                     .setPriority(NotificationCompat.PRIORITY_MAX)
                     // Set the intent that will fire when the user taps the notification
                     .setContentIntent(pendingIntent)
-                    .setSubText(context.getText(R.string.oneTimeEvent))
+                    .setSubText(context.getText(R.string.event_type_one_time_event))
                     .setAutoCancel(true)
 
                 if (!IOHandler.getBooleanFromKey(IOHandler.SharedPrefKeys.key_isNotificationVibrationOnOneTime)!!) {
@@ -322,7 +322,7 @@ class AlarmReceiver : BroadcastReceiver() {
         }
         if (annualEvent.hasStartYear) {
             returnString += "\n${context.resources.getQuantityString(
-                R.plurals.notification_content_annual_event_times,
+                R.plurals.annual_event_years,
                 annualEvent.getYearsSince() + 1,
                 annualEvent.getYearsSince() + 1
             )}"

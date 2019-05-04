@@ -27,8 +27,6 @@ open class EventDate(var eventDate: Date) : Comparable<EventDate> {
      * @return Int negative for if compares instance is less than, 0 for equal and positive value if compares instance is greater than this instance
      */
     override fun compareTo(other: EventDate): Int {
-        //TODO: add identifying for sorting
-
         val cal_l = Calendar.getInstance()
         cal_l.time = this.eventDate
 

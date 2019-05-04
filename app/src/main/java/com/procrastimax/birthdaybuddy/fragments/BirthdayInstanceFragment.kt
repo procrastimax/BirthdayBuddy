@@ -22,7 +22,6 @@ import com.procrastimax.birthdaybuddy.handler.BitmapHandler
 import com.procrastimax.birthdaybuddy.handler.EventHandler
 import com.procrastimax.birthdaybuddy.models.EventBirthday
 import com.procrastimax.birthdaybuddy.models.EventDate
-import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.content_main.*
 import kotlinx.android.synthetic.main.fragment_add_new_birthday.*
 import kotlinx.android.synthetic.main.fragment_event_list.*

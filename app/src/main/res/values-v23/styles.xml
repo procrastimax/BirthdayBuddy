@@ -9,7 +9,7 @@
         <item name="actionOverflowButtonStyle">@style/BirthdayBuddyOverFlowButtonStyle</item>
         <item name="android:textColorPrimary">@color/darkGrey</item>
         <item name="android:windowLightStatusBar">true</item>
-        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:statusBarColor">@color/colorPrimary</item>
     </style>
 
     <style name="AppTheme.NoActionBar">

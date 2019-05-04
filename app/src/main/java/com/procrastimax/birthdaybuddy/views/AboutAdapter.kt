@@ -29,7 +29,7 @@ class AboutAdapter(private val context: Context) : RecyclerView.Adapter<Recycler
         AboutInstance.App,
         AboutInstance.Version,
         AboutInstance.BuildNumber
-        )
+    )
 
     override fun onCreateViewHolder(parent: ViewGroup, viewtype: Int): RecyclerView.ViewHolder {
         val cardView = LayoutInflater.from(parent.context).inflate(R.layout.card_view_about, parent, false)
