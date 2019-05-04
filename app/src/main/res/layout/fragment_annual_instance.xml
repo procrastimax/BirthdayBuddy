@@ -91,30 +91,30 @@
 
             <ImageView
                     android:src="@drawable/ic_event_note"
-                    android:layout_width="32dp"
-                    android:layout_height="0dp"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
                     android:id="@+id/iv_annual_name"
                     app:layout_constraintTop_toTopOf="@+id/edit_add_fragment_name_annual_event"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintBottom_toBottomOf="@+id/edit_add_fragment_name_annual_event"
                     android:layout_marginStart="8dp"
-                    app:layout_constraintDimensionRatio="h,1:1"/>
+                    />
 
             <ImageView
                     android:src="@drawable/ic_today"
-                    android:layout_width="32dp"
-                    android:layout_height="0dp"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
                     android:id="@+id/iv_annual_date"
                     app:layout_constraintTop_toTopOf="@+id/edit_add_fragment_date_annual_event"
                     app:layout_constraintBottom_toBottomOf="@+id/edit_add_fragment_date_annual_event"
                     app:layout_constraintStart_toStartOf="parent"
                     android:layout_marginStart="8dp"
-                    app:layout_constraintDimensionRatio="h,1:1"/>
+                    />
 
             <ImageView
                     android:src="@drawable/ic_notes"
-                    android:layout_width="32dp"
-                    android:layout_height="32dp"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
                     android:id="@+id/iv_annual_note"
                     app:layout_constraintTop_toTopOf="@+id/edit_add_fragment_note_annual_event"
                     app:layout_constraintStart_toStartOf="parent"
