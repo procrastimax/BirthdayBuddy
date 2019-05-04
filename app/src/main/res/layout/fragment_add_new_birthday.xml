@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                xmlns:app="http://schemas.android.com/apk/res-auto"
-                xmlns:tools="http://schemas.android.com/tools"
-                android:layout_width="match_parent"
-                android:orientation="vertical"
-                android:layout_height="match_parent"
-                android:fitsSystemWindows="false"
-                tools:context=".fragments.BirthdayInstanceFragment">
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                                                 xmlns:app="http://schemas.android.com/apk/res-auto"
+                                                 xmlns:tools="http://schemas.android.com/tools"
+                                                 android:layout_width="match_parent"
+                                                 android:orientation="vertical"
+                                                 android:layout_height="match_parent"
+                                                 tools:context=".fragments.BirthdayInstanceFragment">
 
     <ScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:id="@+id/birthday_scrollview"
             android:isScrollContainer="true">
 
         <android.support.constraint.ConstraintLayout
@@ -184,4 +184,4 @@
         </android.support.constraint.ConstraintLayout>
     </ScrollView>
 
-</LinearLayout>
+</android.support.design.widget.CoordinatorLayout>

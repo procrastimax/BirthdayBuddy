@@ -5,7 +5,7 @@
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:fitsSystemWindows="false"
+        android:fitsSystemWindows="true"
         tools:context=".MainActivity"
         >
 
@@ -15,7 +15,7 @@
             android:minHeight="?attr/actionBarSize"
             android:stateListAnimator="@drawable/appbar_always_elevated"
             android:id="@+id/app_bar"
-            android:fitsSystemWindows="true"
+            android:fitsSystemWindows="false"
             android:elevation="3dp"
             app:expanded="false"
             >
@@ -38,8 +38,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:scaleType="centerCrop"
-                    android:fitsSystemWindows="true"
                     app:layout_collapseMode="parallax"
+                    android:fitsSystemWindows="true"
                     />
 
             <android.support.v7.widget.Toolbar
@@ -48,7 +48,6 @@
                     android:layout_height="?attr/actionBarSize"
                     android:minHeight="?attr/actionBarSize"
                     android:elevation="3dp"
-                    android:fitsSystemWindows="true"
                     app:layout_collapseMode="pin"
                     />
 

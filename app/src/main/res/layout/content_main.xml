@@ -7,14 +7,12 @@
         android:layout_height="match_parent"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
         tools:showIn="@layout/activity_main"
-        tools:context=".MainActivity"
-        android:fitsSystemWindows="true">
+        tools:context=".MainActivity">
 
     <FrameLayout
             android:id="@+id/fragment_placeholder"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:fitsSystemWindows="true">
+            android:layout_height="match_parent">
     </FrameLayout>
 
     <ProgressBar

@@ -11,6 +11,7 @@ import android.provider.MediaStore
 import android.support.constraint.ConstraintLayout
 import android.support.design.widget.BottomSheetDialog
 import android.support.design.widget.Snackbar
+import android.support.v4.view.ViewCompat
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -21,11 +22,13 @@ import com.procrastimax.birthdaybuddy.handler.BitmapHandler
 import com.procrastimax.birthdaybuddy.handler.EventHandler
 import com.procrastimax.birthdaybuddy.models.EventBirthday
 import com.procrastimax.birthdaybuddy.models.EventDate
+import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.content_main.*
 import kotlinx.android.synthetic.main.fragment_add_new_birthday.*
 import kotlinx.android.synthetic.main.fragment_event_list.*
 import java.text.DateFormat
 import java.util.*
+
 
 /**
  *
@@ -163,6 +166,17 @@ class BirthdayInstanceFragment : EventInstanceFragment() {
         super.onViewCreated(view, savedInstanceState)
         setHasOptionsMenu(false)
 
+        ViewCompat.setOnApplyWindowInsetsListener(
+            birthday_scrollview
+        ) { _, insets ->
+            ViewCompat.onApplyWindowInsets(
+                birthday_scrollview,
+                insets.replaceSystemWindowInsets(
+                    insets.systemWindowInsetLeft, 0,
+                    insets.systemWindowInsetRight, insets.systemWindowInsetBottom
+                )
+            )
+        }
         //retrieve fragment parameter when edited instance
         if (arguments != null) {
             isEditedBirthday = true
