@@ -14,7 +14,8 @@ class HelpAdapter(private val context: Context) : RecyclerView.Adapter<RecyclerV
         EventBirthday,
         AnnualEvent,
         OneTimeEvent,
-        Reason
+        Reason,
+        Support
     }
 
     class AboutCardViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
@@ -23,7 +24,8 @@ class HelpAdapter(private val context: Context) : RecyclerView.Adapter<RecyclerV
         HelpInstance.Reason,
         HelpInstance.EventBirthday,
         HelpInstance.AnnualEvent,
-        HelpInstance.OneTimeEvent
+        HelpInstance.OneTimeEvent,
+        HelpInstance.Support
     )
 
     override fun onCreateViewHolder(parent: ViewGroup, viewtype: Int): RecyclerView.ViewHolder {
@@ -59,6 +61,11 @@ class HelpAdapter(private val context: Context) : RecyclerView.Adapter<RecyclerV
                 holder.itemView.tv_card_view_help_title.text = context.resources.getText(R.string.help_title_OneTime)
                 holder.itemView.tv_card_view_help_content.text =
                     context.resources.getText(R.string.help_content_OneTime)
+            }
+            HelpInstance.Support -> {
+                holder.itemView.tv_card_view_help_title.text = context.resources.getText(R.string.help_title_support)
+                holder.itemView.tv_card_view_help_content.text =
+                    context.resources.getText(R.string.help_content_support)
             }
         }
     }

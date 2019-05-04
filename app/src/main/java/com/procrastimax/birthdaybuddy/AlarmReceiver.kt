@@ -142,7 +142,7 @@ class AlarmReceiver : BroadcastReceiver() {
                     .setSubText(context.getText(R.string.birthdayEvent))
                     .setAutoCancel(true)
                     .setStyle(NotificationCompat.BigTextStyle())
-                    .setContentText(builEventBirthdayNotificationBodyText(context, event))
+                    .setContentText(buildEventBirthdayNotificationBodyText(context, event))
 
                 if (bitmap != null) {
                     builder.setLargeIcon(bitmap)
@@ -260,7 +260,7 @@ class AlarmReceiver : BroadcastReceiver() {
         }
     }
 
-    private fun builEventBirthdayNotificationBodyText(context: Context, birthday: EventBirthday): String {
+    private fun buildEventBirthdayNotificationBodyText(context: Context, birthday: EventBirthday): String {
         var returnString = ""
         when (birthday.getDaysUntil()) {
             //today
