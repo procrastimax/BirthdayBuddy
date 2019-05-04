@@ -174,7 +174,7 @@ class AlarmReceiver : BroadcastReceiver() {
 
                 var defaults = Notification.DEFAULT_ALL
 
-                val drawable = ContextCompat.getDrawable(context, R.drawable.ic_date_range)
+                val drawable = ContextCompat.getDrawable(context, R.drawable.ic_event)
                 val bitmap = BitmapHandler.drawableToBitmap(drawable!!)
 
                 val builder = NotificationCompat.Builder(context, NotificationHandler.CHANNEL_ID)
@@ -221,7 +221,7 @@ class AlarmReceiver : BroadcastReceiver() {
 
                 var defaults = Notification.DEFAULT_ALL
 
-                val drawable = ContextCompat.getDrawable(context, R.drawable.ic_looks_one_time)
+                val drawable = ContextCompat.getDrawable(context, R.drawable.ic_timer)
                 val bitmap = BitmapHandler.drawableToBitmap(drawable!!)
 
                 val builder = NotificationCompat.Builder(context, NotificationHandler.CHANNEL_ID)

@@ -76,7 +76,7 @@
                     android:layout_marginStart="8dp"/>
 
             <ImageView
-                    android:src="@drawable/ic_event_note"
+                    android:src="@drawable/ic_timer"
                     android:layout_width="24dp"
                     android:layout_height="24dp"
                     android:id="@+id/iv_onetime_name"
