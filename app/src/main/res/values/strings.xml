@@ -150,7 +150,6 @@
     <string name="toolbar_title_add_one_time_event">Add new one-time event</string>
     <string name="toolbar_title_edit_one_time_event">Edit one-time event</string>
     <string name="error_past_one_time_event_error">You can only add one-time events which are in the future!</string>
-    <string name="empty_fields_error_one_time_event">Make sure to fill fields name and date!</string>
     <string name="one_time_event_added_notification">%1$s added</string>
     <string name="one_time_event_changed_notification">%1$s changed</string>
     <string name="one_time_event_deleted_notification">%1$s deleted</string>
@@ -194,21 +193,11 @@
     <string name="notification_content_one_time_event_today">%1$s is TODAY!</string>
 
     <!-- settings fragment -->
-    <string name="tv_notifications">Notifications</string>
-    <string name="tv_notification_sound">Sound</string>
-    <string name="tv_notification_vibration">Vibration</string>
-    <string name="tv_notification_time">Notification time</string>
 
-    <string name="tv_notification_interval">When to remind:</string>
     <string name="tv_notification_interval_month">Month before</string>
     <string name="tv_notification_interval_week">Week before</string>
     <string name="tv_notification_interval_day">Day before</string>
     <string name="tv_notification_interval_eventday">Eventday</string>
-
-    <string name="tv_notification_events">What to remind:</string>
-    <string name="tv_notification_events_birthdays">Birthdays</string>
-    <string name="tv_notification_events_one_time_events">One-Time events</string>
-    <string name="tv_notification_events_annual_events">Annual events</string>
 
     <string name="notification_channel_name">BirthdayBuddyNotification</string>
     <string name="notification_channel_description">notifies the user about events</string>

@@ -5,6 +5,6 @@
             android:id="@android:id/mask"
             android:drawable="@color/darkGrey"/>
     <item
-        android:id="@android:id/background"
-        android:drawable="@color/veryBrightGrey"/>
+            android:id="@android:id/background"
+            android:drawable="@color/veryBrightGrey"/>
 </ripple>

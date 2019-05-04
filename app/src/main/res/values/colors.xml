@@ -13,7 +13,6 @@
     <color name="textVeryDark">#424242</color>
     <color name="dark">#212121</color>
     <color name="white">#ffffff</color>
-    <color name="transparent">#FFFFFFFF</color>
 
     <!-- NOTIFICATION LIGHTS -->
     <color name="notification_light_white">#ffffff</color>

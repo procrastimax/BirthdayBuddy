@@ -47,7 +47,8 @@ class HelpAdapter(private val context: Context) : RecyclerView.Adapter<RecyclerV
             }
             HelpInstance.EventBirthday -> {
                 holder.itemView.tv_card_view_help_title.text = context.resources.getText(R.string.help_title_Birthday)
-                holder.itemView.tv_card_view_help_content.text = context.resources.getText(R.string.help_content_Birthday)
+                holder.itemView.tv_card_view_help_content.text =
+                    context.resources.getText(R.string.help_content_Birthday)
             }
             HelpInstance.AnnualEvent -> {
                 holder.itemView.tv_card_view_help_title.text = context.resources.getText(R.string.help_title_Annual)
@@ -56,7 +57,8 @@ class HelpAdapter(private val context: Context) : RecyclerView.Adapter<RecyclerV
             }
             HelpInstance.OneTimeEvent -> {
                 holder.itemView.tv_card_view_help_title.text = context.resources.getText(R.string.help_title_OneTime)
-                holder.itemView.tv_card_view_help_content.text = context.resources.getText(R.string.help_content_OneTime)
+                holder.itemView.tv_card_view_help_content.text =
+                    context.resources.getText(R.string.help_content_OneTime)
             }
         }
     }

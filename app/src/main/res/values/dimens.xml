@@ -6,7 +6,6 @@
     <dimen name="larg_text_size">24sp</dimen>
     <dimen name="larger_text_size">18sp</dimen>
     <dimen name="smaller_text_size">14sp</dimen>
-    <dimen name="small_text_size">10sp</dimen>
 
     <dimen name="standard_55">55dp</dimen>
     <dimen name="standard_105">105dp</dimen>

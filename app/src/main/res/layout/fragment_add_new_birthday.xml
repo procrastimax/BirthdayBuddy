@@ -139,7 +139,6 @@
                         android:layout_gravity="bottom|end"
                         android:clickable="false"
                         app:fabCustomSize="40dp"
-                        android:id="@+id/floatingActionButton"
                         app:elevation="0dp"
                         />
             </FrameLayout>

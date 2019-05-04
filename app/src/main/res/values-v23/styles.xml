@@ -18,19 +18,6 @@
         <item name="windowNoTitle">true</item>
     </style>
 
-    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar"/>
-
-    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light"/>
-
-    <style name="SelectableItemTheme">
-        <item name="android:colorControlHighlight">@color/darkGrey</item>
-    </style>
-
-    <style name="SelectableItemBackground">
-        <item name="android:theme">@style/SelectableItemTheme</item>
-        <item name="android:background">?attr/selectableItemBackgroundBorderless</item>
-    </style>
-
     <style name="BirthdayBuddyOverFlowButtonStyle" parent="Widget.AppCompat.ActionButton.Overflow">
         <item name="android:tint">@color/darkGrey</item>
     </style>
