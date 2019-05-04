@@ -118,15 +118,12 @@ class AlarmReceiver : BroadcastReceiver() {
         when (event) {
             is EventBirthday -> {
                 var bitmap: Bitmap? = null
+
                 if (event.avatarImageUri != null) {
                     bitmap = BitmapHandler.getBitmapFromFile(context, eventID)
                     if (bitmap != null) {
                         bitmap = BitmapHandler.getCircularBitmap(bitmap, context.resources)
                     }
-                }
-                if (event.avatarImageUri == null || bitmap == null) {
-                    val drawable = ContextCompat.getDrawable(context, R.drawable.ic_birthday_person)
-                    bitmap = BitmapHandler.drawableToBitmap(drawable!!)
                 }
 
                 var defaults = Notification.DEFAULT_ALL
@@ -142,10 +139,14 @@ class AlarmReceiver : BroadcastReceiver() {
                     .setPriority(NotificationCompat.PRIORITY_MAX)
                     // Set the intent that will fire when the user taps the notification
                     .setContentIntent(pendingIntent)
+                    .setSubText(context.getText(R.string.birthdayEvent))
                     .setAutoCancel(true)
                     .setStyle(NotificationCompat.BigTextStyle())
                     .setContentText(builEventBirthdayNotificationBodyText(context, event))
-                    .setLargeIcon(bitmap)
+
+                if (bitmap != null) {
+                    builder.setLargeIcon(bitmap)
+                }
 
                 if (!IOHandler.getBooleanFromKey(IOHandler.SharedPrefKeys.key_isNotificationVibrationOnBirthday)!!) {
                     defaults -= Notification.DEFAULT_VIBRATE
@@ -174,9 +175,6 @@ class AlarmReceiver : BroadcastReceiver() {
 
                 var defaults = Notification.DEFAULT_ALL
 
-                val drawable = ContextCompat.getDrawable(context, R.drawable.ic_event)
-                val bitmap = BitmapHandler.drawableToBitmap(drawable!!)
-
                 val builder = NotificationCompat.Builder(context, NotificationHandler.CHANNEL_ID)
                     .setSmallIcon(R.drawable.ic_birthdaybuddy_icon)
                     .setContentTitle(
@@ -190,8 +188,8 @@ class AlarmReceiver : BroadcastReceiver() {
                     .setPriority(NotificationCompat.PRIORITY_MAX)
                     // Set the intent that will fire when the user taps the notification
                     .setContentIntent(pendingIntent)
+                    .setSubText(context.getText(R.string.annualEvent))
                     .setAutoCancel(true)
-                    .setLargeIcon(bitmap)
 
                 if (!IOHandler.getBooleanFromKey(IOHandler.SharedPrefKeys.key_isNotificationVibrationOnAnnual)!!) {
                     defaults -= Notification.DEFAULT_VIBRATE
@@ -221,9 +219,6 @@ class AlarmReceiver : BroadcastReceiver() {
 
                 var defaults = Notification.DEFAULT_ALL
 
-                val drawable = ContextCompat.getDrawable(context, R.drawable.ic_timer)
-                val bitmap = BitmapHandler.drawableToBitmap(drawable!!)
-
                 val builder = NotificationCompat.Builder(context, NotificationHandler.CHANNEL_ID)
                     .setSmallIcon(R.drawable.ic_birthdaybuddy_icon)
                     .setContentTitle(
@@ -237,8 +232,8 @@ class AlarmReceiver : BroadcastReceiver() {
                     .setPriority(NotificationCompat.PRIORITY_MAX)
                     // Set the intent that will fire when the user taps the notification
                     .setContentIntent(pendingIntent)
+                    .setSubText(context.getText(R.string.oneTimeEvent))
                     .setAutoCancel(true)
-                    .setLargeIcon(bitmap)
 
                 if (!IOHandler.getBooleanFromKey(IOHandler.SharedPrefKeys.key_isNotificationVibrationOnOneTime)!!) {
                     defaults -= Notification.DEFAULT_VIBRATE
