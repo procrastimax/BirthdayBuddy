@@ -106,7 +106,7 @@ class SettingsAdapter(private val context: Context) :
                 //show checkbox dialog on click
                 constrLayoutNotificationDay.setOnClickListener {
                     val alertDialogBuilder = AlertDialog.Builder(context)
-                    alertDialogBuilder.setTitle(R.string.dialog_title_notification_date)
+                    alertDialogBuilder.setTitle(R.string.settings_title_notification_day)
                         .setPositiveButton(R.string.apply) { _, _ ->
 
                             holder.itemView.tv_settings_notification_day_value.text =
@@ -150,7 +150,7 @@ class SettingsAdapter(private val context: Context) :
                 //show checkbox dialog on click
                 constrLayoutNotificationLight.setOnClickListener {
                     val alertDialogBuilder = AlertDialog.Builder(context)
-                    alertDialogBuilder.setTitle(R.string.dialog_title_notification_date)
+                    alertDialogBuilder.setTitle(R.string.dialog_title_notification_light)
                         .setPositiveButton(R.string.apply) { _, _ ->
 
                             holder.itemView.tv_settings_notification_light_value.text =
@@ -224,7 +224,7 @@ class SettingsAdapter(private val context: Context) :
                 //show checkbox dialog on click
                 constrLayoutNotificationDay.setOnClickListener {
                     val alertDialogBuilder = AlertDialog.Builder(context)
-                    alertDialogBuilder.setTitle(R.string.dialog_title_notification_date)
+                    alertDialogBuilder.setTitle(R.string.settings_title_notification_day)
                         .setPositiveButton(R.string.apply) { _, _ ->
 
                             holder.itemView.tv_settings_notification_day_value.text =
@@ -268,7 +268,7 @@ class SettingsAdapter(private val context: Context) :
                 //show checkbox dialog on click
                 constrLayoutNotificationLight.setOnClickListener {
                     val alertDialogBuilder = AlertDialog.Builder(context)
-                    alertDialogBuilder.setTitle(R.string.dialog_title_notification_date)
+                    alertDialogBuilder.setTitle(R.string.dialog_title_notification_light)
                         .setPositiveButton(R.string.apply) { _, _ ->
 
                             holder.itemView.tv_settings_notification_light_value.text =
@@ -342,7 +342,7 @@ class SettingsAdapter(private val context: Context) :
                 //show checkbox dialog on click
                 constrLayoutNotificationDay.setOnClickListener {
                     val alertDialogBuilder = AlertDialog.Builder(context)
-                    alertDialogBuilder.setTitle(R.string.dialog_title_notification_date)
+                    alertDialogBuilder.setTitle(R.string.settings_title_notification_day)
                         .setPositiveButton(R.string.apply) { _, _ ->
 
                             holder.itemView.tv_settings_notification_day_value.text =
@@ -386,7 +386,7 @@ class SettingsAdapter(private val context: Context) :
                 //show checkbox dialog on click
                 constrLayoutNotificationLight.setOnClickListener {
                     val alertDialogBuilder = AlertDialog.Builder(context)
-                    alertDialogBuilder.setTitle(R.string.dialog_title_notification_date)
+                    alertDialogBuilder.setTitle(R.string.dialog_title_notification_light)
                         .setPositiveButton(context.getText(R.string.apply)) { _, _ ->
 
                             holder.itemView.tv_settings_notification_light_value.text =

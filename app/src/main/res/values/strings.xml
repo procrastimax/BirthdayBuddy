@@ -70,8 +70,8 @@
         <item quantity="other">Next birthday of %1$s is in %2$d days\non %3$s</item>
     </plurals>
     <plurals name="person_years_old">
-        <item quantity="one">%1$s will be %2$d year old</item>
-        <item quantity="other">%1$s will be %2$d years old</item>
+        <item quantity="one">%1$s turns %2$d</item>
+        <item quantity="other">%1$s turns %2$d</item>
     </plurals>
 
     <!-- sharing strings birthday -->
@@ -89,7 +89,7 @@
     <string name="notification_content_birthday_future">The birthday of %1$s is in %2$d days.</string>
     <string name="notification_content_birthday_tomorrow">The birthday of %1$s is tomorrow!</string>
     <string name="notification_content_birthday_today">The birthday of %1$s is TODAY!</string>
-    <string name="notification_content_birthday_years_old">%1$s will be %2$d years old</string>
+    <string name="notification_content_birthday_years_old">%1$s turns %2$d</string>
 
 
     <!--- ANNUAL EVENT -->
@@ -200,13 +200,20 @@
 
     <string-array name="light_modes">
         <item>no light</item>
-        <item>white light</item>
-        <item>red light</item>
-        <item>green light</item>
-        <item>blue light</item>
+        <item>white</item>
+        <item>red</item>
+        <item>green</item>
+        <item>blue</item>
     </string-array>
 
-    <string name="dialog_title_notification_date">Notification Date</string>
+    <string name="settings_extra_title_delete_all">Delete all data</string>
+    <string name="settings_title_notifications">Notifications</string>
+    <string name="settings_title_sound">Sound</string>
+    <string name="settings_title_vibration">Vibration</string>
+    <string name="settings_title_notification_time">Notification time</string>
+    <string name="settings_title_notification_day">Notification day</string>
+
+    <string name="dialog_title_notification_light">Notification light</string>
     <string name="delete_all_dialog_title">Delete all Data?</string>
     <string name="delete_all_dialog_body">Are you sure you want delete all your data?</string>
     <string name="delete_all_dialog_confirmation">All events have been deleted</string>

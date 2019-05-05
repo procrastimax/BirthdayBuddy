@@ -30,7 +30,7 @@
                 android:layout_marginStart="16dp"/>
 
         <TextView
-                android:text="Notifications"
+                android:text="@string/settings_title_notifications"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/tv_settings_notification"
@@ -55,7 +55,7 @@
                 android:checked="true"/>
 
         <TextView
-                android:text="Sound"
+                android:text="@string/settings_title_sound"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/tv_settings_sound"
@@ -79,7 +79,7 @@
                 android:checked="true"/>
 
         <TextView
-                android:text="Vibrate"
+                android:text="@string/settings_title_vibration"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/tv_settings_vibration"
@@ -103,7 +103,7 @@
                 android:checked="true"/>
 
         <TextView
-                android:text="Notification time"
+                android:text="@string/settings_title_notification_time"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/tv_settings_notification_time_title"
@@ -143,7 +143,7 @@
                 android:background="@drawable/ripple_recycler_view_item">
 
             <TextView
-                    android:text="Notification day"
+                    android:text="@string/settings_title_notification_day"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:id="@+id/tv_settings_notification_day_title"
@@ -178,7 +178,7 @@
                 android:background="@drawable/ripple_recycler_view_item">
 
             <TextView
-                    android:text="Notification light"
+                    android:text="@string/dialog_title_notification_light"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:id="@+id/tv_settings_notification_light_title"
