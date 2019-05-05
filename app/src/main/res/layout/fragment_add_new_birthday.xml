@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
                                                  xmlns:app="http://schemas.android.com/apk/res-auto"
                                                  xmlns:tools="http://schemas.android.com/tools"
                                                  android:layout_width="match_parent"
-                                                 android:orientation="vertical"
                                                  android:layout_height="match_parent"
                                                  tools:context=".fragments.BirthdayInstanceFragment">
 
@@ -11,7 +10,11 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:id="@+id/birthday_scrollview"
-            android:isScrollContainer="true">
+            android:isScrollContainer="true"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent">
 
         <android.support.constraint.ConstraintLayout
                 android:layout_width="match_parent"
@@ -184,4 +187,4 @@
         </android.support.constraint.ConstraintLayout>
     </ScrollView>
 
-</android.support.design.widget.CoordinatorLayout>
+</android.support.constraint.ConstraintLayout>
