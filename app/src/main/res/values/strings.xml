@@ -102,7 +102,7 @@
     <string name="annual_event_added_notification">%1$s added</string>
     <string name="annual_event_changed_notification">%1$s changed</string>
     <string name="annual_event_deleted_notification">%1$s deleted</string>
-    <string name="edit_annual_event_name_hint">Annual event name</string>
+    <string name="edit_annual_event_name_hint">Event name</string>
     <string name="btn_annual_event_delete">Delete annual event</string>
 
     <!-- alert dialog delete annual event -->
@@ -149,7 +149,7 @@
     <string name="one_time_event_added_notification">%1$s added</string>
     <string name="one_time_event_changed_notification">%1$s changed</string>
     <string name="one_time_event_deleted_notification">%1$s deleted</string>
-    <string name="edit_one_time_event_name_hint">One-time event name</string>
+    <string name="edit_one_time_event_name_hint">Event name</string>
     <string name="btn_one_time_event_delete">Delete one-time event</string>
 
     <!-- alert dialog delete one_time event -->
