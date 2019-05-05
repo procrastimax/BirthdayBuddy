@@ -372,7 +372,7 @@ class BirthdayInstanceFragment : EventInstanceFragment() {
     }
 
     /**
-     * onActivityResult is the result of the gallery intent from above, here the uri of the photo is processed
+     * onActivityResult is the result of the gallery intent, here the uri of the photo is processed
      */
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)

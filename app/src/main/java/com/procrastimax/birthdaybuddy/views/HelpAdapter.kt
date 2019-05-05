@@ -15,7 +15,8 @@ class HelpAdapter(private val context: Context) : RecyclerView.Adapter<RecyclerV
         AnnualEvent,
         OneTimeEvent,
         Reason,
-        Support
+        Support,
+        Notifications
     }
 
     class AboutCardViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
@@ -25,6 +26,7 @@ class HelpAdapter(private val context: Context) : RecyclerView.Adapter<RecyclerV
         HelpInstance.EventBirthday,
         HelpInstance.AnnualEvent,
         HelpInstance.OneTimeEvent,
+        HelpInstance.Notifications,
         HelpInstance.Support
     )
 
@@ -66,6 +68,12 @@ class HelpAdapter(private val context: Context) : RecyclerView.Adapter<RecyclerV
                 holder.itemView.tv_card_view_help_title.text = context.resources.getText(R.string.help_title_support)
                 holder.itemView.tv_card_view_help_content.text =
                     context.resources.getText(R.string.help_content_support)
+            }
+            HelpInstance.Notifications -> {
+                holder.itemView.tv_card_view_help_title.text =
+                    context.resources.getText(R.string.help_title_notifications)
+                holder.itemView.tv_card_view_help_content.text =
+                    context.resources.getText(R.string.help_content_notifications)
             }
         }
     }
