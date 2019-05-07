@@ -154,7 +154,7 @@ class EventAdapter_Searching(private val context: Context, private val eventIDs:
                         //set years since, if specified
                         if (birthdayEvent.isYearGiven) {
                             holder.itemView.tv_birthday_event_item_years_since_value.text =
-                                (birthdayEvent.getYearsSince()+1).toString()
+                                (birthdayEvent.getYearsSince() + 1).toString()
                         } else {
                             holder.itemView.tv_birthday_event_item_years_since_value.text =
                                 "-"
@@ -176,19 +176,32 @@ class EventAdapter_Searching(private val context: Context, private val eventIDs:
 
                         } else {
 
-                            //set forename and surname invisible
-                            holder.itemView.tv_birthday_event_item_forename.visibility = TextView.VISIBLE
-                            holder.itemView.tv_birthday_event_item_surname.visibility = TextView.VISIBLE
+                            //when surname is given, set surname and forename
+                            if (birthdayEvent.surname != null) {
+                                //set forename and surname invisible
+                                holder.itemView.tv_birthday_event_item_forename.visibility = TextView.VISIBLE
+                                holder.itemView.tv_birthday_event_item_surname.visibility = TextView.VISIBLE
 
-                            //set nickname textview visible
-                            holder.itemView.tv_birthday_event_item_nickname.visibility = TextView.GONE
+                                //set nickname textview visible
+                                holder.itemView.tv_birthday_event_item_nickname.visibility = TextView.GONE
 
-                            holder.itemView.tv_birthday_event_item_forename.text =
-                                birthdayEvent.forename
+                                holder.itemView.tv_birthday_event_item_forename.text = birthdayEvent.forename
 
-                            //set surname
-                            holder.itemView.tv_birthday_event_item_surname.text =
-                                birthdayEvent.surname
+                                //set surname
+                                holder.itemView.tv_birthday_event_item_surname.text = birthdayEvent.surname
+
+                                //when surname is not given, set forename as nickname textview
+                            } else {
+                                //set forename and surname invisible
+                                holder.itemView.tv_birthday_event_item_forename.visibility = TextView.GONE
+                                holder.itemView.tv_birthday_event_item_surname.visibility = TextView.GONE
+
+                                //set nickname textview visible
+                                holder.itemView.tv_birthday_event_item_nickname.visibility = TextView.VISIBLE
+
+                                //set nickname textview text
+                                holder.itemView.tv_birthday_event_item_nickname.text = birthdayEvent.forename
+                            }
                         }
 
                         val avatarUri = birthdayEvent.avatarImageUri

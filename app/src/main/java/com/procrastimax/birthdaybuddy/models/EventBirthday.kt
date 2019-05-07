@@ -17,14 +17,12 @@ import java.util.*
  *
  *  @param _birthday : Date
  *  @param _forename : String
- *  @param _surname : String
  *  @param isYearGiven : Boolean
  * @author Procrastimax
  */
 class EventBirthday(
     private var _birthday: Date,
     private var _forename: String,
-    private var _surname: String,
     var isYearGiven: Boolean = true
 ) :
     EventDate(_birthday) {
@@ -67,16 +65,7 @@ class EventBirthday(
             }
         }
 
-    var surname: String
-        get() = _surname
-        set(value) {
-            _surname = if (value.isNullOrBlank() || value.isEmpty()) {
-                Log.d("EventBirthday", "member variable SURNAME was set to an empty/blank value!")
-                "0"
-            } else {
-                value
-            }
-        }
+    var surname: String? = null
 
     var note: String? = null
 
@@ -101,7 +90,6 @@ class EventBirthday(
      */
     override fun toString(): String {
         return "$Name${IOHandler.characterDivider_properties}${Identifier.Forename}${IOHandler.characterDivider_values}${this._forename}${IOHandler.characterDivider_properties}" +
-                "${Identifier.Surname}${IOHandler.characterDivider_values}${this._surname}${IOHandler.characterDivider_properties}" +
                 "${Identifier.Date}${IOHandler.characterDivider_values}${parseDateToString(
                     this.eventDate,
                     DateFormat.DEFAULT,
@@ -109,6 +97,9 @@ class EventBirthday(
                 )}" +
                 "${IOHandler.characterDivider_properties}${Identifier.IsYearGiven}${IOHandler.characterDivider_values}${this.isYearGiven}" +
                 "${getStringFromValue(
+                    Identifier.Nickname,
+                    this.nickname
+                )}${getStringFromValue(
                     Identifier.Note,
                     this.note
                 )}${getStringFromValue(

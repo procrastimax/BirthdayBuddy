@@ -130,12 +130,6 @@ class AlarmReceiver : BroadcastReceiver() {
 
                 val builder = NotificationCompat.Builder(context, NotificationHandler.CHANNEL_ID)
                     .setSmallIcon(R.drawable.ic_birthdaybuddy_icon_status_bar)
-                    .setContentTitle(
-                        context.getString(
-                            R.string.notification_title_birthday,
-                            "${event.forename} ${event.surname}"
-                        )
-                    )
                     .setPriority(NotificationCompat.PRIORITY_MAX)
                     // Set the intent that will fire when the user taps the notification
                     .setContentIntent(pendingIntent)
@@ -143,6 +137,30 @@ class AlarmReceiver : BroadcastReceiver() {
                     .setAutoCancel(true)
                     .setStyle(NotificationCompat.BigTextStyle())
                     .setContentText(buildEventBirthdayNotificationBodyText(context, event))
+                //settings names according to their existence
+                //TODO: when forename and surname are set, notification only show forename
+                if (event.nickname != null) {
+                    builder.setContentTitle(
+                        context.getString(
+                            R.string.notification_title_birthday,
+                            event.nickname
+                        )
+                    )
+                } else if (event.surname != null) {
+                    builder.setContentTitle(
+                        context.getString(
+                            R.string.notification_title_birthday,
+                            "${event.forename} ${event.surname}"
+                        )
+                    )
+                } else {
+                    builder.setContentTitle(
+                        context.getString(
+                            R.string.notification_title_birthday,
+                            event.forename
+                        )
+                    )
+                }
 
                 if (bitmap != null) {
                     builder.setLargeIcon(bitmap)

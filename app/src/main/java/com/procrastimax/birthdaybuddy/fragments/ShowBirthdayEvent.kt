@@ -52,6 +52,13 @@ class ShowBirthdayEvent : ShowEventFragment() {
                     this.tv_show_birthday_forename.text = birthdayEvent.forename
                 }
 
+                if (birthdayEvent.surname != null) {
+                    this.tv_show_birthday_surname.visibility = TextView.VISIBLE
+                    this.tv_show_birthday_surname.text = birthdayEvent.surname
+                } else {
+                    this.tv_show_birthday_surname.visibility = TextView.GONE
+                }
+
                 var scrollRange = -1
                 (context as MainActivity).app_bar.addOnOffsetChangedListener(AppBarLayout.OnOffsetChangedListener { appbarLayout, verticalOffset ->
                     if (scrollRange == -1) {
@@ -86,8 +93,6 @@ class ShowBirthdayEvent : ShowEventFragment() {
                         )
                     )
                 }
-
-                this.tv_show_birthday_surname.text = birthdayEvent.surname
 
                 val date: String
                 if (birthdayEvent.isYearGiven) {

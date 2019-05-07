@@ -47,7 +47,7 @@
     <string name="toolbar_title_edit_birthday">Edit birthday</string>
     <string name="future_birthday_error">You can\'t add future birthdays!\nPlease only use birthday dates in the past.</string>
     <string name="birthday_instance_fragment_date_edit_hint">Date: %1$s</string>
-    <string name="empty_fields_error_birthday">Make sure to fill fields forename, surname and date!</string>
+    <string name="empty_fields_error_birthday">Make sure to fill fields forename and date!</string>
     <string name="person_added_notification">Birthday added</string>
     <string name="person_changed_notification">Birthday changed</string>
     <string name="person_deleted_notification">Birthday deleted</string>

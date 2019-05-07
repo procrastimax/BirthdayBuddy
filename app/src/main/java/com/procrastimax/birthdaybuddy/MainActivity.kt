@@ -60,7 +60,6 @@ class MainActivity : AppCompatActivity() {
                 EventBirthday(
                     EventDate.parseStringToDate("06.02.19", DateFormat.SHORT, Locale.GERMAN),
                     "Procrastimax",
-                    "Dev",
                     false
                 ),
                 this,

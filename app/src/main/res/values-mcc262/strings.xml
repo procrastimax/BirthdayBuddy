@@ -47,7 +47,7 @@
     <string name="toolbar_title_edit_birthday">Geburtstag bearbeiten</string>
     <string name="future_birthday_error">Du kannst keine zukünftigen Geburtstage hinzufügen!\nBitte füge nur Personen hinzu, die schon geboren sind.</string>
     <string name="birthday_instance_fragment_date_edit_hint">Datum: %1$s</string>
-    <string name="empty_fields_error_birthday">Du musst alle Felder: Vorname, Nachname, Datum ausfüllen!</string>
+    <string name="empty_fields_error_birthday">Du musst die Felder Vorname und Datum ausfüllen!</string>
     <string name="person_added_notification">Geburtstag hinzugefügt</string>
     <string name="person_changed_notification">Geburtstag bearbeitet</string>
     <string name="person_deleted_notification">Geburtstag gelöscht</string>

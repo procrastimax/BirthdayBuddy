@@ -145,8 +145,15 @@ class BirthdayInstanceFragment : EventInstanceFragment() {
             }
         }
 
+        if (edit_surname.text.isNotBlank() && event.surname == null) {
+            return true
+        } else {
+            if (event.surname != null) {
+                if (edit_surname.text.toString() != event.surname!!) return true
+            }
+        }
+
         if (edit_forename.text.toString() != event.forename) return true
-        if (edit_surname.text.toString() != event.surname) return true
         if (switch_isYearGiven.isChecked != event.isYearGiven) return true
         if (avatar_img_was_edited) return true
 
@@ -409,7 +416,7 @@ class BirthdayInstanceFragment : EventInstanceFragment() {
         val nickname = edit_nickname.text.toString()
         val isYearGiven = switch_isYearGiven.isChecked
 
-        if (forename.isBlank() || surname.isBlank() || date.isBlank()) {
+        if (forename.isBlank() || date.isBlank()) {
             Toast.makeText(
                 context,
                 context!!.resources.getText(R.string.empty_fields_error_birthday),
@@ -422,9 +429,13 @@ class BirthdayInstanceFragment : EventInstanceFragment() {
             val birthday = EventBirthday(
                 this.eventDate,
                 forename,
-                surname,
                 isYearGiven
             )
+
+            //TODO: is nulling and clearing necessary?
+            if (surname.isNotBlank()) {
+                birthday.surname = surname
+            }
 
             if (note.isNotBlank()) {
                 birthday.note = note

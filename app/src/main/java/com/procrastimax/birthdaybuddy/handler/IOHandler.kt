@@ -240,6 +240,7 @@ object IOHandler {
     fun clearSharedPrefEventData() {
         val sharedPrefEdit = sharedPrefEventData.edit()
         sharedPrefEdit.clear()
+        sharedPrefEdit.apply()
     }
 
     /**
@@ -321,11 +322,11 @@ object IOHandler {
         // BIRTHDAY EVENT
         if (string_array[0] == EventBirthday.Name) {
             var forename = "-"
-            var surname = "-"
             var date = "-"
             var note: String? = null
             var isyeargiven = false
             var avatarImageURI: String? = null
+            var surname: String? = null
             var nickname: String? = null
 
             for (i in 1 until string_array.size) {
@@ -360,7 +361,8 @@ object IOHandler {
             }
 
             val birthday =
-                EventBirthday(EventDate.parseStringToDate(date, locale = Locale.GERMAN), forename, surname, isyeargiven)
+                EventBirthday(EventDate.parseStringToDate(date, locale = Locale.GERMAN), forename, isyeargiven)
+            if(surname != null) birthday.surname = surname
             if (note != null) birthday.note = note
             if (avatarImageURI != null) birthday.avatarImageUri = avatarImageURI
             if (nickname != null) birthday.nickname = nickname
