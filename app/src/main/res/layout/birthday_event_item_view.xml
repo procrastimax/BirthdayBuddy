@@ -97,7 +97,7 @@
             android:layout_marginTop="4dp"/>
 
     <TextView
-            android:text="@string/event_property_years"
+            android:text="@string/event_property_turns"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/tv_birthday_event_item_years_since_title"

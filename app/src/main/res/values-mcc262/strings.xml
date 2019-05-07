@@ -28,6 +28,7 @@
     <string name="event_property_days">Tage</string>
     <string name="event_property_years">Jahre</string>
     <string name="event_property_year">Jahr</string>
+    <string name="event_property_turns">wird</string>
     <string name="event_property_date">Datum</string>
     <string name="event_property_forename">Vorname</string>
     <string name="event_property_surname">Nachname</string>
