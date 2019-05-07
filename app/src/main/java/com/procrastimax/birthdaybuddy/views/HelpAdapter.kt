@@ -5,6 +5,7 @@ import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import com.procrastimax.birthdaybuddy.R
 import kotlinx.android.synthetic.main.card_view_help.view.*
 
@@ -44,6 +45,19 @@ class HelpAdapter(private val context: Context) : RecyclerView.Adapter<RecyclerV
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
+
+        //change visibility of textview on image view click
+        holder.itemView.constrLayout_help_title.setOnClickListener {
+            holder.itemView.tv_card_view_help_content.let {
+                if(it.visibility == TextView.GONE){
+                    it.visibility = TextView.VISIBLE
+                    holder.itemView.iv_expand_text.animate().rotation(180f)
+                } else {
+                    it.visibility = TextView.GONE
+                    holder.itemView.iv_expand_text.animate().rotation(0f)
+                }
+            }
+        }
         when (itemList[position]) {
             HelpInstance.Reason -> {
                 holder.itemView.tv_card_view_help_title.text = context.resources.getText(R.string.help_title_reason)

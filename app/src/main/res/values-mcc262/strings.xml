@@ -244,7 +244,7 @@
     <string name="about_content_contact">E-Mail: heykeroth.dev@gmail.com\nGitHub: procrastimax</string>
 
     <!-- help texts -->
-    <string name="help_title_reason">Warum sollte ich diese App benutzen und meinen Freunden empfehlen?</string>
+    <string name="help_title_reason">Warum sollte ich diese App benutzen?</string>
     <string name="help_title_Birthday">Was sind die Geburtstags-Einträge?</string>
     <string name="help_title_Annual">Was sind \"jährliche Events\"?</string>
     <string name="help_title_OneTime">Was sind \"einmalige Events\"?</string>
