@@ -129,7 +129,7 @@ class AlarmReceiver : BroadcastReceiver() {
                 var defaults = Notification.DEFAULT_ALL
 
                 val builder = NotificationCompat.Builder(context, NotificationHandler.CHANNEL_ID)
-                    .setSmallIcon(R.drawable.ic_birthdaybuddy_icon)
+                    .setSmallIcon(R.drawable.ic_birthdaybuddy_icon_status_bar)
                     .setContentTitle(
                         context.getString(
                             R.string.notification_title_birthday,
@@ -176,7 +176,7 @@ class AlarmReceiver : BroadcastReceiver() {
                 var defaults = Notification.DEFAULT_ALL
 
                 val builder = NotificationCompat.Builder(context, NotificationHandler.CHANNEL_ID)
-                    .setSmallIcon(R.drawable.ic_birthdaybuddy_icon)
+                    .setSmallIcon(R.drawable.ic_birthdaybuddy_icon_status_bar)
                     .setContentTitle(
                         context.getString(
                             R.string.notification_title_annual_event,
@@ -220,7 +220,7 @@ class AlarmReceiver : BroadcastReceiver() {
                 var defaults = Notification.DEFAULT_ALL
 
                 val builder = NotificationCompat.Builder(context, NotificationHandler.CHANNEL_ID)
-                    .setSmallIcon(R.drawable.ic_birthdaybuddy_icon)
+                    .setSmallIcon(R.drawable.ic_birthdaybuddy_icon_status_bar)
                     .setContentTitle(
                         context.getString(
                             R.string.notification_title_one_time_event,
