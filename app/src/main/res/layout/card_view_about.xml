@@ -15,7 +15,6 @@
             android:layout_height="match_parent">
 
         <TextView
-                android:text="EventBirthday"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/tv_about_title"
@@ -25,13 +24,10 @@
                 android:textSize="18sp"/>
 
         <TextView
-                android:text="Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet."
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:id="@+id/tv_about_content"
                 android:layout_marginTop="8dp"
-                android:clickable="true"
-                android:focusable="true"
                 android:autoLink="all"
                 app:layout_constraintTop_toBottomOf="@+id/tv_about_title"
                 app:layout_constraintStart_toStartOf="@+id/tv_about_title"

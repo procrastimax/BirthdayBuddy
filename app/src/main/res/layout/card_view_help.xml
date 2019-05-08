@@ -53,8 +53,6 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/tv_card_view_help_content"
                 android:textColor="@color/textDark"
-                android:clickable="true"
-                android:focusable="true"
                 android:visibility="gone"
                 android:autoLink="all"
                 app:layout_constraintTop_toBottomOf="@+id/constrLayout_help_title"
