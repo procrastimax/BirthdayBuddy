@@ -154,7 +154,6 @@ class AnnualEventInstanceFragment : EventInstanceFragment() {
         } else {
             setToolbarTitle(context!!.resources.getString(R.string.toolbar_title_add_annual_event))
             btn_fragment_annual_event_instance_delete.visibility = Button.INVISIBLE
-            (context as MainActivity).progress_bar_main.visibility = ProgressBar.GONE
             edit_date.hint = "${resources.getString(
                 R.string.event_property_date
             )}: ${EventDate.parseDateToString(this.eventDate, DateFormat.DEFAULT)}"

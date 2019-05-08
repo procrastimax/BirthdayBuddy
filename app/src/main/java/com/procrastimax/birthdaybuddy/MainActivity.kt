@@ -33,8 +33,6 @@ import java.util.*
  */
 class MainActivity : AppCompatActivity() {
 
-    var isLoading: Boolean = true
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -78,35 +76,14 @@ class MainActivity : AppCompatActivity() {
         //start loading bitmap drawables in other thread to not block ui
         Thread(Runnable
         {
-            isLoading = true
             //import all drawables
             //TODO: add checkings
             val success = BitmapHandler.loadAllBitmaps(this)
-            isLoading = false
-
             runOnUiThread {
 
                 if (recyclerView != null) {
                     recyclerView.adapter!!.notifyDataSetChanged()
                 }
-
-                //update avatar images from other fragments, when all drawables have been loaded
-                if (supportFragmentManager.backStackEntryCount > 0) {
-                    val currentFragment =
-                        supportFragmentManager.fragments[supportFragmentManager.backStackEntryCount - 1]
-
-                    //current fragment is ShowBirthdayEvent fragment
-                    if (currentFragment is ShowBirthdayEvent) {
-                        (currentFragment).updateAvatarImage()
-
-                        //current fragment is BirthdayInstanceFragment
-                    } else if (currentFragment is BirthdayInstanceFragment) {
-                        (currentFragment).updateAvatarImage()
-                        (currentFragment).iv_add_avatar_btn.isEnabled = true
-                    }
-                }
-
-                progress_bar_main.visibility = ProgressBar.GONE
             }
         }).start()
 

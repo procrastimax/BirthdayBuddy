@@ -256,7 +256,7 @@ class EventAdapter(private val context: Context, private val fragmentManager: Fr
 
                         //when context is mainactivity
                         if (context is MainActivity) {
-                            if (avatarUri != null && !(context).isLoading) {
+                            if (avatarUri != null) {
                                 holder.itemView.iv_birthday_event_item_image.setImageBitmap(
                                     BitmapHandler.getBitmapAt(
                                         birthday.eventID

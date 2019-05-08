@@ -208,7 +208,7 @@ class EventAdapter_Searching(private val context: Context, private val eventIDs:
 
                         //when called from mainactivity
                         if (context is MainActivity) {
-                            if (avatarUri != null && !(context).isLoading) {
+                            if (avatarUri != null) {
                                 holder.itemView.iv_birthday_event_item_image.setImageBitmap(
                                     BitmapHandler.getBitmapAt(
                                         birthdayEvent.eventID

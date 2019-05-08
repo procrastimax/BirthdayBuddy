@@ -265,12 +265,7 @@ class BirthdayInstanceFragment : EventInstanceFragment() {
                         dialog.show()
                     }
 
-                    if ((context as MainActivity).isLoading) {
-                        this.iv_add_avatar_btn.setImageResource(R.drawable.ic_birthday_person)
-                        this.iv_add_avatar_btn.isEnabled = false
-                    } else {
-                        this.updateAvatarImage()
-                    }
+                    this.updateAvatarImage()
                 }
             }
 
@@ -278,7 +273,6 @@ class BirthdayInstanceFragment : EventInstanceFragment() {
         } else {
             setToolbarTitle(context!!.resources.getString(R.string.toolbar_title_add_birthday))
             btn_birthday_add_fragment_delete.visibility = Button.INVISIBLE
-            (context as MainActivity).progress_bar_main.visibility = ProgressBar.GONE
             edit_date.hint = resources.getString(
                 R.string.birthday_instance_fragment_date_edit_hint,
                 EventDate.parseDateToString(this.eventDate, DateFormat.DEFAULT)
