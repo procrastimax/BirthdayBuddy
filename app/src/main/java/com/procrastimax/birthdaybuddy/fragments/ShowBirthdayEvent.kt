@@ -205,11 +205,15 @@ class ShowBirthdayEvent : ShowEventFragment() {
                     if (birthday.nickname != null) {
                         context!!.resources.getString(
                             R.string.share_birthday_name,
-                            "${birthday.forename} \"${birthday.nickname}\"",
-                            birthday.surname
+                            "${birthday.forename} \"${birthday.nickname}\" ${birthday.surname}"
+                        )
+                    } else if (birthday.surname != null) {
+                        context!!.resources.getString(
+                            R.string.share_birthday_name,
+                            "${birthday.forename} ${birthday.surname}"
                         )
                     } else {
-                        context!!.resources.getString(R.string.share_birthday_name, birthday.forename, birthday.surname)
+                        context!!.resources.getString(R.string.share_birthday_name, birthday.forename)
                     }
 
                 if (birthday.isYearGiven) {

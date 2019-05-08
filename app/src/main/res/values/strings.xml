@@ -76,7 +76,7 @@
     </plurals>
 
     <!-- sharing strings birthday -->
-    <string name="share_birthday_name">%1$s %2$s</string>
+    <string name="share_birthday_name">%1$s</string>
     <string name="share_birthday_date_start">Born on: %1$s</string>
     <string name="share_birthday_date_next">Next birthday: %1$s</string>
     <string name="share_birthday_days_today">That is today!</string>
