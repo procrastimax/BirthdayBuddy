@@ -22,7 +22,7 @@ class AboutAdapter(private val context: Context) : RecyclerView.Adapter<Recycler
 
     class AboutCardViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
 
-    val itemList = listOf(
+    private val itemList = listOf(
         AboutInstance.OpenSource,
         AboutInstance.License,
         AboutInstance.Contact,

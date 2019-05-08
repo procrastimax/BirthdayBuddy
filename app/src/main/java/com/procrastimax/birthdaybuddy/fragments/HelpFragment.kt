@@ -19,7 +19,7 @@ class HelpFragment : Fragment() {
     private lateinit var viewAdapter: RecyclerView.Adapter<*>
     private lateinit var viewManager: RecyclerView.LayoutManager
 
-    val toolbar: Toolbar by lazy {
+    private val toolbar: Toolbar by lazy {
         activity!!.findViewById<Toolbar>(R.id.toolbar)
     }
 

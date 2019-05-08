@@ -11,7 +11,7 @@ import kotlinx.android.synthetic.main.fragment_event_list.*
 import java.util.*
 
 /**
- * EventHandler singleton object map to store all occurring eventdates (birthdays, anniversaries, etc.)
+ * EventHandler singleton object map to store all occurring EventDates (birthdays, anniversaries, etc.)
  * This is useful to compare all objects more easily, f.e. when you want to traverse all entries in event dates
  */
 object EventHandler {
@@ -25,12 +25,12 @@ object EventHandler {
     private var event_map: MutableMap<Int, EventDate> = emptyMap<Int, EventDate>().toMutableMap()
 
     /**
-     * addEvent adds a EventDay type to the map and has the possibility to write it to the shared prefernces after adding it
+     * addEvent adds a EventDay type to the map and has the possibility to write it to the shared preferences after adding it
      * this orders all events after the date automatically
      * also updates the eventday list after every adding of a new event
      * @param event: EventDay
      * @param context: Context
-     * @param writeAfterAdd: Boolean whether this event should be written to sharedpref after adding to list
+     * @param writeAfterAdd: Boolean whether this event should be written to shared preferences after adding to list
      * @param addNewNotification : Boolean, whether a new notification should be created after adding this event
      * @param updateEventList : Boolean, whether to update the eventlist, updating the eventlist means sorting event values by their date
      * @param addBitmap : Boolean whether a new bitmap should be added
@@ -68,7 +68,7 @@ object EventHandler {
             }).start()
         }
 
-        //set hour of day from all other events except monthdivider to 12h (month divider is at 0h), so when sorting month divider is always at first
+        //set hour of day from all other events except MonthDivider to 12h (month divider is at 0h), so when sorting month divider is always at first
         if (event !is MonthDivider && addNewNotification) {
             NotificationHandler.scheduleNotification(context, event)
         }
@@ -84,7 +84,7 @@ object EventHandler {
 
 
     /**
-     * changeEventAt change event at key position
+     * changeEventAt changes event at key position
      *
      * @param ID : Int
      * @param newEvent : EventDay
@@ -132,6 +132,8 @@ object EventHandler {
      * removeEventByKey removes an event from the by using a key
      *
      * @param index : Int
+     * @param context : Context
+     * @param writeChange : Boolean
      */
     fun removeEventByID(index: Int, context: Context, writeChange: Boolean = false) {
         getEventToEventIndex(index)?.let { event ->
@@ -198,7 +200,7 @@ object EventHandler {
      * @param index: Int
      * @return Boolean
      */
-    fun containsIndex(index: Int): Boolean {
+    private fun containsIndex(index: Int): Boolean {
         return event_map.containsKey(index)
     }
 
@@ -230,7 +232,7 @@ object EventHandler {
      * @param identifier : SortIdentifier
      * @return List<EventDay>
      */
-    fun getSortedListBy(
+    private fun getSortedListBy(
         identifier: SortIdentifier = EventDate.Identifier.Date
     ): List<EventDate> {
         return if (identifier == EventDate.Identifier.Date) {

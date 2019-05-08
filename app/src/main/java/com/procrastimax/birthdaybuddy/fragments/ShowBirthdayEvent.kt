@@ -166,7 +166,7 @@ class ShowBirthdayEvent : ShowEventFragment() {
         super.onDetach()
     }
 
-    fun updateAvatarImage() {
+    private fun updateAvatarImage() {
         if (this.iv_avatar != null && this.eventID >= 0 && (context as MainActivity).collapsable_toolbar_iv != null) {
             val bitmap = BitmapHandler.getBitmapFromFile(context!!, this.eventID)
             setBitmapToToolbar(bitmap)
@@ -234,14 +234,14 @@ class ShowBirthdayEvent : ShowEventFragment() {
                 )
 
                 val daysUntil = birthday.getDaysUntil()
-                if (daysUntil == 0) {
+                shareBirthdayMsg += if (daysUntil == 0) {
                     //today
-                    shareBirthdayMsg += "\n" + context!!.resources.getString(
+                    "\n" + context!!.resources.getString(
                         R.string.share_birthday_days_today
                     )
                 } else {
                     // in X days
-                    shareBirthdayMsg += "\n" + context!!.resources.getQuantityString(
+                    "\n" + context!!.resources.getQuantityString(
                         R.plurals.share_birthday_days,
                         daysUntil,
                         daysUntil
@@ -291,11 +291,6 @@ class ShowBirthdayEvent : ShowEventFragment() {
     }
 
     companion object {
-        /**
-         * SHOW_BIRTHDAY_FRAGMENT_TAG is the fragments tag as a string
-         */
-        val SHOW_BIRTHDAY_FRAGMENT_TAG = "SHOW_BIRTHDAY"
-
         /**
          * newInstance returns a new instance of EventBirthday
          */

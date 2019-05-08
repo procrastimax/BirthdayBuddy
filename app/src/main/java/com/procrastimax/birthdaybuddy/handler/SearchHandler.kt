@@ -7,7 +7,6 @@ import com.procrastimax.birthdaybuddy.models.OneTimeEvent
 
 /**
  * SearchHandler is a singleton class to retrieve event item indexes from specific search terms
- * TODO: when this runs unperformant, try to use standard methods like (contains) or run in extra thread/ coroutine
  */
 object SearchHandler {
 
@@ -72,7 +71,7 @@ object SearchHandler {
                 return Pair(eventData.eventID, processStringList(splitStringToList(eventData.name)!!.toMutableList()))
             }
         }
-        //dont add month dividers
+        //don't add month dividers
         return null
     }
 

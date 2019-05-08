@@ -9,7 +9,7 @@ import com.procrastimax.birthdaybuddy.handler.IOHandler
 import com.procrastimax.birthdaybuddy.handler.NotificationHandler
 
 class BootNotificationService : JobIntentService() {
-    val JOB_ID = 602
+    private val JOB_ID = 602
 
     fun addWork(context: Context, work: Intent) {
         enqueueWork(context, BootNotificationService::class.java, JOB_ID, work)

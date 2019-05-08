@@ -75,29 +75,29 @@ class EventAdapter(private val context: Context, private val fragmentManager: Fr
         // create a new view
         when (viewType) {
             0 -> {
-                val item_view =
+                val itemView =
                     LayoutInflater.from(parent.context).inflate(R.layout.event_month_view_divider, parent, false)
-                return EventMonthDividerViewHolder(item_view)
+                return EventMonthDividerViewHolder(itemView)
             }
             1 -> {
-                val item_view =
+                val itemView =
                     LayoutInflater.from(parent.context).inflate(R.layout.birthday_event_item_view, parent, false)
-                return BirthdayEventViewHolder(item_view)
+                return BirthdayEventViewHolder(itemView)
             }
             2 -> {
-                val item_view =
+                val itemView =
                     LayoutInflater.from(parent.context).inflate(R.layout.annual_event_item_view, parent, false)
-                return AnnualEventViewHolder(item_view)
+                return AnnualEventViewHolder(itemView)
             }
             3 -> {
-                val item_view =
+                val itemView =
                     LayoutInflater.from(parent.context).inflate(R.layout.one_time_event_item_view, parent, false)
-                return OneTimeEventViewHolder(item_view)
+                return OneTimeEventViewHolder(itemView)
             }
             else -> {
                 //Default is birthday event
-                val item_view = View(context)
-                return EventMonthDividerViewHolder(item_view)
+                val itemView = View(context)
+                return EventMonthDividerViewHolder(itemView)
             }
         }
     }
@@ -213,11 +213,11 @@ class EventAdapter(private val context: Context, private val fragmentManager: Fr
                             holder.itemView.tv_birthday_event_item_forename.visibility = TextView.GONE
                             holder.itemView.tv_birthday_event_item_surname.visibility = TextView.GONE
 
-                            //set nickname textview visible
+                            //set nickname TextView visible
                             holder.itemView.tv_birthday_event_item_nickname.visibility = TextView.VISIBLE
                             holder.itemView.tv_birthday_event_item_nickname.setTextColor(textColor)
 
-                            //set nickname textview text
+                            //set nickname TextView text
                             holder.itemView.tv_birthday_event_item_nickname.text = birthday.nickname
 
                         } else {
@@ -227,7 +227,7 @@ class EventAdapter(private val context: Context, private val fragmentManager: Fr
                                 holder.itemView.tv_birthday_event_item_forename.visibility = TextView.VISIBLE
                                 holder.itemView.tv_birthday_event_item_surname.visibility = TextView.VISIBLE
 
-                                //set nickname textview visible
+                                //set nickname TextView visible
                                 holder.itemView.tv_birthday_event_item_nickname.visibility = TextView.GONE
 
                                 holder.itemView.tv_birthday_event_item_forename.text = birthday.forename
@@ -237,24 +237,24 @@ class EventAdapter(private val context: Context, private val fragmentManager: Fr
                                 holder.itemView.tv_birthday_event_item_surname.text = birthday.surname
                                 holder.itemView.tv_birthday_event_item_surname.setTextColor(textColor)
 
-                                //when surname is not given, set forename as nickname textview
+                                //when surname is not given, set forename as nickname TextView
                             } else {
                                 //set forename and surname invisible
                                 holder.itemView.tv_birthday_event_item_forename.visibility = TextView.GONE
                                 holder.itemView.tv_birthday_event_item_surname.visibility = TextView.GONE
 
-                                //set nickname textview visible
+                                //set nickname TextView visible
                                 holder.itemView.tv_birthday_event_item_nickname.visibility = TextView.VISIBLE
                                 holder.itemView.tv_birthday_event_item_nickname.setTextColor(textColor)
 
-                                //set nickname textview text
+                                //set nickname TextView text
                                 holder.itemView.tv_birthday_event_item_nickname.text = birthday.forename
                             }
                         }
 
                         val avatarUri = birthday.avatarImageUri
 
-                        //when context is mainactivity
+                        //when context is MainActivity
                         if (context is MainActivity) {
                             if (avatarUri != null) {
                                 holder.itemView.iv_birthday_event_item_image.setImageBitmap(
@@ -356,6 +356,7 @@ class EventAdapter(private val context: Context, private val fragmentManager: Fr
 
                         //set name
                         holder.itemView.tv_annual_item_name.text = annualEvent.name
+                        holder.itemView.tv_annual_item_name.setTextColor(textColor)
                     }
                 }
             }
@@ -443,6 +444,7 @@ class EventAdapter(private val context: Context, private val fragmentManager: Fr
 
                         //set name
                         holder.itemView.tv_one_time_item_name.text = oneTimeEvent.name
+                        holder.itemView.tv_one_time_item_name.setTextColor(textColor)
                     }
                 }
             }

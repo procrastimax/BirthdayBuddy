@@ -12,9 +12,7 @@ import java.util.*
  * DataHandler is a singleton and is used to store/read event data from shared preferences
  * It stores all data in shared preferences and the has to be initialized by getting the main context
  *
- * All events are saved as an key, value pair. In which the key is an integer value and the value is a eventday
- *
- * TODO: dont return null at any time
+ * All events are saved as an key, value pair. In which the key is an integer value and the value is a EventDate
  */
 object IOHandler {
 
@@ -47,7 +45,7 @@ object IOHandler {
 
         const val key_notificationLightAnnual = "notificationLightAnnual"
 
-        // one time event settigns
+        // one time event settings
         const val key_isNotificationOnOneTime = "isNotificationOnOneTime"
         const val key_isNotificationSoundOnOneTime = "isNotificationSoundOnOneTime"
         const val key_isNotificationVibrationOnOneTime = "isNotificationVibrationOnOneTime"
@@ -62,8 +60,8 @@ object IOHandler {
     }
 
     //Filename of shared preference to store event data and settings data
-    val fileNameEventData = BuildConfig.APPLICATION_ID + ".EventData"
-    val fileNameSettings = BuildConfig.APPLICATION_ID + ".Settings"
+    private const val fileNameEventData = BuildConfig.APPLICATION_ID + ".EventData"
+    private const val fileNameSettings = BuildConfig.APPLICATION_ID + ".Settings"
 
     private lateinit var sharedPrefEventData: SharedPreferences
     private lateinit var sharedPrefSettings: SharedPreferences
@@ -125,7 +123,7 @@ object IOHandler {
         writeSetting(SharedPrefKeys.key_notificationLightOneTime, 1)
     }
 
-    fun settingsContainsKey(key: String): Boolean {
+    private fun settingsContainsKey(key: String): Boolean {
         return (sharedPrefSettings.contains(key))
     }
 
@@ -164,10 +162,10 @@ object IOHandler {
     }
 
     fun getBooleanFromKey(key: String): Boolean? {
-        if (settingsContainsKey(key)) {
-            return sharedPrefSettings.getBoolean(key, false)
+        return if (settingsContainsKey(key)) {
+            sharedPrefSettings.getBoolean(key, false)
         } else {
-            return null
+            null
         }
     }
 
@@ -312,152 +310,167 @@ object IOHandler {
     /**
      * convertStringToEventDay reads an string and returns a object of base class EventDay
      * It can return derived types from EventDay with the typification string at the start of every string
-     *  TODO:
-     *      -> do parsing with identifiers on a more dynamic way
      * @param context : Context
      * @param objectString : String
      * @return EventDay?
      */
     fun convertStringToEventDate(context: Context, objectString: String): EventDate? {
-        val string_array = objectString.split(characterDivider_properties)
+        objectString.split(characterDivider_properties).let { stringArray ->
+            if (stringArray.isNotEmpty()) {
+                when (stringArray[0]) {
+                    //BIRTHDAY EVENT PARSING
+                    (EventBirthday.Name) -> {
+                        var forename = "-"
+                        var date = "-"
+                        var note: String? = null
+                        var isyeargiven = false
+                        var avatarImageURI: String? = null
+                        var surname: String? = null
+                        var nickname: String? = null
 
-        // BIRTHDAY EVENT
-        if (string_array[0] == EventBirthday.Name) {
-            var forename = "-"
-            var date = "-"
-            var note: String? = null
-            var isyeargiven = false
-            var avatarImageURI: String? = null
-            var surname: String? = null
-            var nickname: String? = null
+                        for (i in 1 until stringArray.size) {
+                            val property = stringArray[i].split(characterDivider_values)
 
-            for (i in 1 until string_array.size) {
-                val property = string_array[i].split(characterDivider_values)
+                            //use identifier
+                            when (property[0]) {
+                                EventBirthday.Identifier.Date.toString() -> {
+                                    date = property[1]
+                                }
+                                EventBirthday.Identifier.Forename.toString() -> {
+                                    forename = property[1]
+                                }
+                                EventBirthday.Identifier.Surname.toString() -> {
+                                    surname = property[1]
+                                }
+                                EventBirthday.Identifier.Note.toString() -> {
+                                    note = property[1]
+                                }
+                                EventBirthday.Identifier.IsYearGiven.toString() -> {
+                                    isyeargiven = property[1].toBoolean()
+                                }
+                                EventBirthday.Identifier.AvatarUri.toString() -> {
+                                    avatarImageURI = property[1]
+                                }
+                                EventBirthday.Identifier.Nickname.toString() -> {
+                                    nickname = property[1]
+                                }
+                                else ->
+                                    Log.w("IOHandler", "Could not find identifier when trying to parse EventBirthday")
+                            }
+                        }
 
-                //use identifier
-                when (property[0]) {
-                    EventBirthday.Identifier.Date.toString() -> {
-                        date = property[1]
+                        val birthday =
+                            EventBirthday(
+                                EventDate.parseStringToDate(date, locale = Locale.GERMAN),
+                                forename,
+                                isyeargiven
+                            )
+                        if (surname != null) birthday.surname = surname
+                        if (note != null) birthday.note = note
+                        if (avatarImageURI != null) birthday.avatarImageUri = avatarImageURI
+                        if (nickname != null) birthday.nickname = nickname
+                        return birthday
                     }
-                    EventBirthday.Identifier.Forename.toString() -> {
-                        forename = property[1]
+                    //ANNUAL EVENT PARSING
+                    (AnnualEvent.Name) -> {
+                        var date = "-"
+                        var name = "-"
+                        var note: String? = null
+                        var hasStartYear = false
+
+                        for (i in 1 until stringArray.size) {
+                            val property = stringArray[i].split(characterDivider_values)
+
+                            //use identifier
+                            when (property[0]) {
+                                AnnualEvent.Identifier.Date.toString() -> {
+                                    date = property[1]
+                                }
+                                AnnualEvent.Identifier.Name.toString() -> {
+                                    name = property[1]
+                                }
+                                AnnualEvent.Identifier.HasStartYear.toString() -> {
+                                    hasStartYear = property[1].toBoolean()
+                                }
+                                AnnualEvent.Identifier.Note.toString() -> {
+                                    note = property[1]
+                                }
+                                else ->
+                                    Log.w("IOHandler", "Could not find identifier when trying to parse AnnualEvent")
+                            }
+                        }
+                        val anniversary =
+                            AnnualEvent(EventDate.parseStringToDate(date, locale = Locale.GERMAN), name, hasStartYear)
+                        if (note != null) {
+                            anniversary.note = note
+                        }
+                        return anniversary
                     }
-                    EventBirthday.Identifier.Surname.toString() -> {
-                        surname = property[1]
+                    //ONETIME EVENT PARSING
+                    (OneTimeEvent.Name) -> {
+                        var date = "-"
+                        var name = "-"
+                        var note: String? = null
+
+                        for (i in 1 until stringArray.size) {
+                            val property = stringArray[i].split(characterDivider_values)
+
+                            //use identifier
+                            when (property[0]) {
+                                OneTimeEvent.Identifier.Date.toString() -> {
+                                    date = property[1]
+                                }
+                                OneTimeEvent.Identifier.Name.toString() -> {
+                                    name = property[1]
+                                }
+                                OneTimeEvent.Identifier.Note.toString() -> {
+                                    note = property[1]
+                                }
+                                else ->
+                                    Log.w("IOHandler", "Could not find identifier when trying to parse OneTimeEvent")
+                            }
+                        }
+                        val oneTimeEvent = OneTimeEvent(EventDate.parseStringToDate(date, locale = Locale.GERMAN), name)
+                        if (note != null) {
+                            oneTimeEvent.note = note
+                        }
+                        return oneTimeEvent
                     }
-                    EventBirthday.Identifier.Note.toString() -> {
-                        note = property[1]
+                    //MONTHDIVIDER EVENT PARSING
+                    (MonthDivider.Name) -> {
+                        var date = "-"
+                        var month = "-"
+
+                        for (i in 1 until stringArray.size) {
+                            val property = stringArray[i].split(characterDivider_values)
+
+                            //use identifier
+                            when (property[0]) {
+                                MonthDivider.Identifier.Date.toString() -> {
+                                    date = property[1]
+                                }
+                                MonthDivider.Identifier.MonthName.toString() -> {
+                                    val cal = Calendar.getInstance()
+                                    cal.time = EventDate.parseStringToDate(date, locale = Locale.GERMAN)
+                                    context.resources.getStringArray(R.array.month_names)[cal.get(Calendar.MONTH)]
+                                    month = property[1]
+                                }
+                                else ->
+                                    Log.w(
+                                        "IOHandler",
+                                        "Could not find identifier when trying to parse EventMonthDivider"
+                                    )
+                            }
+                        }
+                        return MonthDivider(EventDate.parseStringToDate(date, locale = Locale.GERMAN), month)
                     }
-                    EventBirthday.Identifier.IsYearGiven.toString() -> {
-                        isyeargiven = property[1].toBoolean()
+                    else -> {
+                        return null
                     }
-                    EventBirthday.Identifier.AvatarUri.toString() -> {
-                        avatarImageURI = property[1]
-                    }
-                    EventBirthday.Identifier.Nickname.toString() -> {
-                        nickname = property[1]
-                    }
-                    else ->
-                        Log.w("IOHandler", "Could not find identifier when trying to parse EventBirthday")
                 }
+            } else {
+                return null
             }
-
-            val birthday =
-                EventBirthday(EventDate.parseStringToDate(date, locale = Locale.GERMAN), forename, isyeargiven)
-            if (surname != null) birthday.surname = surname
-            if (note != null) birthday.note = note
-            if (avatarImageURI != null) birthday.avatarImageUri = avatarImageURI
-            if (nickname != null) birthday.nickname = nickname
-            return birthday
-
-            // ANNUAL EVENT
-        } else if (string_array[0] == AnnualEvent.Name) {
-            var date = "-"
-            var name = "-"
-            var note: String? = null
-            var hasStartYear = false
-
-            for (i in 1 until string_array.size) {
-                val property = string_array[i].split(characterDivider_values)
-
-                //use identifier
-                when (property[0]) {
-                    AnnualEvent.Identifier.Date.toString() -> {
-                        date = property[1]
-                    }
-                    AnnualEvent.Identifier.Name.toString() -> {
-                        name = property[1]
-                    }
-                    AnnualEvent.Identifier.HasStartYear.toString() -> {
-                        hasStartYear = property[1].toBoolean()
-                    }
-                    AnnualEvent.Identifier.Note.toString() -> {
-                        note = property[1]
-                    }
-                    else ->
-                        Log.w("IOHandler", "Could not find identifier when trying to parse AnnualEvent")
-                }
-            }
-            val anniversary = AnnualEvent(EventDate.parseStringToDate(date, locale = Locale.GERMAN), name, hasStartYear)
-            if (note != null) {
-                anniversary.note = note
-            }
-            return anniversary
-
-            // ONE TIME EVENT
-        } else if (string_array[0] == OneTimeEvent.Name) {
-            var date = "-"
-            var name = "-"
-            var note: String? = null
-
-            for (i in 1 until string_array.size) {
-                val property = string_array[i].split(characterDivider_values)
-
-                //use identifier
-                when (property[0]) {
-                    OneTimeEvent.Identifier.Date.toString() -> {
-                        date = property[1]
-                    }
-                    OneTimeEvent.Identifier.Name.toString() -> {
-                        name = property[1]
-                    }
-                    OneTimeEvent.Identifier.Note.toString() -> {
-                        note = property[1]
-                    }
-                    else ->
-                        Log.w("IOHandler", "Could not find identifier when trying to parse OneTimeEvent")
-                }
-            }
-            val oneTimeEvent = OneTimeEvent(EventDate.parseStringToDate(date, locale = Locale.GERMAN), name)
-            if (note != null) {
-                oneTimeEvent.note = note
-            }
-            return oneTimeEvent // MONTH DIVIDER
-        } else if (string_array[0] == MonthDivider.Name) {
-
-            var date = "-"
-            var month = "-"
-
-            for (i in 1 until string_array.size) {
-                val property = string_array[i].split(characterDivider_values)
-
-                //use identifier
-                when (property[0]) {
-                    MonthDivider.Identifier.Date.toString() -> {
-                        date = property[1]
-                    }
-                    MonthDivider.Identifier.MonthName.toString() -> {
-                        val cal = Calendar.getInstance()
-                        cal.time = EventDate.parseStringToDate(date, locale = Locale.GERMAN)
-                        context.resources.getStringArray(R.array.month_names)[cal.get(Calendar.MONTH)]
-                        month = property[1]
-                    }
-                    else ->
-                        Log.w("IOHandler", "Could not find identifier when trying to parse EventMonthDivider")
-                }
-            }
-            return MonthDivider(EventDate.parseStringToDate(date, locale = Locale.GERMAN), month)
         }
-        return null
     }
 }

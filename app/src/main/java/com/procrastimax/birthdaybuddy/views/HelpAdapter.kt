@@ -22,7 +22,7 @@ class HelpAdapter(private val context: Context) : RecyclerView.Adapter<RecyclerV
 
     class AboutCardViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
 
-    val itemList = listOf(
+    private val itemList = listOf(
         HelpInstance.Reason,
         HelpInstance.EventBirthday,
         HelpInstance.AnnualEvent,
@@ -49,7 +49,7 @@ class HelpAdapter(private val context: Context) : RecyclerView.Adapter<RecyclerV
         //change visibility of textview on image view click
         holder.itemView.constrLayout_help_title.setOnClickListener {
             holder.itemView.tv_card_view_help_content.let {
-                if(it.visibility == TextView.GONE){
+                if (it.visibility == TextView.GONE) {
                     it.visibility = TextView.VISIBLE
                     holder.itemView.iv_expand_text.animate().rotation(180f)
                 } else {

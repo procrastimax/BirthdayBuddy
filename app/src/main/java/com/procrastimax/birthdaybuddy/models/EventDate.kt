@@ -27,33 +27,33 @@ open class EventDate(var eventDate: Date) : Comparable<EventDate> {
      * @return Int negative for if compares instance is less than, 0 for equal and positive value if compares instance is greater than this instance
      */
     override fun compareTo(other: EventDate): Int {
-        val cal_l = Calendar.getInstance()
-        cal_l.time = this.eventDate
+        val calL = Calendar.getInstance()
+        calL.time = this.eventDate
 
-        val cal_r = Calendar.getInstance()
-        cal_r.time = other.eventDate
+        val calR = Calendar.getInstance()
+        calR.time = other.eventDate
 
-        val days_of_year_l = cal_l.get(Calendar.DAY_OF_YEAR)
-        val days_of_year_r = cal_r.get(Calendar.DAY_OF_YEAR)
+        val daysOfYearL = calL.get(Calendar.DAY_OF_YEAR)
+        val daysOfYearR = calR.get(Calendar.DAY_OF_YEAR)
 
-        //if days of year less than days of year from other instace
-        if (days_of_year_l < days_of_year_r) return -1
-
+        //if days of year less than days of year from other instance
+        if (daysOfYearL < daysOfYearR) {
+            return -1
+        }
         //if days of years are equal, check year
-        else if (days_of_year_l == days_of_year_r) {
+        else if (daysOfYearL == daysOfYearR) {
             //if years of left instance is less than years of right, return negative value (-1)
-            if (cal_l.get(Calendar.YEAR) < cal_r.get(Calendar.YEAR)) {
-                return -1
-            } else if (cal_l.get(Calendar.YEAR) > cal_r.get(Calendar.YEAR)) {
+            return if (calL.get(Calendar.YEAR) < calR.get(Calendar.YEAR)) {
+                -1
+            } else if (calL.get(Calendar.YEAR) > calR.get(Calendar.YEAR)) {
                 return 1
-            } else return 0
+            } else 0
             //else the right value has to be smaller
         } else return 1
     }
 
     /**
      * getPrettyShortStringWithoutYear returns a localized date in very short format like 06.02 or 06/02
-     * TODO: dont do it this way, get default locale date seperation symbol
      * @param locale : Locale = Locale.getDefault()
      * @return String
      */
@@ -71,7 +71,6 @@ open class EventDate(var eventDate: Date) : Comparable<EventDate> {
     }
 
     /**
-     * TODO: only save not null member vars
      * toString returns EventDay as string representation
      * This is "optimized" for Serialization, so THE FIRST WORD HAS TO BE THE TYPIFICATION f.e. "EventDay"
      * returned string follows the pattern EVENTDATE
@@ -88,7 +87,7 @@ open class EventDate(var eventDate: Date) : Comparable<EventDate> {
     }
 
     /**
-     * dateToPrettyString returns a string from the member var eventdate
+     * dateToPrettyString returns a string from the member var EventDate
      * This string can be modified by format and locale
      *
      * @param format : Int = DateFormat.SHORT
@@ -100,7 +99,7 @@ open class EventDate(var eventDate: Date) : Comparable<EventDate> {
     }
 
     /**
-     * getDaysUntil compares the current date and the member var EVENTDATE and calculates the difference in days
+     * getDaysUntil compares the current date and the member var EventDate and calculates the difference in days
      * @return Int
      */
     open fun getDaysUntil(): Int {
@@ -195,7 +194,7 @@ open class EventDate(var eventDate: Date) : Comparable<EventDate> {
         /**
          * dateToCurrentTimeContext changes a past date to a current time context
          * this means, that if it is a yearly event (like a birthday) then this is going to return a date
-         * with the birthdaydate but with the year changed to the coming year (if the day of the birthday already came)
+         * with the birthay date but with the year changed to the coming year (if the day of the birthday already came)
          * otherwise it changes the year to the current year
          *
          * This is helper function to make it easier to process two near dates
@@ -218,7 +217,7 @@ open class EventDate(var eventDate: Date) : Comparable<EventDate> {
         }
 
         /**
-         * parseLocalizedDateToString parses the member variable EVENTDATE to a localized string in short format
+         * parseLocalizedDateToString parses the member variable EventDate to a localized string in short format
          * @param date : Date
          * @param format : Int = DateFormat.Short
          * @param locale : Locale = Locale.getDefault()
@@ -313,7 +312,7 @@ open class EventDate(var eventDate: Date) : Comparable<EventDate> {
         @JvmStatic
         fun <T> getStringFromValue(identifier: SortIdentifier, value: T): String {
             return if (value != null) {
-                "${IOHandler.characterDivider_properties}${identifier}${IOHandler.characterDivider_values}${value}"
+                "${IOHandler.characterDivider_properties}$identifier${IOHandler.characterDivider_values}$value"
 
             } else ""
         }

@@ -9,15 +9,12 @@ import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentTransaction
 import android.support.v7.app.AppCompatActivity
 import android.util.TypedValue
-import android.widget.ProgressBar
 import com.procrastimax.birthdaybuddy.fragments.*
 import com.procrastimax.birthdaybuddy.handler.BitmapHandler
 import com.procrastimax.birthdaybuddy.handler.EventHandler
 import com.procrastimax.birthdaybuddy.handler.IOHandler
 import com.procrastimax.birthdaybuddy.models.*
 import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.android.synthetic.main.content_main.*
-import kotlinx.android.synthetic.main.fragment_add_new_birthday.*
 import kotlinx.android.synthetic.main.fragment_event_list.*
 import java.text.DateFormat
 import java.util.*
@@ -29,7 +26,6 @@ import java.util.*
  *  - BUG: app closes when switched to potrait mode and changing fragments
  *  - landscape mode, bottom up menu for image seleciton in eventbirthday doesnt scroll completely up
  *  - Import/Export, inform user about androids passive backup/ restoring
- *  - when open softkeyboard, scroll scrollview up
  */
 class MainActivity : AppCompatActivity() {
 
@@ -68,19 +64,15 @@ class MainActivity : AppCompatActivity() {
         val ft: FragmentTransaction = supportFragmentManager.beginTransaction()
         ft.add(
             R.id.fragment_placeholder,
-            EventListFragment.newInstance(),
-            EventListFragment.EVENT_LIST_FRAGMENT_TAG
+            EventListFragment.newInstance()
         )
         ft.commit()
 
         //start loading bitmap drawables in other thread to not block ui
         Thread(Runnable
         {
-            //import all drawables
-            //TODO: add checkings
-            val success = BitmapHandler.loadAllBitmaps(this)
+            BitmapHandler.loadAllBitmaps(this)
             runOnUiThread {
-
                 if (recyclerView != null) {
                     recyclerView.adapter!!.notifyDataSetChanged()
                 }

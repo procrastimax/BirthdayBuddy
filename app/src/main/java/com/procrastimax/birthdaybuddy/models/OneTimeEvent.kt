@@ -54,6 +54,7 @@ class OneTimeEvent(_eventdate: Date, var name: String) : EventDate(_eventdate) {
     }
 
     override fun getDaysUntil(): Int {
+        if (Calendar.getInstance().get(Calendar.DAY_OF_YEAR) == getDayOfYear()) return 0
         val currentDate = Calendar.getInstance().time
         val diff = this.eventDate.time - currentDate.time
         return java.util.concurrent.TimeUnit.DAYS.convert(diff, java.util.concurrent.TimeUnit.MILLISECONDS).toInt() + 1
@@ -65,8 +66,8 @@ class OneTimeEvent(_eventdate: Date, var name: String) : EventDate(_eventdate) {
      * @return Boolean
      */
     fun dateIsExpired(): Boolean {
-        //function is date in future doesnt consider the case that the day of the one-time event is the current day, bc. all events are normalized
-        //so when its the same day, as today, the one-time event doesnt expire, so it still appears in the list
+        //function is date in future doesn't consider the case that the day of the one-time event is the current day, bc. all events are normalized
+        //so when its the same day, as today, the one-time event doesn't expire, so it still appears in the list
         return if (getDayOfYear() == Calendar.getInstance().get(Calendar.DAY_OF_YEAR)) {
             false
         } else {

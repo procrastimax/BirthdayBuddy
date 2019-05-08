@@ -9,7 +9,7 @@ import android.support.v7.widget.RecyclerView
 import android.view.MenuItem
 import android.widget.TextView
 import com.procrastimax.birthdaybuddy.handler.SearchHandler
-import com.procrastimax.birthdaybuddy.views.EventAdapter_Searching
+import com.procrastimax.birthdaybuddy.views.EventAdapterSearching
 import com.procrastimax.birthdaybuddy.views.RecycleViewItemDivider
 import kotlinx.android.synthetic.main.activity_searchable.*
 
@@ -47,7 +47,7 @@ class SearchableActivity : AppCompatActivity() {
         this.supportActionBar?.setHomeButtonEnabled(true)
 
         viewManager = LinearLayoutManager(this)
-        viewAdapter = EventAdapter_Searching(this, this.eventIndexList)
+        viewAdapter = EventAdapterSearching(this, this.eventIndexList)
 
         recyclerView = findViewById<RecyclerView>(R.id.recyclerView_search).apply {
             setHasFixedSize(true)

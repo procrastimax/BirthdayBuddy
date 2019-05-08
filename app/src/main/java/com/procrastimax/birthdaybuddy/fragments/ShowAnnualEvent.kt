@@ -105,13 +105,12 @@ class ShowAnnualEvent : ShowEventFragment() {
 
                 val intent = Intent(Intent.ACTION_SEND)
                 intent.type = "text/plain"
-                var share_Annual_Event_Msg: String
-                //annual_event name
-                share_Annual_Event_Msg =
+
+                var shareAnnualEventMsg =
                     context!!.resources.getString(R.string.share_annual_event_name, annualEvent.name)
 
                 //annual_event next date
-                share_Annual_Event_Msg += "\n" + context!!.resources.getString(
+                shareAnnualEventMsg += "\n" + context!!.resources.getString(
                     R.string.share_annual_event_date_next,
                     EventDate.parseDateToString(
                         EventDate.dateToCurrentTimeContext(annualEvent.eventDate),
@@ -120,7 +119,7 @@ class ShowAnnualEvent : ShowEventFragment() {
                 )
 
                 //annual_event days until
-                share_Annual_Event_Msg += "\n" + context!!.resources.getQuantityString(
+                shareAnnualEventMsg += "\n" + context!!.resources.getQuantityString(
                     R.plurals.share_annual_event_days,
                     annualEvent.getDaysUntil(),
                     annualEvent.getDaysUntil()
@@ -128,19 +127,19 @@ class ShowAnnualEvent : ShowEventFragment() {
 
                 if (annualEvent.hasStartYear) {
                     //annual_event date start
-                    share_Annual_Event_Msg += "\n" + context!!.resources.getString(
+                    shareAnnualEventMsg += "\n" + context!!.resources.getString(
                         R.string.share_annual_event_date_start,
                         EventDate.parseDateToString(annualEvent.eventDate, DateFormat.FULL)
                     )
 
                     //annual_event years since
-                    share_Annual_Event_Msg += "\n" + context!!.resources.getQuantityString(
+                    shareAnnualEventMsg += "\n" + context!!.resources.getQuantityString(
                         R.plurals.share_annual_event_year,
                         annualEvent.getYearsSince(),
                         annualEvent.getYearsSince()
                     )
                 }
-                intent.putExtra(Intent.EXTRA_TEXT, share_Annual_Event_Msg)
+                intent.putExtra(Intent.EXTRA_TEXT, shareAnnualEventMsg)
                 startActivity(Intent.createChooser(intent, resources.getString(R.string.intent_share_chooser_title)))
             }
         }
@@ -167,11 +166,6 @@ class ShowAnnualEvent : ShowEventFragment() {
     }
 
     companion object {
-        /**
-         * SHOW_ANNUAL_EVENT_INSTANCE_FRAGMENT_TAG is the fragments tag as a string
-         */
-        val SHOW_ANNUAL_EVENT_INSTANCE_FRAGMENT_TAG = "SHOW_ANNUAL_EVENT"
-
         /**
          * newInstance returns a new instance of this fragment
          */

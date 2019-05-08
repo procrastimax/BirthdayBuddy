@@ -311,9 +311,6 @@ class EventListFragment : Fragment() {
     }
 
     companion object {
-
-        val EVENT_LIST_FRAGMENT_TAG = "EVENT_LIST"
-
         @JvmStatic
         fun newInstance(): EventListFragment {
             return EventListFragment()

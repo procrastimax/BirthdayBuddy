@@ -24,9 +24,9 @@ class SettingsFragment : Fragment() {
     private lateinit var viewManager: RecyclerView.LayoutManager
 
     //save a context instance to use it later in a runnable
-    lateinit var settingsContext: Context
+    private lateinit var settingsContext: Context
 
-    val toolbar: Toolbar by lazy {
+    private val toolbar: Toolbar by lazy {
         activity!!.findViewById<Toolbar>(R.id.toolbar)
     }
 

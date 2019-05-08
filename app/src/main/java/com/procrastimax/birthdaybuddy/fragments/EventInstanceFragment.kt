@@ -22,11 +22,11 @@ abstract class EventInstanceFragment : Fragment() {
     /**
      * toolbar is the changed toolbar for this fragment to provide accept/ close functionality
      */
-    val toolbar: Toolbar by lazy {
+    private val toolbar: Toolbar by lazy {
         activity!!.findViewById<Toolbar>(R.id.toolbar)
     }
 
-    var toolbarContentInsentLeft = 56
+    private var toolbarContentInsentLeft = 56
 
     protected var eventDate: Date = Calendar.getInstance().time
 
@@ -39,26 +39,26 @@ abstract class EventInstanceFragment : Fragment() {
         toolbarContentInsentLeft = MainActivity.convertDpToPx(context!!, 16.toFloat())
 
         //check if toolbar already has a view inflated
-        var toolbar_view: View? = toolbar.getChildAt(0)
-        if (toolbar_view != null && toolbar_view.id == R.id.constrLayout_toolbar_edit) {
+        var toolbarView: View? = toolbar.getChildAt(0)
+        if (toolbarView != null && toolbarView.id == R.id.constrLayout_toolbar_edit) {
             toolbar.getChildAt(0).visibility = View.VISIBLE
             toolbar.setContentInsetsAbsolute(0, toolbar.contentInsetRight)
         } else {
             //when toolbar doesnt have child of custom view, then inflate and add it to toolbar, also set some params
-            toolbar_view = layoutInflater.inflate(R.layout.toolbar_edit_event, null)
-            val actionBar_params =
+            toolbarView = layoutInflater.inflate(R.layout.toolbar_edit_event, null)
+            val actionBarParams =
                 ActionBar.LayoutParams(ActionBar.LayoutParams.MATCH_PARENT, ActionBar.LayoutParams.MATCH_PARENT)
-            actionBar_params.gravity = Gravity.CENTER
+            actionBarParams.gravity = Gravity.CENTER
             toolbar.setContentInsetsAbsolute(0, toolbar.contentInsetRight)
-            toolbar.addView(toolbar_view, 0, actionBar_params)
+            toolbar.addView(toolbarView, 0, actionBarParams)
         }
 
-        toolbar_view?.findViewById<ImageView>(R.id.btn_edit_event_accept).apply {
+        toolbarView?.findViewById<ImageView>(R.id.btn_edit_event_accept).apply {
             this?.setOnClickListener {
                 acceptBtnPressed()
             }
         }
-        toolbar_view?.findViewById<ImageView>(R.id.btn_edit_event_close).apply {
+        toolbarView?.findViewById<ImageView>(R.id.btn_edit_event_close).apply {
             this?.setOnClickListener {
                 closeBtnPressed()
             }
@@ -66,10 +66,11 @@ abstract class EventInstanceFragment : Fragment() {
     }
 
     fun setToolbarTitle(title: String) {
-        val toolbar_view: View? = toolbar.getChildAt(0)
-        if (toolbar_view != null && toolbar_view.id == R.id.constrLayout_toolbar_edit) {
-            val tv_title = toolbar_view.findViewById<TextView>(R.id.tv_edit_fragment_title)
-            tv_title.text = title
+        val toolbarView: View? = toolbar.getChildAt(0)
+        if (toolbarView != null && toolbarView.id == R.id.constrLayout_toolbar_edit) {
+            toolbarView.findViewById<TextView>(R.id.tv_edit_fragment_title).apply {
+                text = title
+            }
         }
     }
 

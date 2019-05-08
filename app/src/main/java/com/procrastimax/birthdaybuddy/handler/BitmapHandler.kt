@@ -2,7 +2,6 @@ package com.procrastimax.birthdaybuddy.handler
 
 import android.app.AlertDialog
 import android.content.Context
-import android.content.DialogInterface
 import android.content.res.Resources
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
@@ -11,7 +10,6 @@ import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
 import android.net.Uri
 import android.provider.MediaStore
-import android.support.v4.graphics.drawable.RoundedBitmapDrawable
 import android.support.v4.graphics.drawable.RoundedBitmapDrawableFactory
 import com.procrastimax.birthdaybuddy.R
 import com.procrastimax.birthdaybuddy.models.EventBirthday
@@ -25,12 +23,12 @@ object BitmapHandler {
 
     private var drawable_map: MutableMap<Int, Bitmap> = emptyMap<Int, Bitmap>().toMutableMap()
 
-    private val STANDARD_SCALING = 64 * 6
+    private const val STANDARD_SCALING = 64 * 6
 
     /**
      * addDrawable adds a drawable to the drawable_map by reading a bitmap from the storage
      *
-     * @param index : Int is the index for referencing in the EventHandler MAP not the list
+     * @param id : Int is the index for referencing in the EventHandler MAP not the list
      * @param uri : Uri
      * @param context : Context
      * @param scale : Int
@@ -69,8 +67,8 @@ object BitmapHandler {
 
                 drawable_map[id] = bitmap
 
-                //catch any exception, not nice but mostly like a filenotfound exception, when an image was deleted or moved
-                //when this exception is catched, then delete uri reference in EventDatee instance +  inform the user
+                //catch any exception, not nice but mostly like a FileNotFountException, when an image was deleted or moved
+                //when this exception is caught, then delete uri reference in EventDate instance +  inform the user
             } catch (e: Exception) {
                 e.printStackTrace()
                 val birthday = EventHandler.getList().last() as EventBirthday
@@ -87,8 +85,7 @@ object BitmapHandler {
 
     fun removeAllDrawables(context: Context) {
         this.drawable_map.clear()
-        val bitmap_dir = context.getDir(this.bitmapFolder, Context.MODE_PRIVATE)
-        bitmap_dir.deleteRecursively()
+        context.getDir(this.bitmapFolder, Context.MODE_PRIVATE)?.deleteRecursively()
     }
 
     fun removeBitmap(id: Int, context: Context) {
@@ -170,13 +167,17 @@ object BitmapHandler {
     }
 
     private fun checkExistingBitmapInFiles(context: Context, eventID: Int): File? {
-        val bitmap_dir = context.getDir(this.bitmapFolder, Context.MODE_PRIVATE)
-        val bitmapFile = File(bitmap_dir.absolutePath + File.separator + "$eventID.png")
-        return if (bitmapFile.exists()) {
-            bitmapFile
-        } else {
-            null
+        context.getDir(this.bitmapFolder, Context.MODE_PRIVATE).let {
+            if (it != null) {
+                val bitmapFile = File(it.absolutePath + File.separator + "$eventID.png")
+                return if (bitmapFile.exists()) {
+                    bitmapFile
+                } else {
+                    null
+                }
+            }
         }
+        return null
     }
 
     private fun removeBitmapFromFiles(context: Context, eventID: Int) {
@@ -184,39 +185,29 @@ object BitmapHandler {
         bitmapFile?.delete()
     }
 
-///
-/// I know that all the following functions are already implemented by f.e. ThumbnailUtils, but I noticed this to late, and wanted to do this on my own for possible optimizing later
-///
-
     /**
      * getSquaredBitmap square given bitmap
      * this is important for nice looking circular images for avatar images
      */
     private fun getSquaredBitmap(bitmap: Bitmap): Bitmap {
+        val halfWidth = bitmap.width / 2
+        val halfHeight = bitmap.height / 2
         if (bitmap.width < bitmap.height) {
-            val half_width = bitmap.width / 2
-            val half_height = bitmap.height / 2
-
-            val cutted_bmp = Bitmap.createBitmap(
+            return Bitmap.createBitmap(
                 bitmap,
                 0,
-                half_height - half_width,
+                halfHeight - halfWidth,
                 bitmap.width,
                 bitmap.width
             )
-            return cutted_bmp
         } else if (bitmap.width > bitmap.height) {
-            val half_width = bitmap.width / 2
-            val half_height = bitmap.height / 2
-
-            val cutted_bmp = Bitmap.createBitmap(
+            return Bitmap.createBitmap(
                 bitmap,
-                half_width - half_height,
+                halfWidth - halfHeight,
                 0,
                 bitmap.height,
                 bitmap.height
             )
-            return cutted_bmp
         }
         return bitmap
     }
@@ -235,13 +226,13 @@ object BitmapHandler {
     }
 
     fun getCircularBitmap(bitmap: Bitmap, resources: Resources): Bitmap {
-        val rounded_bmp: RoundedBitmapDrawable =
-            RoundedBitmapDrawableFactory.create(resources, bitmap)
-        rounded_bmp.isCircular = true
-        return drawableToBitmap(rounded_bmp)
+        RoundedBitmapDrawableFactory.create(resources, bitmap).let {
+            it.isCircular = true
+            return drawableToBitmap(it)
+        }
     }
 
-    fun drawableToBitmap(drawable: Drawable): Bitmap {
+    private fun drawableToBitmap(drawable: Drawable): Bitmap {
         if (drawable is BitmapDrawable) {
             return drawable.bitmap
         }
@@ -259,13 +250,13 @@ object BitmapHandler {
         return bitmap
     }
 
-    fun showMissingImageAlertDialog(context: Context) {
+    private fun showMissingImageAlertDialog(context: Context) {
         val builder = AlertDialog.Builder(context)
         builder.setTitle(R.string.alert_dialog_missing_avatar_img_title)
         builder.setMessage(R.string.alert_dialog_missing_avatar_img_text)
-        builder.setPositiveButton(android.R.string.ok, DialogInterface.OnClickListener { dialog, _ ->
+        builder.setPositiveButton(android.R.string.ok) { dialog, _ ->
             dialog.dismiss()
-        })
+        }
         builder.setIcon(R.drawable.ic_error_outline)
         builder.show()
     }

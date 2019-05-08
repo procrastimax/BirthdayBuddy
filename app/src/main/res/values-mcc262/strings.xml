@@ -7,7 +7,7 @@
     <string name="apply">anwenden</string>
     <string name="today">heute</string>
     <string name="noEntries">Noch keine Einträge :(</string>
-    <string name="noEventsFound">Keine Einträge gefunden:(</string>
+    <string name="noEventsFound">Keine Einträge gefunden :(</string>
 
     <string-array name="month_names">
         <item>Januar</item>

@@ -7,13 +7,15 @@ import android.support.design.widget.Snackbar
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.*
+import android.widget.Button
+import android.widget.EditText
+import android.widget.TextView
+import android.widget.Toast
 import com.procrastimax.birthdaybuddy.MainActivity
 import com.procrastimax.birthdaybuddy.R
 import com.procrastimax.birthdaybuddy.handler.EventHandler
 import com.procrastimax.birthdaybuddy.models.EventDate
 import com.procrastimax.birthdaybuddy.models.OneTimeEvent
-import kotlinx.android.synthetic.main.content_main.*
 import kotlinx.android.synthetic.main.fragment_event_list.*
 import kotlinx.android.synthetic.main.fragment_one_time_event_instance.*
 import java.text.DateFormat
@@ -25,7 +27,7 @@ class OneTimeEventInstanceFragment : EventInstanceFragment() {
      * isEditOneTimeEvent is a boolean flag to indicate wether this fragment is intended to edit or add an instance of OneTimeEvent
      * this is later used to fill TextEdits with existing data of an OneTimeEvent instance
      */
-    var isEditOneTimeEvent = false
+    private var isEditOneTimeEvent = false
 
     /**
      * eventID is the id the one-time event has in the EventHandler - eventlist
@@ -34,26 +36,26 @@ class OneTimeEventInstanceFragment : EventInstanceFragment() {
     var eventID = -1
 
     /**
-     * edit_name is the TextEdit used for editing/ showing the name of the one time event
+     * editName is the TextEdit used for editing/ showing the name of the one time event
      * It is lazy initialized
      */
-    val edit_name: EditText by lazy {
+    private val editName: EditText by lazy {
         view!!.findViewById<EditText>(R.id.edit_add_fragment_name_one_time_event)
     }
 
     /**
-     * edit_date is the TextEdit used for editing/ showing the date of the one time event
+     * editDate is the TextEdit used for editing/ showing the date of the one time event
      * It is lazy initialized
      */
-    val edit_date: TextView by lazy {
+    private val editDate: TextView by lazy {
         view!!.findViewById<TextView>(R.id.edit_add_fragment_date_one_time_event)
     }
 
     /**
-     * edit_note is the TextEdit used for editing/ showing the note of the one time event
+     * editNote is the TextEdit used for editing/ showing the note of the one time event
      * It is lazy initialized
      */
-    val edit_note: EditText by lazy {
+    private val editNote: EditText by lazy {
         view!!.findViewById<EditText>(R.id.edit_add_fragment_note_one_time_event)
     }
 
@@ -80,14 +82,14 @@ class OneTimeEventInstanceFragment : EventInstanceFragment() {
 
                     this.eventDate = oneTimeEvent.eventDate
 
-                    edit_date.text = EventDate.parseDateToString(
+                    editDate.text = EventDate.parseDateToString(
                         this.eventDate,
                         DateFormat.FULL
                     )
 
-                    edit_name.setText(oneTimeEvent.name)
+                    editName.setText(oneTimeEvent.name)
                     if (!oneTimeEvent.note.isNullOrBlank()) {
-                        edit_note.setText(oneTimeEvent.note)
+                        editNote.setText(oneTimeEvent.note)
                     }
 
                     btn_fragment_one_time_event_instance_delete.visibility = Button.VISIBLE
@@ -97,7 +99,6 @@ class OneTimeEventInstanceFragment : EventInstanceFragment() {
                         alertBuilder.setTitle(resources.getString(R.string.alert_dialog_title_delete_one_time_event))
                         alertBuilder.setMessage(resources.getString(R.string.alert_dialog_body_message_one_time_event))
 
-                        val oneTimeEventTemp = oneTimeEvent
                         val contextTemp = context
 
                         // Set a positive button and its click listener on alert dialog
@@ -108,25 +109,25 @@ class OneTimeEventInstanceFragment : EventInstanceFragment() {
                                     view,
                                     resources.getString(
                                         R.string.one_time_event_deleted_notification,
-                                        edit_name.text
+                                        editName.text
                                     ),
                                     Snackbar.LENGTH_LONG
                                 )
-                                .setAction(R.string.undo, View.OnClickListener {
+                                .setAction(R.string.undo) {
                                     EventHandler.addEvent(
-                                        oneTimeEventTemp, contextTemp!!,
+                                        oneTimeEvent, contextTemp!!,
                                         true
                                     )
-                                    //get last fragment in stack list, which should be eventlistfragment, so we can update the recycler view
+                                    //get last fragment in stack list, which should be EventListFragment, so we can update the recycler view
                                     val fragment =
                                         (contextTemp as MainActivity).supportFragmentManager.fragments[(contextTemp).supportFragmentManager.backStackEntryCount]
                                     if (fragment is EventListFragment) {
                                         fragment.recyclerView.adapter!!.notifyDataSetChanged()
                                     }
-                                })
+                                }
                                 .show()
 
-                            EventHandler.removeEventByID(eventID, context!!, true)
+                            EventHandler.removeEventByID(eventID, contextTemp!!, true)
                             closeBtnPressed()
                         }
                         alertBuilder.setNegativeButton(R.string.no) { dialog, _ -> dialog.dismiss() }
@@ -140,26 +141,26 @@ class OneTimeEventInstanceFragment : EventInstanceFragment() {
         } else {
             setToolbarTitle(context!!.resources.getString(R.string.toolbar_title_add_one_time_event))
             btn_fragment_one_time_event_instance_delete.visibility = Button.INVISIBLE
-            edit_date.hint = "${resources.getString(
+            editDate.hint = "${resources.getString(
                 R.string.event_property_date
             )}: ${EventDate.parseDateToString(Calendar.getInstance().time, DateFormat.FULL)}"
         }
 
-        edit_date.setOnClickListener {
+        editDate.setOnClickListener {
             showDatePickerDialog()
         }
     }
 
     /**
      * showDatePickerDialog shows a standard android date picker dialog
-     * The choosen date in the dialog is set to the edit_date field
+     * The choosen date in the dialog is set to the editDate field
      */
     private fun showDatePickerDialog() {
         val c = Calendar.getInstance()
 
         //set calendar to the date which is stored in the edit field, when the edit is not empty
-        if (!edit_date.text.isNullOrBlank()) {
-            c.time = EventDate.parseStringToDate(edit_date.text.toString(), DateFormat.FULL)
+        if (!editDate.text.isNullOrBlank()) {
+            c.time = EventDate.parseStringToDate(editDate.text.toString(), DateFormat.FULL)
         }
         val year = c.get(Calendar.YEAR)
         val month = c.get(Calendar.MONTH)
@@ -180,7 +181,7 @@ class OneTimeEventInstanceFragment : EventInstanceFragment() {
                     ).show()
                 } else {
                     this.eventDate = c.time
-                    edit_date.text = EventDate.parseDateToString(c.time, DateFormat.FULL)
+                    editDate.text = EventDate.parseDateToString(c.time, DateFormat.FULL)
                 }
             }, year, month, day)
         dpd.show()
@@ -190,9 +191,9 @@ class OneTimeEventInstanceFragment : EventInstanceFragment() {
      * acceptBtnPressed is a function which is called when the toolbars accept button is pressed
      */
     override fun acceptBtnPressed() {
-        val name = edit_name.text.toString()
-        val date = edit_date.text.toString()
-        val note = edit_note.text.toString()
+        val name = editName.text.toString()
+        val date = editDate.text.toString()
+        val note = editNote.text.toString()
 
         if (name.isBlank() || date.isBlank()) {
             Toast.makeText(
@@ -221,7 +222,7 @@ class OneTimeEventInstanceFragment : EventInstanceFragment() {
                     .show()
                 closeBtnPressed()
 
-                //already existant oneTimeEvent entry, overwrite old entry in map
+                //already existent oneTimeEvent entry, overwrite old entry in map
             } else {
                 EventHandler.getEventToEventIndex(eventID)?.let { event ->
                     if (event is OneTimeEvent && wasChangeMade(event)) {
@@ -245,16 +246,16 @@ class OneTimeEventInstanceFragment : EventInstanceFragment() {
      * @return Boolean, returns false if nothing has changed
      */
     private fun wasChangeMade(event: OneTimeEvent): Boolean {
-        if (edit_date.text != event.dateToPrettyString(DateFormat.FULL)) return true
+        if (editDate.text != event.dateToPrettyString(DateFormat.FULL)) return true
 
-        if (edit_note.text.isNotBlank() && event.note == null) {
+        if (editNote.text.isNotBlank() && event.note == null) {
             return true
         } else {
             if (event.note != null) {
-                if (edit_note.text.toString() != event.note!!) return true
+                if (editNote.text.toString() != event.note!!) return true
             }
         }
-        if (edit_name.text.toString() != event.name) return true
+        if (editName.text.toString() != event.name) return true
         //if nothing has changed return false
         return false
     }
@@ -263,7 +264,7 @@ class OneTimeEventInstanceFragment : EventInstanceFragment() {
         /**
          * ONE_TIME_EVENT_INSTANCE_FRAGMENT_TAG is the fragments tag as String
          */
-        val ONE_TIME_EVENT_INSTANCE_FRAGMENT_TAG = "ONE_TIME_EVENT_INSTANCE"
+        const val ONE_TIME_EVENT_INSTANCE_FRAGMENT_TAG = "ONE_TIME_EVENT_INSTANCE"
 
         /**
          * newInstance returns a new instance of OneTimeEventInstanceFragment

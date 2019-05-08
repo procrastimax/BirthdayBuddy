@@ -21,7 +21,7 @@ import kotlinx.android.synthetic.main.birthday_event_item_view.view.*
 import kotlinx.android.synthetic.main.event_month_view_divider.view.*
 import kotlinx.android.synthetic.main.one_time_event_item_view.view.*
 
-class EventAdapter_Searching(private val context: Context, private val eventIDs: List<Int>) :
+class EventAdapterSearching(private val context: Context, private val eventIDs: List<Int>) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     class BirthdayEventViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
@@ -64,29 +64,29 @@ class EventAdapter_Searching(private val context: Context, private val eventIDs:
         // create a new view
         when (viewType) {
             0 -> {
-                val item_view =
+                val itemView =
                     LayoutInflater.from(parent.context).inflate(R.layout.event_month_view_divider, parent, false)
-                return EventMonthDividerViewHolder(item_view)
+                return EventMonthDividerViewHolder(itemView)
             }
             1 -> {
-                val item_view =
+                val itemView =
                     LayoutInflater.from(parent.context).inflate(R.layout.birthday_event_item_view, parent, false)
-                return BirthdayEventViewHolder(item_view)
+                return BirthdayEventViewHolder(itemView)
             }
             2 -> {
-                val item_view =
+                val itemView =
                     LayoutInflater.from(parent.context).inflate(R.layout.annual_event_item_view, parent, false)
-                return AnnualEventViewHolder(item_view)
+                return AnnualEventViewHolder(itemView)
             }
             3 -> {
-                val item_view =
+                val itemView =
                     LayoutInflater.from(parent.context).inflate(R.layout.one_time_event_item_view, parent, false)
-                return OneTimeEventViewHolder(item_view)
+                return OneTimeEventViewHolder(itemView)
             }
             else -> {
                 //Default is birthday event
-                val item_view = View(context)
-                return BirthdayEventViewHolder(item_view)
+                val itemView = View(context)
+                return BirthdayEventViewHolder(itemView)
             }
         }
     }
@@ -112,8 +112,7 @@ class EventAdapter_Searching(private val context: Context, private val eventIDs:
 
                         //set on click listener for item
                         holder.itemView.setOnClickListener {
-                            //TODO: write a on click listener to shorten code
-                            //replace this activity with the main acitivty to show searched
+                            //replace this activity with the MainActivity to show searched
                             val intent = Intent(context, MainActivity::class.java)
                             intent.putExtra(
                                 MainActivity.FRAGMENT_EXTRA_TITLE_EVENTID,
@@ -125,7 +124,7 @@ class EventAdapter_Searching(private val context: Context, private val eventIDs:
                         }
 
                         holder.itemView.setOnLongClickListener {
-                            //replace this activity with the main acitivty to show searched
+                            //replace this activity with the MainActivity to show searched
                             val intent = Intent(context, MainActivity::class.java)
                             intent.putExtra(
                                 MainActivity.FRAGMENT_EXTRA_TITLE_EVENTID,
@@ -206,7 +205,7 @@ class EventAdapter_Searching(private val context: Context, private val eventIDs:
 
                         val avatarUri = birthdayEvent.avatarImageUri
 
-                        //when called from mainactivity
+                        //when called from MainActivity
                         if (context is MainActivity) {
                             if (avatarUri != null) {
                                 holder.itemView.iv_birthday_event_item_image.setImageBitmap(
@@ -214,7 +213,6 @@ class EventAdapter_Searching(private val context: Context, private val eventIDs:
                                         birthdayEvent.eventID
                                     )
                                 )
-                                holder.itemView.iv_birthday_event_item_image.clearColorFilter()
                             } else {
                                 holder.itemView.iv_birthday_event_item_image.setImageResource(R.drawable.ic_birthday_person)
                             }
@@ -226,7 +224,6 @@ class EventAdapter_Searching(private val context: Context, private val eventIDs:
                                         birthdayEvent.eventID
                                     )
                                 )
-                                //holder.itemView.iv_birthday_event_item_image.clearColorFilter()
                             } else {
                                 holder.itemView.iv_birthday_event_item_image.setImageResource(R.drawable.ic_birthday_person)
                             }
@@ -243,7 +240,6 @@ class EventAdapter_Searching(private val context: Context, private val eventIDs:
 
                         //set on click listener for item
                         holder.itemView.setOnClickListener {
-                            //TODO: write a on click listener to shorten code
                             //replace this activity with the main acitivty to show searched
                             val intent = Intent(context, MainActivity::class.java)
                             intent.putExtra(
@@ -306,7 +302,6 @@ class EventAdapter_Searching(private val context: Context, private val eventIDs:
 
                         //set on click listener for item
                         holder.itemView.setOnClickListener {
-                            //TODO: write a on click listener to shorten code
                             //replace this activity with the main acitivty to show searched
                             val intent = Intent(context, MainActivity::class.java)
                             intent.putExtra(

@@ -27,7 +27,10 @@ class AlarmReceiver : BroadcastReceiver() {
             IOHandler.registerIO(context)
 
             val event =
-                IOHandler.convertStringToEventDate(context, intent!!.getStringExtra(MainActivity.FRAGMENT_EXTRA_TITLE_EVENTSTRING))
+                IOHandler.convertStringToEventDate(
+                    context,
+                    intent!!.getStringExtra(MainActivity.FRAGMENT_EXTRA_TITLE_EVENTSTRING)
+                )
             val notificationID = intent.getIntExtra(MainActivity.FRAGMENT_EXTRA_TITLE_NOTIFICATIONID, 0)
             val eventID = intent.getIntExtra(MainActivity.FRAGMENT_EXTRA_TITLE_EVENTID, 0)
             event?.eventID = eventID
@@ -138,7 +141,6 @@ class AlarmReceiver : BroadcastReceiver() {
                     .setStyle(NotificationCompat.BigTextStyle())
                     .setContentText(buildEventBirthdayNotificationBodyText(context, event))
                 //settings names according to their existence
-                //TODO: when forename and surname are set, notification only show forename
                 if (event.nickname != null) {
                     builder.setContentTitle(
                         context.getString(

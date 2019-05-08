@@ -22,7 +22,6 @@ import com.procrastimax.birthdaybuddy.handler.BitmapHandler
 import com.procrastimax.birthdaybuddy.handler.EventHandler
 import com.procrastimax.birthdaybuddy.models.EventBirthday
 import com.procrastimax.birthdaybuddy.models.EventDate
-import kotlinx.android.synthetic.main.content_main.*
 import kotlinx.android.synthetic.main.fragment_add_new_birthday.*
 import kotlinx.android.synthetic.main.fragment_event_list.*
 import java.text.DateFormat
@@ -44,75 +43,75 @@ import java.util.*
 class BirthdayInstanceFragment : EventInstanceFragment() {
 
     /**
-     * isEditedBirthday is a boolean flag to indicate wether this fragment is in "edit" mode aka. the user wants to edit an existing instance of EventBirthday
+     * isEditedBirthday is a boolean flag to indicate whether this fragment is in "edit" mode aka. the user wants to edit an existing instance of EventBirthday
      */
-    var isEditedBirthday: Boolean = false
+    private var isEditedBirthday: Boolean = false
 
     /**
-     * eventID is the index of the clicked item in EventListFragments recyclerview, this is handy to get the birthday instance from the EventHandler
+     * eventID is the index of the clicked item in EventListFragments RecyclerView, this is handy to get the birthday instance from the EventHandler
      */
     var eventID = -1
 
     /**
-     * birthday_avatar_uri is a string to store the user picked image for the avatar
+     * birthdayAvatarUri is a string to store the user picked image for the avatar
      */
-    var birthday_avatar_uri: String? = null
+    private var birthdayAvatarUri: String? = null
 
     /**
-     * avatar_img_was_edited is a boolean flag to store the information wether the avatar img has been changed
+     * avatarImgWasEdited is a boolean flag to store the information whether the avatar img has been changed
      */
-    var avatar_img_was_edited = false
+    private var avatarImgWasEdited = false
 
     /**
      * REQUEST_IMAGE_GET is an intent code used for open the photo gallery
      */
-    val REQUEST_IMAGE_GET = 1
+    private val REQUEST_IMAGE_GET = 1
 
     /**
-     * edit_forename is the TextEdit used for editing/ showing the forename of the birthday
+     * editForename is the TextEdit used for editing/ showing the forename of the birthday
      * It is lazy initialized
      */
-    val edit_forename: EditText by lazy {
+    private val editForename: EditText by lazy {
         view!!.findViewById<EditText>(R.id.edit_add_fragment_forename)
     }
 
     /**
-     * edit_nickname is the TextEdit used for editing/ showing the nickname of the birthday
+     * editNickname is the TextEdit used for editing/ showing the nickname of the birthday
      * It is lazy initialized
      */
-    val edit_nickname: EditText by lazy {
+    private val editNickname: EditText by lazy {
         view!!.findViewById<EditText>(R.id.edit_add_fragment_nickname)
     }
 
     /**
-     * edit_surname is the TextEdit used for editing/ showing the surname of the birthday
+     * editSurname is the TextEdit used for editing/ showing the surname of the birthday
      * It is lazy initialized
      */
-    val edit_surname: EditText by lazy {
+    private val editSurname: EditText by lazy {
         view!!.findViewById<EditText>(R.id.edit_add_fragment_surname)
     }
 
     /**
-     * edit_date is the TextEdit used for editing/ showing the date of the birthday
+     * editDate is the TextEdit used for editing/ showing the date of the birthday
      * It is lazy initialized
      */
-    val edit_date: TextView by lazy {
+    private val editDate: TextView by lazy {
         view!!.findViewById<TextView>(R.id.edit_add_fragment_date)
     }
 
     /**
-     * edit_note is the TextEdit used for editing/ showing the note of the birthday
+     * editNote is the TextEdit used for editing/ showing the note of the birthday
      * It is lazy initialized
      */
-    val edit_note: EditText by lazy {
+    private val editNote: EditText by lazy {
         view!!.findViewById<EditText>(R.id.edit_add_fragment_note)
     }
 
     /**
-     * switch_isYearGiven is the Switch to indicate wether the user wants to provide a date with a year or without a year
+     * switchIsYearGiven is the Switch to indicate wether the user wants to provide a date with a year or without a year
      * It is lazy initialized
      */
-    val switch_isYearGiven: Switch by lazy {
+    private val switchIsYearGiven: Switch by lazy {
         view!!.findViewById<Switch>(R.id.sw_is_year_given)
     }
 
@@ -123,39 +122,39 @@ class BirthdayInstanceFragment : EventInstanceFragment() {
      * @return Boolean, returns false if nothing has changed
      */
     private fun wasChangeMade(event: EventBirthday): Boolean {
-        if (switch_isYearGiven.isChecked) {
-            if (edit_date.text != event.dateToPrettyString(DateFormat.FULL)) return true
+        if (switchIsYearGiven.isChecked) {
+            if (editDate.text != event.dateToPrettyString(DateFormat.FULL)) return true
         } else {
-            if (edit_date.text != event.dateToPrettyString(DateFormat.DATE_FIELD).subSequence(0..5).toString()) return true
+            if (editDate.text != event.dateToPrettyString(DateFormat.DATE_FIELD).subSequence(0..5).toString()) return true
         }
 
-        if (edit_note.text.isNotBlank() && event.note == null) {
+        if (editNote.text.isNotBlank() && event.note == null) {
             return true
         } else {
             if (event.note != null) {
-                if (edit_note.text.toString() != event.note!!) return true
+                if (editNote.text.toString() != event.note!!) return true
             }
         }
 
-        if (edit_nickname.text.isNotBlank() && event.nickname == null) {
+        if (editNickname.text.isNotBlank() && event.nickname == null) {
             return true
         } else {
             if (event.nickname != null) {
-                if (edit_nickname.text.toString() != event.nickname!!) return true
+                if (editNickname.text.toString() != event.nickname!!) return true
             }
         }
 
-        if (edit_surname.text.isNotBlank() && event.surname == null) {
+        if (editSurname.text.isNotBlank() && event.surname == null) {
             return true
         } else {
             if (event.surname != null) {
-                if (edit_surname.text.toString() != event.surname!!) return true
+                if (editSurname.text.toString() != event.surname!!) return true
             }
         }
 
-        if (edit_forename.text.toString() != event.forename) return true
-        if (switch_isYearGiven.isChecked != event.isYearGiven) return true
-        if (avatar_img_was_edited) return true
+        if (editForename.text.toString() != event.forename) return true
+        if (switchIsYearGiven.isChecked != event.isYearGiven) return true
+        if (avatarImgWasEdited) return true
 
         return false
     }
@@ -200,66 +199,65 @@ class BirthdayInstanceFragment : EventInstanceFragment() {
                         this.eventDate = cal.time
                     }
                     if (birthday.isYearGiven) {
-                        edit_date.text = EventDate.parseDateToString(this.eventDate, DateFormat.DEFAULT)
+                        editDate.text = EventDate.parseDateToString(this.eventDate, DateFormat.DEFAULT)
                     } else {
-                        edit_date.text =
+                        editDate.text =
                             EventDate.getLocalizedDayAndMonth(this.eventDate)
                     }
 
-                    edit_surname.setText(birthday.surname)
-                    edit_forename.setText(birthday.forename)
-                    switch_isYearGiven.isChecked = birthday.isYearGiven
-                    birthday_avatar_uri = birthday.avatarImageUri
+                    editSurname.setText(birthday.surname)
+                    editForename.setText(birthday.forename)
+                    switchIsYearGiven.isChecked = birthday.isYearGiven
+                    birthdayAvatarUri = birthday.avatarImageUri
 
                     if (!birthday.note.isNullOrBlank()) {
-                        edit_note.setText(birthday.note)
+                        editNote.setText(birthday.note)
                     }
 
                     if (!birthday.nickname.isNullOrBlank()) {
                         //cb_nickname.isChecked = true
-                        edit_nickname.setText(birthday.nickname)
-                        edit_nickname.visibility = EditText.VISIBLE
+                        editNickname.setText(birthday.nickname)
+                        editNickname.visibility = EditText.VISIBLE
                     }
 
                     //title.text = resources.getText(R.string.toolbar_title_edit_birthday)
                     btn_birthday_add_fragment_delete.visibility = Button.VISIBLE
                     //delete functionality
                     btn_birthday_add_fragment_delete.setOnClickListener {
-                        val alert_builder = AlertDialog.Builder(context)
-                        alert_builder.setTitle(resources.getString(R.string.alert_dialog_title_delete_birthday))
-                        alert_builder.setMessage(resources.getString(R.string.alert_dialog_body_message))
+                        val alertBuilder = AlertDialog.Builder(context)
+                        alertBuilder.setTitle(resources.getString(R.string.alert_dialog_title_delete_birthday))
+                        alertBuilder.setMessage(resources.getString(R.string.alert_dialog_body_message))
 
-                        val context_temp = context
-                        val birthday_pair_temp = birthday
+                        val contextTemp = context
 
                         // Set a positive button and its click listener on alert dialog
-                        alert_builder.setPositiveButton(resources.getString(R.string.yes)) { _, _ ->
+                        alertBuilder.setPositiveButton(resources.getString(R.string.yes)) { _, _ ->
                             // delete birthday on positive button
                             Snackbar.make(
                                 view,
                                 resources.getString(R.string.person_deleted_notification),
                                 Snackbar.LENGTH_LONG
                             )
-                                .setAction(R.string.undo, View.OnClickListener {
-                                    EventHandler.addEvent(birthday_pair_temp, context_temp!!, true)
-                                    //get last fragment in stack list, which should be eventlistfragment, so we can update the recycler view
+                                .setAction(R.string.undo) {
+                                    EventHandler.addEvent(birthday, contextTemp!!, true)
+                                    //get last fragment in stack list, which should be EventListFragment, so we can update the recycler view
                                     val fragment =
-                                        (context_temp as MainActivity).supportFragmentManager.fragments[(context_temp).supportFragmentManager.backStackEntryCount]
+                                        (contextTemp as MainActivity).supportFragmentManager.fragments[(contextTemp).supportFragmentManager.backStackEntryCount]
                                     if (fragment is EventListFragment) {
                                         fragment.recyclerView.adapter!!.notifyDataSetChanged()
                                     }
-                                })
+                                }
                                 .show()
-                            EventHandler.removeEventByID(eventID, context!!, true)
+                            EventHandler.removeEventByID(eventID, contextTemp!!, true)
                             closeBtnPressed()
                         }
 
-                        // dont do anything on negative button
-                        alert_builder.setNegativeButton(resources.getString(R.string.no)) { _, _ ->
+                        // don't do anything on negative button
+                        alertBuilder.setNegativeButton(resources.getString(R.string.no)) { _, _ ->
                         }
 
                         // Finally, make the alert dialog using builder
-                        val dialog: AlertDialog = alert_builder.create()
+                        val dialog: AlertDialog = alertBuilder.create()
 
                         // Display the alert dialog on app interface
                         dialog.show()
@@ -273,14 +271,14 @@ class BirthdayInstanceFragment : EventInstanceFragment() {
         } else {
             setToolbarTitle(context!!.resources.getString(R.string.toolbar_title_add_birthday))
             btn_birthday_add_fragment_delete.visibility = Button.INVISIBLE
-            edit_date.hint = resources.getString(
+            editDate.hint = resources.getString(
                 R.string.birthday_instance_fragment_date_edit_hint,
                 EventDate.parseDateToString(this.eventDate, DateFormat.DEFAULT)
             )
         }
 
-        edit_date.setOnClickListener {
-            showDatePickerDialog(switch_isYearGiven.isChecked)
+        editDate.setOnClickListener {
+            showDatePickerDialog(switchIsYearGiven.isChecked)
         }
 
         //add image from gallery
@@ -290,66 +288,61 @@ class BirthdayInstanceFragment : EventInstanceFragment() {
             val dialog = BottomSheetDialog(context!!)
             dialog.setContentView(bottomSheetDialog)
 
-            val layoutChooseImg = dialog.findViewById<ConstraintLayout>(R.id.layout_bottom_sheet_choose)
-            val layoutDeleteImg = dialog.findViewById<ConstraintLayout>(R.id.layout_bottom_sheet_delete)
-
-            dialog.show()
-
-            //when clicked, that an image from a file should be taken
-            if (layoutChooseImg != null) {
-                layoutChooseImg.setOnClickListener {
+            dialog.findViewById<ConstraintLayout>(R.id.layout_bottom_sheet_choose).apply {
+                this?.setOnClickListener {
                     dialog.dismiss()
                     getImageFromFiles()
                 }
             }
 
-            //delete current image, and reference to BitmapHandler when clicked
-            if (layoutDeleteImg != null) {
-                layoutDeleteImg.setOnClickListener {
+            dialog.findViewById<ConstraintLayout>(R.id.layout_bottom_sheet_delete).apply {
+                this?.setOnClickListener {
                     dialog.dismiss()
-                    if (isEditedBirthday && this.birthday_avatar_uri != null && (EventHandler.getEventToEventIndex(
+                    if (isEditedBirthday && birthdayAvatarUri != null && (EventHandler.getEventToEventIndex(
                             eventID
                         ) as EventBirthday).avatarImageUri != null
                     ) {
-                        this.iv_add_avatar_btn.setImageResource(R.drawable.ic_birthday_person)
-                        this.avatar_img_was_edited = true
-                        this.birthday_avatar_uri = null
+                        iv_add_avatar_btn.setImageResource(R.drawable.ic_birthday_person)
+                        avatarImgWasEdited = true
+                        birthdayAvatarUri = null
                         BitmapHandler.removeBitmap(eventID, context!!)
                     } else {
-                        this.iv_add_avatar_btn.setImageResource(R.drawable.ic_birthday_person)
-                        this.birthday_avatar_uri = null
+                        iv_add_avatar_btn.setImageResource(R.drawable.ic_birthday_person)
+                        birthdayAvatarUri = null
                     }
                 }
             }
-        }
 
-        switch_isYearGiven.setOnCheckedChangeListener { _, isChecked ->
-            if (edit_date.text.isNotBlank()) {
-                //year is given
-                if (isChecked) {
-                    val lastYear = Calendar.getInstance().apply {
-                        time = eventDate
-                        set(Calendar.YEAR, Calendar.getInstance().get(Calendar.YEAR) - 1)
+            dialog.show()
+
+            switchIsYearGiven.setOnCheckedChangeListener { _, isChecked ->
+                if (editDate.text.isNotBlank()) {
+                    //year is given
+                    if (isChecked) {
+                        val lastYear = Calendar.getInstance().apply {
+                            time = eventDate
+                            set(Calendar.YEAR, Calendar.getInstance().get(Calendar.YEAR) - 1)
+                        }
+                        editDate.text = EventDate.parseDateToString(lastYear.time, DateFormat.DEFAULT)
+
+                        //year is not given
+                    } else {
+                        editDate.text = EventDate.getLocalizedDayAndMonth(this.eventDate)
                     }
-                    edit_date.text = EventDate.parseDateToString(lastYear.time, DateFormat.DEFAULT)
-
-                    //year is not given
                 } else {
-                    edit_date.text = EventDate.getLocalizedDayAndMonth(this.eventDate)
-                }
-            } else {
-                if (isChecked) {
-                    edit_date.hint = resources.getString(
-                        R.string.birthday_instance_fragment_date_edit_hint,
-                        EventDate.parseDateToString(Calendar.getInstance().time, DateFormat.DEFAULT)
-                    )
-                } else {
-                    edit_date.hint =
-                        resources.getString(
+                    if (isChecked) {
+                        editDate.hint = resources.getString(
                             R.string.birthday_instance_fragment_date_edit_hint,
-                            EventDate.getLocalizedDayAndMonth(Calendar.getInstance().time)
-
+                            EventDate.parseDateToString(Calendar.getInstance().time, DateFormat.DEFAULT)
                         )
+                    } else {
+                        editDate.hint =
+                            resources.getString(
+                                R.string.birthday_instance_fragment_date_edit_hint,
+                                EventDate.getLocalizedDayAndMonth(Calendar.getInstance().time)
+
+                            )
+                    }
                 }
             }
         }
@@ -394,8 +387,8 @@ class BirthdayInstanceFragment : EventInstanceFragment() {
                 }
             }).start()
 
-            birthday_avatar_uri = fullPhotoUri.toString()
-            avatar_img_was_edited = true
+            birthdayAvatarUri = fullPhotoUri.toString()
+            avatarImgWasEdited = true
         }
     }
 
@@ -403,12 +396,12 @@ class BirthdayInstanceFragment : EventInstanceFragment() {
      * acceptBtnPressed is a function which is called when the toolbars accept button is pressed
      */
     override fun acceptBtnPressed() {
-        val forename = edit_forename.text.toString()
-        val surname = edit_surname.text.toString()
-        val date = edit_date.text.toString()
-        val note = edit_note.text.toString()
-        val nickname = edit_nickname.text.toString()
-        val isYearGiven = switch_isYearGiven.isChecked
+        val forename = editForename.text.toString()
+        val surname = editSurname.text.toString()
+        val date = editDate.text.toString()
+        val note = editNote.text.toString()
+        val nickname = editNickname.text.toString()
+        val isYearGiven = switchIsYearGiven.isChecked
 
         if (forename.isBlank() || date.isBlank()) {
             Toast.makeText(
@@ -426,7 +419,6 @@ class BirthdayInstanceFragment : EventInstanceFragment() {
                 isYearGiven
             )
 
-            //TODO: is nulling and clearing necessary?
             if (surname.isNotBlank()) {
                 birthday.surname = surname
             }
@@ -437,13 +429,10 @@ class BirthdayInstanceFragment : EventInstanceFragment() {
 
             if (nickname.isNotBlank()) {
                 birthday.nickname = nickname
-            } else {
-                birthday.nickname = null
-                edit_nickname.text.clear()
             }
 
-            if (birthday_avatar_uri != null) {
-                birthday.avatarImageUri = birthday_avatar_uri
+            if (birthdayAvatarUri != null) {
+                birthday.avatarImageUri = birthdayAvatarUri
             }
 
             //new bithday entry, just add a new entry in map
@@ -473,7 +462,7 @@ class BirthdayInstanceFragment : EventInstanceFragment() {
         }
     }
 
-    fun updateAvatarImage() {
+    private fun updateAvatarImage() {
         if (this.iv_add_avatar_btn != null && this.eventID >= 0) {
             //load maybe already existent avatar photo
             EventHandler.getEventToEventIndex(eventID)?.let { event ->
@@ -486,12 +475,12 @@ class BirthdayInstanceFragment : EventInstanceFragment() {
     }
 
     /**
-     * showDatePickerDialog shows a dialog to let the user pick a date for the edit_date
+     * showDatePickerDialog shows a dialog to let the user pick a date for the editDate
      */
     private fun showDatePickerDialog(showYear: Boolean) {
         val c = Calendar.getInstance()
         //set calendar to the date which is stored in the edit field, when the edit is not empty
-        if (!edit_date.text.isNullOrBlank()) {
+        if (!editDate.text.isNullOrBlank()) {
             c.time = this.eventDate
         }
         val year = c.get(Calendar.YEAR)
@@ -512,9 +501,9 @@ class BirthdayInstanceFragment : EventInstanceFragment() {
                     } else {
                         this.eventDate = c.time
                         if (showYear) {
-                            edit_date.text = EventDate.parseDateToString(c.time, DateFormat.DEFAULT)
+                            editDate.text = EventDate.parseDateToString(c.time, DateFormat.DEFAULT)
                         } else {
-                            edit_date.text =
+                            editDate.text =
                                 EventDate.getLocalizedDayAndMonth(c.time)
                         }
                     }
@@ -538,7 +527,7 @@ class BirthdayInstanceFragment : EventInstanceFragment() {
         /**
          * BIRTHDAY_INSTANCE_FRAGMENT_TAG is the fragments tag as String
          */
-        val BIRTHDAY_INSTANCE_FRAGMENT_TAG = "BIRTHDAY_INSTANCE"
+        const val BIRTHDAY_INSTANCE_FRAGMENT_TAG = "BIRTHDAY_INSTANCE"
 
         /**
          * newInstance returns a new instance of BirthdayInstanceFragment

@@ -20,14 +20,13 @@ import kotlinx.android.synthetic.main.card_view_settings_extras.view.*
 import kotlinx.android.synthetic.main.card_view_settings_notification.view.*
 import java.util.*
 
-//TODO: put delete all option in settings
 class SettingsAdapter(private val context: Context) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     /**
      * itemList is a list of 4 integers to imply the settings card view
      */
-    val itemList = listOf(1, 2, 3, 4)
+    private val itemList = listOf(1, 2, 3, 4)
 
     class SettingCardViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
     class SettingExtraCardViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
@@ -503,16 +502,15 @@ class SettingsAdapter(private val context: Context) :
     }
 
     private fun deleteAllData() {
-        //TODO: hardcoded strings
         val dialogBuilder = AlertDialog.Builder(this.context)
         dialogBuilder.setTitle(R.string.delete_all_dialog_title)
         dialogBuilder.setMessage(R.string.delete_all_dialog_body)
-        dialogBuilder.setPositiveButton(R.string.yes, DialogInterface.OnClickListener { _, _ ->
+        dialogBuilder.setPositiveButton(R.string.yes) { _, _ ->
             Toast.makeText(context, R.string.delete_all_dialog_confirmation, Toast.LENGTH_LONG).show()
             EventHandler.deleteAllEntriesAndImages(context, true)
             (context as MainActivity).addMonthDivider()
-        })
-        dialogBuilder.setNegativeButton(R.string.no, DialogInterface.OnClickListener { dialog, _ -> dialog.dismiss() })
+        }
+        dialogBuilder.setNegativeButton(R.string.no) { dialog, _ -> dialog.dismiss() }
         dialogBuilder.setIcon(R.drawable.ic_error_outline)
         dialogBuilder.show()
     }

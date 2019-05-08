@@ -22,7 +22,7 @@ class RecycleViewItemDivider(private val context: Context) : RecyclerView.ItemDe
 
             val child = parent.getChildAt(i)
 
-            //dont render a decoration when the child after this is a month divider/ not-decoration-view
+            //don't render a decoration when the child after this is a month divider/ not-decoration-view
             if (i < childCount - 1) {
                 val childFollowing = parent.getChildAt(i + 1)
                 if (!isDecorated(childFollowing, parent)) {
@@ -51,6 +51,6 @@ class RecycleViewItemDivider(private val context: Context) : RecyclerView.ItemDe
     private fun isDecorated(view: View, parent: RecyclerView): Boolean {
         val holder: RecyclerView.ViewHolder = parent.getChildViewHolder(view)
         return ((holder is EventAdapter.BirthdayEventViewHolder) || (holder is EventAdapter.AnnualEventViewHolder) || (holder is EventAdapter.OneTimeEventViewHolder) ||
-                (holder is EventAdapter_Searching.BirthdayEventViewHolder) || (holder is EventAdapter_Searching.AnnualEventViewHolder) || (holder is EventAdapter_Searching.OneTimeEventViewHolder))
+                (holder is EventAdapterSearching.BirthdayEventViewHolder) || (holder is EventAdapterSearching.AnnualEventViewHolder) || (holder is EventAdapterSearching.OneTimeEventViewHolder))
     }
 }

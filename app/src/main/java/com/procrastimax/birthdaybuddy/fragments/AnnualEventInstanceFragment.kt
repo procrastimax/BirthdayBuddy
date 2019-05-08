@@ -13,7 +13,6 @@ import com.procrastimax.birthdaybuddy.R
 import com.procrastimax.birthdaybuddy.handler.EventHandler
 import com.procrastimax.birthdaybuddy.models.AnnualEvent
 import com.procrastimax.birthdaybuddy.models.EventDate
-import kotlinx.android.synthetic.main.content_main.*
 import kotlinx.android.synthetic.main.fragment_annual_instance.*
 import kotlinx.android.synthetic.main.fragment_event_list.*
 import java.text.DateFormat
@@ -29,14 +28,14 @@ import java.util.*
 class AnnualEventInstanceFragment : EventInstanceFragment() {
 
     /**
-     * isEditAnnualEvent is a boolean flag to indicate wether this fragment is intended to edit or add an instance of AnnualEvent
+     * isEditAnnualEvent is a boolean flag to indicate whether this fragment is intended to edit or add an instance of AnnualEvent
      * this is later used to fill TextEdits with existing data of an AnnualEvent instance
      */
-    var isEditAnnualEvent = false
+    private var isEditAnnualEvent = false
 
     /**
-     * eventID is the id the AnnualEvent has in the EventHandler - eventlist
-     * In other words this id is the index of the clicked item from the EventListFragment recyclerview
+     * eventID is the id the AnnualEvent has in the EventHandler - EventList
+     * In other words this id is the index of the clicked item from the EventListFragment RecyclerView
      */
     var eventID = -1
 
@@ -44,15 +43,15 @@ class AnnualEventInstanceFragment : EventInstanceFragment() {
      * edit_name is the TextEdit used for editing/ showing the name of the annual event
      * It is lazy initialized
      */
-    val edit_name: EditText by lazy {
+    private val editName: EditText by lazy {
         view!!.findViewById<EditText>(R.id.edit_add_fragment_name_annual_event)
     }
 
     /**
-     * edit_date is the TextEdit used for editing/ showing the date of the annual_event
+     * editDate is the TextEdit used for editing/ showing the date of the annual_event
      * It is lazy initialized
      */
-    val edit_date: TextView by lazy {
+    private val editDate: TextView by lazy {
         view!!.findViewById<TextView>(R.id.edit_add_fragment_date_annual_event)
     }
 
@@ -60,15 +59,15 @@ class AnnualEventInstanceFragment : EventInstanceFragment() {
      * edit_note is the TextEdit used for editing/ showing the note of the annual_event
      * It is lazy initialized
      */
-    val edit_note: EditText by lazy {
+    private val editNote: EditText by lazy {
         view!!.findViewById<EditText>(R.id.edit_add_fragment_note_annual_event)
     }
 
     /**
-     * switch_isYearGiven is the Switch to indicate wether the user wants to provide a date with a year or without a year
+     * switch_isYearGiven is the Switch to indicate whether the user wants to provide a date with a year or without a year
      * It is lazy initialized
      */
-    val switch_isYearGiven: Switch by lazy {
+    private val switchIsYearGiven: Switch by lazy {
         view!!.findViewById<Switch>(R.id.sw_is_year_given_annual_event)
     }
 
@@ -96,16 +95,16 @@ class AnnualEventInstanceFragment : EventInstanceFragment() {
                     this.eventDate = annualEvent.eventDate
 
                     if (annualEvent.hasStartYear) {
-                        edit_date.text = EventDate.parseDateToString(this.eventDate, DateFormat.DEFAULT)
+                        editDate.text = EventDate.parseDateToString(this.eventDate, DateFormat.DEFAULT)
                     } else {
-                        edit_date.text = EventDate.getLocalizedDayAndMonth(this.eventDate)
+                        editDate.text = EventDate.getLocalizedDayAndMonth(this.eventDate)
                     }
 
-                    edit_name.setText(annualEvent.name)
+                    editName.setText(annualEvent.name)
                     if (!annualEvent.note.isNullOrBlank()) {
-                        edit_note.setText(annualEvent.note)
+                        editNote.setText(annualEvent.note)
                     }
-                    switch_isYearGiven.isChecked = annualEvent.hasStartYear
+                    switchIsYearGiven.isChecked = annualEvent.hasStartYear
 
                     btn_fragment_annual_event_instance_delete.visibility = Button.VISIBLE
                     btn_fragment_annual_event_instance_delete.setOnClickListener {
@@ -114,7 +113,6 @@ class AnnualEventInstanceFragment : EventInstanceFragment() {
                         alertBuilder.setTitle(resources.getString(R.string.alert_dialog_title_delete_annual_event))
                         alertBuilder.setMessage(resources.getString(R.string.alert_dialog_body_message_annual_event))
 
-                        val annualEventTemp = annualEvent
                         val contextTemp = context
 
                         // Set a positive button and its click listener on alert dialog
@@ -123,12 +121,12 @@ class AnnualEventInstanceFragment : EventInstanceFragment() {
                             Snackbar
                                 .make(
                                     view,
-                                    resources.getString(R.string.annual_event_deleted_notification, edit_name.text),
+                                    resources.getString(R.string.annual_event_deleted_notification, editName.text),
                                     Snackbar.LENGTH_LONG
                                 )
-                                .setAction(R.string.undo, View.OnClickListener {
+                                .setAction(R.string.undo) {
                                     EventHandler.addEvent(
-                                        annualEventTemp, contextTemp!!,
+                                        annualEvent, contextTemp!!,
                                         true
                                     )
                                     //get last fragment in stack list, when its eventlistfragment, we can update the recycler view
@@ -137,10 +135,10 @@ class AnnualEventInstanceFragment : EventInstanceFragment() {
                                     if (fragment is EventListFragment) {
                                         fragment.recyclerView.adapter!!.notifyDataSetChanged()
                                     }
-                                })
+                                }
                                 .show()
 
-                            EventHandler.removeEventByID(eventID, context!!, true)
+                            EventHandler.removeEventByID(eventID, contextTemp!!, true)
                             closeBtnPressed()
                         }
                         alertBuilder.setNegativeButton(resources.getString(R.string.no)) { dialog, _ -> dialog.dismiss() }
@@ -154,17 +152,17 @@ class AnnualEventInstanceFragment : EventInstanceFragment() {
         } else {
             setToolbarTitle(context!!.resources.getString(R.string.toolbar_title_add_annual_event))
             btn_fragment_annual_event_instance_delete.visibility = Button.INVISIBLE
-            edit_date.hint = "${resources.getString(
+            editDate.hint = "${resources.getString(
                 R.string.event_property_date
             )}: ${EventDate.parseDateToString(this.eventDate, DateFormat.DEFAULT)}"
         }
 
-        edit_date.setOnClickListener {
+        editDate.setOnClickListener {
             showDatePickerDialog()
         }
 
-        switch_isYearGiven.setOnCheckedChangeListener { _, isChecked ->
-            if (edit_date.text.isNotBlank()) {
+        switchIsYearGiven.setOnCheckedChangeListener { _, isChecked ->
+            if (editDate.text.isNotBlank()) {
                 //year is given
                 if (isChecked) {
                     val cal = Calendar.getInstance()
@@ -174,21 +172,21 @@ class AnnualEventInstanceFragment : EventInstanceFragment() {
                         this.eventDate = cal.time
                     }
 
-                    edit_date.text = EventDate.parseDateToString(this.eventDate, DateFormat.DEFAULT)
+                    editDate.text = EventDate.parseDateToString(this.eventDate, DateFormat.DEFAULT)
                     //year is not given
                 } else {
-                    edit_date.text = EventDate.getLocalizedDayAndMonth(this.eventDate)
+                    editDate.text = EventDate.getLocalizedDayAndMonth(this.eventDate)
                 }
             } else {
                 if (isChecked) {
-                    edit_date.hint =
+                    editDate.hint =
                         "${resources.getString(R.string.event_property_date)}: ${EventDate.parseDateToString(
                             this.eventDate,
                             DateFormat.DEFAULT
                         )}"
 
                 } else {
-                    edit_date.hint = "${resources.getString(
+                    editDate.hint = "${resources.getString(
                         R.string.event_property_date
                     )}: ${EventDate.getLocalizedDayAndMonth(this.eventDate)}"
                 }
@@ -198,12 +196,12 @@ class AnnualEventInstanceFragment : EventInstanceFragment() {
 
     /**
      * showDatePickerDialog shows a standard android date picker dialog
-     * The chosen date in the dialog is set to the edit_date field
+     * The chosen date in the dialog is set to the editDate field
      */
     private fun showDatePickerDialog() {
         val c = Calendar.getInstance()
         //set calendar to the date which is stored in the edit field, when the edit is not empty
-        if (!edit_date.text.isNullOrBlank()) {
+        if (!editDate.text.isNullOrBlank()) {
             c.time = this.eventDate
         }
         val year = c.get(Calendar.YEAR)
@@ -219,7 +217,7 @@ class AnnualEventInstanceFragment : EventInstanceFragment() {
                     c.set(Calendar.MONTH, monthOfYear)
                     c.set(Calendar.DAY_OF_MONTH, dayOfMonth)
 
-                    if (c.time.after(Calendar.getInstance().time) && switch_isYearGiven.isChecked) {
+                    if (c.time.after(Calendar.getInstance().time) && switchIsYearGiven.isChecked) {
                         Toast.makeText(
                             view.context,
                             context!!.resources.getText(R.string.future_annual_event_error),
@@ -227,10 +225,10 @@ class AnnualEventInstanceFragment : EventInstanceFragment() {
                         ).show()
                     } else {
                         this.eventDate = c.time
-                        if (switch_isYearGiven.isChecked) {
-                            edit_date.text = EventDate.parseDateToString(c.time, DateFormat.DEFAULT)
+                        if (switchIsYearGiven.isChecked) {
+                            editDate.text = EventDate.parseDateToString(c.time, DateFormat.DEFAULT)
                         } else {
-                            edit_date.text =
+                            editDate.text =
                                 EventDate.getLocalizedDayAndMonth(c.time)
                         }
                     }
@@ -246,10 +244,10 @@ class AnnualEventInstanceFragment : EventInstanceFragment() {
      * acceptBtnPressed is a function which is called when the toolbars accept button is pressed
      */
     override fun acceptBtnPressed() {
-        val name = edit_name.text.toString()
-        val date = edit_date.text.toString()
-        val note = edit_note.text.toString()
-        val isYearGiven = switch_isYearGiven.isChecked
+        val name = editName.text.toString()
+        val date = editDate.text.toString()
+        val note = editNote.text.toString()
+        val isYearGiven = switchIsYearGiven.isChecked
 
         if (name.isBlank() || date.isBlank()) {
             Toast.makeText(
@@ -302,21 +300,21 @@ class AnnualEventInstanceFragment : EventInstanceFragment() {
      * @return Boolean, returns false if nothing has changed
      */
     private fun wasChangeMade(event: AnnualEvent): Boolean {
-        if (switch_isYearGiven.isChecked) {
-            if (edit_date.text != event.dateToPrettyString(DateFormat.FULL)) return true
+        if (switchIsYearGiven.isChecked) {
+            if (editDate.text != event.dateToPrettyString(DateFormat.FULL)) return true
         } else {
-            if (edit_date.text != event.dateToPrettyString(DateFormat.DATE_FIELD).subSequence(0..5).toString()) return true
+            if (editDate.text != event.dateToPrettyString(DateFormat.DATE_FIELD).subSequence(0..5).toString()) return true
         }
 
-        if (edit_note.text.isNotBlank() && event.note == null) {
+        if (editNote.text.isNotBlank() && event.note == null) {
             return true
         } else {
             if (event.note != null) {
-                if (edit_note.text.toString() != event.note!!) return true
+                if (editNote.text.toString() != event.note!!) return true
             }
         }
-        if (edit_name.text.toString() != event.name) return true
-        if (switch_isYearGiven.isChecked != event.hasStartYear) return true
+        if (editName.text.toString() != event.name) return true
+        if (switchIsYearGiven.isChecked != event.hasStartYear) return true
         //if nothing has changed return false
         return false
     }
@@ -325,7 +323,7 @@ class AnnualEventInstanceFragment : EventInstanceFragment() {
         /**
          * ANNUAL_EVENT_INSTANCE_FRAGMENT_TAG is the fragments tag as String
          */
-        val ANNUAL_EVENT_INSTANCE_FRAGMENT_TAG = "ANNUAL_EVENT_INSTANCE"
+        const val ANNUAL_EVENT_INSTANCE_FRAGMENT_TAG = "ANNUAL_EVENT_INSTANCE"
 
         /**
          * newInstance returns a new instance of AnnualEventInstanceFragment
