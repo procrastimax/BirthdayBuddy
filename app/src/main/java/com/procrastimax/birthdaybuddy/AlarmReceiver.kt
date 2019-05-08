@@ -27,7 +27,7 @@ class AlarmReceiver : BroadcastReceiver() {
             IOHandler.registerIO(context)
 
             val event =
-                IOHandler.convertStringToEventDate(intent!!.getStringExtra(MainActivity.FRAGMENT_EXTRA_TITLE_EVENTSTRING))
+                IOHandler.convertStringToEventDate(context, intent!!.getStringExtra(MainActivity.FRAGMENT_EXTRA_TITLE_EVENTSTRING))
             val notificationID = intent.getIntExtra(MainActivity.FRAGMENT_EXTRA_TITLE_NOTIFICATIONID, 0)
             val eventID = intent.getIntExtra(MainActivity.FRAGMENT_EXTRA_TITLE_EVENTID, 0)
             event?.eventID = eventID

@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.SharedPreferences
 import android.util.Log
 import com.procrastimax.birthdaybuddy.BuildConfig
+import com.procrastimax.birthdaybuddy.R
 import com.procrastimax.birthdaybuddy.models.*
 import java.util.*
 
@@ -212,11 +213,11 @@ object IOHandler {
      * @param key: Int
      * @return EventDay?
      */
-    fun readEventFromFile(key: Int): EventDate? {
+    fun readEventFromFile(context: Context, key: Int): EventDate? {
         if (sharedPrefEventData.contains(key.toString())) {
             val eventday: String? = sharedPrefEventData.getString(key.toString(), "")
             if (!eventday.isNullOrEmpty()) {
-                return convertStringToEventDate(eventday)
+                return convertStringToEventDate(context, eventday)
             } else {
                 return null
             }
@@ -270,7 +271,7 @@ object IOHandler {
                 if (it.value is String) {
                     eventCounter++
                     var event =
-                        convertStringToEventDate(it.value as String)
+                        convertStringToEventDate(context, it.value as String)
                     event!!.eventID = it.key.toInt()
 
                     //check for onetimeevents
@@ -313,10 +314,11 @@ object IOHandler {
      * It can return derived types from EventDay with the typification string at the start of every string
      *  TODO:
      *      -> do parsing with identifiers on a more dynamic way
+     * @param context : Context
      * @param objectString : String
      * @return EventDay?
      */
-    fun convertStringToEventDate(objectString: String): EventDate? {
+    fun convertStringToEventDate(context: Context, objectString: String): EventDate? {
         val string_array = objectString.split(characterDivider_properties)
 
         // BIRTHDAY EVENT
@@ -362,7 +364,7 @@ object IOHandler {
 
             val birthday =
                 EventBirthday(EventDate.parseStringToDate(date, locale = Locale.GERMAN), forename, isyeargiven)
-            if(surname != null) birthday.surname = surname
+            if (surname != null) birthday.surname = surname
             if (note != null) birthday.note = note
             if (avatarImageURI != null) birthday.avatarImageUri = avatarImageURI
             if (nickname != null) birthday.nickname = nickname
@@ -445,6 +447,9 @@ object IOHandler {
                         date = property[1]
                     }
                     MonthDivider.Identifier.MonthName.toString() -> {
+                        val cal = Calendar.getInstance()
+                        cal.time = EventDate.parseStringToDate(date, locale = Locale.GERMAN)
+                        context.resources.getStringArray(R.array.month_names)[cal.get(Calendar.MONTH)]
                         month = property[1]
                     }
                     else ->
