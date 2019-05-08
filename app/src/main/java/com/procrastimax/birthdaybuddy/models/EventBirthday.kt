@@ -96,16 +96,10 @@ class EventBirthday(
                     Locale.GERMAN
                 )}" +
                 "${IOHandler.characterDivider_properties}${Identifier.IsYearGiven}${IOHandler.characterDivider_values}${this.isYearGiven}" +
-                "${getStringFromValue(
-                    Identifier.Nickname,
-                    this.nickname
-                )}${getStringFromValue(
-                    Identifier.Note,
-                    this.note
-                )}${getStringFromValue(
-                    Identifier.AvatarUri,
-                    this.avatarImageUri
-                )}${getStringFromValue(Identifier.Nickname, this.nickname)}"
+                getStringFromValue(Identifier.Surname, this.surname) +
+                getStringFromValue(Identifier.Note, this.note) +
+                getStringFromValue(Identifier.AvatarUri, this.avatarImageUri) +
+                getStringFromValue(Identifier.Nickname, this.nickname)
     }
 
     companion object {
