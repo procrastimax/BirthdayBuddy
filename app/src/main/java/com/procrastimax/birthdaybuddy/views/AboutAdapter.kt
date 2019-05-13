@@ -17,7 +17,8 @@ class AboutAdapter(private val context: Context) : RecyclerView.Adapter<Recycler
         BuildNumber,
         License,
         OpenSource,
-        Contact
+        Contact,
+        Thanks
     }
 
     class AboutCardViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
@@ -26,6 +27,7 @@ class AboutAdapter(private val context: Context) : RecyclerView.Adapter<Recycler
         AboutInstance.OpenSource,
         AboutInstance.License,
         AboutInstance.Contact,
+        AboutInstance.Thanks,
         AboutInstance.App,
         AboutInstance.Version,
         AboutInstance.BuildNumber
@@ -69,6 +71,10 @@ class AboutAdapter(private val context: Context) : RecyclerView.Adapter<Recycler
             AboutInstance.Contact -> {
                 holder.itemView.tv_about_title.text = context.getText(R.string.about_title_contactInformation)
                 holder.itemView.tv_about_content.text = context.getText(R.string.about_content_contact)
+            }
+            AboutInstance.Thanks -> {
+                holder.itemView.tv_about_title.text = context.getText(R.string.about_title_thanks)
+                holder.itemView.tv_about_content.text = context.getText(R.string.about_content_thanks)
             }
         }
 

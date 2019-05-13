@@ -238,10 +238,12 @@
     <string name="about_title_license">Lizenz</string>
     <string name="about_title_openSource">OpenSource</string>
     <string name="about_title_contactInformation">Kontakt</string>
+    <string name="about_title_thanks">Danksagungen</string>
 
     <string name="about_content_license">Diese App unterliegt den Regelungen und Konditionen der GNU General Public Lizenz v3.0.\nFür mehr und genauere Informationen lies bitte hier weiter: https://www.gnu.org/licenses/gpl-3.0.de.html</string>
     <string name="about_content_openSource">BirthdayBuddy ist ein nicht profit orientiertes privates Projekt. Für mich ist dieses Projekt ein reiner Selbstzweck zum Erlenen des Android Frameworks (und außerdem um eine App zu haben, welche mich an Geburtstage erinnert). Aus diesem Grund ist dieses Projekt auch öffentlich auf meiner GitHub-Seite zu finden (https://github.com/procrastimax/BirthdayBuddy). Wenn du dich an dem Projekt beteiligen möchtest, oder kreative Ideen einbringen willst, dann besteht jederzeit die Möglichkeit Pull-Requests oder GitHub Issues zu erstellen :)</string>
     <string name="about_content_contact">E-Mail: heykeroth.dev@gmail.com\nGitHub: procrastimax</string>
+    <string name="about_content_thanks">An dieser Stelle möchte ich mich bei all jenen bedanken, die bei der Entwicklung dieser App in Hinsicht auf Übersetzung, Tests und Feedback geholfen haben. Vielen Dank an Dascha, Paula, Carl, Daniel, Denis und Jarvis.</string>
 
     <!-- help texts -->
     <string name="help_title_reason">Warum sollte ich diese App benutzen?</string>
