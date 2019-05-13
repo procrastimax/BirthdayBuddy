@@ -54,7 +54,7 @@ class OneTimeEvent(_eventdate: Date, var name: String) : EventDate(_eventdate) {
     }
 
     override fun getDaysUntil(): Int {
-        if (Calendar.getInstance().get(Calendar.DAY_OF_YEAR) == getDayOfYear()) return 0
+        if (Calendar.getInstance().get(Calendar.DAY_OF_YEAR) == getDayOfYear() && getYearsUntil() == 0) return 0
         val currentDate = Calendar.getInstance().time
         val diff = this.eventDate.time - currentDate.time
         return java.util.concurrent.TimeUnit.DAYS.convert(diff, java.util.concurrent.TimeUnit.MILLISECONDS).toInt() + 1

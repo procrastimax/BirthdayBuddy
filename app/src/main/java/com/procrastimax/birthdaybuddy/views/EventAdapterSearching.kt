@@ -332,7 +332,7 @@ class EventAdapterSearching(private val context: Context, private val eventIDs: 
 
                         //set days until
                         val daysUntil = oneTimeEvent.getDaysUntil()
-                        if (daysUntil == 0) {
+                        if (daysUntil == 0 && oneTimeEvent.getYearsUntil() == 0) {
                             holder.itemView.tv_days_until_one_time_value.text =
                                 context.resources.getText(R.string.today)
                         } else {
