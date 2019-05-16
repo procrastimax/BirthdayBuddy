@@ -8,8 +8,8 @@
             android:strokeAlpha="1"
             android:strokeLineJoin="round"
             android:strokeWidth="3"
-            android:fillColor="@color/colorPrimaryLight"
-            android:strokeColor="@color/colorPrimaryLight"
+            android:fillColor="#859cbe"
+            android:strokeColor="#859cbe"
             android:fillAlpha="1"
             android:strokeLineCap="round"/>
     <path

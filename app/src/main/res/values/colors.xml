@@ -2,7 +2,7 @@
 <resources>
     <color name="colorPrimary">#FAFAFA</color>
     <color name="colorPrimaryDark">#FAFAFA</color>
-    <color name="colorPrimaryLight">#859cad</color>
+    <color name="colorPrimaryLight">#859cb1</color>
     <color name="colorAccent">#cf3f5c</color>
 
     <!-- Grey color values -->
