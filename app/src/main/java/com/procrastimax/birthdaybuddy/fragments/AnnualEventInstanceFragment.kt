@@ -131,7 +131,7 @@ class AnnualEventInstanceFragment : EventInstanceFragment() {
                                     )
                                     //get last fragment in stack list, when its eventlistfragment, we can update the recycler view
                                     val fragment =
-                                        (contextTemp as MainActivity).supportFragmentManager.fragments[(contextTemp).supportFragmentManager.backStackEntryCount]
+                                        (contextTemp as MainActivity).supportFragmentManager.fragments.last()
                                     if (fragment is EventListFragment) {
                                         fragment.recyclerView.adapter!!.notifyDataSetChanged()
                                     }

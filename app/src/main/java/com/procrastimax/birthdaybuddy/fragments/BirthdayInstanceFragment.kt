@@ -233,21 +233,23 @@ class BirthdayInstanceFragment : EventInstanceFragment() {
                         // Set a positive button and its click listener on alert dialog
                         alertBuilder.setPositiveButton(resources.getString(R.string.yes)) { _, _ ->
                             // delete birthday on positive button
-                            Snackbar.make(
-                                view,
-                                resources.getString(R.string.person_deleted_notification),
-                                Snackbar.LENGTH_LONG
-                            )
+                            Snackbar
+                                .make(
+                                    view,
+                                    resources.getString(R.string.person_deleted_notification),
+                                    Snackbar.LENGTH_LONG
+                                )
                                 .setAction(R.string.undo) {
                                     EventHandler.addEvent(birthday, contextTemp!!, true)
                                     //get last fragment in stack list, which should be EventListFragment, so we can update the recycler view
                                     val fragment =
-                                        (contextTemp as MainActivity).supportFragmentManager.fragments[(contextTemp).supportFragmentManager.backStackEntryCount]
+                                        (contextTemp as MainActivity).supportFragmentManager.fragments.last()
                                     if (fragment is EventListFragment) {
                                         fragment.recyclerView.adapter!!.notifyDataSetChanged()
                                     }
                                 }
                                 .show()
+
                             EventHandler.removeEventByID(eventID, contextTemp!!, true)
                             closeBtnPressed()
                         }
@@ -262,11 +264,10 @@ class BirthdayInstanceFragment : EventInstanceFragment() {
                         // Display the alert dialog on app interface
                         dialog.show()
                     }
-
-                    this.updateAvatarImage()
                 }
-            }
 
+                this.updateAvatarImage()
+            }
             //new birthday is going to be added
         } else {
             setToolbarTitle(context!!.resources.getString(R.string.toolbar_title_add_birthday))
