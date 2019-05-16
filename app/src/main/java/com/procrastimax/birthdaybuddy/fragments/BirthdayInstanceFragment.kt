@@ -170,18 +170,7 @@ class BirthdayInstanceFragment : EventInstanceFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setHasOptionsMenu(false)
-
-        ViewCompat.setOnApplyWindowInsetsListener(
-            birthday_scrollview
-        ) { _, insets ->
-            ViewCompat.onApplyWindowInsets(
-                birthday_scrollview,
-                insets.replaceSystemWindowInsets(
-                    insets.systemWindowInsetLeft, 0,
-                    insets.systemWindowInsetRight, insets.systemWindowInsetBottom
-                )
-            )
-        }
+        
         //retrieve fragment parameter when edited instance
         if (arguments != null) {
             isEditedBirthday = true

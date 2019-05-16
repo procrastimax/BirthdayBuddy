@@ -8,6 +8,7 @@
     <string name="today">today</string>
     <string name="noEntries">No entries :(</string>
     <string name="noEventsFound">No events found :(</string>
+    <string name="necessary">(necessary)</string>
 
     <string-array name="month_names">
         <item>January</item>
