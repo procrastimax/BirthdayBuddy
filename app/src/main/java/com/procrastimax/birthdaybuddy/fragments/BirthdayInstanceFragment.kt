@@ -11,7 +11,6 @@ import android.provider.MediaStore
 import android.support.constraint.ConstraintLayout
 import android.support.design.widget.BottomSheetDialog
 import android.support.design.widget.Snackbar
-import android.support.v4.view.ViewCompat
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -170,7 +169,10 @@ class BirthdayInstanceFragment : EventInstanceFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setHasOptionsMenu(false)
-        
+
+        editForename.hint =
+            "${context?.getText(R.string.event_property_forename)} ${context?.getText(R.string.necessary)}"
+
         //retrieve fragment parameter when edited instance
         if (arguments != null) {
             isEditedBirthday = true

@@ -70,6 +70,9 @@ class OneTimeEventInstanceFragment : EventInstanceFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        editName.hint =
+            "${context?.getText(R.string.edit_one_time_event_name_hint)} ${context?.getText(R.string.necessary)}"
+
         //retrieve fragment parameter when edited instance
         if (arguments != null) {
             isEditOneTimeEvent = true
