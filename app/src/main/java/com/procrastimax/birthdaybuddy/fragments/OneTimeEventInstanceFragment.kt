@@ -126,6 +126,7 @@ class OneTimeEventInstanceFragment : EventInstanceFragment() {
                                         (contextTemp as MainActivity).supportFragmentManager.fragments.last()
                                     if (fragment is EventListFragment) {
                                         fragment.recyclerView.adapter!!.notifyDataSetChanged()
+                                        fragment.tv_no_events.visibility = TextView.GONE
                                     }
                                 }
                                 .show()
