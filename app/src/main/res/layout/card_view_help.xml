@@ -8,7 +8,8 @@
                                     android:focusable="true"
                                     app:contentPadding="8dp"
                                     app:cardUseCompatPadding="true"
-                                    app:cardPreventCornerOverlap="true">
+                                    app:cardPreventCornerOverlap="true"
+                                    app:cardElevation="1dp">
 
     <android.support.constraint.ConstraintLayout
             android:layout_width="match_parent"
