@@ -1,0 +1,263 @@
+<resources>
+    <!-- _________globals____________ -->
+    <string name="app_name">BirthdayBuddy</string>
+    <string name="undo">Undo</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+    <string name="apply">Apply</string>
+    <string name="today">today</string>
+    <string name="noEntries">No entries :(</string>
+    <string name="noEventsFound">No events found :(</string>
+    <string name="necessary">(necessary)</string>
+
+    <string-array name="month_names">
+        <item>January</item>
+        <item>February</item>
+        <item>March</item>
+        <item>April</item>
+        <item>May</item>
+        <item>June</item>
+        <item>July</item>
+        <item>August</item>
+        <item>September</item>
+        <item>October</item>
+        <item>November</item>
+        <item>December</item>
+    </string-array>
+
+    <!-- BIRTHDAY -->
+    <string name="event_property_days">Days</string>
+    <string name="event_property_years">Years</string>
+    <string name="event_property_year">Year</string>
+    <string name="event_property_turns">turns</string>
+    <string name="event_property_date">Date</string>
+    <string name="event_property_forename">Forename</string>
+    <string name="event_property_surname">Surname</string>
+    <string name="event_property_nickname">Nickname</string>
+    <string name="event_property_note">Note</string>
+    <string name="event_type_birthday">Birthday</string>
+    <string name="event_type_annual_event">Annual event</string>
+    <string name="event_type_one_time_event">One time event</string>
+
+    <!-- birthday event view -->
+    <string name="alert_dialog_missing_avatar_img_title">Error when trying to load image!</string>
+    <string name="alert_dialog_missing_avatar_img_text">There occurred an error when trying to load an avatar image.\nThe image reference is going to be deleted.</string>
+
+    <!-- fragment add new birthday -->
+    <string name="toolbar_title_add_birthday">Add new birthday</string>
+    <string name="toolbar_title_edit_birthday">Edit birthday</string>
+    <string name="future_birthday_error">You can\'t add future birthdays!\nPlease only use birthday dates in the past.</string>
+    <string name="birthday_instance_fragment_date_edit_hint">Date: %1$s</string>
+    <string name="empty_fields_error_birthday">Make sure to fill fields forename and date!</string>
+    <string name="person_added_notification">Birthday added</string>
+    <string name="person_changed_notification">Birthday changed</string>
+    <string name="person_deleted_notification">Birthday deleted</string>
+    <string name="btn_birthday_delete">Delete birthday</string>
+
+    <string name="avatar_btn_clicked_menu_item_select_photo">Choose from gallery</string>
+    <!--<string name="avatar_btn_clicked_menu_item_take_new_photo">Take new photo</string>-->
+    <string name="avatar_btn_clicked_menu_item_delete_photo">Remove photo</string>
+
+    <!-- alert dialog delete -->
+    <string name="alert_dialog_title_delete_birthday">Delete birthday</string>
+    <string name="alert_dialog_body_message">Are you sure you want to delete this birthday?</string>
+
+    <!-- fragment show birthday -->
+    <string name="intent_share_chooser_title">Choose your app to share</string>
+    <string name="person_show_date">Born on %1$s</string>
+    <string name="person_days_until_today">The birthday of %1$s is today!</string>
+
+    <plurals name="person_days_until">
+        <item quantity="one">Next birthday of %1$s is in %2$d day on %3$s</item>
+        <item quantity="other">Next birthday of %1$s is in %2$d days on %3$s</item>
+    </plurals>
+    <plurals name="person_years_old">
+        <item quantity="one">%1$s turns %2$d</item>
+        <item quantity="other">%1$s turns %2$d</item>
+    </plurals>
+
+    <!-- sharing strings birthday -->
+    <string name="share_birthday_name">%1$s</string>
+    <string name="share_birthday_date_start">Born on: %1$s</string>
+    <string name="share_birthday_date_next">Next birthday: %1$s</string>
+    <string name="share_birthday_days_today">That is today!</string>
+    <plurals name="share_birthday_days">
+        <item quantity="one">In %1$d day</item>
+        <item quantity="other">In %1$d days</item>
+    </plurals>
+
+    <!-- birthday event notifications -->
+    <string name="notification_title_birthday">%1$s</string>
+    <string name="notification_content_birthday_future">The birthday of %1$s is in %2$d days.</string>
+    <string name="notification_content_birthday_tomorrow">The birthday of %1$s is tomorrow!</string>
+    <string name="notification_content_birthday_today">The birthday of %1$s is TODAY!</string>
+    <string name="notification_content_birthday_years_old">%1$s turns %2$d</string>
+
+
+    <!--- ANNUAL EVENT -->
+    <!-- annual event view -->
+    <!-- fragment add new annual event -->
+    <string name="toolbar_title_add_annual_event">Add new annual event</string>
+    <string name="toolbar_title_edit_annual_event">Edit annual event</string>
+    <string name="future_annual_event_error">You can\'t add future annual event!</string>
+    <string name="empty_fields_error_annual_event">Make sure to fill fields name and date!</string>
+    <string name="annual_event_added_notification">%1$s added</string>
+    <string name="annual_event_changed_notification">%1$s changed</string>
+    <string name="annual_event_deleted_notification">%1$s deleted</string>
+    <string name="edit_annual_event_name_hint">Event name</string>
+    <string name="btn_annual_event_delete">Delete annual event</string>
+
+    <!-- alert dialog delete annual event -->
+    <string name="alert_dialog_body_message_annual_event">Are you sure you want to delete this annual event?</string>
+
+    <!-- fragment show annual event -->
+    <string name="annual_event_start_date">Started on %1$s</string>
+    <string name="annual_event_show_date_tomorrow">Next time tomorrow on %1$s!</string>
+    <string name="annual_event_show_date_today">%1$s is TODAY!</string>
+    <plurals name="annual_event_show_date">
+        <item quantity="one">Next time in %1$d day on %2$s</item>
+        <item quantity="other">Next time in %1$d days on %2$s</item>
+    </plurals>
+    <plurals name="annual_event_years">
+        <item quantity="one">For the first time since starting!</item>
+        <item quantity="other">For the %1$d. time since starting!</item>
+    </plurals>
+
+    <!-- sharing strings annual event -->
+    <string name="share_annual_event_name">%1$s</string>
+    <string name="share_annual_event_date_next">Next on: %1$s</string>
+    <string name="share_annual_event_date_start">First on: %1$s</string>
+    <plurals name="share_annual_event_days">
+        <item quantity="one">In %1$d day</item>
+        <item quantity="other">In %1$d days</item>
+    </plurals>
+    <plurals name="share_annual_event_year">
+        <item quantity="one">Since %1$d year</item>
+        <item quantity="other">Since %1$d years</item>
+    </plurals>
+
+    <!-- annual_event notifications -->
+    <string name="notification_title_annual_event">%1$s</string>
+    <string name="notification_content_annual_event_future">%1$s is in %2$d days</string>
+    <string name="notification_content_annual_event_tomorrow">%1$s is tomorrow!</string>
+    <string name="notification_content_annual_event_today">%1$s is TODAY!</string>
+
+    <!-- ONE TIME EVENT -->
+    <!-- fragment add new  one time event -->
+    <string name="toolbar_title_add_one_time_event">Add new one-time event</string>
+    <string name="toolbar_title_edit_one_time_event">Edit one-time event</string>
+    <string name="error_past_one_time_event_error">You can only add one-time events which are in the future!</string>
+    <string name="one_time_event_added_notification">%1$s added</string>
+    <string name="one_time_event_changed_notification">%1$s changed</string>
+    <string name="one_time_event_deleted_notification">%1$s deleted</string>
+    <string name="edit_one_time_event_name_hint">Event name</string>
+    <string name="btn_one_time_event_delete">Delete one-time event</string>
+
+    <!-- alert dialog delete one_time event -->
+    <string name="alert_dialog_body_message_one_time_event">Are you sure you want to delete this one-time event?</string>
+
+    <!-- fragment show one time event -->
+    <string name="one_time_event_today">is TODAY!</string>
+    <string name="one_time_event_tomorrow">is tomorrow!</string>
+    <plurals name="one_time_event_show_date">
+        <item quantity="one">in %1$d day on %2$s</item>
+        <item quantity="other">in %1$d days on %2$s</item>
+    </plurals>
+    <plurals name="one_time_event_years">
+        <item quantity="one">In %1$d year</item>
+        <item quantity="other">In %1$d years</item>
+    </plurals>
+
+    <!-- sharing strings one_time event -->
+    <string name="share_one_time_event_name">%1$s</string>
+    <string name="share_one_time_event_date_next">On %1$s</string>
+    <string name="share_one_time_event_days_today">That is today!</string>
+    <plurals name="share_one_time_event_days">
+        <item quantity="one">That is in %1$d day</item>
+        <item quantity="other">That is in %1$d days</item>
+    </plurals>
+
+    <plurals name="share_one_time_event_year">
+        <item quantity="one">In %1$d year</item>
+        <item quantity="other">In %1$d years</item>
+    </plurals>
+
+    <!-- one-time event notifications -->
+    <string name="notification_title_one_time_event">%1$s</string>
+    <string name="notification_content_one_time_event_future">%1$s is in %2$d days</string>
+    <string name="notification_content_one_time_event_tomorrow">%1$s is tomorrow!</string>
+    <string name="notification_content_one_time_event_today">%1$s is TODAY!</string>
+
+    <!-- settings fragment -->
+
+    <string name="tv_notification_interval_month">Month before</string>
+    <string name="tv_notification_interval_week">Week before</string>
+    <string name="tv_notification_interval_day">Day before</string>
+    <string name="tv_notification_interval_eventday">Eventday</string>
+
+    <string name="notification_channel_name">BirthdayBuddyNotification</string>
+    <string name="notification_channel_description">notifies the user about events</string>
+
+    <string-array name="light_modes">
+        <item>no light</item>
+        <item>white</item>
+        <item>red</item>
+        <item>green</item>
+        <item>blue</item>
+    </string-array>
+
+    <string name="settings_extra_title_delete_all">Delete all data</string>
+    <string name="settings_title_notifications">Notifications</string>
+    <string name="settings_title_sound">Sound</string>
+    <string name="settings_title_vibration">Vibration</string>
+    <string name="settings_title_notification_time">Notification time</string>
+    <string name="settings_title_notification_day">Notification day</string>
+
+    <string name="dialog_title_notification_light">Notification light</string>
+    <string name="delete_all_dialog_title">Delete all Data?</string>
+    <string name="delete_all_dialog_body">Are you sure you want delete all your data?</string>
+    <string name="delete_all_dialog_confirmation">All events have been deleted</string>
+
+    <!-- Searching -->
+    <string name="searching_toolbar_title">Search for: %1$s</string>
+    <string name="searching_toolbar_actionview_hint">Search</string>
+
+    <!-- main menu -->
+    <string name="main_menu_item_about">About</string>
+    <string name="main_menu_item_help">Help</string>
+    <string name="fab_event_list_birthday_title">New birthday</string>
+    <string name="fab_event_list_annual_event_title">New annual event</string>
+    <string name="fab_event_list_one_time_event_title">New one-time event</string>
+
+    <!-- settings -->
+    <string name="settings_title">Settings</string>
+
+    <!-- About information -->
+    <string name="about_title_version">Version</string>
+    <string name="about_title_appName">App name</string>
+    <string name="about_title_buildNumber">Build number</string>
+    <string name="about_title_license">License</string>
+    <string name="about_title_openSource">OpenSource</string>
+    <string name="about_title_contactInformation">Contact</string>
+    <string name="about_title_thanks">Acknowledgments</string>
+
+    <string name="about_content_license">This app underlies the terms and conditions of the GNU General Public License v3.0.\nFor more detailed information read this: https://www.gnu.org/licenses/gpl-3.0.en.html</string>
+    <string name="about_content_openSource">BirthdayBuddy is a non-profit private project. The basic idea for me was to learn more about the android framework and kotlin (and also to have a nice tool for remembering birthdays). Therefore the code of this kotlin written android project is public on my github page (https://github.com/procrastimax/BirthdayBuddy). If you want to contribute to this project with creative ideas or just want to criticize my code, then just create a GitHub issue or fork it and create a merge request :)</string>
+    <string name="about_content_contact">E-Mail: heykeroth.dev@gmail.com\nGitHub: procrastimax</string>
+    <string name="about_content_thanks">I would like to thank all those who supported me and helped me with this App in aspects of translations and testing.\nSo thank you Dascha, Paula, Carl, Daniel, Denis and Jarvis!</string>
+
+    <!-- help texts -->
+    <string name="help_title_reason">Why use this app?</string>
+    <string name="help_title_Birthday">What are birthday events?</string>
+    <string name="help_title_Annual">What are annual events?</string>
+    <string name="help_title_OneTime">What are one-time events?</string>
+    <string name="help_title_support">How can I support you as a developer?</string>
+    <string name="help_title_notifications">My notifications does not pop up properly</string>
+
+    <string name="help_content_reason">This apps purpose is to remind the user about his birthdays, annual events and anniversaries in a very simple and easy way.\nBut why not just use already existing facebook birthdays or google calendar?\nFor this app you do not need to create a Facebook account (in fact you do not need any kind of account). Also zero unnecessary ads or pop-ups like in other notification apps.\nAnother important thing is privacy. This app stores all your birthday and event data only locally on your phone. No one can read/ edit your data - except yourself - and everything is private.</string>
+    <string name="help_content_Birthday">Birthday events provide the possibility to save a person\'s birth date together with nice little features like setting the birth year to calculate the person\'s age and setting a unique image for customization purposes of the person\'s birthday page. This app reminds you every year about the persons birthday.</string>
+    <string name="help_content_Annual">Annual events can be every event which occur yearly. Like anniversaries or special parties. You can set a date together with the start year of this yearly event. This way the app calculates since when the event occurs (which is handy for anniversaries). This app reminds you every year about the event.</string>
+    <string name="help_content_OneTime">One-time events are special events which only take place once in the future. The day after the event, all data about it are deleted. This type of event could be future exam or graduation dates or just something you should really not forget and want to be reminded about. </string>
+    <string name="help_content_support">For me developing apps and programs for other people is great. It is even more fun when people actually like your stuff or can contribute to your project in a productive way.\nIf you like this app and want to support me, there are lots of different ways of doing so. The simplest way would be to rate this app in the app store ;)\nIf you are a developer you could try to check out my GitHub (see \'About\') and contribute to this project.\nBut if you want, you could also donate to my PayPal (https://www.paypal.me/Procrastimax) page, so I can afford more coffee for my next app :)</string>
+    <string name="help_content_notifications">When you encounter the problem, that your event notifications does not \"pop up\" properly. Go to your notification settings on your android device and check the notification settings for this app. In some cases you have to give this app a higher priority or you have to set the \"Banner - Show above status bar\" setting (if existent).</string>
+</resources>
