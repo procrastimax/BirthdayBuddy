@@ -104,10 +104,10 @@ open class EventDate(var eventDate: Date) : Comparable<EventDate> {
      */
     open fun getDaysUntil(): Int {
         //when current year is leap year
-        val currentCal = Calendar.getInstance() as GregorianCalendar
+        val currentCal = Calendar.getInstance()
 
         val eventCal = Calendar.getInstance().apply {
-            this.time = dateToCurrentYear()
+            this.time = dateToCurrentTimeContext(eventDate)
         }
 
         val currentDayOfYear = currentCal.get(Calendar.DAY_OF_YEAR)
@@ -204,7 +204,7 @@ open class EventDate(var eventDate: Date) : Comparable<EventDate> {
         /**
          * dateToCurrentTimeContext changes a past date to a current time context
          * this means, that if it is a yearly event (like a birthday) then this is going to return a date
-         * with the birthay date but with the year changed to the coming year (if the day of the birthday already came)
+         * with the birthday date but with the year changed to the coming year (if the day of the birthday already came)
          * otherwise it changes the year to the current year
          *
          * This is helper function to make it easier to process two near dates
@@ -214,7 +214,6 @@ open class EventDate(var eventDate: Date) : Comparable<EventDate> {
         fun dateToCurrentTimeContext(date: Date): Date {
             //get instance of calender, assign the past date to it, and change year to current year
             //this is needed to check if the date is this or next year
-            //this is needed for calculating how many days until the event
             val dateInCurrentTimeContext = Calendar.getInstance()
             dateInCurrentTimeContext.time = date
             dateInCurrentTimeContext.set(Calendar.YEAR, Calendar.getInstance().get(Calendar.YEAR))
