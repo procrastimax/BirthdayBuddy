@@ -71,7 +71,7 @@
             app:layout_constraintEnd_toEndOf="@+id/tv_birthday_event_item_forename"
             app:layout_constraintHorizontal_bias="0.0"
             android:textSize="@dimen/smaller_text_size"
-            android:textColor="@color/brightGrey"
+            android:textColor="@color/textDark"
             android:layout_marginBottom="4dp"/>
 
     <TextView
