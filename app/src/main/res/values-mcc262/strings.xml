@@ -59,7 +59,7 @@
     <string name="avatar_btn_clicked_menu_item_delete_photo">Bild entfernen</string>
 
     <!-- alert dialog delete -->
-    <string name="alert_dialog_title_delete_birthday">Lösche Geburtstagy</string>
+    <string name="alert_dialog_title_delete_birthday">Lösche Geburtstag</string>
     <string name="alert_dialog_body_message">Bist du dir sicher, dass du diesen Geburtstag löschen willst?</string>
 
     <!-- fragment show birthday -->

@@ -99,7 +99,7 @@ class OneTimeEventInstanceFragment : EventInstanceFragment() {
                     btn_fragment_one_time_event_instance_delete.setOnClickListener {
 
                         val alertBuilder = AlertDialog.Builder(context)
-                        alertBuilder.setTitle(resources.getString(R.string.alert_dialog_title_delete_one_time_event))
+                        alertBuilder.setTitle(resources.getString(R.string.btn_one_time_event_delete))
                         alertBuilder.setMessage(resources.getString(R.string.alert_dialog_body_message_one_time_event))
 
                         val contextTemp = context

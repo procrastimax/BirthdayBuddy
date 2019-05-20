@@ -113,7 +113,7 @@ class AnnualEventInstanceFragment : EventInstanceFragment() {
                     btn_fragment_annual_event_instance_delete.setOnClickListener {
 
                         val alertBuilder = AlertDialog.Builder(context)
-                        alertBuilder.setTitle(resources.getString(R.string.alert_dialog_title_delete_annual_event))
+                        alertBuilder.setTitle(resources.getString(R.string.btn_annual_event_delete))
                         alertBuilder.setMessage(resources.getString(R.string.alert_dialog_body_message_annual_event))
 
                         val contextTemp = context

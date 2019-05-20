@@ -108,7 +108,6 @@
     <string name="btn_annual_event_delete">Delete annual event</string>
 
     <!-- alert dialog delete annual event -->
-    <string name="alert_dialog_title_delete_annual_event">Delete annual event</string>
     <string name="alert_dialog_body_message_annual_event">Are you sure you want to delete this annual event?</string>
 
     <!-- fragment show annual event -->
@@ -155,7 +154,6 @@
     <string name="btn_one_time_event_delete">Delete one-time event</string>
 
     <!-- alert dialog delete one_time event -->
-    <string name="alert_dialog_title_delete_one_time_event">Delete one-time event</string>
     <string name="alert_dialog_body_message_one_time_event">Are you sure you want to delete this one-time event?</string>
 
     <!-- fragment show one time event -->
