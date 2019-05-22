@@ -219,7 +219,7 @@
 
     <string name="dialog_title_notification_light">Notification light</string>
     <string name="delete_all_dialog_title">Delete all Data?</string>
-    <string name="delete_all_dialog_body">Are you sure you want delete all your data?</string>
+    <string name="delete_all_dialog_body">Are you sure you want delete all of your event data?</string>
     <string name="delete_all_dialog_confirmation">All events have been deleted</string>
 
     <!-- Searching -->
@@ -261,8 +261,8 @@
 
     <string name="dialog_export_data_title">Exporting events</string>
     <string name="dialog_import_data_title">Importing events</string>
-    <string name="dialog_import_data_text">This is going to try to import all your events from your SD-card.\n\nIf this fails check if the event data exists in the following path: %1$s/birthdaybuddy</string>
-    <string name="dialog_export_data_text">This is going to export all your event data in clear-text on your SD-card. From there you can retrieve the data at anytime and also on other phones.\\n\\nData path: %1$s/birthdaybuddy</string>
+    <string name="dialog_import_data_text">This is going to try to import all your events from your SD-card.\n\nIf this fails, check if the event data exists in the following path: %1$s/birthdaybuddy</string>
+    <string name="dialog_export_data_text">This is going to export all your event data in clear-text on your SD-card. From there you can retrieve the data at any time and also on other phones.\n\nData path: %1$s/birthdaybuddy</string>
 
     <!-- help texts -->
     <string name="help_title_reason">Why use this app?</string>
