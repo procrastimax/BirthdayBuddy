@@ -2,11 +2,15 @@ package com.procrastimax.birthdaybuddy.handler
 
 import android.content.Context
 import android.content.SharedPreferences
+import android.os.Environment
 import android.util.Log
+import android.widget.Toast
 import com.procrastimax.birthdaybuddy.BuildConfig
 import com.procrastimax.birthdaybuddy.R
 import com.procrastimax.birthdaybuddy.models.*
+import java.io.File
 import java.util.*
+
 
 /**
  * DataHandler is a singleton and is used to store/read event data from shared preferences
@@ -174,10 +178,12 @@ object IOHandler {
     }
 
     fun isFirstStart(): Boolean {
-        //when the key doesnt exist -> its the first start, so we have to invert the contains function
+        //when the key doesn't exist -> its the first start, so we have to invert the contains function
         return if (!settingsContainsKey(SharedPrefKeys.key_firstStart)) {
-            Log.i("IOHandler", "shared pref files didnt exist before")
+            Log.i("IOHandler", "shared pref files didn't exist before")
             val sharedPrefEditor = sharedPrefSettings.edit()
+            //change key value to false bc its not the first start anymore
+            //initialize first export/import with true
             sharedPrefEditor.putBoolean(SharedPrefKeys.key_firstStart, false)
             sharedPrefEditor.apply()
             true
@@ -452,7 +458,8 @@ object IOHandler {
                                 MonthDivider.Identifier.MonthName.toString() -> {
                                     val cal = Calendar.getInstance()
                                     cal.time = EventDate.parseStringToDate(date, locale = Locale.GERMAN)
-                                    month = context.resources.getStringArray(R.array.month_names)[cal.get(Calendar.MONTH)]
+                                    month =
+                                        context.resources.getStringArray(R.array.month_names)[cal.get(Calendar.MONTH)]
                                 }
                                 else ->
                                     Log.w(
@@ -470,6 +477,74 @@ object IOHandler {
             } else {
                 return null
             }
+        }
+    }
+
+    fun writeAllEventsToExternalStorage(context: Context) {
+        if (EventHandler.getList().isNotEmpty()) {
+            //check if external storage is available for reading and writing
+            if (Environment.getExternalStorageState() == Environment.MEDIA_MOUNTED) {
+                val storagePath =
+                    File(
+                        Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS),
+                        "birthdaybuddy"
+                    )
+
+                //when folder creating did not succeed
+                if (!storagePath.mkdirs() && !storagePath.exists()) {
+                    Log.e("IOHANDLER", "Directory not created")
+                    Toast.makeText(context, R.string.permissions_toast_export_error, Toast.LENGTH_LONG).show()
+                } else {
+                    val savedData = File(storagePath.absolutePath + "/events")
+                    if (savedData.exists()) {
+                        savedData.delete()
+                    }
+                    savedData.createNewFile()
+                    savedData.writeText(EventHandler.getEventsAsStringList().apply {
+                        println(this)
+                    })
+                }
+            } else {
+                Toast.makeText(context, R.string.permissions_toast_no_sd, Toast.LENGTH_LONG).show()
+            }
+        }
+    }
+
+    fun importEventsFromExternalStorage(context: Context) {
+        //check if external storage is available for reading
+        if (Environment.getExternalStorageState() == Environment.MEDIA_MOUNTED) {
+            val storagePath = File(
+                Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS), "birthdaybuddy"
+            )
+            //when folder finding did not succeed
+            if (!storagePath.exists()) {
+                Log.e("IOHANDLER", "Directory not existent/ readable")
+                Toast.makeText(context, R.string.permissions_toast_import_error, Toast.LENGTH_LONG).show()
+            } else {
+                val data = File(storagePath.absolutePath + "/events")
+                data.readLines().apply {
+                    this.forEach {
+                        convertStringToEventDate(context, it).let { event ->
+                            if (event != null) {
+
+                                //only add onetimevents which are not expired
+                                if (!(event is OneTimeEvent && event.dateIsExpired())) {
+                                    EventHandler.addEvent(
+                                        event,
+                                        context,
+                                        writeAfterAdd = true,
+                                        addNewNotification = true,
+                                        //only update EventList sorting when last line reached
+                                        updateEventList = (it == this.last())
+                                    )
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        } else {
+            Toast.makeText(context, R.string.permissions_toast_no_sd, Toast.LENGTH_LONG).show()
         }
     }
 }

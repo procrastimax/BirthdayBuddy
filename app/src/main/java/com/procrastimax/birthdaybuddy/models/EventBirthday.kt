@@ -82,7 +82,6 @@ class EventBirthday(
     }
 
     /**
-     * TODO: only save not null member vars
      * toString returns EventBirthday as string representation
      * This is "optimized" for Serialization, so THE FIRST WORD HAS TO BE THE TYPIFICATION f.e. "Birthday"
      * returned string follows the pattern TYPE|FORENAME|SURNAME|EVENTDATE|ISYEARGIVEN|NOTE|AVATARURI|NICKNAME
@@ -99,6 +98,25 @@ class EventBirthday(
                 getStringFromValue(Identifier.Surname, this.surname) +
                 getStringFromValue(Identifier.Note, this.note) +
                 getStringFromValue(Identifier.AvatarUri, this.avatarImageUri) +
+                getStringFromValue(Identifier.Nickname, this.nickname)
+    }
+
+    /**
+     * toString returns EventBirthday as string representation but excludes a possible avatar uri
+     * This is "optimized" for Serialization, so THE FIRST WORD HAS TO BE THE TYPIFICATION f.e. "Birthday"
+     * returned string follows the pattern TYPE|FORENAME|SURNAME|EVENTDATE|ISYEARGIVEN|NOTE|NICKNAME
+     * @return String
+     */
+    fun toStringWithoutImage(): String {
+        return "$Name${IOHandler.characterDivider_properties}${Identifier.Forename}${IOHandler.characterDivider_values}${this._forename}${IOHandler.characterDivider_properties}" +
+                "${Identifier.Date}${IOHandler.characterDivider_values}${parseDateToString(
+                    this.eventDate,
+                    DateFormat.DEFAULT,
+                    Locale.GERMAN
+                )}" +
+                "${IOHandler.characterDivider_properties}${Identifier.IsYearGiven}${IOHandler.characterDivider_values}${this.isYearGiven}" +
+                getStringFromValue(Identifier.Surname, this.surname) +
+                getStringFromValue(Identifier.Note, this.note) +
                 getStringFromValue(Identifier.Nickname, this.nickname)
     }
 

@@ -2,13 +2,16 @@ package com.procrastimax.birthdaybuddy
 
 import android.content.Context
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.os.Bundle
 import android.support.design.widget.AppBarLayout
 import android.support.design.widget.CoordinatorLayout
+import android.support.design.widget.Snackbar
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentTransaction
 import android.support.v7.app.AppCompatActivity
 import android.util.TypedValue
+import android.widget.Toast
 import com.procrastimax.birthdaybuddy.fragments.*
 import com.procrastimax.birthdaybuddy.handler.BitmapHandler
 import com.procrastimax.birthdaybuddy.handler.EventHandler
@@ -192,6 +195,56 @@ class MainActivity : AppCompatActivity() {
                 true
             )
         }
+    }
+
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
+        when (requestCode) {
+            //writing to external
+            6001 -> {
+                if ((grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED)) {
+                    writeDataToExternal()
+                } else {
+                    Toast.makeText(
+                        this,
+                        R.string.permissions_toast_denied_write,
+                        Toast.LENGTH_LONG
+                    ).show()
+                }
+            }
+            //reading from external
+            6002 -> {
+                if ((grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED)) {
+                    importDataFromExternal()
+                } else {
+                    Toast.makeText(
+                        this,
+                        R.string.permissions_toast_denied_read,
+                        Toast.LENGTH_LONG
+                    ).show()
+                }
+            }
+        }
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+    }
+
+    fun writeDataToExternal() {
+        IOHandler.writeAllEventsToExternalStorage(this)
+        this.supportFragmentManager.popBackStack()
+        Snackbar.make(
+            main_coordinator_layout,
+            R.string.permissions_snackbar_granted_write,
+            Snackbar.LENGTH_LONG
+        ).show()
+    }
+
+    fun importDataFromExternal() {
+        IOHandler.importEventsFromExternalStorage(this)
+        this.supportFragmentManager.popBackStack()
+        Snackbar.make(
+            main_coordinator_layout,
+            R.string.permissions_snackbar_granted_read,
+            Snackbar.LENGTH_LONG
+        ).show()
     }
 
     companion object {

@@ -27,12 +27,12 @@ object EventHandler {
     /**
      * addEvent adds a EventDay type to the map and has the possibility to write it to the shared preferences after adding it
      * this orders all events after the date automatically
-     * also updates the eventday list after every adding of a new event
+     * also updates the Eventday list after every adding of a new event
      * @param event: EventDay
      * @param context: Context
      * @param writeAfterAdd: Boolean whether this event should be written to shared preferences after adding to list
      * @param addNewNotification : Boolean, whether a new notification should be created after adding this event
-     * @param updateEventList : Boolean, whether to update the eventlist, updating the eventlist means sorting event values by their date
+     * @param updateEventList : Boolean, whether to update the EventList, updating the EventList means sorting event values by their date
      * @param addBitmap : Boolean whether a new bitmap should be added
      */
     fun addEvent(
@@ -82,7 +82,6 @@ object EventHandler {
         }
     }
 
-
     /**
      * changeEventAt changes event at key position
      *
@@ -110,7 +109,7 @@ object EventHandler {
                 if ((oldEvent as EventBirthday).avatarImageUri != null) {
                     BitmapHandler.removeBitmap(oldEvent.eventID, context)
                 }
-                //force bitmaphandler to load new avatar image from gallery, in case there is already an existant bitmap
+                //force BitmapHandler to load new avatar image from gallery, in case there is already an existant bitmap
                 BitmapHandler.addDrawable(
                     ID,
                     Uri.parse((newEvent).avatarImageUri),
@@ -186,7 +185,6 @@ object EventHandler {
         this.event_list.forEach {
             NotificationHandler.cancelNotification(context, it)
         }
-
         this.clearData()
         BitmapHandler.removeAllDrawables(context)
         if (writeAfterAdd) {
@@ -223,6 +221,23 @@ object EventHandler {
 
     fun getMap(): Map<Int, EventDate> {
         return this.event_map
+    }
+
+    fun getEventsAsStringList(): String {
+        var eventString = ""
+        val tempList = event_list.toMutableList()
+        tempList.forEach {
+            //don't save Monthdividers bc they are created with the first start of the app
+            if (it !is MonthDivider) {
+                //removing avatar image
+                if (it is EventBirthday) {
+                    eventString += it.toStringWithoutImage() + "\n"
+                } else {
+                    eventString += it.toString() + "\n"
+                }
+            }
+        }
+        return eventString
     }
 
     /**

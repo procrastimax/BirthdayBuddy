@@ -1,10 +1,15 @@
 package com.procrastimax.birthdaybuddy.views
 
+import android.Manifest
 import android.app.AlertDialog
 import android.app.TimePickerDialog
 import android.content.Context
 import android.content.DialogInterface
+import android.content.pm.PackageManager
+import android.os.Environment
 import android.support.constraint.ConstraintLayout
+import android.support.v4.app.ActivityCompat
+import android.support.v4.content.ContextCompat
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
@@ -109,7 +114,7 @@ class SettingsAdapter(private val context: Context) :
                         .setPositiveButton(R.string.apply) { _, _ ->
 
                             holder.itemView.tv_settings_notification_day_value.text =
-                                getNotifcationDateValueStringFromBooleanArray(notificationDateArray)
+                                getNotificationDateValueStringFromBooleanArray(notificationDateArray)
 
                             IOHandler.writeSetting(
                                 IOHandler.SharedPrefKeys.key_isRemindedDay_month_beforeBirthday,
@@ -173,7 +178,7 @@ class SettingsAdapter(private val context: Context) :
                     getNotifcationLightValueFromInt(notificationLight)
 
                 holder.itemView.tv_settings_notification_day_value.text =
-                    getNotifcationDateValueStringFromBooleanArray(notificationDateArray)
+                    getNotificationDateValueStringFromBooleanArray(notificationDateArray)
             }
 
             // ANNUAL NOTIFICATION SETTINGS
@@ -227,7 +232,7 @@ class SettingsAdapter(private val context: Context) :
                         .setPositiveButton(R.string.apply) { _, _ ->
 
                             holder.itemView.tv_settings_notification_day_value.text =
-                                getNotifcationDateValueStringFromBooleanArray(notificationDateArray)
+                                getNotificationDateValueStringFromBooleanArray(notificationDateArray)
 
                             IOHandler.writeSetting(
                                 IOHandler.SharedPrefKeys.key_isRemindedDay_month_beforeAnnual,
@@ -291,7 +296,7 @@ class SettingsAdapter(private val context: Context) :
                     getNotifcationLightValueFromInt(notificationLight)
 
                 holder.itemView.tv_settings_notification_day_value.text =
-                    getNotifcationDateValueStringFromBooleanArray(notificationDateArray)
+                    getNotificationDateValueStringFromBooleanArray(notificationDateArray)
             }
 
             // ONE-TIME NOTIFICATION SETTINGS
@@ -345,7 +350,7 @@ class SettingsAdapter(private val context: Context) :
                         .setPositiveButton(R.string.apply) { _, _ ->
 
                             holder.itemView.tv_settings_notification_day_value.text =
-                                getNotifcationDateValueStringFromBooleanArray(notificationDateArray)
+                                getNotificationDateValueStringFromBooleanArray(notificationDateArray)
 
                             IOHandler.writeSetting(
                                 IOHandler.SharedPrefKeys.key_isRemindedDay_month_beforeOneTime,
@@ -409,30 +414,29 @@ class SettingsAdapter(private val context: Context) :
                     getNotifcationLightValueFromInt(notificationLight)
 
                 holder.itemView.tv_settings_notification_day_value.text =
-                    getNotifcationDateValueStringFromBooleanArray(notificationDateArray)
+                    getNotificationDateValueStringFromBooleanArray(notificationDateArray)
             }
             4 -> {
                 //delete all layout was pressed
                 holder.itemView.layout_delete_all_data.setOnClickListener {
-                    deleteAllData()
+                    showDeletAllDialog()
                 }
 
                 //export layout was pressed
-                //TODO: implement this
-                /*holder.itemView.layout_export_data.setOnClickListener {
-                    Toast.makeText(context, "exported", Toast.LENGTH_LONG).show()
+                holder.itemView.layout_export_data.setOnClickListener {
+                    showExportDialog()
                 }
 
                 //import layout was pressed
-                //TODO: implement this
                 holder.itemView.layout_import_data.setOnClickListener {
-                    Toast.makeText(context, "imported", Toast.LENGTH_LONG).show()
-                }*/
+                    showImportDialog()
+                }
             }
         }
     }
 
-    private fun getNotifcationDateValueStringFromBooleanArray(array: BooleanArray): String {
+    private fun getNotificationDateValueStringFromBooleanArray(array: BooleanArray)
+            : String {
         var reminderString = ""
         if (array[0]) {
             reminderString += "${context.getText(R.string.tv_notification_interval_month)}\n"
@@ -449,7 +453,8 @@ class SettingsAdapter(private val context: Context) :
         return reminderString
     }
 
-    private fun getNotifcationLightValueFromInt(value: Int): String {
+    private fun getNotifcationLightValueFromInt(value: Int)
+            : String {
         // 0 = no light
         // 1 = white light
         // 2 = red light
@@ -497,11 +502,12 @@ class SettingsAdapter(private val context: Context) :
         tpd.show()
     }
 
-    override fun getItemCount(): Int {
+    override fun getItemCount()
+            : Int {
         return this.itemList.size
     }
 
-    private fun deleteAllData() {
+    private fun showDeletAllDialog() {
         val dialogBuilder = AlertDialog.Builder(this.context)
         dialogBuilder.setTitle(R.string.delete_all_dialog_title)
         dialogBuilder.setMessage(R.string.delete_all_dialog_body)
@@ -509,9 +515,89 @@ class SettingsAdapter(private val context: Context) :
             Toast.makeText(context, R.string.delete_all_dialog_confirmation, Toast.LENGTH_LONG).show()
             EventHandler.deleteAllEntriesAndImages(context, true)
             (context as MainActivity).addMonthDivider()
+            (context).supportFragmentManager.popBackStack()
         }
         dialogBuilder.setNegativeButton(R.string.no) { dialog, _ -> dialog.dismiss() }
         dialogBuilder.setIcon(R.drawable.ic_error_outline)
         dialogBuilder.show()
+    }
+
+    private fun showImportDialog() {
+        val dialogBuilder = AlertDialog.Builder(this.context)
+        dialogBuilder.setTitle(R.string.dialog_import_data_title)
+        dialogBuilder.setMessage(
+            context.getString(
+                R.string.dialog_import_data_text,
+                Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS)
+            )
+        )
+
+        dialogBuilder.setPositiveButton(R.string.cntnue) { _, _ ->
+            importData()
+        }
+        dialogBuilder.setNegativeButton(R.string.abort) { dialog, _ ->
+            dialog.dismiss()
+        }
+        dialogBuilder.setIcon(R.drawable.ic_info)
+        dialogBuilder.show()
+    }
+
+    private fun showExportDialog() {
+        val dialogBuilder = AlertDialog.Builder(this.context)
+        dialogBuilder.setTitle(R.string.dialog_export_data_title)
+        dialogBuilder.setMessage(
+            context.getString(
+                R.string.dialog_export_data_text,
+                Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS)
+            )
+        )
+
+        dialogBuilder.setPositiveButton(R.string.cntnue) { _, _ ->
+            exportData()
+        }
+        dialogBuilder.setNegativeButton(R.string.abort) { dialog, _ ->
+            dialog.dismiss()
+        }
+        dialogBuilder.setIcon(R.drawable.ic_info)
+        dialogBuilder.show()
+    }
+
+    private fun exportData() {
+        //check permission for API>=23
+        if (android.os.Build.VERSION.SDK_INT >= 23) {
+            // only for gingerbread and newer versions
+            if (ContextCompat.checkSelfPermission(context, Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                == PackageManager.PERMISSION_DENIED
+            ) {
+                // Permission is not granted
+                //ask user for permission
+                (context as MainActivity).requestPermissions(
+                    arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE),
+                    6001
+                )
+                return
+            }
+        }
+        (context as MainActivity).writeDataToExternal()
+    }
+
+    private fun importData() {
+        //check permission for API>=23
+        if (android.os.Build.VERSION.SDK_INT >= 23) {
+            // only for gingerbread and newer versions
+            if (ContextCompat.checkSelfPermission(context, Manifest.permission.READ_EXTERNAL_STORAGE)
+                == PackageManager.PERMISSION_DENIED
+            ) {
+                // Permission is not granted
+                //ask user for permission
+                ActivityCompat.requestPermissions(
+                    context as MainActivity,
+                    arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE),
+                    6002
+                )
+                return
+            }
+        }
+        (context as MainActivity).importDataFromExternal()
     }
 }
