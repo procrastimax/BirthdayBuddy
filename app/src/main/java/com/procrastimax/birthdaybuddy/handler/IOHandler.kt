@@ -452,8 +452,7 @@ object IOHandler {
                                 MonthDivider.Identifier.MonthName.toString() -> {
                                     val cal = Calendar.getInstance()
                                     cal.time = EventDate.parseStringToDate(date, locale = Locale.GERMAN)
-                                    context.resources.getStringArray(R.array.month_names)[cal.get(Calendar.MONTH)]
-                                    month = property[1]
+                                    month = context.resources.getStringArray(R.array.month_names)[cal.get(Calendar.MONTH)]
                                 }
                                 else ->
                                     Log.w(
