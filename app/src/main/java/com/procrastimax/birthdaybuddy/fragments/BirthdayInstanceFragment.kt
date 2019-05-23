@@ -313,11 +313,13 @@ class BirthdayInstanceFragment : EventInstanceFragment() {
             if (editDate.text.isNotBlank()) {
                 //year is given
                 if (isChecked) {
-                    val lastYear = Calendar.getInstance().apply {
-                        time = eventDate
-                        set(Calendar.YEAR, Calendar.getInstance().get(Calendar.YEAR) - 1)
+                    val cal = Calendar.getInstance()
+                    if (this.eventDate.after(cal.time)) {
+                        cal.time = this.eventDate
+                        cal.set(Calendar.YEAR, Calendar.getInstance().get(Calendar.YEAR) - 1)
+                        this.eventDate = cal.time
                     }
-                    editDate.text = EventDate.parseDateToString(lastYear.time, DateFormat.DEFAULT)
+                    editDate.text = EventDate.parseDateToString(this.eventDate, DateFormat.DEFAULT)
 
                     //year is not given
                 } else {
