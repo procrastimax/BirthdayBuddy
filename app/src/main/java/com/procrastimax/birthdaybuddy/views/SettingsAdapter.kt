@@ -528,7 +528,7 @@ class SettingsAdapter(private val context: Context) :
         dialogBuilder.setMessage(
             context.getString(
                 R.string.dialog_import_data_text,
-                Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS)
+                Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS).absolutePath
             )
         )
 
@@ -548,7 +548,7 @@ class SettingsAdapter(private val context: Context) :
         dialogBuilder.setMessage(
             context.getString(
                 R.string.dialog_export_data_text,
-                Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS)
+                Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS).absolutePath
             )
         )
 

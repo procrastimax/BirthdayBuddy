@@ -243,7 +243,7 @@
 
     <string name="about_content_license">Diese App unterliegt den Regelungen und Konditionen der GNU General Public Lizenz v3.0.\nFür mehr und genauere Informationen lies bitte hier weiter: https://www.gnu.org/licenses/gpl-3.0.de.html</string>
     <string name="about_content_openSource">BirthdayBuddy ist ein nicht profit orientiertes privates Projekt. Für mich ist dieses Projekt ein reiner Selbstzweck zum Erlenen des Android Frameworks (und außerdem um eine App zu haben, welche mich an Geburtstage erinnert). Aus diesem Grund ist dieses Projekt auch öffentlich auf meiner GitHub-Seite zu finden (https://github.com/procrastimax/BirthdayBuddy). Wenn du dich an dem Projekt beteiligen möchtest, oder kreative Ideen einbringen willst, dann besteht jederzeit die Möglichkeit Pull-Requests oder GitHub Issues zu erstellen :)</string>
-    <string name="about_content_thanks">An dieser Stelle möchte ich mich bei all jenen bedanken, die bei der Entwicklung dieser App in Hinsicht auf Übersetzung, Tests und Feedback geholfen haben. Vielen Dank an Dascha, Paula, Carl, Daniel, Denis und Jarvis.</string>
+    <string name="about_content_thanks">Ich möchte mich bei all jenen bedanken, die bei der Entwicklung dieser App in Hinsicht auf Übersetzung, Tests und Feedback geholfen haben.\\nVielen Dank an Dascha, Paula, Carl, Daniel, Denis und Jarvis.</string>
 
     <!-- help texts -->
     <string name="help_title_reason">Warum sollte ich diese App benutzen?</string>
@@ -259,20 +259,20 @@
     <string name="help_content_OneTime">Einmalige Events sind spezielle Veranstaltungen, die in der Zukunft stattfinden (z.B. Parties, Klausuren oder einmalige besondere Anlässe). Am Tag nach dem Event löscht sich das einmalige Event automatisch von selbst!</string>
     <string name="help_content_support">Für mich ist das Entwickeln von Programmen und Apps für Andere eine großartige Sache. Und es macht noch umso mehr Spaß, wenn die Nutzer die App mögen oder produktive Kritik äußern. In diesem Sinne möchte ich allen, die mich in irgendeiner Weise unterstützen wollen, ans Herz legen, eine Bewertung für diese App abzugeben. Wenn euch das nicht reicht, könnt ihr euch auch bei der Entwicklung des Projektes über GitHub beteiligen (siehe \'Über\'). Ansonsten würde ich mich auch sehr über eine kleine Spende über meine PayPal-Seite (https://www.paypal.me/Procrastimax) freuen, um mir bei der Entwicklung des nächsten Projektes einen großen Kaffee leisten zu können ;)</string>
     <string name="help_content_notifications">Bei einigen Geräten kann es passieren, dass die Benachrichtigung über anstehende Events nicht richtig \"aufploppt\". Falls dies der Fall sein sollte, gehe in die Benachrichtigungseinstellungen deines Handys. Dort kannst du versuchen entweder die Benachrichtigungspriorität zu erhöhen oder (wenn vorhanden) die Einstellung \"Banner - Anzeige oberhalb der Statusleiste\" zu aktivieren.</string>
-    <string name="settings_extra_title_export">Auf SD Karte speichern</string>
-    <string name="settings_extra_title_import">Von SD Karte importieren</string>
+    <string name="settings_extra_title_export">Daten exportieren</string>
+    <string name="settings_extra_title_import">Daten importieren</string>
     <string name="about_content_contact">E-Mail: heykeroth.dev@gmail.com\\nGitHub: procrastimax</string>
     <string name="permissions_snackbar_granted_read">Events erfolgreich importiert</string>
-    <string name="permissions_toast_denied_read">Diese App braucht diese Rechte um die Events von der SD-Karte zu lesen.</string>
-    <string name="permissions_toast_denied_write">Diese App braucht diese Rechte um alle Events auf die SD-Karte zu schreiben.</string>
+    <string name="permissions_toast_denied_read">Diese App braucht diese Rechte, um die Events von deinem externen Speicher zu lesen.</string>
+    <string name="permissions_toast_denied_write">Diese App braucht diese Rechte, um alle Events auf den externen Speicher zu schreiben.</string>
     <string name="permissions_snackbar_granted_write">Events erfolgreich gespeichert</string>
     <string name="abort">Abbrechen</string>
     <string name="cntnue">Weiter</string>
-    <string name="dialog_export_data_text">All deine Events aus dieser App werden im Klartext auf deiner SD-Karte gespeichert. Von dort kannst du diese jederzeit wieder importieren, sogar von anderen Handys.\n\nSpeicherpfad: %1$s/birthdaybuddy</string>
+    <string name="dialog_export_data_text">All deine Events aus dieser App werden im Klartext auf deinem externen Speicher gespeichert. Von dort kannst du diese jederzeit wieder importieren. Es werden keine Bilder gespeichert. Wenn dein externer Speicherpfad deine SD-Karte ist, kannst du diese Daten sogar von andere Handys importieren.\n\nSpeicherpfad: %1$s/birthdaybuddy</string>
     <string name="dialog_export_data_title">Exportiere Events</string>
     <string name="dialog_import_data_title">Importiere Events</string>
-    <string name="dialog_import_data_text">Es wird versucht deine gespeicherten Events von der SD-Karte zu importieren. Falls etwas schief geht, überprüfe, ob der folgende Pfad Daten enthält.\n\nImportierpfad: %1$s/birthdaybuddy</string>
-    <string name="permissions_toast_no_sd">Fehler - Kein Zugriff auf deine SD-Karte!</string>
+    <string name="dialog_import_data_text">Es wird versucht deine gespeicherten Events vom externen Speicher zu importieren.\nFalls etwas schief geht, überprüfe, ob der folgende Pfad Daten enthält.\n\nImportierpfad: %1$s/birthdaybuddy</string>
+    <string name="permissions_toast_no_sd">Fehler - Kein Zugriff auf deinen externen Speicher!</string>
     <string name="permissions_toast_import_error">Fehler - Etwas lief schief beim Lesen der Daten</string>
     <string name="permissions_toast_export_error">Fehler - Etwas lief schief beim Schreiben deiner Daten!</string>
 </resources>

@@ -209,8 +209,8 @@
     </string-array>
 
     <string name="settings_extra_title_delete_all">Delete all data</string>
-    <string name="settings_extra_title_export">Save data to SD-Card</string>
-    <string name="settings_extra_title_import">Import data from SD-Card</string>
+    <string name="settings_extra_title_export">Export data</string>
+    <string name="settings_extra_title_import">Import data</string>
     <string name="settings_title_notifications">Notifications</string>
     <string name="settings_title_sound">Sound</string>
     <string name="settings_title_vibration">Vibration</string>
@@ -247,22 +247,22 @@
 
     <string name="about_content_license">This app underlies the terms and conditions of the GNU General Public License v3.0.\nFor more detailed information read this: https://www.gnu.org/licenses/gpl-3.0.en.html</string>
     <string name="about_content_openSource">BirthdayBuddy is a non-profit private project. The basic idea for me was to learn more about the android framework and kotlin (and also to have a nice tool for remembering birthdays). Therefore the code of this kotlin written android project is public on my github page (https://github.com/procrastimax/BirthdayBuddy). If you want to contribute to this project with creative ideas or just want to criticize my code, then just create a GitHub issue or fork it and create a merge request :)</string>
-    <string name="about_content_thanks">I would like to thank all those who supported me and helped me with this App in aspects of translations and testing.\nSo thank you Dascha, Paula, Carl, Daniel, Denis and Jarvis!</string>
+    <string name="about_content_thanks">I would like to thank all those who supported me and helped me with this App in aspects of translations and testing. So thank you Dascha, Paula, Carl, Daniel, Denis and Jarvis!</string>
     <string name="about_content_contact">E-Mail: heykeroth.dev@gmail.com\nGitHub: procrastimax</string>
 
-    <string name="permissions_toast_denied_write">This apps needs the rights to write all events on your SD-Card!</string>
-    <string name="permissions_toast_denied_read">This apps needs the rights to read the events from your SD-Card!</string>
-    <string name="permissions_toast_no_sd">Error - Can\'t access your SD-card!</string>
-    <string name="permissions_toast_export_error">Error - Something went wrong when trying to write to your SD-Card!</string>
-    <string name="permissions_toast_import_error">Error - Something went wrong when trying to read from your SD-Card!</string>
+    <string name="permissions_toast_denied_write">This apps needs the rights to write all events on your external storage!</string>
+    <string name="permissions_toast_denied_read">This apps needs the rights to read the events from your external storage!</string>
+    <string name="permissions_toast_no_sd">Error - Can\'t access your external storage!</string>
+    <string name="permissions_toast_export_error">Error - Something went wrong when trying to write to your external storage!</string>
+    <string name="permissions_toast_import_error">Error - Something went wrong when trying to read from your external storage!</string>
 
     <string name="permissions_snackbar_granted_write">Events successfully saved</string>
     <string name="permissions_snackbar_granted_read">Events successfully imported</string>
 
     <string name="dialog_export_data_title">Exporting events</string>
     <string name="dialog_import_data_title">Importing events</string>
-    <string name="dialog_import_data_text">This is going to try to import all your events from your SD-card.\n\nIf this fails, check if the event data exists in the following path: %1$s/birthdaybuddy</string>
-    <string name="dialog_export_data_text">This is going to export all your event data in clear-text on your SD-card. From there you can retrieve the data at any time and also on other phones.\n\nData path: %1$s/birthdaybuddy</string>
+    <string name="dialog_import_data_text">This is going to try to import all your events from your external storage path.\n\nIf this fails, check if the event data exists in the following path: %1$s/birthdaybuddy</string>
+    <string name="dialog_export_data_text">This is going to export all your event data in clear-text on your external storage. From there you can retrieve the data at any time. This will not save any images. If your external storage is a SD-Card you can import the data from different phones.\n\nData path: %1$s/birthdaybuddy</string>
 
     <!-- help texts -->
     <string name="help_title_reason">Why use this app?</string>
