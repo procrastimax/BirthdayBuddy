@@ -103,27 +103,21 @@ open class EventDate(var eventDate: Date) : Comparable<EventDate> {
      * @return Int
      */
     open fun getDaysUntil(): Int {
-        //when current year is leap year
+
         val currentCal = Calendar.getInstance()
 
-        val eventCal = Calendar.getInstance().apply {
-            this.time = dateToCurrentTimeContext(eventDate)
-        }
-
-        val currentDayOfYear = currentCal.get(Calendar.DAY_OF_YEAR)
-        val eventDayOfYear = eventCal.get(Calendar.DAY_OF_YEAR)
-
-        return if (eventDayOfYear > currentDayOfYear) {
-            eventDayOfYear - currentDayOfYear
-
-        } else if (eventDayOfYear < currentDayOfYear) {
+        if (!eventAlreadyOccurred()) {
+            val eventCal = Calendar.getInstance().apply {
+                this.time = eventDate
+            }
+            val currentDayOfYear = currentCal.get(Calendar.DAY_OF_YEAR)
+            val eventDayOfYear = eventCal.get(Calendar.DAY_OF_YEAR)
+            return eventDayOfYear - currentDayOfYear
+        } else {
             val nextYear = Calendar.getInstance()
             nextYear.time = eventDate
             nextYear.set(Calendar.YEAR, Calendar.getInstance().get(Calendar.YEAR) + 1)
             return TimeUnit.MILLISECONDS.toDays(nextYear.timeInMillis - Calendar.getInstance().timeInMillis).toInt() + 1
-
-        } else {
-            0
         }
     }
 
@@ -222,6 +216,7 @@ open class EventDate(var eventDate: Date) : Comparable<EventDate> {
             if (dateInCurrentTimeContext.get(Calendar.DAY_OF_YEAR) < Calendar.getInstance().get(Calendar.DAY_OF_YEAR)) {
                 dateInCurrentTimeContext.set(Calendar.YEAR, Calendar.getInstance().get(Calendar.YEAR) + 1)
             }
+            dateInCurrentTimeContext.set(Calendar.HOUR, 12)
             return dateInCurrentTimeContext.time
         }
 
