@@ -307,35 +307,35 @@ class BirthdayInstanceFragment : EventInstanceFragment() {
             }
 
             dialog.show()
+        }
 
-            switchIsYearGiven.setOnCheckedChangeListener { _, isChecked ->
-                if (editDate.text.isNotBlank()) {
-                    //year is given
-                    if (isChecked) {
-                        val lastYear = Calendar.getInstance().apply {
-                            time = eventDate
-                            set(Calendar.YEAR, Calendar.getInstance().get(Calendar.YEAR) - 1)
-                        }
-                        editDate.text = EventDate.parseDateToString(lastYear.time, DateFormat.DEFAULT)
-
-                        //year is not given
-                    } else {
-                        editDate.text = EventDate.getLocalizedDayAndMonth(this.eventDate)
+        switchIsYearGiven.setOnCheckedChangeListener { _, isChecked ->
+            if (editDate.text.isNotBlank()) {
+                //year is given
+                if (isChecked) {
+                    val lastYear = Calendar.getInstance().apply {
+                        time = eventDate
+                        set(Calendar.YEAR, Calendar.getInstance().get(Calendar.YEAR) - 1)
                     }
+                    editDate.text = EventDate.parseDateToString(lastYear.time, DateFormat.DEFAULT)
+
+                    //year is not given
                 } else {
-                    if (isChecked) {
-                        editDate.hint = resources.getString(
+                    editDate.text = EventDate.getLocalizedDayAndMonth(this.eventDate)
+                }
+            } else {
+                if (isChecked) {
+                    editDate.hint = resources.getString(
+                        R.string.birthday_instance_fragment_date_edit_hint,
+                        EventDate.parseDateToString(Calendar.getInstance().time, DateFormat.DEFAULT)
+                    )
+                } else {
+                    editDate.hint =
+                        resources.getString(
                             R.string.birthday_instance_fragment_date_edit_hint,
-                            EventDate.parseDateToString(Calendar.getInstance().time, DateFormat.DEFAULT)
-                        )
-                    } else {
-                        editDate.hint =
-                            resources.getString(
-                                R.string.birthday_instance_fragment_date_edit_hint,
-                                EventDate.getLocalizedDayAndMonth(Calendar.getInstance().time)
+                            EventDate.getLocalizedDayAndMonth(Calendar.getInstance().time)
 
-                            )
-                    }
+                        )
                 }
             }
         }
