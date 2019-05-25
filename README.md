@@ -6,7 +6,7 @@ You can also add future one-time events like graduation dates, which are automat
 
 # How does it look?
 <img src="app_screenshots/app_screenshots_en/Screenshot_1558384333.png" alt="drawing" width="200"/>	 <img src="app_screenshots/app_screenshots_en/Screenshot_1558384339.png" alt="drawing" width="200"/>
-<img src="app_screenshots/app_screenshots_en/Screenshot_1558384373.png" alt="drawing" width="200"/>	  | <img src="app_screenshots/app_screenshots_en/Screenshot_1558384417.png" alt="drawing" width="200"/> | <img src="app_screenshots/app_screenshots_en/Screenshot_1558384378.png" alt="drawing" width="200"/>
+<img src="app_screenshots/app_screenshots_en/Screenshot_1558384373.png" alt="drawing" width="200"/>	 <img src="app_screenshots/app_screenshots_en/Screenshot_1558384417.png" alt="drawing" width="200"/> <img src="app_screenshots/app_screenshots_en/Screenshot_1558384378.png" alt="drawing" width="200"/>
 
 # What are some key features?
 - Adding multiple types of events (birthdays, anniversaries, one-time events, ...)
