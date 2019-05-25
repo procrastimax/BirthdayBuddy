@@ -6,7 +6,7 @@
     <string name="no">Nein</string>
     <string name="apply">anwenden</string>
     <string name="today">heute</string>
-    <string name="noEntries">Noch keine Einträge :(</string>
+    <string name="noEntries">Keine Einträge :(</string>
     <string name="noEventsFound">Keine Einträge gefunden :(</string>
     <string name="necessary">(notw.)</string>
 
@@ -54,7 +54,7 @@
     <string name="person_deleted_notification">Geburtstag gelöscht</string>
     <string name="btn_birthday_delete">Lösche Geburtstag</string>
 
-    <string name="avatar_btn_clicked_menu_item_select_photo">Gallerie</string>
+    <string name="avatar_btn_clicked_menu_item_select_photo">Galerie</string>
     <!--<string name="avatar_btn_clicked_menu_item_take_new_photo">Take new photo</string>-->
     <string name="avatar_btn_clicked_menu_item_delete_photo">Bild entfernen</string>
 
@@ -268,7 +268,7 @@
     <string name="permissions_snackbar_granted_write">Events erfolgreich gespeichert</string>
     <string name="abort">Abbrechen</string>
     <string name="cntnue">Weiter</string>
-    <string name="dialog_export_data_text">All deine Events aus dieser App werden im Klartext auf deinem externen Speicher gespeichert. Von dort kannst du diese jederzeit wieder importieren. Es werden keine Bilder gespeichert. Wenn dein externer Speicherpfad deine SD-Karte ist, kannst du diese Daten sogar von andere Handys importieren.\n\nSpeicherpfad: %1$s/birthdaybuddy</string>
+    <string name="dialog_export_data_text">All deine Events aus dieser App werden im Klartext auf deinem externen Speicher gespeichert. Von dort kannst du diese jederzeit wieder importieren. Es werden keine Bilder gespeichert.\nWenn dein externer Speicherpfad deine SD-Karte ist, kannst du diese Daten sogar von anderen Handys importieren.\n\nSpeicherpfad: %1$s/birthdaybuddy</string>
     <string name="dialog_export_data_title">Exportiere Events</string>
     <string name="dialog_import_data_title">Importiere Events</string>
     <string name="dialog_import_data_text">Es wird versucht deine gespeicherten Events vom externen Speicher zu importieren.\nFalls etwas schief geht, überprüfe, ob der folgende Pfad Daten enthält.\n\nImportierpfad: %1$s/birthdaybuddy</string>

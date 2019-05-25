@@ -262,7 +262,7 @@
     <string name="dialog_export_data_title">Exporting events</string>
     <string name="dialog_import_data_title">Importing events</string>
     <string name="dialog_import_data_text">This is going to try to import all your events from your external storage path.\n\nIf this fails, check if the event data exists in the following path: %1$s/birthdaybuddy</string>
-    <string name="dialog_export_data_text">This is going to export all your event data in clear-text on your external storage. From there you can retrieve the data at any time. This will not save any images. If your external storage is a SD-Card you can import the data from different phones.\n\nData path: %1$s/birthdaybuddy</string>
+    <string name="dialog_export_data_text">This is going to export all your event data in clear-text on your external storage. From there you can retrieve the data at any time. This will not save any images.\nIf your external storage is a SD-Card you can import the data from different phones.\n\nData path: %1$s/birthdaybuddy</string>
 
     <!-- help texts -->
     <string name="help_title_reason">Why use this app?</string>
