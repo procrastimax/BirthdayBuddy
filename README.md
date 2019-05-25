@@ -21,7 +21,7 @@ You can also add future one-time events like graduation dates, which are automat
 - No need for external internet service for storing data -> no login/ account needed
 - Free yourself from the need to lookup birthdays on facebook ;)
 
-# Where is this ap available?
+# Where is this app available?
 - [X] [Google Play](https://play.google.com/store/apps/details?id=com.procrastimax.birthdaybuddy)
 - [ ] F-Droid (coming)
 
