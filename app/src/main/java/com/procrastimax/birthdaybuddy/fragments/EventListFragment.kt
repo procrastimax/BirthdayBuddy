@@ -218,7 +218,6 @@ class EventListFragment : Fragment() {
 
     /**
      * traverseForFirstMonthEntry is a function to get the position of the month item position of the current month
-     * TODO: maybe there is a better way to find the current month item, but for small amount of entries this may work out well
      */
     private fun traverseForFirstMonthEntry(): Int {
         val currentMonth = Calendar.getInstance().get(Calendar.MONTH)

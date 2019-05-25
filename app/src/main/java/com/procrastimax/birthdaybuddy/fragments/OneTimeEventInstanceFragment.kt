@@ -24,7 +24,7 @@ import java.util.*
 class OneTimeEventInstanceFragment : EventInstanceFragment() {
 
     /**
-     * isEditOneTimeEvent is a boolean flag to indicate wether this fragment is intended to edit or add an instance of OneTimeEvent
+     * isEditOneTimeEvent is a boolean flag to indicate whether this fragment is intended to edit or add an instance of OneTimeEvent
      * this is later used to fill TextEdits with existing data of an OneTimeEvent instance
      */
     private var isEditOneTimeEvent = false
@@ -157,7 +157,7 @@ class OneTimeEventInstanceFragment : EventInstanceFragment() {
 
     /**
      * showDatePickerDialog shows a standard android date picker dialog
-     * The choosen date in the dialog is set to the editDate field
+     * The chosen date in the dialog is set to the editDate field
      */
     private fun showDatePickerDialog() {
         val c = Calendar.getInstance()

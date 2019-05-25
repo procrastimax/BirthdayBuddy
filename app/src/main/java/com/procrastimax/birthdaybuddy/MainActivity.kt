@@ -22,14 +22,6 @@ import kotlinx.android.synthetic.main.fragment_event_list.*
 import java.text.DateFormat
 import java.util.*
 
-
-/**
- *
- * TODO:
- *  - BUG: app closes when switched to potrait mode and changing fragments
- *  - landscape mode, bottom up menu for image seleciton in eventbirthday doesnt scroll completely up
- *  - Import/Export, inform user about androids passive backup/ restoring
- */
 class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -183,6 +175,9 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    /**
+     * addMonthDivider adds all 12 month dividers (dividers between events to group them in month groups)
+     */
     fun addMonthDivider() {
         val cal = Calendar.getInstance()
         cal.set(Calendar.YEAR, 1)
@@ -197,6 +192,10 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    /**
+     * onRequestPermissionsResult is the callback function after requesting the users permission for android permissions
+     * In this case we request READ/WRITE rights on external storage and handle exporting/ importing event data from the external storage
+     */
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
         when (requestCode) {
             //writing to external

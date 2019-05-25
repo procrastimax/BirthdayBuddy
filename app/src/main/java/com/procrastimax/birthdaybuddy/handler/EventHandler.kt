@@ -160,17 +160,6 @@ object EventHandler {
     }
 
     /**
-     * getEventByPosition returns the value with type EventDay? to a given integer key
-     * @param key : Int
-     * @return EventDay?
-     */
-    fun getEventByPosition(key: Int): EventDate? {
-        if (containsIndex(key))
-            return event_list[key]
-        return null
-    }
-
-    /**
      * getEventToEventIndex returns the value with type EventDay? to a given integer key
      * @param index : Int
      * @return EventDay?
@@ -202,25 +191,8 @@ object EventHandler {
         return event_map.containsKey(index)
     }
 
-    /**
-     * getLastIndex returns the last used index in the map
-     * The indexes of the map specify the event value, they are always incremented by one when a new value is added
-     * So therefore to get the last used index, its enough to just check the map size
-     *
-     * It returns 0 if the map is empty
-     *
-     * @return Int
-     */
-    fun getLastIndex(): Int {
-        return event_map.keys.sorted().last()
-    }
-
     fun getList(): List<EventDate> {
         return this.event_list
-    }
-
-    fun getMap(): Map<Int, EventDate> {
-        return this.event_map
     }
 
     fun getEventsAsStringList(): String {

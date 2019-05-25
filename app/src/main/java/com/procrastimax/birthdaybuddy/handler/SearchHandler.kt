@@ -37,7 +37,9 @@ object SearchHandler {
     }
 
     /**
-     * processData converts an eventdate dataset to multiple strings which are lowercased and without white spaces
+     * processData converts an EventDate dataset to multiple strings which are lowercase and without white spaces
+     * @param eventData : EventDate
+     * @return Pair<Int, List<String>>?
      */
     private fun processData(eventData: EventDate): Pair<Int, List<String>>? {
         when (eventData) {

@@ -97,13 +97,6 @@ object BitmapHandler {
     }
 
     /**
-     * for testing purposes
-     */
-    fun getAllBitmaps(): List<Bitmap> {
-        return this.drawable_map.values.toList()
-    }
-
-    /**
      * loadAllDrawables iterates through eventhandler eventlist and loads all drawables into this map
      */
     fun loadAllBitmaps(context: Context): Boolean {

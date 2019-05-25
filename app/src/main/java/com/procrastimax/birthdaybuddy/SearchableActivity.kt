@@ -13,6 +13,13 @@ import com.procrastimax.birthdaybuddy.views.EventAdapterSearching
 import com.procrastimax.birthdaybuddy.views.RecycleViewItemDivider
 import kotlinx.android.synthetic.main.activity_searchable.*
 
+/**
+ * SearchableActivity is the activity used for searching events by their name
+ * This has to be an extra activity because of the android framework functionality of the search view
+ *
+ * After a search has been completed by the user (clicking the magnifying glass in the search view) a query string is send to this activity which
+ * returns all events which containt the query string in their names. After retrieving those events, they are displayed in the recyclerview
+ */
 class SearchableActivity : AppCompatActivity() {
 
     private lateinit var recyclerView: RecyclerView

@@ -36,7 +36,6 @@ import java.util.*
  * This class inherits from android.support.v4.app.Fragment
  *
  * TODO:
- *  - control behaviour when hold in portrait mode
  *  - add possibility to take new pictures with camera
  */
 class BirthdayInstanceFragment : EventInstanceFragment() {

@@ -173,10 +173,6 @@ object IOHandler {
         }
     }
 
-    fun eventDataContainsKey(key: String): Boolean {
-        return (sharedPrefEventData.contains(key))
-    }
-
     fun isFirstStart(): Boolean {
         //when the key doesn't exist -> its the first start, so we have to invert the contains function
         return if (!settingsContainsKey(SharedPrefKeys.key_firstStart)) {
@@ -209,37 +205,6 @@ object IOHandler {
         val sharedPrefEditor = sharedPrefEventData.edit()
         sharedPrefEditor.remove(key.toString())
         sharedPrefEditor.apply()
-    }
-
-    /**
-     * readEntryFromFile reads a single event entry by key
-     *
-     * @param key: Int
-     * @return EventDay?
-     */
-    fun readEventFromFile(context: Context, key: Int): EventDate? {
-        if (sharedPrefEventData.contains(key.toString())) {
-            val eventday: String? = sharedPrefEventData.getString(key.toString(), "")
-            if (!eventday.isNullOrEmpty()) {
-                return convertStringToEventDate(context, eventday)
-            } else {
-                return null
-            }
-        }
-        return null
-    }
-
-    /**
-     * writeAll writes all events which are currently stored in the EventHandler-Map to the shared preferences
-     */
-    fun writeAll() {
-        val sharedPrefEdit = sharedPrefEventData.edit()
-        sharedPrefEdit.clear()
-
-        for (i in 0 until EventHandler.getList().size) {
-            sharedPrefEdit.putString(i.toString(), EventHandler.getList()[i].toString())
-        }
-        sharedPrefEdit.apply()
     }
 
     fun clearSharedPrefEventData() {

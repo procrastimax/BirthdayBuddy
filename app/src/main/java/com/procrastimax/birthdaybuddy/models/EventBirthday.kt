@@ -10,7 +10,7 @@ import java.util.*
  *
  * It inherits from EventDay, so it uses a Date, and Strings for the name of the described person
  * Surname cant be null, if it shouldn't be set, use "0" to mark the surname as unwanted property when f.e. don't show it in UI
- * isYearGiven is flag to indicate wether the birthday-year is known/given
+ * isYearGiven is flag to indicate whether the birthday-year is known/given
  *
  * TODO:
  *  - add possibility for favorites

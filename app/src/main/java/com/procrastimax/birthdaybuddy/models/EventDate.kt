@@ -145,12 +145,6 @@ open class EventDate(var eventDate: Date) : Comparable<EventDate> {
         return cal.get(Calendar.DAY_OF_MONTH)
     }
 
-    fun getHourOfDay(): Int {
-        val cal = Calendar.getInstance()
-        cal.time = this.eventDate
-        return cal.get(Calendar.HOUR_OF_DAY)
-    }
-
     fun eventAlreadyOccurred(): Boolean {
         val current = Calendar.getInstance().apply {
             time = eventDate
@@ -293,20 +287,6 @@ open class EventDate(var eventDate: Date) : Comparable<EventDate> {
         @JvmStatic
         fun isDateInFuture(date: Date): Boolean {
             return date.after(Calendar.getInstance().time)
-        }
-
-        /**
-         * normalizeDate nulls time values of a date, so all dates are equals, when they are on the same day
-         *
-         * @return Date
-         */
-        @JvmStatic
-        fun normalizeDate(date: Date): Date {
-            val normalizedDateCal = Calendar.getInstance()
-            normalizedDateCal.time = date
-            //set to mid day, so when sorting with monthdivider on same date, month divider are always in front
-            normalizedDateCal.set(Calendar.HOUR_OF_DAY, 12)
-            return normalizedDateCal.time
         }
 
         /**
