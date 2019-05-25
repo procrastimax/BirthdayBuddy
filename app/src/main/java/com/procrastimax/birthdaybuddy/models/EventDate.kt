@@ -104,15 +104,18 @@ open class EventDate(var eventDate: Date) : Comparable<EventDate> {
      */
     open fun getDaysUntil(): Int {
 
-        val currentCal = Calendar.getInstance()
-
         if (!eventAlreadyOccurred()) {
-            val eventCal = Calendar.getInstance().apply {
-                this.time = eventDate
+            val nextYear = Calendar.getInstance()
+            nextYear.time = eventDate
+            nextYear.set(Calendar.YEAR, Calendar.getInstance().get(Calendar.YEAR))
+
+            if (nextYear.get(Calendar.DAY_OF_MONTH) == Calendar.getInstance().get(Calendar.DAY_OF_MONTH) &&
+                nextYear.get(Calendar.MONTH) == Calendar.getInstance().get(Calendar.MONTH)
+            ) {
+                return 0
             }
-            val currentDayOfYear = currentCal.get(Calendar.DAY_OF_YEAR)
-            val eventDayOfYear = eventCal.get(Calendar.DAY_OF_YEAR)
-            return eventDayOfYear - currentDayOfYear
+
+            return TimeUnit.MILLISECONDS.toDays(nextYear.timeInMillis - Calendar.getInstance().timeInMillis).toInt() + 1
         } else {
             val nextYear = Calendar.getInstance()
             nextYear.time = eventDate
@@ -147,7 +150,7 @@ open class EventDate(var eventDate: Date) : Comparable<EventDate> {
 
     fun eventAlreadyOccurred(): Boolean {
         val current = Calendar.getInstance().apply {
-            time = eventDate
+            time = dateToCurrentYear()
         }
         return (current.get(Calendar.DAY_OF_YEAR) < Calendar.getInstance().get(Calendar.DAY_OF_YEAR))
     }
