@@ -259,7 +259,7 @@
     <string name="help_content_OneTime">Einmalige Events sind spezielle Veranstaltungen, die in der Zukunft stattfinden (z.B. Parties, Klausuren oder einmalige besondere Anlässe). Am Tag nach dem Event löscht sich das einmalige Event automatisch von selbst!</string>
     <string name="help_content_support">Für mich ist das Entwickeln von Programmen und Apps für Andere eine großartige Sache. Und es macht noch umso mehr Spaß, wenn die Nutzer die App mögen oder produktive Kritik äußern. In diesem Sinne möchte ich allen, die mich in irgendeiner Weise unterstützen wollen, ans Herz legen, eine Bewertung für diese App abzugeben. Wenn euch das nicht reicht, könnt ihr euch auch bei der Entwicklung des Projektes über GitHub beteiligen (siehe \'Über\'). Ansonsten würde ich mich auch sehr über eine kleine Spende über meine PayPal-Seite (https://www.paypal.me/Procrastimax) freuen, um mir bei der Entwicklung des nächsten Projektes einen großen Kaffee leisten zu können ;)</string>
     <string name="help_content_notifications">Bei einigen Geräten kann es passieren, dass die Benachrichtigung über anstehende Events nicht richtig \"aufploppt\". Falls dies der Fall sein sollte, gehe in die Benachrichtigungseinstellungen deines Handys. Dort kannst du versuchen entweder die Benachrichtigungspriorität zu erhöhen oder (wenn vorhanden) die Einstellung \"Banner - Anzeige oberhalb der Statusleiste\" zu aktivieren.</string>
-    <string name="settings_extra_title_export">Daten exportieren</string>
+    <string name="settings_extra_title_export">Daten speichern</string>
     <string name="settings_extra_title_import">Daten importieren</string>
     <string name="about_content_contact">E-Mail: heykeroth.dev@gmail.com\nGitHub: procrastimax</string>
     <string name="permissions_snackbar_granted_read">Events erfolgreich importiert</string>
@@ -269,7 +269,7 @@
     <string name="abort">Abbrechen</string>
     <string name="cntnue">Weiter</string>
     <string name="dialog_export_data_text">All deine Events aus dieser App werden im Klartext auf deinem externen Speicher gespeichert. Von dort kannst du diese jederzeit wieder importieren. Es werden keine Bilder gespeichert.\nWenn dein externer Speicherpfad deine SD-Karte ist, kannst du diese Daten sogar von anderen Handys importieren.\n\nSpeicherpfad: %1$s/birthdaybuddy</string>
-    <string name="dialog_export_data_title">Exportiere Events</string>
+    <string name="dialog_export_data_title">Speichere Events</string>
     <string name="dialog_import_data_title">Importiere Events</string>
     <string name="dialog_import_data_text">Es wird versucht deine gespeicherten Events vom externen Speicher zu importieren.\nFalls etwas schief geht, überprüfe, ob der folgende Pfad Daten enthält.\n\nImportierpfad: %1$s/birthdaybuddy</string>
     <string name="permissions_toast_no_sd">Fehler - Kein Zugriff auf deinen externen Speicher!</string>

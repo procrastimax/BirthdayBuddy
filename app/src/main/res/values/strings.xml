@@ -209,7 +209,7 @@
     </string-array>
 
     <string name="settings_extra_title_delete_all">Delete all data</string>
-    <string name="settings_extra_title_export">Export data</string>
+    <string name="settings_extra_title_export">Save data</string>
     <string name="settings_extra_title_import">Import data</string>
     <string name="settings_title_notifications">Notifications</string>
     <string name="settings_title_sound">Sound</string>
@@ -259,10 +259,10 @@
     <string name="permissions_snackbar_granted_write">Events successfully saved</string>
     <string name="permissions_snackbar_granted_read">Events successfully imported</string>
 
-    <string name="dialog_export_data_title">Exporting events</string>
+    <string name="dialog_export_data_title">Saving events</string>
     <string name="dialog_import_data_title">Importing events</string>
     <string name="dialog_import_data_text">This is going to try to import all your events from your external storage path.\n\nIf this fails, check if the event data exists in the following path: %1$s/birthdaybuddy</string>
-    <string name="dialog_export_data_text">This is going to export all your event data in clear-text on your external storage. From there you can retrieve the data at any time. This will not save any images.\nIf your external storage is a SD-Card you can import the data from different phones.\n\nData path: %1$s/birthdaybuddy</string>
+    <string name="dialog_export_data_text">This is going to save all your event data in clear-text on your external storage. From there you can retrieve the data at any time. This will not save any images.\nIf your external storage is a SD-Card you can import the data from different phones.\n\nData path: %1$s/birthdaybuddy</string>
 
     <!-- help texts -->
     <string name="help_title_reason">Why use this app?</string>
