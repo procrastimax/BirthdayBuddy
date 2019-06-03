@@ -51,30 +51,37 @@ class AboutAdapter(private val context: Context) : RecyclerView.Adapter<Recycler
             AboutInstance.App -> {
                 holder.itemView.tv_about_title.text = context.getText(R.string.about_title_appName)
                 holder.itemView.tv_about_content.text = context.getText(R.string.app_name)
+                holder.itemView.tv_about_content.linksClickable = true
             }
             AboutInstance.Version -> {
                 holder.itemView.tv_about_title.text = context.getText(R.string.about_title_version)
                 holder.itemView.tv_about_content.text = BuildConfig.VERSION_NAME
+                holder.itemView.tv_about_content.linksClickable = false
             }
             AboutInstance.BuildNumber -> {
                 holder.itemView.tv_about_title.text = context.getText(R.string.about_title_buildNumber)
                 holder.itemView.tv_about_content.text = BuildConfig.VERSION_CODE.toString()
+                holder.itemView.tv_about_content.linksClickable = false
             }
             AboutInstance.License -> {
                 holder.itemView.tv_about_title.text = context.getText(R.string.about_title_license)
                 holder.itemView.tv_about_content.text = context.getText(R.string.about_content_license)
+                holder.itemView.tv_about_content.linksClickable = true
             }
             AboutInstance.OpenSource -> {
                 holder.itemView.tv_about_title.text = context.getText(R.string.about_title_openSource)
                 holder.itemView.tv_about_content.text = context.getText(R.string.about_content_openSource)
+                holder.itemView.tv_about_content.linksClickable = true
             }
             AboutInstance.Contact -> {
                 holder.itemView.tv_about_title.text = context.getText(R.string.about_title_contactInformation)
                 holder.itemView.tv_about_content.text = context.getText(R.string.about_content_contact)
+                holder.itemView.tv_about_content.linksClickable = true
             }
             AboutInstance.Thanks -> {
                 holder.itemView.tv_about_title.text = context.getText(R.string.about_title_thanks)
                 holder.itemView.tv_about_content.text = context.getText(R.string.about_content_thanks)
+                holder.itemView.tv_about_content.linksClickable = true
             }
         }
 
