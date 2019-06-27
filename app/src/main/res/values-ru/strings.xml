@@ -49,8 +49,8 @@
     <string name="alert_dialog_missing_avatar_img_text">Произошла ошибка при попытке загрузить изображение аватара!\nСсылка на изображение будет удалена.</string>
 
     <!-- fragment add new birthday -->
-    <string name="toolbar_title_add_birthday">Новый день рождения</string>
-    <string name="toolbar_title_edit_birthday">Изменить день рождения</string>
+    <string name="toolbar_title_add_birthday">День рождения</string>
+    <string name="toolbar_title_edit_birthday">День рождения</string>
     <string name="future_birthday_error">Вы не можете добавлять будущие дни рождения!\nПожалуйста, добавляйте только тех, кто уже родился.</string>
     <string name="birthday_instance_fragment_date_edit_hint">Дата: %1$s</string>
     <string name="empty_fields_error_birthday">Вы должны заполнить поля Имя и Дата!</string>
@@ -103,8 +103,8 @@
     <!--- ANNUAL EVENT -->
     <!-- annual event view -->
     <!-- fragment add new annual event -->
-    <string name="toolbar_title_add_annual_event">Новое ежегодное мероприятие</string>
-    <string name="toolbar_title_edit_annual_event">Изменить ежегодное мероприятие</string>
+    <string name="toolbar_title_add_annual_event">Новое мероприятие</string>
+    <string name="toolbar_title_edit_annual_event">Изменить мероприятие</string>
     <string name="future_annual_event_error">Вы не можете добавлять будущие ежегодные мероприятия!</string>
     <string name="empty_fields_error_annual_event">Пожалуйста, заполните все поля: имя, дата!</string>
     <string name="annual_event_added_notification">%1$s  добавлено</string>
@@ -154,8 +154,8 @@
 
     <!-- ONE TIME EVENT -->
     <!-- fragment add new  one time event -->
-    <string name="toolbar_title_add_one_time_event">Уникальное событие</string>
-    <string name="toolbar_title_edit_one_time_event">Уникальное событие</string>
+    <string name="toolbar_title_add_one_time_event">Новое событие</string>
+    <string name="toolbar_title_edit_one_time_event">Изменить событие</string>
     <string name="error_past_one_time_event_error">Вы можете добавить только одноразовые события, которые еще не произошли или находятся в будущем!</string>
     <string name="one_time_event_added_notification">%1$s добавлено</string>
     <string name="one_time_event_changed_notification">%1$s отредактированный</string>

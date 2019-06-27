@@ -22,46 +22,46 @@
                 android:orientation="vertical">
 
             <EditText
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:inputType="textPersonName"
-                    android:maxLength="20"
-                    android:id="@+id/edit_add_fragment_forename"
-                    android:layout_marginStart="8dp"
-                    android:hint="@string/event_property_forename"
-                    android:layout_marginEnd="8dp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    android:layout_marginTop="24dp"
-                    app:layout_constraintTop_toBottomOf="@+id/frame_layout_add_avatar_image"
-                    android:textColor="@color/dark"
-                    app:layout_constraintStart_toEndOf="@+id/iv_birthday_names" />
+                android:id="@+id/edit_add_fragment_forename"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="24dp"
+                android:layout_marginEnd="8dp"
+                android:hint="@string/event_property_forename"
+                android:inputType="textPersonName|textCapSentences"
+                android:maxLength="20"
+                android:textColor="@color/dark"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/iv_birthday_names"
+                app:layout_constraintTop_toBottomOf="@+id/frame_layout_add_avatar_image" />
 
             <EditText
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:inputType="textPersonName"
-                    android:maxLength="15"
-                    android:id="@+id/edit_add_fragment_nickname"
-                    android:hint="@string/event_property_nickname"
-                    android:visibility="visible"
-                    android:layout_marginTop="8dp"
-                    app:layout_constraintTop_toBottomOf="@+id/edit_add_fragment_surname"
-                    app:layout_constraintStart_toStartOf="@+id/edit_add_fragment_surname"
-                    app:layout_constraintEnd_toEndOf="@+id/edit_add_fragment_surname"
-                    android:textColor="@color/dark" />
+                android:id="@+id/edit_add_fragment_nickname"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:hint="@string/event_property_nickname"
+                android:inputType="textPersonName|textCapSentences"
+                android:maxLength="15"
+                android:textColor="@color/dark"
+                android:visibility="visible"
+                app:layout_constraintEnd_toEndOf="@+id/edit_add_fragment_surname"
+                app:layout_constraintStart_toStartOf="@+id/edit_add_fragment_surname"
+                app:layout_constraintTop_toBottomOf="@+id/edit_add_fragment_surname" />
 
             <EditText
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:inputType="textPersonName"
-                    android:maxLength="20"
-                    android:id="@+id/edit_add_fragment_surname"
-                    android:layout_marginTop="8dp"
-                    app:layout_constraintTop_toBottomOf="@+id/edit_add_fragment_forename"
-                    app:layout_constraintEnd_toEndOf="@+id/edit_add_fragment_forename"
-                    app:layout_constraintStart_toStartOf="@+id/edit_add_fragment_forename"
-                    android:hint="@string/event_property_surname"
-                    android:textColor="@color/dark" />
+                android:id="@+id/edit_add_fragment_surname"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:hint="@string/event_property_surname"
+                android:inputType="textPersonName|textCapSentences"
+                android:maxLength="20"
+                android:textColor="@color/dark"
+                app:layout_constraintEnd_toEndOf="@+id/edit_add_fragment_forename"
+                app:layout_constraintStart_toStartOf="@+id/edit_add_fragment_forename"
+                app:layout_constraintTop_toBottomOf="@+id/edit_add_fragment_forename" />
 
             <TextView
                     android:layout_width="0dp"
@@ -107,18 +107,18 @@
                     app:layout_constraintEnd_toEndOf="parent"/>
 
             <EditText
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:inputType="textMultiLine"
-                    android:ems="10"
-                    android:id="@+id/edit_add_fragment_note"
-                    android:layout_marginTop="8dp"
-                    app:layout_constraintTop_toBottomOf="@+id/edit_add_fragment_date"
-                    app:layout_constraintEnd_toEndOf="@+id/sw_is_year_given"
-                    android:hint="@string/event_property_note"
-                    android:textColor="@color/dark"
-                    app:layout_constraintStart_toEndOf="@+id/iv_birthday_note"
-                    android:layout_marginStart="8dp" />
+                android:id="@+id/edit_add_fragment_note"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:ems="10"
+                android:hint="@string/event_property_note"
+                android:inputType="textMultiLine|textCapSentences"
+                android:textColor="@color/dark"
+                app:layout_constraintEnd_toEndOf="@+id/sw_is_year_given"
+                app:layout_constraintStart_toEndOf="@+id/iv_birthday_note"
+                app:layout_constraintTop_toBottomOf="@+id/edit_add_fragment_date" />
 
             <FrameLayout
                     android:layout_width="wrap_content"

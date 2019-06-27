@@ -21,7 +21,7 @@ import java.util.*
 class EventListFragment : Fragment() {
 
     private lateinit var recyclerView: RecyclerView
-    private lateinit var viewAdapter: RecyclerView.Adapter<*>
+    private lateinit var viewAdapter: EventAdapter
     private lateinit var viewManager: RecyclerView.LayoutManager
 
     private var isFABOpen = false
@@ -169,7 +169,7 @@ class EventListFragment : Fragment() {
             }
         }
         //disable all click events on eventview adapter
-        (this.recyclerView.adapter as EventAdapter).isClickable = false
+        viewAdapter.isClickable = false
     }
 
     /**
@@ -213,7 +213,7 @@ class EventListFragment : Fragment() {
                 fab_show_fab_menu.isClickable = true
             }
         }
-        (this.recyclerView.adapter as EventAdapter).isClickable = true
+        viewAdapter.isClickable = true
     }
 
     /**
