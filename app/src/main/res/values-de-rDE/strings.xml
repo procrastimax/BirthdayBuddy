@@ -1,10 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <resources>
     <!-- _________globals____________ -->
     <string name="app_name">BirthdayBuddy</string>
     <string name="undo">Rückgängig</string>
     <string name="yes">Ja</string>
     <string name="no">Nein</string>
+    <string name="abort">Abbrechen</string>
+    <string name="cntnue">Weiter</string>
     <string name="apply">anwenden</string>
+    <string name="edit">Bearbeiten</string>
+    <string name="share">Aktie</string>
     <string name="today">heute</string>
     <string name="noEntries">Keine Einträge :(</string>
     <string name="noEventsFound">Keine Einträge gefunden :(</string>
@@ -195,7 +200,6 @@
     <string name="tv_notification_interval_day">Tag vorher</string>
     <string name="tv_notification_interval_eventday">Eventtag</string>
 
-    <string name="notification_channel_name">BirthdayBuddyNotification</string>
     <string name="notification_channel_description">Benachrichtig den Nutzer über seine events</string>
 
     <string-array name="light_modes">
@@ -266,8 +270,6 @@
     <string name="permissions_toast_denied_read">Diese App braucht diese Rechte, um die Events von deinem externen Speicher zu lesen.</string>
     <string name="permissions_toast_denied_write">Diese App braucht diese Rechte, um alle Events auf den externen Speicher zu schreiben.</string>
     <string name="permissions_snackbar_granted_write">Events erfolgreich gespeichert</string>
-    <string name="abort">Abbrechen</string>
-    <string name="cntnue">Weiter</string>
     <string name="dialog_export_data_text">All deine Events aus dieser App werden im Klartext auf deinem externen Speicher gespeichert. Von dort kannst du diese jederzeit wieder importieren. Es werden keine Bilder gespeichert.\nWenn dein externer Speicherpfad deine SD-Karte ist, kannst du diese Daten sogar von anderen Handys importieren.\n\nSpeicherpfad: %1$s/birthdaybuddy</string>
     <string name="dialog_export_data_title">Speichere Events</string>
     <string name="dialog_import_data_title">Importiere Events</string>

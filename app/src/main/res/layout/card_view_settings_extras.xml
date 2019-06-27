@@ -15,8 +15,7 @@
     <android.support.constraint.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical"
-            >
+            android:orientation="vertical">
 
 
         <android.support.constraint.ConstraintLayout
@@ -61,7 +60,8 @@
                     android:layout_marginBottom="16dp"
                     android:tint="@color/colorAccent"
                     app:layout_constraintBottom_toBottomOf="@+id/tv_settings_extras_delete_all"
-                    app:layout_constraintDimensionRatio="1:1"/>
+                    app:layout_constraintDimensionRatio="1:1"
+                    tools:ignore="ContentDescription"/>
         </android.support.constraint.ConstraintLayout>
 
 
@@ -104,7 +104,8 @@
                     android:layout_marginStart="8dp"
                     android:layout_marginBottom="16dp"
                     app:layout_constraintDimensionRatio="1:1"
-                    app:layout_constraintBottom_toBottomOf="parent"/>
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    tools:ignore="ContentDescription"/>
         </android.support.constraint.ConstraintLayout>
 
 
@@ -149,7 +150,8 @@
                     android:layout_marginStart="8dp"
                     android:layout_marginBottom="16dp"
                     app:layout_constraintDimensionRatio="1:1"
-                    app:layout_constraintBottom_toBottomOf="parent"/>
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    tools:ignore="ContentDescription"/>
         </android.support.constraint.ConstraintLayout>
 
     </android.support.constraint.ConstraintLayout>

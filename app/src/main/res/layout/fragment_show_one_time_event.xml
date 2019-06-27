@@ -12,7 +12,7 @@
             tools:context=".fragments.ShowAnnualEvent">
 
         <TextView
-                android:text="event name"
+                tools:text="Event name"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:id="@+id/tv_show_one_time_event_name"
@@ -28,7 +28,7 @@
                 app:layout_constraintHorizontal_bias="0.0"/>
 
         <TextView
-                android:text="date"
+                tools:text="Date"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:id="@+id/tv_show_one_time_event_date"
@@ -42,7 +42,7 @@
                 android:layout_marginStart="16dp"/>
 
         <TextView
-                android:text="years"
+                tools:text="Years"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:id="@+id/tv_show_one_time_event_years"
@@ -56,7 +56,7 @@
                 app:layout_constraintHorizontal_bias="0.0"/>
 
         <TextView
-                android:text="note"
+                tools:text="Note"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:id="@+id/tv_show_one_time_event_note"

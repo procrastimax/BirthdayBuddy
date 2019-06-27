@@ -1,10 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                                             xmlns:app="http://schemas.android.com/apk/res-auto"
-                                             android:layout_width="match_parent"
-                                             android:layout_height="?attr/actionBarSize"
-                                             android:id="@+id/constrLayout_toolbar_edit"
-                                             android:background="@color/colorPrimary">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="?attr/actionBarSize"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/constrLayout_toolbar_edit"
+    android:background="@color/colorPrimary"
+    tools:ignore="ContentDescription">
 
     <TextView
             android:layout_width="0dp"
@@ -19,7 +21,7 @@
             android:layout_marginEnd="8dp"
             android:textAlignment="center"
             android:gravity="center"
-            android:text="Hier steht was"
+            tools:text="Hier steht was"
             app:layout_constraintTop_toTopOf="@+id/btn_edit_event_close"
             app:layout_constraintBottom_toBottomOf="@+id/btn_edit_event_close"
             app:layout_constraintStart_toEndOf="@+id/btn_edit_event_close"
@@ -41,7 +43,7 @@
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
             android:layout_marginBottom="8dp"
-            app:layout_constraintDimensionRatio="1:1"/>
+            app:layout_constraintDimensionRatio="1:1" />
 
     <ImageView
             android:src="@drawable/ic_done"
@@ -58,6 +60,6 @@
             android:layout_marginEnd="8dp"
             android:layout_marginTop="8dp"
             android:layout_marginBottom="8dp"
-            app:layout_constraintDimensionRatio="1:1"/>
+            app:layout_constraintDimensionRatio="1:1" />
 
 </android.support.constraint.ConstraintLayout>

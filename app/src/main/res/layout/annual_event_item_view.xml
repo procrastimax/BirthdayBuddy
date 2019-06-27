@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                                             xmlns:app="http://schemas.android.com/apk/res-auto"
-                                             android:layout_width="match_parent"
-                                             android:layout_height="wrap_content"
-                                             android:focusable="true"
-                                             android:clickable="true"
-                                             android:id="@+id/constraint_layout_annual_item_view"
-                                             android:background="@drawable/ripple_recycler_view_item"
-                                             android:elevation="0dp">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:focusable="true"
+    android:clickable="true"
+    android:id="@+id/constraint_layout_annual_item_view"
+    android:background="@drawable/ripple_recycler_view_item"
+    android:elevation="0dp">
 
     <ImageView
             android:layout_width="48dp"
@@ -20,7 +21,8 @@
             app:layout_constraintStart_toStartOf="parent"
             android:layout_marginStart="8dp"
             android:layout_marginBottom="8dp"
-            app:layout_constraintBottom_toBottomOf="parent"/>
+            app:layout_constraintBottom_toBottomOf="parent"
+            tools:ignore="ContentDescription" />
 
     <TextView
             android:layout_width="0dp"
@@ -78,7 +80,7 @@
             app:layout_constraintEnd_toEndOf="@+id/tv_annual_item_date_title"
             app:layout_constraintStart_toStartOf="@+id/tv_annual_item_date_title"
             app:layout_constraintBottom_toBottomOf="@+id/iv_annual_item"
-            android:text="06.02"
+            tools:text="06.02"
             app:layout_constraintTop_toBottomOf="@+id/tv_annual_item_date_title"
             android:layout_marginBottom="4dp"
             app:layout_constraintVertical_bias="1.0"/>
@@ -92,7 +94,7 @@
             android:textColor="@color/textDark"
             android:layout_marginBottom="4dp"
             app:layout_constraintStart_toStartOf="@+id/tv_years_since_annual_title"
-            android:text="2"
+            tools:text="2"
             app:layout_constraintTop_toBottomOf="@+id/tv_years_since_annual_title"
             app:layout_constraintVertical_bias="1.0"/>
 
@@ -105,7 +107,7 @@
             app:layout_constraintEnd_toEndOf="@+id/tv_days_until_annual_title"
             app:layout_constraintStart_toStartOf="@+id/tv_days_until_annual_title"
             android:textColor="@color/textDark"
-            android:text="2"
+            tools:text="2"
             android:layout_marginBottom="4dp"
             app:layout_constraintTop_toBottomOf="@+id/tv_days_until_annual_title"
             app:layout_constraintVertical_bias="1.0"/>

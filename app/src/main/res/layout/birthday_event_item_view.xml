@@ -2,6 +2,7 @@
 <android.support.constraint.ConstraintLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:focusable="true"
@@ -24,7 +25,8 @@
             app:layout_constraintBottom_toBottomOf="parent"
             android:adjustViewBounds="false"
             android:cropToPadding="false"
-            android:scaleType="fitCenter"/>
+            android:scaleType="fitCenter"
+            tools:ignore="ContentDescription" />
 
     <TextView
             android:text="@string/event_property_forename"
@@ -117,7 +119,7 @@
             android:textSize="@dimen/smaller_text_size"
             app:layout_constraintBottom_toBottomOf="@+id/iv_birthday_event_item_image"
             android:layout_marginBottom="4dp"
-            android:text="06.02"
+            tools:text="06.02"
             app:layout_constraintTop_toBottomOf="@+id/tv_birthday_event_item_date_title"
             app:layout_constraintVertical_bias="1.0"/>
 
@@ -130,7 +132,7 @@
             android:textColor="@color/textDark"
             android:textSize="@dimen/smaller_text_size"
             app:layout_constraintBottom_toBottomOf="@+id/iv_birthday_event_item_image"
-            android:text="2"
+            tools:text="2"
             app:layout_constraintTop_toBottomOf="@+id/tv_birthday_event_item_days_until_title"
             app:layout_constraintVertical_bias="1.0"
             android:layout_marginBottom="4dp"/>
@@ -144,7 +146,7 @@
             android:textColor="@color/textDark"
             android:textSize="@dimen/smaller_text_size"
             app:layout_constraintBottom_toBottomOf="@+id/iv_birthday_event_item_image"
-            android:text="2"
+            tools:text="2"
             app:layout_constraintTop_toBottomOf="@+id/tv_birthday_event_item_years_since_title"
             android:layout_marginBottom="4dp"
             app:layout_constraintVertical_bias="1.0"/>
