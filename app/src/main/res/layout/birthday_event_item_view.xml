@@ -26,70 +26,65 @@
             android:adjustViewBounds="false"
             android:cropToPadding="false"
             android:scaleType="fitCenter"
-            tools:ignore="ContentDescription" />
+            tools:ignore="ContentDescription"/>
 
-    <TextView
-            android:text="@string/event_property_forename"
-            android:layout_width="0dp"
-            android:gravity="center|start"
-            android:layout_height="wrap_content"
-            android:textSize="@dimen/smaller_text_size"
-            android:id="@+id/tv_birthday_event_item_forename"
-            app:layout_constraintTop_toTopOf="@+id/iv_birthday_event_item_image"
-            app:layout_constraintStart_toEndOf="@+id/iv_birthday_event_item_image"
-            android:layout_marginStart="8dp"
-            android:textColor="@color/textDark"
-            android:textStyle="bold"
-            android:layout_marginTop="4dp"
-            android:layout_marginEnd="8dp"
-            app:layout_constraintEnd_toStartOf="@+id/tv_birthday_event_item_date_value"/>
-
-    <TextView
-            android:text="@string/event_property_nickname"
-            android:layout_width="0dp"
-            android:gravity="center|start"
-            android:layout_height="0dp"
-            android:id="@+id/tv_birthday_event_item_nickname"
-            android:textColor="@color/textDark"
-            android:textStyle="bold"
-            android:textSize="@dimen/smaller_text_size"
-            app:layout_constraintTop_toTopOf="@+id/iv_birthday_event_item_image"
-            app:layout_constraintBottom_toBottomOf="@+id/iv_birthday_event_item_image"
-            app:layout_constraintStart_toEndOf="@+id/iv_birthday_event_item_image"
-            android:visibility="gone"
-            android:layout_marginStart="8dp"
-            android:layout_marginEnd="8dp"
-            app:layout_constraintEnd_toStartOf="@+id/tv_birthday_event_item_date_value"
-            android:layout_marginTop="4dp"/>
-
-    <TextView
-            android:text="@string/event_property_surname"
-            android:gravity="center|start"
+    <LinearLayout
+            android:orientation="vertical"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:id="@+id/tv_birthday_event_item_surname"
-            app:layout_constraintBottom_toBottomOf="@+id/iv_birthday_event_item_image"
-            app:layout_constraintStart_toStartOf="@+id/tv_birthday_event_item_forename"
-            app:layout_constraintEnd_toEndOf="@+id/tv_birthday_event_item_forename"
-            app:layout_constraintHorizontal_bias="0.0"
-            android:textSize="@dimen/smaller_text_size"
-            android:textColor="@color/textDark"
-            android:layout_marginBottom="4dp"/>
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/iv_birthday_event_item_image" android:layout_marginStart="8dp"
+            android:id="@+id/linearLayout"
+            app:layout_constraintEnd_toStartOf="@+id/tv_birthday_event_item_date_value" android:layout_marginEnd="8dp">
+        <TextView
+                android:text="@string/event_property_forename"
+                android:layout_width="match_parent"
+                android:gravity="center|start"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/smaller_text_size"
+                android:id="@+id/tv_birthday_event_item_forename"
+                android:textColor="@color/textDark"
+                android:textStyle="bold"
+                app:layout_constraintHorizontal_bias="0.0" android:layout_marginTop="4dp"
+                android:layout_marginBottom="2dp"/>
+        <TextView
+                android:text="@string/event_property_nickname"
+                android:layout_width="match_parent"
+                android:gravity="center|start"
+                android:layout_height="wrap_content"
+                android:id="@+id/tv_birthday_event_item_nickname"
+                android:textColor="@color/textDark"
+                android:textStyle="bold"
+                android:textSize="@dimen/smaller_text_size"
+                android:visibility="gone"
+        />
+        <TextView
+                android:text="@string/event_property_surname"
+                android:gravity="center|start"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/tv_birthday_event_item_surname"
+                android:textSize="@dimen/smaller_text_size"
+                android:textColor="@color/textDark"
+                android:layout_marginBottom="4dp" android:layout_marginTop="2dp"/>
+    </LinearLayout>
 
     <TextView
             android:text="@string/event_property_date"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:id="@+id/tv_birthday_event_item_date_title"
             app:layout_constraintEnd_toStartOf="@+id/tv_birthday_event_item_days_until_title"
             android:layout_marginEnd="16dp"
             android:textColor="@color/brightGrey"
             app:layout_constraintTop_toTopOf="@+id/iv_birthday_event_item_image"
-            android:layout_marginTop="4dp"/>
+            android:layout_marginTop="4dp"
+    />
 
     <TextView
             android:text="@string/event_property_days"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:id="@+id/tv_birthday_event_item_days_until_title"
             app:layout_constraintEnd_toStartOf="@+id/tv_birthday_event_item_years_since_title"
@@ -100,7 +95,7 @@
 
     <TextView
             android:text="@string/event_property_turns"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:id="@+id/tv_birthday_event_item_years_since_title"
             app:layout_constraintTop_toTopOf="@+id/iv_birthday_event_item_image"
