@@ -34,14 +34,14 @@
     <string name="event_property_days">Дней до</string>
     <string name="event_property_years">Лет</string>
     <string name="event_property_year">Год</string>
-    <string name="event_property_turns">Исполняется</string>
+    <string name="event_property_turns">Исполнится</string>
     <string name="event_property_date">Дата</string>
     <string name="event_property_forename">Имя</string>
     <string name="event_property_surname">Фамилия</string>
     <string name="event_property_nickname">Псевдоним</string>
     <string name="event_property_note">Запись</string>
     <string name="event_type_birthday">День рождения</string>
-    <string name="event_type_annual_event">Ежегодное мероприятие</string>
+    <string name="event_type_annual_event">Ежегодное событие</string>
     <string name="event_type_one_time_event">Разовое событие</string>
 
     <!-- birthday event view -->
@@ -67,19 +67,19 @@
     <string name="alert_dialog_body_message">Вы уверены, что хотите удалить этот день рождения?</string>
 
     <!-- fragment show birthday -->
-    <string name="intent_share_chooser_title">Выберите приложение, чтобы поделиться:</string>
-    <string name="person_show_date">Дата рождения %1$s</string>
-    <string name="person_days_until_today">День рождения %1$s сегодня!</string>
+    <string name="intent_share_chooser_title">Поделиться событием</string>
+    <string name="person_show_date">Дата рождения:\n%1$s</string>
+    <string name="person_days_until_today">День рождения у %1$s сегодня!</string>
     <plurals name="person_days_until">
-        <item quantity="one">Следующий день рождения %1$s - %2$d день %3$s.</item>
-        <item quantity="few">Следующий день рождения %1$s через %2$d дня - %3$s.</item>
-        <item quantity="many">Следующий день рождения %1$s через %2$d дней - %3$s.</item>
+        <item quantity="one">Следующий день рождения через %2$d день - %3$s</item>
+        <item quantity="few">Следующий день рождения через %2$d дня - %3$s</item>
+        <item quantity="many">Следующий день рождения через %2$d дней - %3$s</item>
     </plurals>
 
     <plurals name="person_years_old">
-        <item quantity="one">%1$s %2$d год</item>
-        <item quantity="few">%1$s %2$d года</item>
-        <item quantity="many">%1$s %2$d лет</item>
+        <item quantity="one">Исполнится %2$d год</item>
+        <item quantity="few">Исполнится %2$d года</item>
+        <item quantity="many">Исполнится лет: %2$d</item>
     </plurals>
 
     <!-- sharing strings birthday -->
@@ -103,32 +103,32 @@
     <!--- ANNUAL EVENT -->
     <!-- annual event view -->
     <!-- fragment add new annual event -->
-    <string name="toolbar_title_add_annual_event">Новое мероприятие</string>
-    <string name="toolbar_title_edit_annual_event">Изменить мероприятие</string>
-    <string name="future_annual_event_error">Вы не можете добавлять будущие ежегодные мероприятия!</string>
+    <string name="toolbar_title_add_annual_event">Новое ежегодное событие</string>
+    <string name="toolbar_title_edit_annual_event">Изменить событие</string>
+    <string name="future_annual_event_error">Вы не можете добавлять будущие ежегодные события!</string>
     <string name="empty_fields_error_annual_event">Пожалуйста, заполните все поля: имя, дата!</string>
-    <string name="annual_event_added_notification">%1$s  добавлено</string>
-    <string name="annual_event_changed_notification">%1$s отредактировано</string>
-    <string name="annual_event_deleted_notification">%1$s  удалено</string>
+    <string name="annual_event_added_notification">%1$s добавлено</string>
+    <string name="annual_event_changed_notification">%1$s изменено</string>
+    <string name="annual_event_deleted_notification">%1$s удалено</string>
     <string name="edit_annual_event_name_hint">Название события</string>
-    <string name="btn_annual_event_delete">Удалить ежегодное мероприятие</string>
+    <string name="btn_annual_event_delete">Удалить ежегодное событие</string>
 
     <!-- alert dialog delete annual event -->
-    <string name="alert_dialog_body_message_annual_event">Вы уверены, что хотите удалить это ежегодное мероприятие?</string>
+    <string name="alert_dialog_body_message_annual_event">Вы уверены, что хотите удалить это ежегодное событие?</string>
 
     <!-- fragment show annual event -->
-    <string name="annual_event_start_date">сначала на %1$s</string>
-    <string name="annual_event_show_date_tomorrow">В следующий раз завтра на  %1$s!</string>
-    <string name="annual_event_show_date_today">СЕГОДНЯ %1$s !</string>
+    <string name="annual_event_start_date">Впервые:\n%1$s</string>
+    <string name="annual_event_show_date_today">%1$s СЕГОДНЯ!</string>
+    <string name="annual_event_show_date_tomorrow">В следующий раз завтра!\n(%1$s)</string>
     <plurals name="annual_event_show_date">
-        <item quantity="one">Следующий раз за %1$d день на %2$s</item>
-        <item quantity="few">В следующий раз через %1$d дня на %2$s</item>
-        <item quantity="many">Nächstes Mal in %1$d Tagen am %2$s</item>
+        <item quantity="one">В следующий раз через %1$d день\n(%2$s)</item>
+        <item quantity="few">В следующий раз:\n%2$s\n\nОсталось дней: %1$d</item>
+        <item quantity="many">В следующий раз:\n%2$s\n\nОсталось дней: %1$d</item>
     </plurals>
     <plurals name="annual_event_years">
-        <item quantity="one">%1$d. раз с начала!</item>
-        <item quantity="few">Для %1$d. раза с начала!</item>
-        <item quantity="many">В %1$d. раз с начала!</item>
+        <item quantity="one">Идёт %1$d-ый год с начала отсчёта</item>
+        <item quantity="few">Идёт %1$d-й год с начала отсчёта</item>
+        <item quantity="many">Идёт %1$d-й год с начала отсчёта</item>
     </plurals>
 
     <!-- sharing strings annual event -->
@@ -136,48 +136,48 @@
     <string name="share_annual_event_date_next">В следующий раз: %1$s</string>
     <string name="share_annual_event_date_start">Впервые: %1$s</string>
     <plurals name="share_annual_event_days">
-        <item quantity="one">В %1$d день</item>
+        <item quantity="one">Через %1$d день</item>
         <item quantity="few">Через %1$d дня</item>
         <item quantity="many">Через %1$d дней</item>
     </plurals>
     <plurals name="share_annual_event_year">
-        <item quantity="one">На %1$d год</item>
-        <item quantity="few">На %1$d года</item>
-        <item quantity="many">На %1$d лет</item>
+        <item quantity="one">Идёт %1$d-ый год с начала отсчёта</item>
+        <item quantity="few">Идёт %1$d-й год с начала отсчёта</item>
+        <item quantity="many">Идёт %1$d-й год с начала отсчёта</item>
     </plurals>
 
     <!-- annual_event notifications -->
     <string name="notification_title_annual_event">%1$s</string>
-    <string name="notification_content_annual_event_future">%1$s в %2$d дней</string>
-    <string name="notification_content_annual_event_tomorrow">завтра %1$s !</string>
+    <string name="notification_content_annual_event_future">До %1$s осталось дней: %2$d</string>
+    <string name="notification_content_annual_event_tomorrow">%1$s завтра!</string>
     <string name="notification_content_annual_event_today">%1$s СЕГОДНЯ!</string>
 
     <!-- ONE TIME EVENT -->
     <!-- fragment add new  one time event -->
-    <string name="toolbar_title_add_one_time_event">Новое событие</string>
+    <string name="toolbar_title_add_one_time_event">Новое разовое событие</string>
     <string name="toolbar_title_edit_one_time_event">Изменить событие</string>
     <string name="error_past_one_time_event_error">Вы можете добавить только одноразовые события, которые еще не произошли или находятся в будущем!</string>
     <string name="one_time_event_added_notification">%1$s добавлено</string>
-    <string name="one_time_event_changed_notification">%1$s отредактированный</string>
-    <string name="one_time_event_deleted_notification">%1$s удален</string>
+    <string name="one_time_event_changed_notification">%1$s изменено</string>
+    <string name="one_time_event_deleted_notification">%1$s удалено</string>
     <string name="edit_one_time_event_name_hint">Название события</string>
-    <string name="btn_one_time_event_delete">Удалить одноразовое событие</string>
+    <string name="btn_one_time_event_delete">Удалить разовое событие</string>
 
     <!-- alert dialog delete one_time event -->
-    <string name="alert_dialog_body_message_one_time_event">Вы уверены, что хотите удалить это одноразовое событие?</string>
+    <string name="alert_dialog_body_message_one_time_event">Вы уверены, что хотите удалить это разовое событие?</string>
 
     <!-- fragment show one time event -->
     <string name="one_time_event_today">СЕГОДНЯ!</string>
     <string name="one_time_event_tomorrow">Завтра!</string>
     <plurals name="one_time_event_show_date">
-        <item quantity="one">Следующий раз за %1$d день на %2$s</item>
-        <item quantity="few">В следующий раз через %1$d дня на %2$s</item>
-        <item quantity="many">Nächstes Mal in %1$d Tagen am %2$s</item>
+        <item quantity="one">Через %1$d день (%2$s)</item>
+        <item quantity="few">Через %1$d дня (%2$s)</item>
+        <item quantity="many">Когда:\n%2$s\n\nОсталось дней: %1$d</item>
     </plurals>
     <plurals name="one_time_event_years">
         <item quantity="one">Через %1$d год</item>
         <item quantity="few">Через %1$d года</item>
-        <item quantity="many">В %1$d лет</item>
+        <item quantity="many">Осталось лет: %1$d</item>
     </plurals>
 
     <!-- sharing strings one_time event -->
@@ -185,24 +185,23 @@
     <string name="share_one_time_event_date_next">в %1$s</string>
     <string name="share_one_time_event_days_today">Это сегодня!</string>
     <plurals name="share_one_time_event_days">
-        <item quantity="one">В %1$d день</item>
+        <item quantity="one">Через %1$d день</item>
         <item quantity="few">Через %1$d дня</item>
-        <item quantity="many">Через %1$d дней</item>
+        <item quantity="many">Осталось дней: %1$d</item>
     </plurals>
     <plurals name="share_one_time_event_year">
         <item quantity="one">Через %1$d год</item>
         <item quantity="few">Через %1$d года</item>
-        <item quantity="many">В %1$d лет</item>
+        <item quantity="many">Осталось лет: %1$d</item>
     </plurals>
 
     <!-- one-time event notifications -->
     <string name="notification_title_one_time_event">%1$s</string>
-    <string name="notification_content_one_time_event_future">%1$s в %2$d дней</string>
-    <string name="notification_content_one_time_event_tomorrow">завтра %1$s !</string>
-    <string name="notification_content_one_time_event_today">СЕГОДНЯ %1$s !</string>
+    <string name="notification_content_one_time_event_future">До %1$s осталось дней: %2$d</string>
+    <string name="notification_content_one_time_event_tomorrow">%1$s завтра!</string>
+    <string name="notification_content_one_time_event_today">%1$s СЕГОДНЯ!</string>
 
     <!-- settings fragment -->
-
     <string name="tv_notification_interval_month">За месяц</string>
     <string name="tv_notification_interval_week">За неделю</string>
     <string name="tv_notification_interval_day">За день</string>
@@ -240,7 +239,7 @@
     <string name="main_menu_item_about">О проекте</string>
     <string name="main_menu_item_help">Помощь</string>
     <string name="fab_event_list_birthday_title">Новый день рождения</string>
-    <string name="fab_event_list_annual_event_title">Новое ежегодное мероприятие</string>
+    <string name="fab_event_list_annual_event_title">Новое ежегодное событие</string>
     <string name="fab_event_list_one_time_event_title">Новое разовое событие</string>
 
     <!-- settings -->
@@ -277,14 +276,14 @@
     <!-- help texts -->
     <string name="help_title_reason">Почему стоит использовать это приложение?</string>
     <string name="help_title_Birthday">Что такое день рождения?</string>
-    <string name="help_title_Annual">Что такое \"ежегодные мероприятия"\ ?</string>
-    <string name="help_title_OneTime">Что такое \"разовые события\"?</string>
+    <string name="help_title_Annual">Что такое ежегодные события?</string>
+    <string name="help_title_OneTime">Что такое разовые события?</string>
     <string name="help_title_support">Как я могу поддержать разработку?</string>
     <string name="help_title_notifications">Уведомления о моих событиях отображаются неправильно!</string>
     <string name="help_content_reason">Задача этого приложения - напоминать вам о предстоящих днях рождения или годовщинах. Но почему бы не использовать для этого Facebook или Календарь Google?\nЭто приложение имеет некоторые преимущества. Во-первых: оно не требует наличия дополнительной учетной записи. Также здесь нет никакой рекламы и надоедливых всплывающих окон.\nЕщё одним важным моментом является конфиденциальность. В отличие от многих других приложений, BirthdayBuddy хранит ваши данные только локально на устройстве. Никто, кроме вас, не видит, что вы записываете здесь.</string>
     <string name="help_content_Birthday">День рождения - праздник, происходящий один раз в году для каждого человека. BirthdayBuddy даёт вам возможность ввести год рождения, чтобы в дальнейшем вы могли видеть возраст человека. Кроме того, вы можете добавить к каждому человеку описание или свои заметки, а также псевдоним. Приложение напоминает о днях рождения каждый год(если вы не измените это в настройках).</string>
-    <string name="help_content_Annual">Ежегодные мероприятия - это то, что происходит каждый год. Это может быть, к примеру, годовщина свадьбы друга. Вы можете указать начальную дату с годом, чтобы знать, сколько лет прошло с тех пор. Приложение будет напоминать вам о таких событиях каждый год (если вы не измените это в настройках).</string>
-    <string name="help_content_OneTime">Разовые события - это события, которые произойдут в будущем (например, вечеринки, ретриты или разовые специальные мероприятия). На следующий день после события оно автоматически удаляется!</string>
+    <string name="help_content_Annual">Ежегодные события - это то, что происходит каждый год. Это может быть, к примеру, годовщина свадьбы друга. Вы можете указать начальную дату с годом, чтобы знать, сколько лет прошло с тех пор. Приложение будет напоминать вам о таких событиях каждый год (если вы не измените это в настройках).</string>
+    <string name="help_content_OneTime">Разовые события - это события, которые произойдут в будущем (например, вечеринки или разовые специальные мероприятия). На следующий день после события оно автоматически удаляется!</string>
     <string name="help_content_support">Для меня разработка программ и приложений для других - интересное занятие. И еще интереснее, если пользователям нравится приложение или они справедливо критикуют что-либо из его функций. Рекомендую всем, кто хочет поддержать меня, каким-либо образом оценить это приложение. Если вам этого недостаточно, вы также можете участвовать в разработке проекта через GitHub (см. «О программе»). В противном случае, я был бы очень рад небольшому пожертвованию на PayPal (https://www.paypal.me/Procrastimax). Это поможет мне в разработке следующих проектов для вас ;)</string>
     <string name="help_content_notifications">На некоторых устройствах уведомления о событиях могут отображаться неправильно. Если это так, перейдите в настройки уведомлений вашего телефона. Там вы можете либо попытаться увеличить приоритет уведомления, либо (если это доступно) активировать настройку «Баннер - Отображать над строкой состояния».</string>
 </resources>
