@@ -67,7 +67,7 @@
     <string name="alert_dialog_body_message">Вы уверены, что хотите удалить этот день рождения?</string>
 
     <!-- fragment show birthday -->
-    <string name="intent_share_chooser_title">Поделиться событием</string>
+    <string name="intent_share_chooser_title">Поделиться записью</string>
     <string name="person_show_date">Дата рождения:\n%1$s</string>
     <string name="person_days_until_today">День рождения у %1$s сегодня!</string>
     <plurals name="person_days_until">
