@@ -57,7 +57,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         val ft: FragmentTransaction = supportFragmentManager.beginTransaction()
-        ft.add(
+        ft.replace(
             R.id.fragment_placeholder,
             EventListFragment.newInstance()
         )
