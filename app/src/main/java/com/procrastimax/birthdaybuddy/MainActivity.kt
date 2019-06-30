@@ -8,7 +8,6 @@ import android.support.design.widget.AppBarLayout
 import android.support.design.widget.CoordinatorLayout
 import android.support.design.widget.Snackbar
 import android.support.v4.app.Fragment
-import android.support.v4.app.FragmentTransaction
 import android.support.v7.app.AppCompatActivity
 import android.util.TypedValue
 import android.widget.Toast
@@ -56,12 +55,13 @@ class MainActivity : AppCompatActivity() {
             )
         }
 
-        val ft: FragmentTransaction = supportFragmentManager.beginTransaction()
-        ft.replace(
-            R.id.fragment_placeholder,
-            EventListFragment.newInstance()
-        )
-        ft.commit()
+        if (savedInstanceState == null) {
+            val transaction = supportFragmentManager.beginTransaction()
+            transaction.replace(
+                R.id.fragment_placeholder,
+                EventListFragment.newInstance()
+            ).commit()
+        }
 
         //start loading bitmap drawables in other thread to not block ui
         Thread(Runnable

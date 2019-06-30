@@ -54,8 +54,8 @@
     <string name="future_birthday_error">Вы не можете добавлять будущие дни рождения!\nПожалуйста, добавляйте только тех, кто уже родился.</string>
     <string name="birthday_instance_fragment_date_edit_hint">Дата: %1$s</string>
     <string name="empty_fields_error_birthday">Вы должны заполнить поля Имя и Дата!</string>
-    <string name="person_added_notification">Добавить день рождения</string>
-    <string name="person_changed_notification">Изменить день рождения</string>
+    <string name="person_added_notification">День рождения добавлен</string>
+    <string name="person_changed_notification">День рождения изменён</string>
     <string name="person_deleted_notification">День рождения удален</string>
     <string name="btn_birthday_delete">Удалить день рождения</string>
     <string name="avatar_btn_clicked_menu_item_select_photo">Галерея</string>
