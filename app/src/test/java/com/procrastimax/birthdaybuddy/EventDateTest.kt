@@ -16,14 +16,14 @@ class EventDateTest {
 
     @Test
     fun dateFormatTest() {
-        val cal = Calendar.getInstance()
+       /* val cal = Calendar.getInstance()
         println(EventDate.parseDateToString(cal.time, DateFormat.SHORT))
 
         val dateString = EventDate.getDayMonthDateString(cal.time, Locale.JAPANESE)
         println(dateString)
 
         //val fmtOut = SimpleDateFormat(dateFormat.toString())
-        //println(fmtOut.format(cal.time))
+        //println(fmtOut.format(cal.time))*/
 
         assert(true)
     }
