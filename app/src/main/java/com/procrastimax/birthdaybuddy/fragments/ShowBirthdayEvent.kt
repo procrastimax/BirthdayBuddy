@@ -47,7 +47,8 @@ class ShowBirthdayEvent : ShowEventFragment() {
             if (birthdayEvent is EventBirthday) {
 
                 if (birthdayEvent.nickname != null) {
-                    this.tv_show_birthday_forename.text = "${birthdayEvent.forename} \"${birthdayEvent.nickname}\""
+                    this.tv_show_birthday_forename.text =
+                        "${birthdayEvent.forename} \"${birthdayEvent.nickname}\""
                 } else {
                     this.tv_show_birthday_forename.text = birthdayEvent.forename
                 }
@@ -111,7 +112,8 @@ class ShowBirthdayEvent : ShowEventFragment() {
                     this.tv_show_birthday_years_old.visibility = TextView.GONE
                 }
 
-                tv_show_birthday_date.text = context!!.resources.getString(R.string.person_show_date, date)
+                tv_show_birthday_date.text =
+                    context!!.resources.getString(R.string.person_show_date, date)
 
                 //show adapted string for 1 day, not 1 days
                 when (birthdayEvent.getDaysUntil()) {
@@ -177,11 +179,13 @@ class ShowBirthdayEvent : ShowEventFragment() {
         (context as MainActivity).collapsable_toolbar_iv.visibility = ImageView.VISIBLE
         if (bitmap != null) {
             (context as MainActivity).collapsable_toolbar_iv.setImageBitmap(bitmap)
-            (context as MainActivity).collapsable_toolbar_iv.scaleType = ImageView.ScaleType.CENTER_CROP
+            (context as MainActivity).collapsable_toolbar_iv.scaleType =
+                ImageView.ScaleType.CENTER_CROP
             (context as MainActivity).app_bar.setExpanded(true, true)
         } else {
             (context as MainActivity).app_bar.setExpanded(false, false)
-            (context as MainActivity).collapsable_toolbar_iv.scaleType = ImageView.ScaleType.FIT_CENTER
+            (context as MainActivity).collapsable_toolbar_iv.scaleType =
+                ImageView.ScaleType.FIT_CENTER
             (context as MainActivity).collapsable_toolbar_iv.setImageResource(R.drawable.ic_birthday_person)
         }
     }
@@ -213,7 +217,10 @@ class ShowBirthdayEvent : ShowEventFragment() {
                             "${birthday.forename} ${birthday.surname}"
                         )
                     } else {
-                        context!!.resources.getString(R.string.share_birthday_name, birthday.forename)
+                        context!!.resources.getString(
+                            R.string.share_birthday_name,
+                            birthday.forename
+                        )
                     }
 
                 if (birthday.isYearGiven) {

@@ -88,7 +88,12 @@ object EventHandler {
      * @param ID : Int
      * @param newEvent : EventDay
      */
-    fun changeEventAt(ID: Int, newEvent: EventDate, context: Context, writeAfterChange: Boolean = false) {
+    fun changeEventAt(
+        ID: Int,
+        newEvent: EventDate,
+        context: Context,
+        writeAfterChange: Boolean = false
+    ) {
         getEventToEventIndex(ID)?.let { oldEvent ->
             newEvent.eventID = ID
             //set hour of day from all other events except monthdivider to 12h (month divider is at 0h), so when sorting month divider is always at first

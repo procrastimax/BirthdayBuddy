@@ -66,11 +66,17 @@ object SearchHandler {
 
             //only has a description name
             is AnnualEvent -> {
-                return Pair(eventData.eventID, processStringList(splitStringToList(eventData.name)!!.toMutableList()))
+                return Pair(
+                    eventData.eventID,
+                    processStringList(splitStringToList(eventData.name)!!.toMutableList())
+                )
             }
             //only has a description name
             is OneTimeEvent -> {
-                return Pair(eventData.eventID, processStringList(splitStringToList(eventData.name)!!.toMutableList()))
+                return Pair(
+                    eventData.eventID,
+                    processStringList(splitStringToList(eventData.name)!!.toMutableList())
+                )
             }
         }
         //don't add month dividers

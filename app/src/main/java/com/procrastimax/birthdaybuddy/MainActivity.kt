@@ -8,7 +8,6 @@ import android.support.design.widget.AppBarLayout
 import android.support.design.widget.CoordinatorLayout
 import android.support.design.widget.Snackbar
 import android.support.v4.app.Fragment
-import android.support.v4.app.FragmentTransaction
 import android.support.v7.app.AppCompatActivity
 import android.util.TypedValue
 import android.widget.Toast
@@ -56,12 +55,13 @@ class MainActivity : AppCompatActivity() {
             )
         }
 
-        val ft: FragmentTransaction = supportFragmentManager.beginTransaction()
-        ft.add(
-            R.id.fragment_placeholder,
-            EventListFragment.newInstance()
-        )
-        ft.commit()
+        if (savedInstanceState == null) {
+            val transaction = supportFragmentManager.beginTransaction()
+            transaction.replace(
+                R.id.fragment_placeholder,
+                EventListFragment.newInstance()
+            ).commit()
+        }
 
         //start loading bitmap drawables in other thread to not block ui
         Thread(Runnable
@@ -196,7 +196,11 @@ class MainActivity : AppCompatActivity() {
      * onRequestPermissionsResult is the callback function after requesting the users permission for android permissions
      * In this case we request READ/WRITE rights on external storage and handle exporting/ importing event data from the external storage
      */
-    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
         when (requestCode) {
             //writing to external
             6001 -> {

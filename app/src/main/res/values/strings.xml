@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <resources>
     <!-- _________globals____________ -->
     <string name="app_name">BirthdayBuddy</string>
@@ -6,6 +7,8 @@
     <string name="no">No</string>
     <string name="apply">Apply</string>
     <string name="cntnue">Continue</string>
+    <string name="edit">Edit</string>
+    <string name="share">Share</string>
     <string name="abort">Abort</string>
     <string name="today">today</string>
     <string name="noEntries">No entries :(</string>
@@ -197,8 +200,8 @@
     <string name="tv_notification_interval_day">Day before</string>
     <string name="tv_notification_interval_eventday">Eventday</string>
 
-    <string name="notification_channel_name">BirthdayBuddyNotification</string>
-    <string name="notification_channel_description">notifies the user about events</string>
+    <string name="notification_channel_name" translatable="false">BirthdayBuddyNotification</string>
+    <string name="notification_channel_description">Notifies the user about events</string>
 
     <string-array name="light_modes">
         <item>no light</item>
@@ -271,7 +274,6 @@
     <string name="help_title_OneTime">What are one-time events?</string>
     <string name="help_title_support">How can I support you as a developer?</string>
     <string name="help_title_notifications">My notifications does not pop up properly</string>
-
     <string name="help_content_reason">This apps purpose is to remind the user about his birthdays, annual events and anniversaries in a very simple and easy way.\nBut why not just use already existing facebook birthdays or google calendar?\nFor this app you do not need to create a Facebook account (in fact you do not need any kind of account). Also zero unnecessary ads or pop-ups like in other notification apps.\nAnother important thing is privacy. This app stores all your birthday and event data only locally on your phone. No one can read/ edit your data - except yourself - and everything is private.</string>
     <string name="help_content_Birthday">Birthday events provide the possibility to save a person\'s birth date together with nice little features like setting the birth year to calculate the person\'s age and setting a unique image for customization purposes of the person\'s birthday page. This app reminds you every year about the persons birthday.</string>
     <string name="help_content_Annual">Annual events can be every event which occur yearly. Like anniversaries or special parties. You can set a date together with the start year of this yearly event. This way the app calculates since when the event occurs (which is handy for anniversaries). This app reminds you every year about the event.</string>

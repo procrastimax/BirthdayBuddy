@@ -21,7 +21,7 @@ import java.util.*
 class EventListFragment : Fragment() {
 
     private lateinit var recyclerView: RecyclerView
-    private lateinit var viewAdapter: RecyclerView.Adapter<*>
+    private lateinit var viewAdapter: EventAdapter
     private lateinit var viewManager: RecyclerView.LayoutManager
 
     private var isFABOpen = false
@@ -132,16 +132,18 @@ class EventListFragment : Fragment() {
 
         //move layouts
         //move add birthday layout up
-        fab_layout_add_birthday.animate().translationYBy(-resources.getDimension(R.dimen.standard_55) - 20).apply {
-            duration = 100
-        }.withEndAction {
-            fab_layout_add_birthday.animate().translationYBy(20.toFloat()).apply {
-                duration = 75
+        fab_layout_add_birthday.animate()
+            .translationYBy(-resources.getDimension(R.dimen.standard_55) - 20).apply {
+                duration = 100
+            }.withEndAction {
+                fab_layout_add_birthday.animate().translationYBy(20.toFloat()).apply {
+                    duration = 75
+                }
             }
-        }
 
         //move add annual event layout up
-        fab_layout_add_annual_event.animate().translationYBy(-resources.getDimension(R.dimen.standard_105) - 40)
+        fab_layout_add_annual_event.animate()
+            .translationYBy(-resources.getDimension(R.dimen.standard_105) - 40)
             .apply {
                 duration = 100
             }.withEndAction {
@@ -151,13 +153,14 @@ class EventListFragment : Fragment() {
             }
 
         //move add one time event layout up
-        fab_layout_add_one_time.animate().translationYBy(-resources.getDimension(R.dimen.standard_155) - 60).apply {
-            duration = 100
-        }.withEndAction {
-            fab_layout_add_one_time.animate().translationYBy(60.toFloat()).apply {
-                duration = 75
+        fab_layout_add_one_time.animate()
+            .translationYBy(-resources.getDimension(R.dimen.standard_155) - 60).apply {
+                duration = 100
+            }.withEndAction {
+                fab_layout_add_one_time.animate().translationYBy(60.toFloat()).apply {
+                    duration = 75
+                }
             }
-        }
 
         fab_show_fab_menu.animate().duration = 100
         //some fancy overrotated animation
@@ -169,7 +172,7 @@ class EventListFragment : Fragment() {
             }
         }
         //disable all click events on eventview adapter
-        (this.recyclerView.adapter as EventAdapter).isClickable = false
+        viewAdapter.isClickable = false
     }
 
     /**
@@ -185,7 +188,8 @@ class EventListFragment : Fragment() {
         this.recyclerView.animate().alpha(1.0f)
 
         //move add birthday event layout down
-        fab_layout_add_birthday.animate().translationYBy(resources.getDimension(R.dimen.standard_55))
+        fab_layout_add_birthday.animate()
+            .translationYBy(resources.getDimension(R.dimen.standard_55))
             .withEndAction {
                 if (!immediateAction) {
                     fab_layout_add_birthday.visibility = ConstraintLayout.INVISIBLE
@@ -193,7 +197,8 @@ class EventListFragment : Fragment() {
             }
 
         //move add annual event layout down
-        fab_layout_add_annual_event.animate().translationYBy(resources.getDimension(R.dimen.standard_105))
+        fab_layout_add_annual_event.animate()
+            .translationYBy(resources.getDimension(R.dimen.standard_105))
             .withEndAction {
                 if (!immediateAction) {
                     fab_layout_add_annual_event.visibility = ConstraintLayout.INVISIBLE
@@ -201,7 +206,8 @@ class EventListFragment : Fragment() {
             }
 
         //move add one time event layout down
-        fab_layout_add_one_time.animate().translationYBy(resources.getDimension(R.dimen.standard_155))
+        fab_layout_add_one_time.animate()
+            .translationYBy(resources.getDimension(R.dimen.standard_155))
             .withEndAction {
                 if (!immediateAction) {
                     fab_layout_add_one_time.visibility = ConstraintLayout.INVISIBLE
@@ -213,7 +219,7 @@ class EventListFragment : Fragment() {
                 fab_show_fab_menu.isClickable = true
             }
         }
-        (this.recyclerView.adapter as EventAdapter).isClickable = true
+        viewAdapter.isClickable = true
     }
 
     /**

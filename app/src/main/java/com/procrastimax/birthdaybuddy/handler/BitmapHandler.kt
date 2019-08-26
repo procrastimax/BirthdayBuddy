@@ -73,7 +73,12 @@ object BitmapHandler {
                 e.printStackTrace()
                 val birthday = EventHandler.getList().last() as EventBirthday
                 birthday.avatarImageUri = null
-                EventHandler.changeEventAt(EventHandler.getList().lastIndex, birthday, context, true)
+                EventHandler.changeEventAt(
+                    EventHandler.getList().lastIndex,
+                    birthday,
+                    context,
+                    true
+                )
                 removeBitmap(id, context)
                 showMissingImageAlertDialog(context)
                 success = false

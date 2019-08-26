@@ -1,88 +1,88 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-            xmlns:app="http://schemas.android.com/apk/res-auto"
-            xmlns:tools="http://schemas.android.com/tools"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:nestedScrollingEnabled="false">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:nestedScrollingEnabled="false">
 
     <android.support.constraint.ConstraintLayout
-            android:layout_width="match_parent"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        tools:context=".fragments.ShowAnnualEvent">
+
+        <TextView
+            android:id="@+id/tv_show_annual_event_name"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            tools:context=".fragments.ShowAnnualEvent">
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="32dp"
+            android:layout_marginEnd="16dp"
+            android:textColor="@color/darkGrey"
+            android:textSize="@dimen/larg_text_size"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="Event name" />
 
         <TextView
-                android:text="event name"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:id="@+id/tv_show_annual_event_name"
-                app:layout_constraintStart_toStartOf="parent"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="32dp"
-                app:layout_constraintTop_toTopOf="parent"
-                android:textSize="@dimen/larg_text_size"
-                android:textColor="@color/darkGrey"
-                android:textStyle="bold"
-                android:layout_marginEnd="16dp"
-                app:layout_constraintEnd_toEndOf="parent"/>
+            android:id="@+id/tv_show_annual_event_first_date"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="24dp"
+            android:layout_marginEnd="16dp"
+            android:textSize="@dimen/larger_text_size"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_show_annual_event_name"
+            tools:text="First date" />
 
         <TextView
-                android:text="first date"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:id="@+id/tv_show_annual_event_first_date"
-                android:layout_marginTop="24dp"
-                app:layout_constraintTop_toBottomOf="@+id/tv_show_annual_event_name"
-                app:layout_constraintStart_toStartOf="parent"
-                android:textSize="@dimen/larger_text_size"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.0"
-                android:layout_marginEnd="16dp"
-                android:layout_marginStart="16dp"/>
+            android:id="@+id/tv_show_annual_event_date"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="24dp"
+            android:layout_marginEnd="16dp"
+            android:textSize="@dimen/larger_text_size"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_show_annual_event_first_date"
+            tools:text="Next date" />
 
         <TextView
-                android:text="next date"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:id="@+id/tv_show_annual_event_date"
-                app:layout_constraintStart_toStartOf="parent"
-                android:textSize="@dimen/larger_text_size"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="1.0"
-                android:layout_marginEnd="16dp"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="24dp"
-                app:layout_constraintTop_toBottomOf="@+id/tv_show_annual_event_first_date"/>
+            android:id="@+id/tv_show_annual_event_years"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="24dp"
+            android:layout_marginEnd="16dp"
+            android:textSize="@dimen/larger_text_size"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_show_annual_event_date"
+            tools:text="Years" />
 
         <TextView
-                android:text="years"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:id="@+id/tv_show_annual_event_years"
-                android:layout_marginTop="24dp"
-                app:layout_constraintTop_toBottomOf="@+id/tv_show_annual_event_date"
-                app:layout_constraintStart_toStartOf="parent"
-                android:textSize="@dimen/larger_text_size"
-                app:layout_constraintEnd_toEndOf="parent"
-                android:layout_marginEnd="16dp"
-                android:layout_marginStart="16dp"
-                app:layout_constraintHorizontal_bias="0.0"/>
-
-        <TextView
-                android:text="note"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:id="@+id/tv_show_annual_event_note"
-                android:layout_marginTop="24dp"
-                app:layout_constraintTop_toBottomOf="@+id/tv_show_annual_event_years"
-                app:layout_constraintStart_toStartOf="parent"
-                android:textSize="@dimen/larger_text_size"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintBottom_toBottomOf="parent"
-                android:layout_marginBottom="8dp"
-                android:layout_marginEnd="16dp"
-                android:layout_marginStart="16dp"/>
+            android:id="@+id/tv_show_annual_event_note"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="24dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="8dp"
+            android:textSize="@dimen/larger_text_size"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_show_annual_event_years"
+            tools:text="Note" />
     </android.support.constraint.ConstraintLayout>
 
 </ScrollView>

@@ -45,17 +45,20 @@ class SettingsAdapter(private val context: Context) :
         when (viewType) {
             1, 2, 3 -> {
                 val cardView =
-                    LayoutInflater.from(parent.context).inflate(R.layout.card_view_settings_notification, parent, false)
+                    LayoutInflater.from(parent.context)
+                        .inflate(R.layout.card_view_settings_notification, parent, false)
                 return SettingCardViewHolder(cardView)
             }
             4 -> {
                 val cardView =
-                    LayoutInflater.from(parent.context).inflate(R.layout.card_view_settings_extras, parent, false)
+                    LayoutInflater.from(parent.context)
+                        .inflate(R.layout.card_view_settings_extras, parent, false)
                 return SettingExtraCardViewHolder(cardView)
             }
             else -> {
                 val cardViewExtraSettings =
-                    LayoutInflater.from(parent.context).inflate(R.layout.card_view_settings_notification, parent, false)
+                    LayoutInflater.from(parent.context)
+                        .inflate(R.layout.card_view_settings_notification, parent, false)
                 return SettingCardViewHolder(cardViewExtraSettings)
             }
         }
@@ -65,29 +68,40 @@ class SettingsAdapter(private val context: Context) :
         when (holder.itemViewType) {
             // BIRTHDAY NOTIFICATION SETTINGS
             1 -> {
-                holder.itemView.tv_settings_title.text = context.getText(R.string.event_type_birthday)
+                holder.itemView.tv_settings_title.text =
+                    context.getText(R.string.event_type_birthday)
 
-                val isEnabled = IOHandler.getBooleanFromKey(IOHandler.SharedPrefKeys.key_isNotificationOnBirthday)!!
+                val isEnabled =
+                    IOHandler.getBooleanFromKey(IOHandler.SharedPrefKeys.key_isNotificationOnBirthday)!!
                 if (!isEnabled) changeEnabledStatus(holder.itemView, isEnabled)
 
                 holder.itemView.sw_settings_notifcations.isChecked = isEnabled
                 holder.itemView.sw_settings_notifcations.setOnCheckedChangeListener { _, isChecked ->
                     changeEnabledStatus(holder.itemView, isChecked)
-                    IOHandler.writeSetting(IOHandler.SharedPrefKeys.key_isNotificationOnBirthday, isChecked)
+                    IOHandler.writeSetting(
+                        IOHandler.SharedPrefKeys.key_isNotificationOnBirthday,
+                        isChecked
+                    )
                 }
 
                 //sound switch
                 holder.itemView.sw_settings_sound.isChecked =
                     IOHandler.getBooleanFromKey(IOHandler.SharedPrefKeys.key_isNotificationSoundOnBirthday)!!
                 holder.itemView.sw_settings_sound.setOnCheckedChangeListener { _, isChecked ->
-                    IOHandler.writeSetting(IOHandler.SharedPrefKeys.key_isNotificationSoundOnBirthday, isChecked)
+                    IOHandler.writeSetting(
+                        IOHandler.SharedPrefKeys.key_isNotificationSoundOnBirthday,
+                        isChecked
+                    )
                 }
 
                 //vibration switch
                 holder.itemView.sw_settings_vibration.isChecked =
                     IOHandler.getBooleanFromKey(IOHandler.SharedPrefKeys.key_isNotificationVibrationOnBirthday)!!
                 holder.itemView.sw_settings_vibration.setOnCheckedChangeListener { _, isChecked ->
-                    IOHandler.writeSetting(IOHandler.SharedPrefKeys.key_isNotificationVibrationOnBirthday, isChecked)
+                    IOHandler.writeSetting(
+                        IOHandler.SharedPrefKeys.key_isNotificationVibrationOnBirthday,
+                        isChecked
+                    )
                 }
 
                 //set notification time
@@ -95,7 +109,10 @@ class SettingsAdapter(private val context: Context) :
                     IOHandler.getStringFromKey(IOHandler.SharedPrefKeys.key_strNotificationTimeBirthday)
                 //set time picker dialog on click
                 holder.itemView.tv_settings_notificaton_time_value.setOnClickListener {
-                    showTimePickerDialog(it as TextView, IOHandler.SharedPrefKeys.key_strNotificationTimeBirthday)
+                    showTimePickerDialog(
+                        it as TextView,
+                        IOHandler.SharedPrefKeys.key_strNotificationTimeBirthday
+                    )
                 }
 
                 val notificationDateArray: BooleanArray = booleanArrayOf(
@@ -183,29 +200,40 @@ class SettingsAdapter(private val context: Context) :
 
             // ANNUAL NOTIFICATION SETTINGS
             2 -> {
-                holder.itemView.tv_settings_title.text = context.getText(R.string.event_type_annual_event)
+                holder.itemView.tv_settings_title.text =
+                    context.getText(R.string.event_type_annual_event)
 
-                val isEnabled = IOHandler.getBooleanFromKey(IOHandler.SharedPrefKeys.key_isNotificationOnAnnual)!!
+                val isEnabled =
+                    IOHandler.getBooleanFromKey(IOHandler.SharedPrefKeys.key_isNotificationOnAnnual)!!
                 if (!isEnabled) changeEnabledStatus(holder.itemView, isEnabled)
 
                 holder.itemView.sw_settings_notifcations.isChecked = isEnabled
                 holder.itemView.sw_settings_notifcations.setOnCheckedChangeListener { _, isChecked ->
                     changeEnabledStatus(holder.itemView, isChecked)
-                    IOHandler.writeSetting(IOHandler.SharedPrefKeys.key_isNotificationOnAnnual, isChecked)
+                    IOHandler.writeSetting(
+                        IOHandler.SharedPrefKeys.key_isNotificationOnAnnual,
+                        isChecked
+                    )
                 }
 
                 //sound switch
                 holder.itemView.sw_settings_sound.isChecked =
                     IOHandler.getBooleanFromKey(IOHandler.SharedPrefKeys.key_isNotificationSoundOnAnnual)!!
                 holder.itemView.sw_settings_sound.setOnCheckedChangeListener { _, isChecked ->
-                    IOHandler.writeSetting(IOHandler.SharedPrefKeys.key_isNotificationSoundOnAnnual, isChecked)
+                    IOHandler.writeSetting(
+                        IOHandler.SharedPrefKeys.key_isNotificationSoundOnAnnual,
+                        isChecked
+                    )
                 }
 
                 //vibration switch
                 holder.itemView.sw_settings_vibration.isChecked =
                     IOHandler.getBooleanFromKey(IOHandler.SharedPrefKeys.key_isNotificationVibrationOnAnnual)!!
                 holder.itemView.sw_settings_vibration.setOnCheckedChangeListener { _, isChecked ->
-                    IOHandler.writeSetting(IOHandler.SharedPrefKeys.key_isNotificationVibrationOnAnnual, isChecked)
+                    IOHandler.writeSetting(
+                        IOHandler.SharedPrefKeys.key_isNotificationVibrationOnAnnual,
+                        isChecked
+                    )
                 }
 
                 //set notification time
@@ -213,7 +241,10 @@ class SettingsAdapter(private val context: Context) :
                     IOHandler.getStringFromKey(IOHandler.SharedPrefKeys.key_strNotificationTimeAnnual)
                 //set time picker dialog on click
                 holder.itemView.tv_settings_notificaton_time_value.setOnClickListener {
-                    showTimePickerDialog(it as TextView, IOHandler.SharedPrefKeys.key_strNotificationTimeAnnual)
+                    showTimePickerDialog(
+                        it as TextView,
+                        IOHandler.SharedPrefKeys.key_strNotificationTimeAnnual
+                    )
                 }
 
                 val notificationDateArray: BooleanArray = booleanArrayOf(
@@ -301,29 +332,40 @@ class SettingsAdapter(private val context: Context) :
 
             // ONE-TIME NOTIFICATION SETTINGS
             3 -> {
-                holder.itemView.tv_settings_title.text = context.getText(R.string.event_type_one_time_event)
+                holder.itemView.tv_settings_title.text =
+                    context.getText(R.string.event_type_one_time_event)
 
-                val isEnabled = IOHandler.getBooleanFromKey(IOHandler.SharedPrefKeys.key_isNotificationOnOneTime)!!
+                val isEnabled =
+                    IOHandler.getBooleanFromKey(IOHandler.SharedPrefKeys.key_isNotificationOnOneTime)!!
                 if (!isEnabled) changeEnabledStatus(holder.itemView, isEnabled)
 
                 holder.itemView.sw_settings_notifcations.isChecked = isEnabled
                 holder.itemView.sw_settings_notifcations.setOnCheckedChangeListener { _, isChecked ->
                     changeEnabledStatus(holder.itemView, isChecked)
-                    IOHandler.writeSetting(IOHandler.SharedPrefKeys.key_isNotificationOnOneTime, isChecked)
+                    IOHandler.writeSetting(
+                        IOHandler.SharedPrefKeys.key_isNotificationOnOneTime,
+                        isChecked
+                    )
                 }
 
                 //sound switch
                 holder.itemView.sw_settings_sound.isChecked =
                     IOHandler.getBooleanFromKey(IOHandler.SharedPrefKeys.key_isNotificationSoundOnOneTime)!!
                 holder.itemView.sw_settings_sound.setOnCheckedChangeListener { _, isChecked ->
-                    IOHandler.writeSetting(IOHandler.SharedPrefKeys.key_isNotificationSoundOnOneTime, isChecked)
+                    IOHandler.writeSetting(
+                        IOHandler.SharedPrefKeys.key_isNotificationSoundOnOneTime,
+                        isChecked
+                    )
                 }
 
                 //vibration switch
                 holder.itemView.sw_settings_vibration.isChecked =
                     IOHandler.getBooleanFromKey(IOHandler.SharedPrefKeys.key_isNotificationVibrationOnOneTime)!!
                 holder.itemView.sw_settings_vibration.setOnCheckedChangeListener { _, isChecked ->
-                    IOHandler.writeSetting(IOHandler.SharedPrefKeys.key_isNotificationVibrationOnOneTime, isChecked)
+                    IOHandler.writeSetting(
+                        IOHandler.SharedPrefKeys.key_isNotificationVibrationOnOneTime,
+                        isChecked
+                    )
                 }
 
                 //set notification time
@@ -331,7 +373,10 @@ class SettingsAdapter(private val context: Context) :
                     IOHandler.getStringFromKey(IOHandler.SharedPrefKeys.key_strNotificationTimeOneTime)
                 //set time picker dialog on click
                 holder.itemView.tv_settings_notificaton_time_value.setOnClickListener {
-                    showTimePickerDialog(it as TextView, IOHandler.SharedPrefKeys.key_strNotificationTimeOneTime)
+                    showTimePickerDialog(
+                        it as TextView,
+                        IOHandler.SharedPrefKeys.key_strNotificationTimeOneTime
+                    )
                 }
 
                 val notificationDateArray: BooleanArray = booleanArrayOf(
@@ -512,7 +557,8 @@ class SettingsAdapter(private val context: Context) :
         dialogBuilder.setTitle(R.string.delete_all_dialog_title)
         dialogBuilder.setMessage(R.string.delete_all_dialog_body)
         dialogBuilder.setPositiveButton(R.string.yes) { _, _ ->
-            Toast.makeText(context, R.string.delete_all_dialog_confirmation, Toast.LENGTH_LONG).show()
+            Toast.makeText(context, R.string.delete_all_dialog_confirmation, Toast.LENGTH_LONG)
+                .show()
             EventHandler.deleteAllEntriesAndImages(context, true)
             (context as MainActivity).addMonthDivider()
             (context).supportFragmentManager.popBackStack()
@@ -566,7 +612,10 @@ class SettingsAdapter(private val context: Context) :
         //check permission for API>=23
         if (android.os.Build.VERSION.SDK_INT >= 23) {
             // only for gingerbread and newer versions
-            if (ContextCompat.checkSelfPermission(context, Manifest.permission.WRITE_EXTERNAL_STORAGE)
+            if (ContextCompat.checkSelfPermission(
+                    context,
+                    Manifest.permission.WRITE_EXTERNAL_STORAGE
+                )
                 == PackageManager.PERMISSION_DENIED
             ) {
                 // Permission is not granted
@@ -585,7 +634,10 @@ class SettingsAdapter(private val context: Context) :
         //check permission for API>=23
         if (android.os.Build.VERSION.SDK_INT >= 23) {
             // only for gingerbread and newer versions
-            if (ContextCompat.checkSelfPermission(context, Manifest.permission.READ_EXTERNAL_STORAGE)
+            if (ContextCompat.checkSelfPermission(
+                    context,
+                    Manifest.permission.READ_EXTERNAL_STORAGE
+                )
                 == PackageManager.PERMISSION_DENIED
             ) {
                 // Permission is not granted

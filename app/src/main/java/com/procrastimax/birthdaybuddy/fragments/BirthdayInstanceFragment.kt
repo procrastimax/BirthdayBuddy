@@ -189,7 +189,8 @@ class BirthdayInstanceFragment : EventInstanceFragment() {
                         this.eventDate = cal.time
                     }
                     if (birthday.isYearGiven) {
-                        editDate.text = EventDate.parseDateToString(this.eventDate, DateFormat.DEFAULT)
+                        editDate.text =
+                            EventDate.parseDateToString(this.eventDate, DateFormat.DEFAULT)
                     } else {
                         editDate.text =
                             EventDate.getLocalizedDayAndMonth(this.eventDate)
@@ -275,7 +276,8 @@ class BirthdayInstanceFragment : EventInstanceFragment() {
 
         //add image from gallery
         this.frame_layout_add_avatar_image.setOnClickListener {
-            val bottomSheetDialog = layoutInflater.inflate(R.layout.fragment_bottom_sheet_dialog, null)
+            val bottomSheetDialog =
+                layoutInflater.inflate(R.layout.fragment_bottom_sheet_dialog, null)
 
             val dialog = BottomSheetDialog(context!!)
             dialog.setContentView(bottomSheetDialog)
@@ -369,7 +371,8 @@ class BirthdayInstanceFragment : EventInstanceFragment() {
             val fullPhotoUri: Uri = data!!.data!!
 
             Thread(Runnable {
-                val bitmap = MediaStore.Images.Media.getBitmap(context!!.contentResolver, fullPhotoUri)
+                val bitmap =
+                    MediaStore.Images.Media.getBitmap(context!!.contentResolver, fullPhotoUri)
                 (context as MainActivity).runOnUiThread {
                     iv_add_avatar_btn.setImageBitmap(
                         BitmapHandler.getCircularBitmap(

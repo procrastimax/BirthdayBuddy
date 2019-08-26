@@ -65,22 +65,26 @@ class EventAdapterSearching(private val context: Context, private val eventIDs: 
         when (viewType) {
             0 -> {
                 val itemView =
-                    LayoutInflater.from(parent.context).inflate(R.layout.event_month_view_divider, parent, false)
+                    LayoutInflater.from(parent.context)
+                        .inflate(R.layout.event_month_view_divider, parent, false)
                 return EventMonthDividerViewHolder(itemView)
             }
             1 -> {
                 val itemView =
-                    LayoutInflater.from(parent.context).inflate(R.layout.birthday_event_item_view, parent, false)
+                    LayoutInflater.from(parent.context)
+                        .inflate(R.layout.birthday_event_item_view, parent, false)
                 return BirthdayEventViewHolder(itemView)
             }
             2 -> {
                 val itemView =
-                    LayoutInflater.from(parent.context).inflate(R.layout.annual_event_item_view, parent, false)
+                    LayoutInflater.from(parent.context)
+                        .inflate(R.layout.annual_event_item_view, parent, false)
                 return AnnualEventViewHolder(itemView)
             }
             3 -> {
                 val itemView =
-                    LayoutInflater.from(parent.context).inflate(R.layout.one_time_event_item_view, parent, false)
+                    LayoutInflater.from(parent.context)
+                        .inflate(R.layout.one_time_event_item_view, parent, false)
                 return OneTimeEventViewHolder(itemView)
             }
             else -> {
@@ -119,7 +123,10 @@ class EventAdapterSearching(private val context: Context, private val eventIDs: 
                                 birthdayEvent.eventID
                             )
                             intent.putExtra(MainActivity.FRAGMENT_EXTRA_TITLE_POSITION, position)
-                            intent.putExtra(MainActivity.FRAGMENT_EXTRA_TITLE_TYPE, MainActivity.FRAGMENT_TYPE_SHOW)
+                            intent.putExtra(
+                                MainActivity.FRAGMENT_EXTRA_TITLE_TYPE,
+                                MainActivity.FRAGMENT_TYPE_SHOW
+                            )
                             startActivity(context, intent, null)
                         }
 
@@ -131,7 +138,10 @@ class EventAdapterSearching(private val context: Context, private val eventIDs: 
                                 birthdayEvent.eventID
                             )
                             intent.putExtra(MainActivity.FRAGMENT_EXTRA_TITLE_POSITION, position)
-                            intent.putExtra(MainActivity.FRAGMENT_EXTRA_TITLE_TYPE, MainActivity.FRAGMENT_TYPE_EDIT)
+                            intent.putExtra(
+                                MainActivity.FRAGMENT_EXTRA_TITLE_TYPE,
+                                MainActivity.FRAGMENT_TYPE_EDIT
+                            )
                             startActivity(context, intent, null)
                             true
                         }
@@ -163,11 +173,14 @@ class EventAdapterSearching(private val context: Context, private val eventIDs: 
                         if (birthdayEvent.nickname != null) {
 
                             //set forename and surname invisible
-                            holder.itemView.tv_birthday_event_item_forename.visibility = TextView.GONE
-                            holder.itemView.tv_birthday_event_item_surname.visibility = TextView.GONE
+                            holder.itemView.tv_birthday_event_item_forename.visibility =
+                                TextView.GONE
+                            holder.itemView.tv_birthday_event_item_surname.visibility =
+                                TextView.GONE
 
                             //set nickname textview visible
-                            holder.itemView.tv_birthday_event_item_nickname.visibility = TextView.VISIBLE
+                            holder.itemView.tv_birthday_event_item_nickname.visibility =
+                                TextView.VISIBLE
 
                             //set nickname textview text
                             holder.itemView.tv_birthday_event_item_nickname.text =
@@ -178,28 +191,37 @@ class EventAdapterSearching(private val context: Context, private val eventIDs: 
                             //when surname is given, set surname and forename
                             if (birthdayEvent.surname != null) {
                                 //set forename and surname invisible
-                                holder.itemView.tv_birthday_event_item_forename.visibility = TextView.VISIBLE
-                                holder.itemView.tv_birthday_event_item_surname.visibility = TextView.VISIBLE
+                                holder.itemView.tv_birthday_event_item_forename.visibility =
+                                    TextView.VISIBLE
+                                holder.itemView.tv_birthday_event_item_surname.visibility =
+                                    TextView.VISIBLE
 
                                 //set nickname textview visible
-                                holder.itemView.tv_birthday_event_item_nickname.visibility = TextView.GONE
+                                holder.itemView.tv_birthday_event_item_nickname.visibility =
+                                    TextView.GONE
 
-                                holder.itemView.tv_birthday_event_item_forename.text = birthdayEvent.forename
+                                holder.itemView.tv_birthday_event_item_forename.text =
+                                    birthdayEvent.forename
 
                                 //set surname
-                                holder.itemView.tv_birthday_event_item_surname.text = birthdayEvent.surname
+                                holder.itemView.tv_birthday_event_item_surname.text =
+                                    birthdayEvent.surname
 
                                 //when surname is not given, set forename as nickname textview
                             } else {
                                 //set forename and surname invisible
-                                holder.itemView.tv_birthday_event_item_forename.visibility = TextView.GONE
-                                holder.itemView.tv_birthday_event_item_surname.visibility = TextView.GONE
+                                holder.itemView.tv_birthday_event_item_forename.visibility =
+                                    TextView.GONE
+                                holder.itemView.tv_birthday_event_item_surname.visibility =
+                                    TextView.GONE
 
                                 //set nickname textview visible
-                                holder.itemView.tv_birthday_event_item_nickname.visibility = TextView.VISIBLE
+                                holder.itemView.tv_birthday_event_item_nickname.visibility =
+                                    TextView.VISIBLE
 
                                 //set nickname textview text
-                                holder.itemView.tv_birthday_event_item_nickname.text = birthdayEvent.forename
+                                holder.itemView.tv_birthday_event_item_nickname.text =
+                                    birthdayEvent.forename
                             }
                         }
 
@@ -247,7 +269,10 @@ class EventAdapterSearching(private val context: Context, private val eventIDs: 
                                 annualEvent.eventID
                             )
                             intent.putExtra(MainActivity.FRAGMENT_EXTRA_TITLE_POSITION, position)
-                            intent.putExtra(MainActivity.FRAGMENT_EXTRA_TITLE_TYPE, MainActivity.FRAGMENT_TYPE_SHOW)
+                            intent.putExtra(
+                                MainActivity.FRAGMENT_EXTRA_TITLE_TYPE,
+                                MainActivity.FRAGMENT_TYPE_SHOW
+                            )
                             startActivity(context, intent, null)
                         }
 
@@ -259,7 +284,10 @@ class EventAdapterSearching(private val context: Context, private val eventIDs: 
                                 annualEvent.eventID
                             )
                             intent.putExtra(MainActivity.FRAGMENT_EXTRA_TITLE_POSITION, position)
-                            intent.putExtra(MainActivity.FRAGMENT_EXTRA_TITLE_TYPE, MainActivity.FRAGMENT_TYPE_EDIT)
+                            intent.putExtra(
+                                MainActivity.FRAGMENT_EXTRA_TITLE_TYPE,
+                                MainActivity.FRAGMENT_TYPE_EDIT
+                            )
                             startActivity(context, intent, null)
                             true
                         }
@@ -278,7 +306,8 @@ class EventAdapterSearching(private val context: Context, private val eventIDs: 
                             holder.itemView.tv_days_until_annual_value.text =
                                 context.resources.getText(R.string.today)
                         } else {
-                            holder.itemView.tv_days_until_annual_value.text = annualEvent.getDaysUntil().toString()
+                            holder.itemView.tv_days_until_annual_value.text =
+                                annualEvent.getDaysUntil().toString()
                         }
 
                         //set years since, if specified
@@ -309,7 +338,10 @@ class EventAdapterSearching(private val context: Context, private val eventIDs: 
                                 EventHandler.getList()[position].eventID
                             )
                             intent.putExtra(MainActivity.FRAGMENT_EXTRA_TITLE_POSITION, position)
-                            intent.putExtra(MainActivity.FRAGMENT_EXTRA_TITLE_TYPE, MainActivity.FRAGMENT_TYPE_SHOW)
+                            intent.putExtra(
+                                MainActivity.FRAGMENT_EXTRA_TITLE_TYPE,
+                                MainActivity.FRAGMENT_TYPE_SHOW
+                            )
                             startActivity(context, intent, null)
                         }
 
@@ -321,7 +353,10 @@ class EventAdapterSearching(private val context: Context, private val eventIDs: 
                                 EventHandler.getList()[position].eventID
                             )
                             intent.putExtra(MainActivity.FRAGMENT_EXTRA_TITLE_POSITION, position)
-                            intent.putExtra(MainActivity.FRAGMENT_EXTRA_TITLE_TYPE, MainActivity.FRAGMENT_TYPE_EDIT)
+                            intent.putExtra(
+                                MainActivity.FRAGMENT_EXTRA_TITLE_TYPE,
+                                MainActivity.FRAGMENT_TYPE_EDIT
+                            )
                             startActivity(context, intent, null)
                             true
                         }
@@ -336,11 +371,13 @@ class EventAdapterSearching(private val context: Context, private val eventIDs: 
                             holder.itemView.tv_days_until_one_time_value.text =
                                 context.resources.getText(R.string.today)
                         } else {
-                            holder.itemView.tv_days_until_one_time_value.text = oneTimeEvent.getDaysUntil().toString()
+                            holder.itemView.tv_days_until_one_time_value.text =
+                                oneTimeEvent.getDaysUntil().toString()
                         }
 
                         //set years until
-                        holder.itemView.tv_years_one_time_value.text = oneTimeEvent.getYearsUntil().toString()
+                        holder.itemView.tv_years_one_time_value.text =
+                            oneTimeEvent.getYearsUntil().toString()
 
                         //set name
                         holder.itemView.tv_one_time_item_name.text = oneTimeEvent.name

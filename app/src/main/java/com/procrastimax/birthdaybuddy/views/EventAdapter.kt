@@ -76,22 +76,26 @@ class EventAdapter(private val context: Context, private val fragmentManager: Fr
         when (viewType) {
             0 -> {
                 val itemView =
-                    LayoutInflater.from(parent.context).inflate(R.layout.event_month_view_divider, parent, false)
+                    LayoutInflater.from(parent.context)
+                        .inflate(R.layout.event_month_view_divider, parent, false)
                 return EventMonthDividerViewHolder(itemView)
             }
             1 -> {
                 val itemView =
-                    LayoutInflater.from(parent.context).inflate(R.layout.birthday_event_item_view, parent, false)
+                    LayoutInflater.from(parent.context)
+                        .inflate(R.layout.birthday_event_item_view, parent, false)
                 return BirthdayEventViewHolder(itemView)
             }
             2 -> {
                 val itemView =
-                    LayoutInflater.from(parent.context).inflate(R.layout.annual_event_item_view, parent, false)
+                    LayoutInflater.from(parent.context)
+                        .inflate(R.layout.annual_event_item_view, parent, false)
                 return AnnualEventViewHolder(itemView)
             }
             3 -> {
                 val itemView =
-                    LayoutInflater.from(parent.context).inflate(R.layout.one_time_event_item_view, parent, false)
+                    LayoutInflater.from(parent.context)
+                        .inflate(R.layout.one_time_event_item_view, parent, false)
                 return OneTimeEventViewHolder(itemView)
             }
             else -> {
@@ -176,12 +180,16 @@ class EventAdapter(private val context: Context, private val fragmentManager: Fr
                             textColor = ContextCompat.getColor(context, R.color.colorAccent)
                             holder.itemView.tv_birthday_event_item_days_until_value.text =
                                 context.getText(R.string.today)
-                            holder.itemView.tv_birthday_event_item_days_until_value.setTextColor(textColor)
+                            holder.itemView.tv_birthday_event_item_days_until_value.setTextColor(
+                                textColor
+                            )
                         } else {
                             textColor = ContextCompat.getColor(context, R.color.textDark)
                             holder.itemView.tv_birthday_event_item_days_until_value.text =
                                 daysUntil.toString()
-                            holder.itemView.tv_birthday_event_item_days_until_value.setTextColor(textColor)
+                            holder.itemView.tv_birthday_event_item_days_until_value.setTextColor(
+                                textColor
+                            )
                         }
 
                         //set date
@@ -196,25 +204,36 @@ class EventAdapter(private val context: Context, private val fragmentManager: Fr
                         } else {
                             holder.itemView.tv_birthday_event_item_years_since_value.text = "-"
                         }
-                        holder.itemView.tv_birthday_event_item_years_since_value.setTextColor(textColor)
+                        holder.itemView.tv_birthday_event_item_years_since_value.setTextColor(
+                            textColor
+                        )
 
                         if (birthday.eventAlreadyOccurred()) {
                             holder.itemView.constraint_layout_birthday_item_view.background =
-                                ContextCompat.getDrawable(context, R.drawable.ripple_recycler_view_item_dark)
+                                ContextCompat.getDrawable(
+                                    context,
+                                    R.drawable.ripple_recycler_view_item_dark
+                                )
                         } else {
                             holder.itemView.constraint_layout_birthday_item_view.background =
-                                ContextCompat.getDrawable(context, R.drawable.ripple_recycler_view_item)
+                                ContextCompat.getDrawable(
+                                    context,
+                                    R.drawable.ripple_recycler_view_item
+                                )
                         }
 
                         //if a birthday has a nickname, only show nickname
                         if (birthday.nickname != null) {
 
                             //set forename and surname invisible
-                            holder.itemView.tv_birthday_event_item_forename.visibility = TextView.GONE
-                            holder.itemView.tv_birthday_event_item_surname.visibility = TextView.GONE
+                            holder.itemView.tv_birthday_event_item_forename.visibility =
+                                TextView.GONE
+                            holder.itemView.tv_birthday_event_item_surname.visibility =
+                                TextView.GONE
 
                             //set nickname TextView visible
-                            holder.itemView.tv_birthday_event_item_nickname.visibility = TextView.VISIBLE
+                            holder.itemView.tv_birthday_event_item_nickname.visibility =
+                                TextView.VISIBLE
                             holder.itemView.tv_birthday_event_item_nickname.setTextColor(textColor)
 
                             //set nickname TextView text
@@ -224,31 +243,46 @@ class EventAdapter(private val context: Context, private val fragmentManager: Fr
                             //when surname is given, set surname and forename
                             if (birthday.surname != null) {
                                 //set forename and surname invisible
-                                holder.itemView.tv_birthday_event_item_forename.visibility = TextView.VISIBLE
-                                holder.itemView.tv_birthday_event_item_surname.visibility = TextView.VISIBLE
+                                holder.itemView.tv_birthday_event_item_forename.visibility =
+                                    TextView.VISIBLE
+                                holder.itemView.tv_birthday_event_item_surname.visibility =
+                                    TextView.VISIBLE
 
                                 //set nickname TextView visible
-                                holder.itemView.tv_birthday_event_item_nickname.visibility = TextView.GONE
+                                holder.itemView.tv_birthday_event_item_nickname.visibility =
+                                    TextView.GONE
 
-                                holder.itemView.tv_birthday_event_item_forename.text = birthday.forename
-                                holder.itemView.tv_birthday_event_item_forename.setTextColor(textColor)
+                                holder.itemView.tv_birthday_event_item_forename.text =
+                                    birthday.forename
+                                holder.itemView.tv_birthday_event_item_forename.setTextColor(
+                                    textColor
+                                )
 
                                 //set surname
-                                holder.itemView.tv_birthday_event_item_surname.text = birthday.surname
-                                holder.itemView.tv_birthday_event_item_surname.setTextColor(textColor)
+                                holder.itemView.tv_birthday_event_item_surname.text =
+                                    birthday.surname
+                                holder.itemView.tv_birthday_event_item_surname.setTextColor(
+                                    textColor
+                                )
 
                                 //when surname is not given, set forename as nickname TextView
                             } else {
                                 //set forename and surname invisible
-                                holder.itemView.tv_birthday_event_item_forename.visibility = TextView.GONE
-                                holder.itemView.tv_birthday_event_item_surname.visibility = TextView.GONE
+                                holder.itemView.tv_birthday_event_item_forename.visibility =
+                                    TextView.GONE
+                                holder.itemView.tv_birthday_event_item_surname.visibility =
+                                    TextView.GONE
 
                                 //set nickname TextView visible
-                                holder.itemView.tv_birthday_event_item_nickname.visibility = TextView.VISIBLE
-                                holder.itemView.tv_birthday_event_item_nickname.setTextColor(textColor)
+                                holder.itemView.tv_birthday_event_item_nickname.visibility =
+                                    TextView.VISIBLE
+                                holder.itemView.tv_birthday_event_item_nickname.setTextColor(
+                                    textColor
+                                )
 
                                 //set nickname TextView text
-                                holder.itemView.tv_birthday_event_item_nickname.text = birthday.forename
+                                holder.itemView.tv_birthday_event_item_nickname.text =
+                                    birthday.forename
                             }
                         }
 
@@ -325,7 +359,8 @@ class EventAdapter(private val context: Context, private val fragmentManager: Fr
                         val daysUntil = EventHandler.getList()[position].getDaysUntil()
                         if (daysUntil == 0) {
                             textColor = ContextCompat.getColor(context, R.color.colorAccent)
-                            holder.itemView.tv_days_until_annual_value.text = context.resources.getText(R.string.today)
+                            holder.itemView.tv_days_until_annual_value.text =
+                                context.resources.getText(R.string.today)
                             holder.itemView.tv_days_until_annual_value.setTextColor(textColor)
                         } else {
                             textColor = ContextCompat.getColor(context, R.color.textDark)
@@ -340,7 +375,8 @@ class EventAdapter(private val context: Context, private val fragmentManager: Fr
 
                         //set years since, if specified
                         if (annualEvent.hasStartYear) {
-                            holder.itemView.tv_years_since_annual_value.text = annualEvent.getYearsSince().toString()
+                            holder.itemView.tv_years_since_annual_value.text =
+                                annualEvent.getYearsSince().toString()
                         } else {
                             holder.itemView.tv_years_since_annual_value.text = "-"
                         }
@@ -348,10 +384,16 @@ class EventAdapter(private val context: Context, private val fragmentManager: Fr
 
                         if (annualEvent.eventAlreadyOccurred()) {
                             holder.itemView.constraint_layout_annual_item_view.background =
-                                ContextCompat.getDrawable(context, R.drawable.ripple_recycler_view_item_dark)
+                                ContextCompat.getDrawable(
+                                    context,
+                                    R.drawable.ripple_recycler_view_item_dark
+                                )
                         } else {
                             holder.itemView.constraint_layout_annual_item_view.background =
-                                ContextCompat.getDrawable(context, R.drawable.ripple_recycler_view_item)
+                                ContextCompat.getDrawable(
+                                    context,
+                                    R.drawable.ripple_recycler_view_item
+                                )
                         }
 
                         //set name
@@ -421,7 +463,8 @@ class EventAdapter(private val context: Context, private val fragmentManager: Fr
                             holder.itemView.tv_days_until_one_time_value.setTextColor(textColor)
                         } else {
                             textColor = ContextCompat.getColor(context, R.color.textDark)
-                            holder.itemView.tv_days_until_one_time_value.text = oneTimeEvent.getDaysUntil().toString()
+                            holder.itemView.tv_days_until_one_time_value.text =
+                                oneTimeEvent.getDaysUntil().toString()
                             holder.itemView.tv_days_until_one_time_value.setTextColor(textColor)
                         }
 
@@ -431,15 +474,22 @@ class EventAdapter(private val context: Context, private val fragmentManager: Fr
                         holder.itemView.tv_one_time_item_date_value.setTextColor(textColor)
 
                         //set years until
-                        holder.itemView.tv_years_one_time_value.text = oneTimeEvent.getYearsUntil().toString()
+                        holder.itemView.tv_years_one_time_value.text =
+                            oneTimeEvent.getYearsUntil().toString()
                         holder.itemView.tv_years_one_time_value.setTextColor(textColor)
 
                         if (oneTimeEvent.eventAlreadyOccurred()) {
                             holder.itemView.constraint_layout_onetime_item_view.background =
-                                ContextCompat.getDrawable(context, R.drawable.ripple_recycler_view_item_dark)
+                                ContextCompat.getDrawable(
+                                    context,
+                                    R.drawable.ripple_recycler_view_item_dark
+                                )
                         } else {
                             holder.itemView.constraint_layout_onetime_item_view.background =
-                                ContextCompat.getDrawable(context, R.drawable.ripple_recycler_view_item)
+                                ContextCompat.getDrawable(
+                                    context,
+                                    R.drawable.ripple_recycler_view_item
+                                )
                         }
 
                         //set name

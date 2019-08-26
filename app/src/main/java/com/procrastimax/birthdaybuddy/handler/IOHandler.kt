@@ -326,7 +326,10 @@ object IOHandler {
                                     nickname = property[1]
                                 }
                                 else ->
-                                    Log.w("IOHandler", "Could not find identifier when trying to parse EventBirthday")
+                                    Log.w(
+                                        "IOHandler",
+                                        "Could not find identifier when trying to parse EventBirthday"
+                                    )
                             }
                         }
 
@@ -367,11 +370,18 @@ object IOHandler {
                                     note = property[1]
                                 }
                                 else ->
-                                    Log.w("IOHandler", "Could not find identifier when trying to parse AnnualEvent")
+                                    Log.w(
+                                        "IOHandler",
+                                        "Could not find identifier when trying to parse AnnualEvent"
+                                    )
                             }
                         }
                         val anniversary =
-                            AnnualEvent(EventDate.parseStringToDate(date, locale = Locale.GERMAN), name, hasStartYear)
+                            AnnualEvent(
+                                EventDate.parseStringToDate(date, locale = Locale.GERMAN),
+                                name,
+                                hasStartYear
+                            )
                         if (note != null) {
                             anniversary.note = note
                         }
@@ -398,10 +408,16 @@ object IOHandler {
                                     note = property[1]
                                 }
                                 else ->
-                                    Log.w("IOHandler", "Could not find identifier when trying to parse OneTimeEvent")
+                                    Log.w(
+                                        "IOHandler",
+                                        "Could not find identifier when trying to parse OneTimeEvent"
+                                    )
                             }
                         }
-                        val oneTimeEvent = OneTimeEvent(EventDate.parseStringToDate(date, locale = Locale.GERMAN), name)
+                        val oneTimeEvent = OneTimeEvent(
+                            EventDate.parseStringToDate(date, locale = Locale.GERMAN),
+                            name
+                        )
                         if (note != null) {
                             oneTimeEvent.note = note
                         }
@@ -422,9 +438,12 @@ object IOHandler {
                                 }
                                 MonthDivider.Identifier.MonthName.toString() -> {
                                     val cal = Calendar.getInstance()
-                                    cal.time = EventDate.parseStringToDate(date, locale = Locale.GERMAN)
+                                    cal.time =
+                                        EventDate.parseStringToDate(date, locale = Locale.GERMAN)
                                     month =
-                                        context.resources.getStringArray(R.array.month_names)[cal.get(Calendar.MONTH)]
+                                        context.resources.getStringArray(R.array.month_names)[cal.get(
+                                            Calendar.MONTH
+                                        )]
                                 }
                                 else ->
                                     Log.w(
@@ -433,7 +452,12 @@ object IOHandler {
                                     )
                             }
                         }
-                        return MonthDivider(EventDate.parseStringToDate(date, locale = Locale.GERMAN), month)
+                        return MonthDivider(
+                            EventDate.parseStringToDate(
+                                date,
+                                locale = Locale.GERMAN
+                            ), month
+                        )
                     }
                     else -> {
                         return null
@@ -458,7 +482,11 @@ object IOHandler {
                 //when folder creating did not succeed
                 if (!storagePath.mkdirs() && !storagePath.exists()) {
                     Log.e("IOHANDLER", "Directory not created")
-                    Toast.makeText(context, R.string.permissions_toast_export_error, Toast.LENGTH_LONG).show()
+                    Toast.makeText(
+                        context,
+                        R.string.permissions_toast_export_error,
+                        Toast.LENGTH_LONG
+                    ).show()
                 } else {
                     val savedData = File(storagePath.absolutePath + "/events")
                     if (savedData.exists()) {
@@ -479,12 +507,14 @@ object IOHandler {
         //check if external storage is available for reading
         if (Environment.getExternalStorageState() == Environment.MEDIA_MOUNTED) {
             val storagePath = File(
-                Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS), "birthdaybuddy"
+                Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS),
+                "birthdaybuddy"
             )
             //when folder finding did not succeed
             if (!storagePath.exists()) {
                 Log.e("IOHANDLER", "Directory not existent/ readable")
-                Toast.makeText(context, R.string.permissions_toast_import_error, Toast.LENGTH_LONG).show()
+                Toast.makeText(context, R.string.permissions_toast_import_error, Toast.LENGTH_LONG)
+                    .show()
             } else {
                 val data = File(storagePath.absolutePath + "/events")
                 data.readLines().apply {

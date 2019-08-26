@@ -1,125 +1,124 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                                             xmlns:app="http://schemas.android.com/apk/res-auto"
-                                             xmlns:tools="http://schemas.android.com/tools"
-                                             android:layout_width="match_parent"
-                                             android:layout_height="match_parent"
-                                             tools:context=".fragments.AnnualEventInstanceFragment">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".fragments.AnnualEventInstanceFragment"
+    tools:ignore="Autofill, ContentDescription">
 
 
     <ScrollView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
         <android.support.constraint.ConstraintLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
             <EditText
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:inputType="textPersonName"
-                    android:ems="10"
-                    android:maxLength="25"
-                    android:id="@+id/edit_add_fragment_name_annual_event"
-                    android:layout_marginEnd="8dp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    android:layout_marginStart="8dp"
-                    android:hint="@string/edit_annual_event_name_hint"
-                    android:layout_marginTop="24dp"
-                    app:layout_constraintTop_toTopOf="parent"
-                    android:textColor="@color/dark"
-                    app:layout_constraintStart_toEndOf="@+id/iv_annual_name"/>
+                android:id="@+id/edit_add_fragment_name_annual_event"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="24dp"
+                android:layout_marginEnd="8dp"
+                android:ems="10"
+                android:hint="@string/edit_annual_event_name_hint"
+                android:inputType="textPersonName|textCapSentences"
+                android:maxLength="25"
+                android:textColor="@color/dark"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/iv_annual_name"
+                app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/edit_add_fragment_date_annual_event"
-                    android:textSize="@dimen/larger_text_size"
-                    android:hint="@string/event_property_date"
-                    style="@android:style/Widget.Holo.Light.Spinner"
-                    android:layout_marginTop="24dp"
-                    app:layout_constraintTop_toBottomOf="@+id/edit_add_fragment_name_annual_event"
-                    android:layout_marginEnd="8dp"
-                    app:layout_constraintEnd_toStartOf="@+id/sw_is_year_given_annual_event"
-                    android:textColor="@color/dark"
-                    app:layout_constraintStart_toEndOf="@+id/iv_annual_date"
-                    android:layout_marginStart="8dp"/>
+                android:id="@+id/edit_add_fragment_date_annual_event"
+                style="@android:style/Widget.Holo.Light.Spinner"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="24dp"
+                android:layout_marginEnd="8dp"
+                android:hint="@string/event_property_date"
+                android:textColor="@color/dark"
+                android:textSize="@dimen/larger_text_size"
+                app:layout_constraintEnd_toStartOf="@+id/sw_is_year_given_annual_event"
+                app:layout_constraintStart_toEndOf="@+id/iv_annual_date"
+                app:layout_constraintTop_toBottomOf="@+id/edit_add_fragment_name_annual_event" />
 
             <Switch
-                    android:text="@string/event_property_year"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/sw_is_year_given_annual_event"
-                    android:checked="true"
-                    android:showText="false"
-                    android:splitTrack="false"
-                    app:layout_constraintEnd_toEndOf="@+id/edit_add_fragment_name_annual_event"
-                    app:layout_constraintTop_toTopOf="@+id/edit_add_fragment_date_annual_event"
-                    app:layout_constraintBottom_toBottomOf="@+id/edit_add_fragment_date_annual_event"
-                    android:textColor="#808080"/>
+                android:id="@+id/sw_is_year_given_annual_event"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:checked="true"
+                android:showText="false"
+                android:splitTrack="false"
+                android:text="@string/event_property_year"
+                android:textColor="#808080"
+                app:layout_constraintBottom_toBottomOf="@+id/edit_add_fragment_date_annual_event"
+                app:layout_constraintEnd_toEndOf="@+id/edit_add_fragment_name_annual_event"
+                app:layout_constraintTop_toTopOf="@+id/edit_add_fragment_date_annual_event" />
 
             <Button
-                    android:text="@string/btn_annual_event_delete"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/btn_fragment_annual_event_instance_delete"
-                    android:layout_marginTop="32dp"
-                    app:layout_constraintTop_toBottomOf="@+id/edit_add_fragment_note_annual_event"
-                    android:layout_marginBottom="24dp"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    style="@style/Widget.AppCompat.Button.Colored"
-                    android:layout_marginEnd="8dp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    android:layout_marginStart="8dp"
-                    app:layout_constraintStart_toStartOf="parent"/>
+                android:id="@+id/btn_fragment_annual_event_instance_delete"
+                style="@style/Widget.AppCompat.Button.Colored"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="32dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginBottom="24dp"
+                android:text="@string/btn_annual_event_delete"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/edit_add_fragment_note_annual_event" />
 
             <EditText
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:inputType="textMultiLine"
-                    android:ems="10"
-                    android:id="@+id/edit_add_fragment_note_annual_event"
-                    android:layout_marginTop="24dp"
-                    app:layout_constraintTop_toBottomOf="@+id/edit_add_fragment_date_annual_event"
-                    app:layout_constraintEnd_toEndOf="@+id/sw_is_year_given_annual_event"
-                    android:hint="@string/event_property_note"
-                    android:textColor="@color/dark"
-                    app:layout_constraintStart_toEndOf="@+id/iv_annual_note"
-                    android:layout_marginStart="8dp"/>
+                android:id="@+id/edit_add_fragment_note_annual_event"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="24dp"
+                android:ems="10"
+                android:hint="@string/event_property_note"
+                android:inputType="textMultiLine|textCapSentences"
+                android:textColor="@color/dark"
+                app:layout_constraintEnd_toEndOf="@+id/sw_is_year_given_annual_event"
+                app:layout_constraintStart_toEndOf="@+id/iv_annual_note"
+                app:layout_constraintTop_toBottomOf="@+id/edit_add_fragment_date_annual_event" />
 
             <ImageView
-                    android:src="@drawable/ic_event"
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
-                    android:id="@+id/iv_annual_name"
-                    app:layout_constraintTop_toTopOf="@+id/edit_add_fragment_name_annual_event"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintBottom_toBottomOf="@+id/edit_add_fragment_name_annual_event"
-                    android:layout_marginStart="8dp"
-                    />
+                android:id="@+id/iv_annual_name"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_marginStart="8dp"
+                android:src="@drawable/ic_event"
+                app:layout_constraintBottom_toBottomOf="@+id/edit_add_fragment_name_annual_event"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/edit_add_fragment_name_annual_event" />
 
             <ImageView
-                    android:src="@drawable/ic_today"
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
-                    android:id="@+id/iv_annual_date"
-                    app:layout_constraintTop_toTopOf="@+id/edit_add_fragment_date_annual_event"
-                    app:layout_constraintBottom_toBottomOf="@+id/edit_add_fragment_date_annual_event"
-                    app:layout_constraintStart_toStartOf="parent"
-                    android:layout_marginStart="8dp"
-                    />
+                android:id="@+id/iv_annual_date"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_marginStart="8dp"
+                android:src="@drawable/ic_today"
+                app:layout_constraintBottom_toBottomOf="@+id/edit_add_fragment_date_annual_event"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/edit_add_fragment_date_annual_event" />
 
             <ImageView
-                    android:src="@drawable/ic_notes"
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
-                    android:id="@+id/iv_annual_note"
-                    app:layout_constraintTop_toTopOf="@+id/edit_add_fragment_note_annual_event"
-                    app:layout_constraintStart_toStartOf="parent"
-                    android:layout_marginStart="8dp"
-                    android:layout_marginTop="8dp"/>
+                android:id="@+id/iv_annual_note"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:src="@drawable/ic_notes"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/edit_add_fragment_note_annual_event" />
         </android.support.constraint.ConstraintLayout>
     </ScrollView>
 

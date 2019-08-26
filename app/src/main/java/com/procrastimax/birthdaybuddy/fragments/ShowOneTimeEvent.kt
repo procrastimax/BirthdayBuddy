@@ -38,10 +38,12 @@ class ShowOneTimeEvent : ShowEventFragment() {
 
                 when (oneTimeEvent.getDaysUntil()) {
                     0 -> {
-                        this.tv_show_one_time_event_date.text = resources.getString(R.string.one_time_event_today)
+                        this.tv_show_one_time_event_date.text =
+                            resources.getString(R.string.one_time_event_today)
                     }
                     1 -> {
-                        this.tv_show_one_time_event_date.text = resources.getString(R.string.one_time_event_tomorrow)
+                        this.tv_show_one_time_event_date.text =
+                            resources.getString(R.string.one_time_event_tomorrow)
                     }
                     else -> {
                         this.tv_show_one_time_event_date.text = resources.getQuantityString(
@@ -85,7 +87,10 @@ class ShowOneTimeEvent : ShowEventFragment() {
                 val intent = Intent(Intent.ACTION_SEND)
                 intent.type = "text/plain"
                 var shareAnnualEventMsg =
-                    context!!.resources.getString(R.string.share_one_time_event_name, oneTimeEvent.name)
+                    context!!.resources.getString(
+                        R.string.share_one_time_event_name,
+                        oneTimeEvent.name
+                    )
 
                 //annual_event next date
                 shareAnnualEventMsg += "\n" + context!!.resources.getString(
@@ -119,7 +124,12 @@ class ShowOneTimeEvent : ShowEventFragment() {
                 }
 
                 intent.putExtra(Intent.EXTRA_TEXT, shareAnnualEventMsg)
-                startActivity(Intent.createChooser(intent, resources.getString(R.string.intent_share_chooser_title)))
+                startActivity(
+                    Intent.createChooser(
+                        intent,
+                        resources.getString(R.string.intent_share_chooser_title)
+                    )
+                )
             }
         }
     }
