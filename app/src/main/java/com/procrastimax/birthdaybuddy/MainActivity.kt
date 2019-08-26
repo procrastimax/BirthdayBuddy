@@ -196,7 +196,11 @@ class MainActivity : AppCompatActivity() {
      * onRequestPermissionsResult is the callback function after requesting the users permission for android permissions
      * In this case we request READ/WRITE rights on external storage and handle exporting/ importing event data from the external storage
      */
-    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
         when (requestCode) {
             //writing to external
             6001 -> {

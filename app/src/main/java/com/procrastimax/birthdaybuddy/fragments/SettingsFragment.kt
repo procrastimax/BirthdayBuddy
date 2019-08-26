@@ -71,7 +71,10 @@ class SettingsFragment : Fragment() {
     override fun onPause() {
         Thread(Runnable {
             NotificationHandler.cancelAllNotifications(this.settingsContext, EventHandler.getList())
-            NotificationHandler.scheduleListEventNotifications(this.settingsContext, EventHandler.getList())
+            NotificationHandler.scheduleListEventNotifications(
+                this.settingsContext,
+                EventHandler.getList()
+            )
         }).start()
         super.onPause()
     }

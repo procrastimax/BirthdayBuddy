@@ -98,7 +98,8 @@ class AnnualEventInstanceFragment : EventInstanceFragment() {
                     this.eventDate = annualEvent.eventDate
 
                     if (annualEvent.hasStartYear) {
-                        editDate.text = EventDate.parseDateToString(this.eventDate, DateFormat.DEFAULT)
+                        editDate.text =
+                            EventDate.parseDateToString(this.eventDate, DateFormat.DEFAULT)
                     } else {
                         editDate.text = EventDate.getLocalizedDayAndMonth(this.eventDate)
                     }
@@ -124,7 +125,10 @@ class AnnualEventInstanceFragment : EventInstanceFragment() {
                             Snackbar
                                 .make(
                                     view,
-                                    resources.getString(R.string.annual_event_deleted_notification, editName.text),
+                                    resources.getString(
+                                        R.string.annual_event_deleted_notification,
+                                        editName.text
+                                    ),
                                     Snackbar.LENGTH_LONG
                                 )
                                 .setAction(R.string.undo) {
@@ -274,7 +278,10 @@ class AnnualEventInstanceFragment : EventInstanceFragment() {
                 Snackbar
                     .make(
                         view!!,
-                        context!!.resources.getString(R.string.annual_event_added_notification, name),
+                        context!!.resources.getString(
+                            R.string.annual_event_added_notification,
+                            name
+                        ),
                         Snackbar.LENGTH_LONG
                     )
                     .show()
@@ -287,7 +294,10 @@ class AnnualEventInstanceFragment : EventInstanceFragment() {
                         EventHandler.changeEventAt(eventID, annualEvent, context!!, true)
                         Snackbar.make(
                             view!!,
-                            context!!.resources.getString(R.string.annual_event_changed_notification, name),
+                            context!!.resources.getString(
+                                R.string.annual_event_changed_notification,
+                                name
+                            ),
                             Snackbar.LENGTH_LONG
                         ).show()
                     }

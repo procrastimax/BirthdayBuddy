@@ -11,11 +11,13 @@ import com.procrastimax.birthdaybuddy.R
 
 
 class RecycleViewItemDivider(private val context: Context) : RecyclerView.ItemDecoration() {
-    private var mDivider: Drawable = ContextCompat.getDrawable(context, R.drawable.horizontal_divider)!!
+    private var mDivider: Drawable =
+        ContextCompat.getDrawable(context, R.drawable.horizontal_divider)!!
 
     override fun onDrawOver(c: Canvas, parent: RecyclerView, state: RecyclerView.State) {
         val left = MainActivity.convertPxToDp(context, 24f).toInt()
-        val right = parent.width - parent.paddingRight - MainActivity.convertPxToDp(context, 24f).toInt()
+        val right =
+            parent.width - parent.paddingRight - MainActivity.convertPxToDp(context, 24f).toInt()
 
         val childCount = parent.childCount
         for (i in 0 until childCount - 1) {

@@ -31,7 +31,8 @@ class AlarmReceiver : BroadcastReceiver() {
                     context,
                     intent!!.getStringExtra(MainActivity.FRAGMENT_EXTRA_TITLE_EVENTSTRING)
                 )
-            val notificationID = intent.getIntExtra(MainActivity.FRAGMENT_EXTRA_TITLE_NOTIFICATIONID, 0)
+            val notificationID =
+                intent.getIntExtra(MainActivity.FRAGMENT_EXTRA_TITLE_NOTIFICATIONID, 0)
             val eventID = intent.getIntExtra(MainActivity.FRAGMENT_EXTRA_TITLE_EVENTID, 0)
             event?.eventID = eventID
 
@@ -59,7 +60,12 @@ class AlarmReceiver : BroadcastReceiver() {
         }
     }
 
-    private fun buildNotification(context: Context, event: EventDate, notificationID: Int, eventID: Int) {
+    private fun buildNotification(
+        context: Context,
+        event: EventDate,
+        notificationID: Int,
+        eventID: Int
+    ) {
         val intent = Intent(context, MainActivity::class.java)
         intent.putExtra(MainActivity.FRAGMENT_EXTRA_TITLE_EVENTID, eventID)
         intent.putExtra(MainActivity.FRAGMENT_EXTRA_TITLE_TYPE, MainActivity.FRAGMENT_TYPE_SHOW)
@@ -67,7 +73,12 @@ class AlarmReceiver : BroadcastReceiver() {
         intent.action = notificationID.toString()
         intent.flags = Intent.FLAG_ACTIVITY_SINGLE_TOP
         val pendingIntent: PendingIntent =
-            PendingIntent.getActivity(context, notificationID, intent, PendingIntent.FLAG_UPDATE_CURRENT)
+            PendingIntent.getActivity(
+                context,
+                notificationID,
+                intent,
+                PendingIntent.FLAG_UPDATE_CURRENT
+            )
 
         val notificationManager: NotificationManager =
             context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
@@ -78,9 +89,10 @@ class AlarmReceiver : BroadcastReceiver() {
             val channelName = context.getString(R.string.notification_channel_name)
             val descriptionText = context.getString(R.string.notification_channel_description)
             val importance = NotificationManager.IMPORTANCE_HIGH
-            val channel = NotificationChannel(NotificationHandler.CHANNEL_ID, channelName, importance).apply {
-                description = descriptionText
-            }
+            val channel =
+                NotificationChannel(NotificationHandler.CHANNEL_ID, channelName, importance).apply {
+                    description = descriptionText
+                }
 
             //setting the notification light
             when (event) {
@@ -280,7 +292,10 @@ class AlarmReceiver : BroadcastReceiver() {
         }
     }
 
-    private fun buildEventBirthdayNotificationBodyText(context: Context, birthday: EventBirthday): String {
+    private fun buildEventBirthdayNotificationBodyText(
+        context: Context,
+        birthday: EventBirthday
+    ): String {
         var returnString = ""
         when (birthday.getDaysUntil()) {
             //today
@@ -315,7 +330,10 @@ class AlarmReceiver : BroadcastReceiver() {
         return returnString
     }
 
-    private fun buildAnnualEventNotificationBodyText(context: Context, annualEvent: AnnualEvent): String {
+    private fun buildAnnualEventNotificationBodyText(
+        context: Context,
+        annualEvent: AnnualEvent
+    ): String {
         var returnString = ""
         when (annualEvent.getDaysUntil()) {
             //today
@@ -350,7 +368,10 @@ class AlarmReceiver : BroadcastReceiver() {
         return returnString
     }
 
-    private fun buildOneTimeEventNotificationBodyText(context: Context, oneTimeEvent: OneTimeEvent): String {
+    private fun buildOneTimeEventNotificationBodyText(
+        context: Context,
+        oneTimeEvent: OneTimeEvent
+    ): String {
         var returnString = ""
         when (oneTimeEvent.getDaysUntil()) {
             //today
@@ -381,15 +402,18 @@ class AlarmReceiver : BroadcastReceiver() {
     private fun getLightColor(event: EventDate, context: Context): Int? {
         when (event) {
             is EventBirthday -> {
-                val lightValue = IOHandler.getIntFromKey(IOHandler.SharedPrefKeys.key_notificationLightBirthday)!!
+                val lightValue =
+                    IOHandler.getIntFromKey(IOHandler.SharedPrefKeys.key_notificationLightBirthday)!!
                 return getLightARGBFromColorValue(lightValue, context)
             }
             is AnnualEvent -> {
-                val lightValue = IOHandler.getIntFromKey(IOHandler.SharedPrefKeys.key_notificationLightAnnual)!!
+                val lightValue =
+                    IOHandler.getIntFromKey(IOHandler.SharedPrefKeys.key_notificationLightAnnual)!!
                 return getLightARGBFromColorValue(lightValue, context)
             }
             is OneTimeEvent -> {
-                val lightValue = IOHandler.getIntFromKey(IOHandler.SharedPrefKeys.key_notificationLightOneTime)!!
+                val lightValue =
+                    IOHandler.getIntFromKey(IOHandler.SharedPrefKeys.key_notificationLightOneTime)!!
                 return getLightARGBFromColorValue(lightValue, context)
             }
             else -> {

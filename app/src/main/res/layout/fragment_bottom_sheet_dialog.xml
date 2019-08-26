@@ -1,53 +1,52 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                                             xmlns:app="http://schemas.android.com/apk/res-auto"
-                                             xmlns:tools="http://schemas.android.com/tools"
-                                             android:layout_width="match_parent"
-                                             android:layout_height="wrap_content"
-                                             android:orientation="vertical"
-                                             tools:ignore="ContentDescription">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    tools:ignore="ContentDescription">
 
 
     <android.support.constraint.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:clickable="true"
-            android:focusable="true"
-            android:background="@drawable/ripple_recycler_view_item"
-            android:id="@+id/layout_bottom_sheet_choose"
-            >
+        android:id="@+id/layout_bottom_sheet_choose"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/ripple_recycler_view_item"
+        android:clickable="true"
+        android:focusable="true"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
         <ImageView
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                app:srcCompat="@drawable/ic_image"
-                android:id="@+id/iv_bottom_sheet_img"
-                android:tint="@color/darkGrey"
-                app:layout_constraintStart_toStartOf="parent"
-                android:layout_marginStart="8dp"
-                app:layout_constraintTop_toTopOf="@+id/tv_bottom_sheet_choose_from_gallery"
-                app:layout_constraintBottom_toBottomOf="@+id/tv_bottom_sheet_choose_from_gallery"
-                app:layout_constraintDimensionRatio="1:1" />
+            android:id="@+id/iv_bottom_sheet_img"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginStart="8dp"
+            android:tint="@color/darkGrey"
+            app:layout_constraintBottom_toBottomOf="@+id/tv_bottom_sheet_choose_from_gallery"
+            app:layout_constraintDimensionRatio="1:1"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/tv_bottom_sheet_choose_from_gallery"
+            app:srcCompat="@drawable/ic_image" />
 
         <TextView
-                android:text="@string/avatar_btn_clicked_menu_item_select_photo"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:id="@+id/tv_bottom_sheet_choose_from_gallery"
-                app:layout_constraintStart_toEndOf="@+id/iv_bottom_sheet_img"
-                android:textSize="18sp"
-                android:layout_gravity="center"
-                android:layout_marginEnd="8dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                android:layout_marginTop="16dp"
-                app:layout_constraintTop_toTopOf="parent"
-                android:layout_marginBottom="16dp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                android:layout_marginStart="16dp"/>
+            android:id="@+id/tv_bottom_sheet_choose_from_gallery"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginBottom="16dp"
+            android:text="@string/avatar_btn_clicked_menu_item_select_photo"
+            android:textSize="18sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/iv_bottom_sheet_img"
+            app:layout_constraintTop_toTopOf="parent" />
 
     </android.support.constraint.ConstraintLayout>
 
@@ -96,44 +95,44 @@
 
 
     <android.support.constraint.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            app:layout_constraintTop_toBottomOf="@+id/layout_bottom_sheet_choose"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            android:clickable="true"
-            android:focusable="true"
-            android:background="@drawable/ripple_recycler_view_item"
-            android:id="@+id/layout_bottom_sheet_delete">
+        android:id="@+id/layout_bottom_sheet_delete"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/ripple_recycler_view_item"
+        android:clickable="true"
+        android:focusable="true"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/layout_bottom_sheet_choose">
 
 
         <ImageView
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                app:srcCompat="@drawable/ic_delete"
-                android:id="@+id/iv_bottom_sheet_delete"
-                android:tint="@color/darkGrey"
-                android:layout_marginStart="8dp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/textVietv_bottom_sheet_delete_photo"
-                app:layout_constraintBottom_toBottomOf="@+id/textVietv_bottom_sheet_delete_photo"
-                app:layout_constraintDimensionRatio="1:1" />
+            android:id="@+id/iv_bottom_sheet_delete"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginStart="8dp"
+            android:tint="@color/darkGrey"
+            app:layout_constraintBottom_toBottomOf="@+id/textVietv_bottom_sheet_delete_photo"
+            app:layout_constraintDimensionRatio="1:1"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/textVietv_bottom_sheet_delete_photo"
+            app:srcCompat="@drawable/ic_delete" />
 
         <TextView
-                android:text="@string/avatar_btn_clicked_menu_item_delete_photo"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:id="@+id/textVietv_bottom_sheet_delete_photo"
-                app:layout_constraintStart_toEndOf="@+id/iv_bottom_sheet_delete"
-                android:textSize="18sp"
-                android:layout_gravity="center"
-                android:layout_marginEnd="8dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                android:layout_marginTop="16dp"
-                app:layout_constraintTop_toTopOf="parent"
-                android:layout_marginBottom="16dp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                android:layout_marginStart="16dp"/>
+            android:id="@+id/textVietv_bottom_sheet_delete_photo"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginBottom="16dp"
+            android:text="@string/avatar_btn_clicked_menu_item_delete_photo"
+            android:textSize="18sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/iv_bottom_sheet_delete"
+            app:layout_constraintTop_toTopOf="parent" />
     </android.support.constraint.ConstraintLayout>
 </android.support.constraint.ConstraintLayout>

@@ -56,7 +56,11 @@ object NotificationHandler {
                     }
 
                     if (isEventDayReminder == true) {
-                        setUpNotification(context, event, NotificationHandler.ReminderStart.EVENTDATE)
+                        setUpNotification(
+                            context,
+                            event,
+                            NotificationHandler.ReminderStart.EVENTDATE
+                        )
                     }
                 }
                 is AnnualEvent -> {
@@ -88,7 +92,11 @@ object NotificationHandler {
                     }
 
                     if (isEventDayReminder == true) {
-                        setUpNotification(context, event, NotificationHandler.ReminderStart.EVENTDATE)
+                        setUpNotification(
+                            context,
+                            event,
+                            NotificationHandler.ReminderStart.EVENTDATE
+                        )
                     }
                 }
                 is OneTimeEvent -> {
@@ -121,7 +129,11 @@ object NotificationHandler {
                     }
 
                     if (isEventDayReminder == true) {
-                        setUpNotification(context, event, NotificationHandler.ReminderStart.EVENTDATE)
+                        setUpNotification(
+                            context,
+                            event,
+                            NotificationHandler.ReminderStart.EVENTDATE
+                        )
                     }
                 }
             }
@@ -132,7 +144,11 @@ object NotificationHandler {
         return (event.toString() + reminderStart.value.toString()).hashCode()
     }
 
-    private fun setUpNotification(context: Context, event: EventDate, reminderStart: ReminderStart) {
+    private fun setUpNotification(
+        context: Context,
+        event: EventDate,
+        reminderStart: ReminderStart
+    ) {
         val intent = Intent(context, AlarmReceiver::class.java)
         val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
         intent.putExtra(MainActivity.FRAGMENT_EXTRA_TITLE_EVENTSTRING, event.toString())
@@ -261,7 +277,12 @@ object NotificationHandler {
         for (it in ReminderStart.values()) {
             val intent = Intent(context, AlarmReceiver::class.java)
             val pendingIntent =
-                PendingIntent.getBroadcast(context, getRequestCode(event, it), intent, PendingIntent.FLAG_NO_CREATE)
+                PendingIntent.getBroadcast(
+                    context,
+                    getRequestCode(event, it),
+                    intent,
+                    PendingIntent.FLAG_NO_CREATE
+                )
 
             if (pendingIntent != null) {
                 val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager

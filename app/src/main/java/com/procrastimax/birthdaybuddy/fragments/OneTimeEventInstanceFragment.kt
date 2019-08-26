@@ -171,23 +171,29 @@ class OneTimeEventInstanceFragment : EventInstanceFragment() {
         val day = c.get(Calendar.DAY_OF_MONTH)
 
         val dpd =
-            DatePickerDialog(context!!, DatePickerDialog.OnDateSetListener { view, year_, monthOfYear, dayOfMonth ->
-                // Display Selected date in Toast
-                c.set(Calendar.YEAR, year_)
-                c.set(Calendar.MONTH, monthOfYear)
-                c.set(Calendar.DAY_OF_MONTH, dayOfMonth)
+            DatePickerDialog(
+                context!!,
+                DatePickerDialog.OnDateSetListener { view, year_, monthOfYear, dayOfMonth ->
+                    // Display Selected date in Toast
+                    c.set(Calendar.YEAR, year_)
+                    c.set(Calendar.MONTH, monthOfYear)
+                    c.set(Calendar.DAY_OF_MONTH, dayOfMonth)
 
-                if (c.time.before(Calendar.getInstance().time)) {
-                    Toast.makeText(
-                        view.context,
-                        context!!.resources.getText(R.string.error_past_one_time_event_error),
-                        Toast.LENGTH_LONG
-                    ).show()
-                } else {
-                    this.eventDate = c.time
-                    editDate.text = EventDate.parseDateToString(c.time, DateFormat.FULL)
-                }
-            }, year, month, day)
+                    if (c.time.before(Calendar.getInstance().time)) {
+                        Toast.makeText(
+                            view.context,
+                            context!!.resources.getText(R.string.error_past_one_time_event_error),
+                            Toast.LENGTH_LONG
+                        ).show()
+                    } else {
+                        this.eventDate = c.time
+                        editDate.text = EventDate.parseDateToString(c.time, DateFormat.FULL)
+                    }
+                },
+                year,
+                month,
+                day
+            )
         dpd.show()
     }
 
@@ -220,7 +226,10 @@ class OneTimeEventInstanceFragment : EventInstanceFragment() {
                 Snackbar
                     .make(
                         view!!,
-                        context!!.resources.getString(R.string.one_time_event_added_notification, name),
+                        context!!.resources.getString(
+                            R.string.one_time_event_added_notification,
+                            name
+                        ),
                         Snackbar.LENGTH_LONG
                     )
                     .show()
@@ -233,7 +242,10 @@ class OneTimeEventInstanceFragment : EventInstanceFragment() {
                         EventHandler.changeEventAt(eventID, oneTimeEvent, context!!, true)
                         Snackbar.make(
                             view!!,
-                            context!!.resources.getString(R.string.one_time_event_changed_notification, name),
+                            context!!.resources.getString(
+                                R.string.one_time_event_changed_notification,
+                                name
+                            ),
                             Snackbar.LENGTH_LONG
                         ).show()
                     }

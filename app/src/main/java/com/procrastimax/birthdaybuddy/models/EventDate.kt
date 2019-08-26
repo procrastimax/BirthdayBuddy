@@ -94,7 +94,10 @@ open class EventDate(var eventDate: Date) : Comparable<EventDate> {
      * @param locale : Locale = Locale.getDefault()
      * @return String
      */
-    fun dateToPrettyString(format: Int = DateFormat.SHORT, locale: Locale = Locale.getDefault()): String {
+    fun dateToPrettyString(
+        format: Int = DateFormat.SHORT,
+        locale: Locale = Locale.getDefault()
+    ): String {
         return parseDateToString(this.eventDate, format, locale)
     }
 
@@ -170,7 +173,8 @@ open class EventDate(var eventDate: Date) : Comparable<EventDate> {
         return if (dateToCurrentYear().before(currentCal.time)) {
             (currentCal.get(Calendar.YEAR) - pastDateCal.get(Calendar.YEAR))
         } else {
-            val notOccurredDateYear = currentCal.get(Calendar.YEAR) - pastDateCal.get(Calendar.YEAR) - 1
+            val notOccurredDateYear =
+                currentCal.get(Calendar.YEAR) - pastDateCal.get(Calendar.YEAR) - 1
             if (notOccurredDateYear < 0) {
                 0
             } else {
@@ -210,8 +214,14 @@ open class EventDate(var eventDate: Date) : Comparable<EventDate> {
             dateInCurrentTimeContext.set(Calendar.YEAR, Calendar.getInstance().get(Calendar.YEAR))
 
             //if past date with current year is before current day then set year to next year
-            if (dateInCurrentTimeContext.get(Calendar.DAY_OF_YEAR) < Calendar.getInstance().get(Calendar.DAY_OF_YEAR)) {
-                dateInCurrentTimeContext.set(Calendar.YEAR, Calendar.getInstance().get(Calendar.YEAR) + 1)
+            if (dateInCurrentTimeContext.get(Calendar.DAY_OF_YEAR) < Calendar.getInstance().get(
+                    Calendar.DAY_OF_YEAR
+                )
+            ) {
+                dateInCurrentTimeContext.set(
+                    Calendar.YEAR,
+                    Calendar.getInstance().get(Calendar.YEAR) + 1
+                )
             }
             dateInCurrentTimeContext.set(Calendar.HOUR, 12)
             return dateInCurrentTimeContext.time
@@ -307,7 +317,8 @@ open class EventDate(var eventDate: Date) : Comparable<EventDate> {
         @JvmStatic
         fun getLocalizedDayAndMonth(date: Date, locale: Locale = Locale.getDefault()): String {
             val skeletonPattern = "ddMM"
-            val workingFormat = android.text.format.DateFormat.getBestDateTimePattern(locale, skeletonPattern)
+            val workingFormat =
+                android.text.format.DateFormat.getBestDateTimePattern(locale, skeletonPattern)
             return SimpleDateFormat(workingFormat, locale).format(date)
         }
 

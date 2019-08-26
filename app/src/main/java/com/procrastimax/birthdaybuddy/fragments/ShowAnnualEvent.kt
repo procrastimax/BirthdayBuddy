@@ -107,7 +107,10 @@ class ShowAnnualEvent : ShowEventFragment() {
                 intent.type = "text/plain"
 
                 var shareAnnualEventMsg =
-                    context!!.resources.getString(R.string.share_annual_event_name, annualEvent.name)
+                    context!!.resources.getString(
+                        R.string.share_annual_event_name,
+                        annualEvent.name
+                    )
 
                 //annual_event next date
                 shareAnnualEventMsg += "\n" + context!!.resources.getString(
@@ -140,7 +143,12 @@ class ShowAnnualEvent : ShowEventFragment() {
                     )
                 }
                 intent.putExtra(Intent.EXTRA_TEXT, shareAnnualEventMsg)
-                startActivity(Intent.createChooser(intent, resources.getString(R.string.intent_share_chooser_title)))
+                startActivity(
+                    Intent.createChooser(
+                        intent,
+                        resources.getString(R.string.intent_share_chooser_title)
+                    )
+                )
             }
         }
     }

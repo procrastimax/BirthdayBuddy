@@ -47,7 +47,10 @@ abstract class EventInstanceFragment : Fragment() {
             //when toolbar doesnt have child of custom view, then inflate and add it to toolbar, also set some params
             toolbarView = layoutInflater.inflate(R.layout.toolbar_edit_event, null)
             val actionBarParams =
-                ActionBar.LayoutParams(ActionBar.LayoutParams.MATCH_PARENT, ActionBar.LayoutParams.MATCH_PARENT)
+                ActionBar.LayoutParams(
+                    ActionBar.LayoutParams.MATCH_PARENT,
+                    ActionBar.LayoutParams.MATCH_PARENT
+                )
             actionBarParams.gravity = Gravity.CENTER
             toolbar.setContentInsetsAbsolute(0, toolbar.contentInsetRight)
             toolbar.addView(toolbarView, 0, actionBarParams)
@@ -82,7 +85,12 @@ abstract class EventInstanceFragment : Fragment() {
         super.onDetach()
         toolbar.getChildAt(0).visibility = View.GONE
         toolbar.setContentInsetsAbsolute(this.toolbarContentInsentLeft, toolbar.contentInsetRight)
-        toolbar.setBackgroundColor(ContextCompat.getColor(context as MainActivity, android.R.color.transparent))
+        toolbar.setBackgroundColor(
+            ContextCompat.getColor(
+                context as MainActivity,
+                android.R.color.transparent
+            )
+        )
     }
 
     /**
