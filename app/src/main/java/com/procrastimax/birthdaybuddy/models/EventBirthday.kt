@@ -82,6 +82,20 @@ class EventBirthday(
     }
 
     /**
+     * getTurningAgeValue returns a value which represents the value of a person turning a specific age
+     * This respects that on a birthday-day a person is still turning the age beforehand and not the age+1
+     */
+    fun getTurningAgeValue(): Int {
+        val age = getYearsSince() + 1
+        // test if this is the same day of the year
+        if (this.getDayOfMonth() == Calendar.getInstance().get(Calendar.DAY_OF_MONTH) &&
+            this.getMonth() == Calendar.getInstance().get(Calendar.MONTH)
+        ) {
+            return age - 1
+        } else return age
+    }
+
+    /**
      * toString returns EventBirthday as string representation
      * This is "optimized" for Serialization, so THE FIRST WORD HAS TO BE THE TYPIFICATION f.e. "Birthday"
      * returned string follows the pattern TYPE|FORENAME|SURNAME|EVENTDATE|ISYEARGIVEN|NOTE|AVATARURI|NICKNAME

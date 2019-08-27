@@ -102,9 +102,9 @@ class ShowBirthdayEvent : ShowEventFragment() {
                     //show adapted string for first birthday of a person, 1 year, not 1 years
                     tv_show_birthday_years_old.text = resources.getQuantityString(
                         R.plurals.person_years_old,
-                        birthdayEvent.getYearsSince() + 1,
+                        birthdayEvent.getYearsSince(),
                         birthdayEvent.getNicknameOrForename(),
-                        birthdayEvent.getYearsSince() + 1
+                        birthdayEvent.getYearsSince()
                     )
 
                 } else {
