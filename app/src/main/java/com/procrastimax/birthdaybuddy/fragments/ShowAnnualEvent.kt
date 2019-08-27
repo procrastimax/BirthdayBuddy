@@ -45,8 +45,8 @@ class ShowAnnualEvent : ShowEventFragment() {
                     //show adapted string for first birthday of a person, 1 year, not 1 years
                     tv_show_annual_event_years.text = resources.getQuantityString(
                         R.plurals.annual_event_years,
-                        annualEvent.getYearsSince() + 1,
-                        annualEvent.getYearsSince() + 1
+                        annualEvent.getXTimesSinceStarting(),
+                        annualEvent.getXTimesSinceStarting()
                     )
 
                     tv_show_annual_event_first_date.text = resources.getString(
