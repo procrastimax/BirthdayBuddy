@@ -6,6 +6,7 @@ import java.text.SimpleDateFormat
 import java.util.*
 import java.util.concurrent.TimeUnit
 
+
 /**
  * A model class to provide basic event data.
  *
@@ -289,6 +290,19 @@ open class EventDate(var eventDate: Date) : Comparable<EventDate> {
             val cal = Calendar.getInstance()
             cal.time = date
             return cal.get(Calendar.MINUTE)
+        }
+
+        @JvmStatic
+        fun getShortDateStringWithoutYears(date: Date, locale: Locale = Locale.getDefault()): String {
+            //use a regex to eliminate all 'y' and special chars which surround the y's in the dateformat, to only get day and month
+            val sdf = DateFormat.getDateInstance(DateFormat.SHORT, locale) as SimpleDateFormat
+            sdf.applyPattern(
+                sdf.toPattern().replace(
+                    "[^\\p{Alpha}]*y+[^\\p{Alpha}]*".toRegex(),
+                    ""
+                )
+            )
+            return sdf.format(date)
         }
 
 
