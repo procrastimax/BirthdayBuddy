@@ -200,7 +200,7 @@ class EventAdapter(private val context: Context, private val fragmentManager: Fr
                         //set years since, if specified
                         if (birthday.isYearGiven) {
                             holder.itemView.tv_birthday_event_item_years_since_value.text =
-                                (birthday.getYearsSince() + 1).toString()
+                                (birthday.getTurningAgeValue()).toString()
                         } else {
                             holder.itemView.tv_birthday_event_item_years_since_value.text = "-"
                         }
