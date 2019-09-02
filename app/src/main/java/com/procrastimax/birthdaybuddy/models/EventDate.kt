@@ -292,20 +292,6 @@ open class EventDate(var eventDate: Date) : Comparable<EventDate> {
             return cal.get(Calendar.MINUTE)
         }
 
-        @JvmStatic
-        fun getShortDateStringWithoutYears(date: Date, locale: Locale = Locale.getDefault()): String {
-            //use a regex to eliminate all 'y' and special chars which surround the y's in the dateformat, to only get day and month
-            val sdf = DateFormat.getDateInstance(DateFormat.SHORT, locale) as SimpleDateFormat
-            sdf.applyPattern(
-                sdf.toPattern().replace(
-                    "[^\\p{Alpha}]*y+[^\\p{Alpha}]*".toRegex(),
-                    ""
-                )
-            )
-            return sdf.format(date)
-        }
-
-
         /**
          * isDateInFuture checks if the member var eventDate is in the future (>currentDate)
          * @return Boolean

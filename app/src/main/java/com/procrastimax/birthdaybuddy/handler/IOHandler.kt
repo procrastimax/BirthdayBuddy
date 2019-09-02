@@ -469,7 +469,7 @@ object IOHandler {
         }
     }
 
-    fun writeAllEventsToExternalStorage(context: Context) {
+    fun writeAllEventsToExternalStorage(context: Context): Boolean {
         if (EventHandler.getList().isNotEmpty()) {
             //check if external storage is available for reading and writing
             if (Environment.getExternalStorageState() == Environment.MEDIA_MOUNTED) {
@@ -487,6 +487,7 @@ object IOHandler {
                         R.string.permissions_toast_export_error,
                         Toast.LENGTH_LONG
                     ).show()
+                    return false
                 } else {
                     val savedData = File(storagePath.absolutePath + "/events")
                     if (savedData.exists()) {
@@ -496,14 +497,17 @@ object IOHandler {
                     savedData.writeText(EventHandler.getEventsAsStringList().apply {
                         println(this)
                     })
+                    return true
                 }
             } else {
                 Toast.makeText(context, R.string.permissions_toast_no_sd, Toast.LENGTH_LONG).show()
+                return false
             }
         }
+        return false
     }
 
-    fun importEventsFromExternalStorage(context: Context) {
+    fun importEventsFromExternalStorage(context: Context): Boolean {
         //check if external storage is available for reading
         if (Environment.getExternalStorageState() == Environment.MEDIA_MOUNTED) {
             val storagePath = File(
@@ -515,6 +519,7 @@ object IOHandler {
                 Log.e("IOHANDLER", "Directory not existent/ readable")
                 Toast.makeText(context, R.string.permissions_toast_import_error, Toast.LENGTH_LONG)
                     .show()
+                return false
             } else {
                 val data = File(storagePath.absolutePath + "/events")
                 data.readLines().apply {
@@ -537,9 +542,11 @@ object IOHandler {
                         }
                     }
                 }
+                return true
             }
         } else {
             Toast.makeText(context, R.string.permissions_toast_no_sd, Toast.LENGTH_LONG).show()
+            return false
         }
     }
 }

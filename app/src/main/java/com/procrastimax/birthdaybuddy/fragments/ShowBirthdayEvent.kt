@@ -20,9 +20,6 @@ import com.procrastimax.birthdaybuddy.models.EventDate
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_show_birthday_event.*
 import java.text.DateFormat
-import java.text.ParseException
-import java.text.SimpleDateFormat
-import java.util.*
 
 
 /**
@@ -111,7 +108,7 @@ class ShowBirthdayEvent : ShowEventFragment() {
                     )
 
                 } else {
-                    date = EventDate.getShortDateStringWithoutYears(birthdayEvent.eventDate)
+                    date = EventDate.getLocalizedDayAndMonth(birthdayEvent.eventDate)
 
                     this.tv_show_birthday_years_old.visibility = TextView.GONE
                 }

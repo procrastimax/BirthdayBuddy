@@ -231,23 +231,26 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun writeDataToExternal() {
-        IOHandler.writeAllEventsToExternalStorage(this)
-        this.supportFragmentManager.popBackStack()
-        Snackbar.make(
-            main_coordinator_layout,
-            R.string.permissions_snackbar_granted_write,
-            Snackbar.LENGTH_LONG
-        ).show()
+        if (IOHandler.writeAllEventsToExternalStorage(this)) {
+            this.supportFragmentManager.popBackStack()
+            Snackbar.make(
+                main_coordinator_layout,
+                R.string.permissions_snackbar_granted_write,
+                Snackbar.LENGTH_LONG
+            ).show()
+        }
     }
 
     fun importDataFromExternal() {
-        IOHandler.importEventsFromExternalStorage(this)
-        this.supportFragmentManager.popBackStack()
-        Snackbar.make(
-            main_coordinator_layout,
-            R.string.permissions_snackbar_granted_read,
-            Snackbar.LENGTH_LONG
-        ).show()
+        if (IOHandler.importEventsFromExternalStorage(this)) {
+            this.supportFragmentManager.popBackStack()
+
+            Snackbar.make(
+                main_coordinator_layout,
+                R.string.permissions_snackbar_granted_read,
+                Snackbar.LENGTH_LONG
+            ).show()
+        }
     }
 
     companion object {
