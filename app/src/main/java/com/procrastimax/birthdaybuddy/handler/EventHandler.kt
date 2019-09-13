@@ -109,25 +109,28 @@ object EventHandler {
 
             this.event_map[ID] = newEvent
 
-            if (newEvent is EventBirthday && newEvent.avatarImageUri != null) {
-                //remove old drawable if one exists
-                if ((oldEvent as EventBirthday).avatarImageUri != null) {
-                    BitmapHandler.removeBitmap(oldEvent.eventID, context)
+            if (newEvent is EventBirthday) {
+                if (newEvent.avatarImageUri != null) {
+                    val newEventImageUri = newEvent.avatarImageUri
+                    //remove old drawable if one exists
+                    if ((oldEvent as EventBirthday).avatarImageUri != null) {
+                        BitmapHandler.removeBitmap(oldEvent.eventID, context)
+                    }
+                    //force BitmapHandler to load new avatar image from gallery, in case there is already an existant bitmap
+                    BitmapHandler.addDrawable(
+                        ID,
+                        Uri.parse(newEventImageUri),
+                        context,
+                        readBitmapFromGallery = true,
+                        scale = MainActivity.convertDpToPx(context, 150f)
+                    )
                 }
-                //force BitmapHandler to load new avatar image from gallery, in case there is already an existant bitmap
-                BitmapHandler.addDrawable(
-                    ID,
-                    Uri.parse((newEvent).avatarImageUri),
-                    context,
-                    readBitmapFromGallery = true,
-                    scale = MainActivity.convertDpToPx(context, 150f)
-                )
-            }
 
-            this.event_list = getSortedListBy()
+                this.event_list = getSortedListBy()
 
-            if (writeAfterChange) {
-                IOHandler.writeEventToFile(ID, newEvent)
+                if (writeAfterChange) {
+                    IOHandler.writeEventToFile(ID, newEvent)
+                }
             }
         }
     }

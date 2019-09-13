@@ -277,4 +277,5 @@
     <string name="permissions_toast_no_sd">Fehler - Kein Zugriff auf deinen externen Speicher!</string>
     <string name="permissions_toast_import_error">Fehler - Etwas lief schief beim Lesen der Daten</string>
     <string name="permissions_toast_export_error">Fehler - Etwas lief schief beim Schreiben deiner Daten!</string>
+    <string name="error_retry_save_file">Erstelle neue Save-File mit den jetzigen Events!</string>
 </resources>

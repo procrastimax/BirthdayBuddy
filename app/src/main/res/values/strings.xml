@@ -262,6 +262,8 @@
     <string name="permissions_snackbar_granted_write">Events successfully saved</string>
     <string name="permissions_snackbar_granted_read">Events successfully imported</string>
 
+    <string name="error_retry_save_file">Trying to rewrite save-file with current events!</string>
+
     <string name="dialog_export_data_title">Saving events</string>
     <string name="dialog_import_data_title">Importing events</string>
     <string name="dialog_import_data_text">This is going to try to import all your events from your external storage path.\n\nIf this fails, check if the event data exists in the following path: %1$s/birthdaybuddy</string>

@@ -9,6 +9,7 @@ import com.procrastimax.birthdaybuddy.BuildConfig
 import com.procrastimax.birthdaybuddy.R
 import com.procrastimax.birthdaybuddy.models.*
 import java.io.File
+import java.lang.Exception
 import java.util.*
 
 
@@ -489,7 +490,7 @@ object IOHandler {
                     ).show()
                     return false
                 } else {
-                    val savedData = File(storagePath.absolutePath + "/events")
+                    val savedData = File(storagePath.absolutePath + "/events.txt")
                     if (savedData.exists()) {
                         savedData.delete()
                     }
@@ -521,26 +522,36 @@ object IOHandler {
                     .show()
                 return false
             } else {
-                val data = File(storagePath.absolutePath + "/events")
-                data.readLines().apply {
-                    this.forEach {
-                        convertStringToEventDate(context, it).let { event ->
-                            if (event != null) {
+                try {
+                    val data = File(storagePath.absolutePath + "/events.txt")
+                    data.readLines().apply {
+                        this.forEach {
+                            convertStringToEventDate(context, it).let { event ->
+                                if (event != null) {
 
-                                //only add onetimevents which are not expired
-                                if (!(event is OneTimeEvent && event.dateIsExpired())) {
-                                    EventHandler.addEvent(
-                                        event,
-                                        context,
-                                        writeAfterAdd = true,
-                                        addNewNotification = true,
-                                        //only update EventList sorting when last line reached
-                                        updateEventList = (it == this.last())
-                                    )
+                                    //only add onetimevents which are not expired
+                                    if (!(event is OneTimeEvent && event.dateIsExpired())) {
+                                        EventHandler.addEvent(
+                                            event,
+                                            context,
+                                            writeAfterAdd = true,
+                                            addNewNotification = true,
+                                            //only update EventList sorting when last line reached
+                                            updateEventList = (it == this.last())
+                                        )
+                                    }
                                 }
                             }
                         }
                     }
+                } catch (e : Exception){
+                    Log.e("IOHANDLER", e.localizedMessage)
+                    Toast.makeText(context, R.string.permissions_toast_import_error, Toast.LENGTH_LONG).show()
+                    Toast.makeText(context, R.string.error_retry_save_file, Toast.LENGTH_LONG).show()
+
+                    // try again writing all current events
+                    writeAllEventsToExternalStorage(context)
+                    return false
                 }
                 return true
             }

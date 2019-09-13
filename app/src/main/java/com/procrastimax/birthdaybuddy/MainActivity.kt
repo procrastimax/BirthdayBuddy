@@ -9,6 +9,7 @@ import android.support.design.widget.CoordinatorLayout
 import android.support.design.widget.Snackbar
 import android.support.v4.app.Fragment
 import android.support.v7.app.AppCompatActivity
+import android.util.Log
 import android.util.TypedValue
 import android.widget.Toast
 import com.procrastimax.birthdaybuddy.fragments.*
@@ -18,6 +19,7 @@ import com.procrastimax.birthdaybuddy.handler.IOHandler
 import com.procrastimax.birthdaybuddy.models.*
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_event_list.*
+import java.lang.Exception
 import java.text.DateFormat
 import java.util.*
 
@@ -232,7 +234,13 @@ class MainActivity : AppCompatActivity() {
 
     fun writeDataToExternal() {
         if (IOHandler.writeAllEventsToExternalStorage(this)) {
-            this.supportFragmentManager.popBackStack()
+
+            try {
+                this.supportFragmentManager.popBackStack()
+            } catch (e: Exception) {
+                Log.e("MainActivity", e.localizedMessage)
+            }
+
             Snackbar.make(
                 main_coordinator_layout,
                 R.string.permissions_snackbar_granted_write,
@@ -243,7 +251,12 @@ class MainActivity : AppCompatActivity() {
 
     fun importDataFromExternal() {
         if (IOHandler.importEventsFromExternalStorage(this)) {
-            this.supportFragmentManager.popBackStack()
+
+            try {
+                this.supportFragmentManager.popBackStack()
+            } catch (e: Exception) {
+                Log.e("MainActivity", e.localizedMessage)
+            }
 
             Snackbar.make(
                 main_coordinator_layout,

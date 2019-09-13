@@ -71,16 +71,18 @@ object BitmapHandler {
                 //when this exception is caught, then delete uri reference in EventDate instance +  inform the user
             } catch (e: Exception) {
                 e.printStackTrace()
-                val birthday = EventHandler.getList().last() as EventBirthday
-                birthday.avatarImageUri = null
-                EventHandler.changeEventAt(
-                    EventHandler.getList().lastIndex,
-                    birthday,
-                    context,
-                    true
-                )
-                removeBitmap(id, context)
-                showMissingImageAlertDialog(context)
+                val event = EventHandler.getEventToEventIndex(id)
+                if (event is EventBirthday) {
+                    event.avatarImageUri = null
+                    EventHandler.changeEventAt(
+                        id,
+                        event,
+                        context,
+                        true
+                    )
+                    removeBitmap(id, context)
+                    showMissingImageAlertDialog(context)
+                }
                 success = false
             }
         }
@@ -107,14 +109,16 @@ object BitmapHandler {
     fun loadAllBitmaps(context: Context): Boolean {
         var success = true
         for (i in 0 until EventHandler.getList().size) {
-            if ((EventHandler.getList()[i] is EventBirthday) && ((EventHandler.getList()[i] as EventBirthday).avatarImageUri != null)) {
-                success =
-                    addDrawable(
-                        EventHandler.getList()[i].eventID,
-                        Uri.parse((EventHandler.getList()[i] as EventBirthday).avatarImageUri),
-                        context,
-                        readBitmapFromGallery = false
-                    )
+            if (EventHandler.getList()[i] is EventBirthday) {
+                if ((EventHandler.getList()[i] as EventBirthday).avatarImageUri != null) {
+                    success =
+                        addDrawable(
+                            EventHandler.getList()[i].eventID,
+                            Uri.parse((EventHandler.getList()[i] as EventBirthday).avatarImageUri),
+                            context,
+                            readBitmapFromGallery = false
+                        )
+                }
             }
         }
         return success
