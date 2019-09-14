@@ -50,7 +50,8 @@ class ShowOneTimeEvent : ShowEventFragment() {
                             R.plurals.one_time_event_show_date,
                             oneTimeEvent.getDaysUntil(),
                             oneTimeEvent.getDaysUntil(),
-                            date
+                            date,
+                            oneTimeEvent.getWeeksUntilAsString()
                         )
                     }
                 }

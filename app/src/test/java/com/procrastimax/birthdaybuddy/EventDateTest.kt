@@ -74,4 +74,15 @@ class EventDateTest {
         event.eventDate = cal_2.time
         Assert.assertEquals(4, event.getYearsSince())
     }
+
+    @Test
+    fun weeksUntilTest(){
+        val calender = Calendar.getInstance()
+        calender.time = Calendar.getInstance().time
+        calender.set(Calendar.DAY_OF_YEAR, Calendar.getInstance().get(Calendar.DAY_OF_YEAR) + 15)
+
+        val date = EventDate(calender.time)
+        Assert.assertEquals("2,2", date.getWeeksUntilAsString())
+
+    }
 }

@@ -79,7 +79,8 @@ class ShowAnnualEvent : ShowEventFragment() {
                             R.plurals.annual_event_show_date,
                             annualEvent.getDaysUntil(),
                             annualEvent.getDaysUntil(),
-                            date
+                            date,
+                            annualEvent.getWeeksUntilAsString()
                         )
                     }
                 }

@@ -134,7 +134,7 @@ class ShowBirthdayEvent : ShowEventFragment() {
                                 EventDate.parseDateToString(
                                     EventDate.dateToCurrentTimeContext(birthdayEvent.eventDate),
                                     DateFormat.FULL
-                                )
+                                ), birthdayEvent.getWeeksUntilAsString()
                             )
                     }
                     else -> {
@@ -147,7 +147,7 @@ class ShowBirthdayEvent : ShowEventFragment() {
                                 EventDate.parseDateToString(
                                     EventDate.dateToCurrentTimeContext(birthdayEvent.eventDate),
                                     DateFormat.FULL
-                                )
+                                ), birthdayEvent.getWeeksUntilAsString()
                             )
                     }
                 }

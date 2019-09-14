@@ -1,7 +1,9 @@
 package com.procrastimax.birthdaybuddy.models
 
 import com.procrastimax.birthdaybuddy.handler.IOHandler
+import java.math.RoundingMode
 import java.text.DateFormat
+import java.text.DecimalFormat
 import java.text.SimpleDateFormat
 import java.util.*
 import java.util.concurrent.TimeUnit
@@ -126,6 +128,13 @@ open class EventDate(var eventDate: Date) : Comparable<EventDate> {
             nextYear.set(Calendar.YEAR, Calendar.getInstance().get(Calendar.YEAR) + 1)
             return TimeUnit.MILLISECONDS.toDays(nextYear.timeInMillis - Calendar.getInstance().timeInMillis).toInt() + 1
         }
+    }
+
+    fun getWeeksUntilAsString() : String {
+        val num : Float = getDaysUntil()/7.0f
+        val df = DecimalFormat("#.#")
+        df.roundingMode = RoundingMode.FLOOR
+        return df.format(num)
     }
 
     fun getYear(): Int {

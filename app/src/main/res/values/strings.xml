@@ -74,7 +74,7 @@
 
     <plurals name="person_days_until">
         <item quantity="one">Next birthday of %1$s is in %2$d day on %3$s</item>
-        <item quantity="other">Next birthday of %1$s is in %2$d days on %3$s</item>
+        <item quantity="other">Next birthday of %1$s is in %2$d days on %3$s.\nThis is in %4$s weeks.</item>
     </plurals>
     <plurals name="person_years_old">
         <item quantity="one">%1$s turns %2$d</item>
@@ -121,7 +121,7 @@
     <string name="annual_event_show_date_today">%1$s is TODAY!</string>
     <plurals name="annual_event_show_date">
         <item quantity="one">Next time in %1$d day on %2$s</item>
-        <item quantity="other">Next time in %1$d days on %2$s</item>
+        <item quantity="other">Next time in %1$d days on %2$s.\nThis is in %3$s weeks.</item>
     </plurals>
     <plurals name="annual_event_years">
         <item quantity="one">For the first time since starting!</item>
@@ -166,7 +166,7 @@
     <string name="one_time_event_tomorrow">is tomorrow!</string>
     <plurals name="one_time_event_show_date">
         <item quantity="one">in %1$d day on %2$s</item>
-        <item quantity="other">in %1$d days on %2$s</item>
+        <item quantity="other">in %1$d days on %2$s.\nThis is in %3$s weeks.</item>
     </plurals>
     <plurals name="one_time_event_years">
         <item quantity="one">In %1$d year</item>
