@@ -71,9 +71,9 @@
     <string name="person_show_date">Дата рождения:\n%1$s</string>
     <string name="person_days_until_today">День рождения у %1$s сегодня!</string>
     <plurals name="person_days_until">
-        <item quantity="one">Следующий день рождения через %2$d день - %3$s</item>
-        <item quantity="few">Следующий день рождения через %2$d дня - %3$s</item>
-        <item quantity="many">Следующий день рождения через %2$d дней - %3$s</item>
+        <item quantity="one">Следующий день рождения через %2$d день - %3$s.</item>
+        <item quantity="few">Следующий день рождения через %2$d дня - %3$s.</item>
+        <item quantity="many">Следующий день рождения через %2$d дней - %3$s.\nЭто через %4$s недель.</item>
     </plurals>
 
     <plurals name="person_years_old">
@@ -123,7 +123,7 @@
     <plurals name="annual_event_show_date">
         <item quantity="one">В следующий раз через %1$d день\n(%2$s)</item>
         <item quantity="few">В следующий раз:\n%2$s\n\nОсталось дней: %1$d</item>
-        <item quantity="many">В следующий раз:\n%2$s\n\nОсталось дней: %1$d</item>
+        <item quantity="many">В следующий раз:\n%2$s\n\nОсталось дней: %1$d\nЭто через %3$s недель.</item>
     </plurals>
     <plurals name="annual_event_years">
         <item quantity="one">Идёт %1$d-ый год с начала отсчёта</item>
@@ -170,9 +170,9 @@
     <string name="one_time_event_today">СЕГОДНЯ!</string>
     <string name="one_time_event_tomorrow">Завтра!</string>
     <plurals name="one_time_event_show_date">
-        <item quantity="one">Через %1$d день (%2$s)</item>
-        <item quantity="few">Через %1$d дня (%2$s)</item>
-        <item quantity="many">Когда:\n%2$s\n\nОсталось дней: %1$d</item>
+        <item quantity="one">Через %1$d день (%2$s).</item>
+        <item quantity="few">Через %1$d дня (%2$s).</item>
+        <item quantity="many">Когда:\n%2$s\n\nОсталось дней: %1$d.\nЭто через %3$s недель.</item>
     </plurals>
     <plurals name="one_time_event_years">
         <item quantity="one">Через %1$d год</item>

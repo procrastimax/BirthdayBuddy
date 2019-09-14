@@ -73,8 +73,8 @@
     <string name="person_days_until_today">Der Geburtstag von %1$s ist heute!</string>
 
     <plurals name="person_days_until">
-        <item quantity="one">Nächster Geburtstag von %1$s ist in %2$d Tag am %3$s</item>
-        <item quantity="other">Nächster Geburtstag von %1$s ist in %2$d Tagen am %3$s</item>
+        <item quantity="one">Nächster Geburtstag von %1$s ist in %2$d Tag am %3$s.</item>
+        <item quantity="other">Nächster Geburtstag von %1$s ist in %2$d Tagen am %3$s.\nDas ist in %4$s Wochen.</item>
     </plurals>
     <plurals name="person_years_old">
         <item quantity="one">%1$s wird %2$d Jahr alt</item>
@@ -121,7 +121,7 @@
     <string name="annual_event_show_date_today">%1$s ist HEUTE!</string>
     <plurals name="annual_event_show_date">
         <item quantity="one">Nächstes Mal in %1$d Tag am %2$s</item>
-        <item quantity="other">Nächstes Mal in %1$d Tagen am %2$s</item>
+        <item quantity="other">Nächstes Mal in %1$d Tagen am %2$s.\nDas ist in %3$s Wochen.</item>
     </plurals>
     <plurals name="annual_event_years">
         <item quantity="one">Zum ersten Mal seit Beginn!</item>
@@ -166,7 +166,7 @@
     <string name="one_time_event_tomorrow">ist morgen!</string>
     <plurals name="one_time_event_show_date">
         <item quantity="one">in %1$d Tag am %2$s</item>
-        <item quantity="other">in %1$d Tagen am %2$s</item>
+        <item quantity="other">in %1$d Tagen am %2$s.\nDas ist in %3$s Wochen.</item>
     </plurals>
     <plurals name="one_time_event_years">
         <item quantity="one">In %1$d Jahr</item>
