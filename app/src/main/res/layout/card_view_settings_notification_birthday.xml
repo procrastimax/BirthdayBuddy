@@ -125,7 +125,7 @@
             android:focusable="true"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tv_settings_notification_time_title">
+            app:layout_constraintTop_toBottomOf="@+id/tv_settings_notificaton_time_value">
 
             <TextView
                 android:id="@+id/tv_settings_notification_day_title"
