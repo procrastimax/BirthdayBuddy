@@ -254,7 +254,7 @@
     <string name="about_title_contactInformation">Контакты</string>
     <string name="about_title_thanks">Благодарности</string>
 
-    <string name="about_content_license">Это приложение регулируется положениями и условиями Стандартной общественной лицензии GNU v3.0.\nДля получения более подробной информации читайте здесь: https://www.gnu.org/licenses/gpl-3.0.en.html.</string>
+    <string name="about_content_license">Это приложение регулируется положениями и условиями Стандартной общественной лицензии GNU v3.0.\nДля получения более подробной информации читайте здесь: https://www.gnu.org/licenses/gpl-3.0.ru.html.</string>
     <string name="about_content_openSource">BirthdayBuddy - некоммерческий частный проект. Для меня этот проект - самоцель изучения фреймворка Android (а также приложение, напоминающее мне о днях рождения). Этот проект также можно найти на моей странице GitHub (https://github.com/procrastimax/BirthdayBuddy). Если вы хотите принять участие в проекте или привнести креативные идеи, то всегда есть возможность создавать пул-запросы или GitHub Issues :)</string>
     <string name="about_content_contact">E-Mail: heykeroth.dev@gmail.com\nGitHub: procrastimax</string>
     <string name="about_content_thanks">Я хотел бы поблагодарить всех тех, кто помог с разработкой этого приложения с точки зрения перевода, тестирования и обратной связи. Большое спасибо Даше, Пауле, Карлу, Даниэлю, Денису и Джарвису.</string>
