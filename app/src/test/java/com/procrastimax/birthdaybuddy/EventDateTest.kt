@@ -49,11 +49,11 @@ class EventDateTest {
         calender.set(Calendar.DAY_OF_YEAR, Calendar.getInstance().get(Calendar.DAY_OF_YEAR) + 1)
 
         val event = EventDate(calender.time)
-        Assert.assertEquals(2, event.getDaysUntil())
+        Assert.assertEquals(1, event.getDaysUntil())
 
         calender.set(Calendar.DAY_OF_YEAR, Calendar.getInstance().get(Calendar.DAY_OF_YEAR) - 1)
         event.eventDate = calender.time
-        Assert.assertEquals(366, event.getDaysUntil())
+        Assert.assertEquals(365, event.getDaysUntil())
     }
 
     @Test

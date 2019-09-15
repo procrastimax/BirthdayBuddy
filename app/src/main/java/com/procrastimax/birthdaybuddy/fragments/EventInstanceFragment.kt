@@ -11,6 +11,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import com.procrastimax.birthdaybuddy.MainActivity
 import com.procrastimax.birthdaybuddy.R
+import kotlinx.android.synthetic.main.fragment_event_list.*
 import java.util.*
 
 

@@ -4,6 +4,7 @@ import android.util.Log
 import com.procrastimax.birthdaybuddy.handler.IOHandler
 import java.text.DateFormat
 import java.util.*
+import java.util.concurrent.TimeUnit
 
 class OneTimeEvent(_eventdate: Date, var name: String) : EventDate(_eventdate) {
 
@@ -78,6 +79,11 @@ class OneTimeEvent(_eventdate: Date, var name: String) : EventDate(_eventdate) {
                     Identifier.Note,
                     this.note
                 )
+    }
+
+    override fun getDaysUntil(): Int {
+         val diff : Long = this.eventDate.time - Calendar.getInstance().time.time
+        return TimeUnit.DAYS.convert(diff, TimeUnit.MILLISECONDS).toInt() + 1
     }
 
     companion object {

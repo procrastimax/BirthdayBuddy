@@ -237,7 +237,7 @@ class OneTimeEventInstanceFragment : EventInstanceFragment() {
                 //already existent oneTimeEvent entry, overwrite old entry in map
             } else {
                 EventHandler.getEventToEventIndex(eventID)?.let { event ->
-                    if (event is OneTimeEvent && wasChangeMade(event)) {
+                    if (event is OneTimeEvent) {
                         EventHandler.changeEventAt(eventID, oneTimeEvent, context!!, true)
                         Snackbar.make(
                             view!!,
@@ -252,27 +252,6 @@ class OneTimeEventInstanceFragment : EventInstanceFragment() {
                 }
             }
         }
-    }
-
-    /**
-     * wasChangeMade checks whether a change to the edit fields was made or not
-     * This is used to avoid unnecessary operations
-     * @param event: OneTimeEvent, is the comparative object to check against the TextEdit fields
-     * @return Boolean, returns false if nothing has changed
-     */
-    private fun wasChangeMade(event: OneTimeEvent): Boolean {
-        if (editDate.text != event.dateToPrettyString(DateFormat.FULL)) return true
-
-        if (editNote.text.isNotBlank() && event.note == null) {
-            return true
-        } else {
-            if (event.note != null) {
-                if (editNote.text.toString() != event.note!!) return true
-            }
-        }
-        if (editName.text.toString() != event.name) return true
-        //if nothing has changed return false
-        return false
     }
 
     companion object {

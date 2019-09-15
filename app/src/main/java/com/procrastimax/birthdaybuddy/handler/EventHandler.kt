@@ -125,12 +125,11 @@ object EventHandler {
                         scale = MainActivity.convertDpToPx(context, 150f)
                     )
                 }
+            }
+            this.event_list = getSortedListBy()
 
-                this.event_list = getSortedListBy()
-
-                if (writeAfterChange) {
-                    IOHandler.writeEventToFile(ID, newEvent)
-                }
+            if (writeAfterChange) {
+                IOHandler.writeEventToFile(ID, newEvent)
             }
         }
     }

@@ -109,7 +109,6 @@ open class EventDate(var eventDate: Date) : Comparable<EventDate> {
      * @return Int
      */
     open fun getDaysUntil(): Int {
-
         if (!eventAlreadyOccurred()) {
             val nextYear = Calendar.getInstance()
             nextYear.time = eventDate

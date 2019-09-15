@@ -10,7 +10,6 @@ class OneTimeEventTest {
     @Test
     fun daysUntilTest() {
         val current_cal = Calendar.getInstance()
-        current_cal.set(Calendar.DAY_OF_YEAR, current_cal.get(Calendar.DAY_OF_YEAR))
 
         var oneTimeEvent = OneTimeEvent(current_cal.time, "test")
 
@@ -20,7 +19,7 @@ class OneTimeEventTest {
 
         oneTimeEvent = OneTimeEvent(current_cal.time, "test")
 
-        Assert.assertEquals(367, oneTimeEvent.getDaysUntil())
+        Assert.assertEquals(366, oneTimeEvent.getDaysUntil())
     }
 
     @Test
