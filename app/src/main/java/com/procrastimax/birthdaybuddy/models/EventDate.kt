@@ -130,8 +130,8 @@ open class EventDate(var eventDate: Date) : Comparable<EventDate> {
         }
     }
 
-    fun getWeeksUntilAsString() : String {
-        val num : Float = getDaysUntil()/7.0f
+    fun getWeeksUntilAsString(): String {
+        val num: Float = getDaysUntil() / 7.0f
         val df = DecimalFormat("#.#")
         df.roundingMode = RoundingMode.FLOOR
         return df.format(num)
@@ -326,6 +326,14 @@ open class EventDate(var eventDate: Date) : Comparable<EventDate> {
         @JvmStatic
         fun getLocalizedDayAndMonth(date: Date, locale: Locale = Locale.getDefault()): String {
             val skeletonPattern = "ddMM"
+            val workingFormat =
+                android.text.format.DateFormat.getBestDateTimePattern(locale, skeletonPattern)
+            return SimpleDateFormat(workingFormat, locale).format(date)
+        }
+
+        @JvmStatic
+        fun getLocalizedDayMonthYear(date: Date, locale: Locale = Locale.getDefault()): String {
+            val skeletonPattern = "ddMMYYYY"
             val workingFormat =
                 android.text.format.DateFormat.getBestDateTimePattern(locale, skeletonPattern)
             return SimpleDateFormat(workingFormat, locale).format(date)

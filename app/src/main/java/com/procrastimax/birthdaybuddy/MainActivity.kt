@@ -19,7 +19,6 @@ import com.procrastimax.birthdaybuddy.handler.IOHandler
 import com.procrastimax.birthdaybuddy.models.*
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_event_list.*
-import java.lang.Exception
 import java.text.DateFormat
 import java.util.*
 

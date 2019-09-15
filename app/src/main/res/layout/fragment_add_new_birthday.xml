@@ -64,14 +64,29 @@
                 app:layout_constraintTop_toBottomOf="@+id/edit_add_fragment_forename" />
 
             <TextView
-                android:id="@+id/edit_add_fragment_date"
+                android:id="@+id/edit_add_fragment_date_calendarview"
                 style="@android:style/Widget.Holo.Light.Spinner"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
                 android:layout_marginEnd="8dp"
-                android:hint="@string/birthday_instance_fragment_date_edit_hint"
+                android:textColor="@color/dark"
+                android:textSize="@dimen/larger_text_size"
+                android:visibility="visible"
+                app:layout_constraintEnd_toStartOf="@+id/sw_is_year_given"
+                app:layout_constraintStart_toEndOf="@+id/iv_birthday_date"
+                app:layout_constraintTop_toBottomOf="@+id/edit_add_fragment_nickname" />
+
+            <EditText
+                android:id="@+id/edit_add_fragment_date"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="8dp"
+                android:visibility="invisible"
+                android:inputType="date"
                 android:textColor="@color/dark"
                 android:textSize="@dimen/larger_text_size"
                 app:layout_constraintEnd_toStartOf="@+id/sw_is_year_given"
@@ -118,7 +133,7 @@
                 android:textColor="@color/dark"
                 app:layout_constraintEnd_toEndOf="@+id/sw_is_year_given"
                 app:layout_constraintStart_toEndOf="@+id/iv_birthday_note"
-                app:layout_constraintTop_toBottomOf="@+id/edit_add_fragment_date" />
+                app:layout_constraintTop_toBottomOf="@+id/edit_add_fragment_date_calendarview"/>
 
             <FrameLayout
                 android:id="@+id/frame_layout_add_avatar_image"

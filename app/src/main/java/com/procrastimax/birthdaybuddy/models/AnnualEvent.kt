@@ -54,7 +54,7 @@ class AnnualEvent(_eventDate: Date, var name: String, var hasStartYear: Boolean)
      * getXTimesSinceStarting returns a int value representing how many times this annual event took place in the past
      * This respects the current day of the happening. So when an annual event takes place on a day, it takes place for the x.th time and not the x+1.th time
      */
-    fun getXTimesSinceStarting() : Int{
+    fun getXTimesSinceStarting(): Int {
         val timesTookPlace = getYearsSince() + 1
         if (this.getDayOfMonth() == Calendar.getInstance().get(Calendar.DAY_OF_MONTH) &&
             this.getMonth() == Calendar.getInstance().get(Calendar.MONTH)

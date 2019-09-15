@@ -9,7 +9,6 @@ import com.procrastimax.birthdaybuddy.BuildConfig
 import com.procrastimax.birthdaybuddy.R
 import com.procrastimax.birthdaybuddy.models.*
 import java.io.File
-import java.lang.Exception
 import java.util.*
 
 
@@ -62,6 +61,9 @@ object IOHandler {
         const val key_isRemindedDay_eventdayOneTime = "isRemindedDay_eventdayOneTime"
 
         const val key_notificationLightOneTime = "notificationLightOneTime"
+
+        // extra settings
+        const val key_date_as_calendar_view = "dateAsCalendarView"
     }
 
     //Filename of shared preference to store event data and settings data
@@ -126,6 +128,9 @@ object IOHandler {
         writeSetting(SharedPrefKeys.key_notificationLightBirthday, 1)
         writeSetting(SharedPrefKeys.key_notificationLightAnnual, 1)
         writeSetting(SharedPrefKeys.key_notificationLightOneTime, 1)
+
+        // use a calendarview for setting the date of events, standard (true)
+        writeSetting(SharedPrefKeys.key_date_as_calendar_view, true)
     }
 
     private fun settingsContainsKey(key: String): Boolean {
@@ -170,6 +175,10 @@ object IOHandler {
         return if (settingsContainsKey(key)) {
             sharedPrefSettings.getBoolean(key, false)
         } else {
+            if (key == SharedPrefKeys.key_date_as_calendar_view) {
+                writeSetting(key, true)
+                return true
+            }
             null
         }
     }
@@ -544,10 +553,15 @@ object IOHandler {
                             }
                         }
                     }
-                } catch (e : Exception){
+                } catch (e: Exception) {
                     Log.e("IOHANDLER", e.localizedMessage)
-                    Toast.makeText(context, R.string.permissions_toast_import_error, Toast.LENGTH_LONG).show()
-                    Toast.makeText(context, R.string.error_retry_save_file, Toast.LENGTH_LONG).show()
+                    Toast.makeText(
+                        context,
+                        R.string.permissions_toast_import_error,
+                        Toast.LENGTH_LONG
+                    ).show()
+                    Toast.makeText(context, R.string.error_retry_save_file, Toast.LENGTH_LONG)
+                        .show()
 
                     // try again writing all current events
                     writeAllEventsToExternalStorage(context)

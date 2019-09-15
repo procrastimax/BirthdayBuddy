@@ -22,7 +22,7 @@ import com.procrastimax.birthdaybuddy.handler.EventHandler
 import com.procrastimax.birthdaybuddy.handler.IOHandler
 import com.procrastimax.birthdaybuddy.models.EventDate
 import kotlinx.android.synthetic.main.card_view_settings_extras.view.*
-import kotlinx.android.synthetic.main.card_view_settings_notification.view.*
+import kotlinx.android.synthetic.main.card_view_settings_notification_birthday.view.*
 import java.util.*
 
 class SettingsAdapter(private val context: Context) :
@@ -43,10 +43,22 @@ class SettingsAdapter(private val context: Context) :
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         when (viewType) {
-            1, 2, 3 -> {
+            1 -> {
                 val cardView =
                     LayoutInflater.from(parent.context)
-                        .inflate(R.layout.card_view_settings_notification, parent, false)
+                        .inflate(R.layout.card_view_settings_notification_birthday, parent, false)
+                return SettingCardViewHolder(cardView)
+            }
+            2 -> {
+                val cardView =
+                    LayoutInflater.from(parent.context)
+                        .inflate(R.layout.card_view_settings_notification_annual, parent, false)
+                return SettingCardViewHolder(cardView)
+            }
+            3 -> {
+                val cardView =
+                    LayoutInflater.from(parent.context)
+                        .inflate(R.layout.card_view_settings_notification_onetime, parent, false)
                 return SettingCardViewHolder(cardView)
             }
             4 -> {
@@ -58,7 +70,7 @@ class SettingsAdapter(private val context: Context) :
             else -> {
                 val cardViewExtraSettings =
                     LayoutInflater.from(parent.context)
-                        .inflate(R.layout.card_view_settings_notification, parent, false)
+                        .inflate(R.layout.card_view_settings_notification_birthday, parent, false)
                 return SettingCardViewHolder(cardViewExtraSettings)
             }
         }
@@ -80,6 +92,16 @@ class SettingsAdapter(private val context: Context) :
                     changeEnabledStatus(holder.itemView, isChecked)
                     IOHandler.writeSetting(
                         IOHandler.SharedPrefKeys.key_isNotificationOnBirthday,
+                        isChecked
+                    )
+                }
+
+                // handle changing of showing calendar view as date input method for birthdays
+                holder.itemView.sw_date_as_calendarview.isChecked =
+                    IOHandler.getBooleanFromKey(IOHandler.SharedPrefKeys.key_date_as_calendar_view)!!
+                holder.itemView.sw_date_as_calendarview.setOnCheckedChangeListener { _, isChecked ->
+                    IOHandler.writeSetting(
+                        IOHandler.SharedPrefKeys.key_date_as_calendar_view,
                         isChecked
                     )
                 }
