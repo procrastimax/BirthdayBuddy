@@ -145,9 +145,8 @@ class OneTimeEventInstanceFragment : EventInstanceFragment() {
         } else {
             setToolbarTitle(context!!.resources.getString(R.string.toolbar_title_add_one_time_event))
             btn_fragment_one_time_event_instance_delete.visibility = Button.INVISIBLE
-            editDate.hint = "${resources.getString(
-                R.string.event_property_date
-            )}: ${EventDate.parseDateToString(Calendar.getInstance().time, DateFormat.FULL)}"
+            editDate.hint =
+                EventDate.parseDateToString(Calendar.getInstance().time, DateFormat.FULL)
         }
 
         editDate.setOnClickListener {

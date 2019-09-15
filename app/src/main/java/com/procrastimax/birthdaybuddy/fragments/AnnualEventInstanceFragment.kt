@@ -160,9 +160,7 @@ class AnnualEventInstanceFragment : EventInstanceFragment() {
         } else {
             setToolbarTitle(context!!.resources.getString(R.string.toolbar_title_add_annual_event))
             btn_fragment_annual_event_instance_delete.visibility = Button.INVISIBLE
-            editDate.hint = "${resources.getString(
-                R.string.event_property_date
-            )}: ${EventDate.parseDateToString(this.eventDate, DateFormat.DEFAULT)}"
+            editDate.hint = EventDate.parseDateToString(this.eventDate, DateFormat.DEFAULT)
         }
 
         editDate.setOnClickListener {
@@ -187,16 +185,10 @@ class AnnualEventInstanceFragment : EventInstanceFragment() {
                 }
             } else {
                 if (isChecked) {
-                    editDate.hint =
-                        "${resources.getString(R.string.event_property_date)}: ${EventDate.parseDateToString(
-                            this.eventDate,
-                            DateFormat.DEFAULT
-                        )}"
+                    editDate.hint = EventDate.parseDateToString(this.eventDate, DateFormat.DEFAULT)
 
                 } else {
-                    editDate.hint = "${resources.getString(
-                        R.string.event_property_date
-                    )}: ${EventDate.getLocalizedDayAndMonth(this.eventDate)}"
+                    editDate.hint = EventDate.getLocalizedDayAndMonth(this.eventDate)
                 }
             }
         }
