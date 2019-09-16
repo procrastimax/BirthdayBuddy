@@ -61,7 +61,7 @@ open class EventDate(var eventDate: Date) : Comparable<EventDate> {
      * @return String
      */
     fun getPrettyShortStringWithoutYear(locale: Locale = Locale.getDefault()): String {
-        return getLocalizedDayAndMonth(this.eventDate, locale)
+        return getLocalizedDayAndMonthString(this.eventDate, locale)
     }
 
     /**
@@ -232,7 +232,8 @@ open class EventDate(var eventDate: Date) : Comparable<EventDate> {
                     Calendar.getInstance().get(Calendar.YEAR) + 1
                 )
             }
-            dateInCurrentTimeContext.set(Calendar.HOUR, 12)
+            dateInCurrentTimeContext.set(Calendar.HOUR_OF_DAY, 0)
+            dateInCurrentTimeContext.set(Calendar.SECOND, 1)
             return dateInCurrentTimeContext.time
         }
 
@@ -323,7 +324,10 @@ open class EventDate(var eventDate: Date) : Comparable<EventDate> {
         }
 
         @JvmStatic
-        fun getLocalizedDayAndMonth(date: Date, locale: Locale = Locale.getDefault()): String {
+        fun getLocalizedDayAndMonthString(
+            date: Date,
+            locale: Locale = Locale.getDefault()
+        ): String {
             val skeletonPattern = "ddMM"
             val workingFormat =
                 android.text.format.DateFormat.getBestDateTimePattern(locale, skeletonPattern)
@@ -331,11 +335,43 @@ open class EventDate(var eventDate: Date) : Comparable<EventDate> {
         }
 
         @JvmStatic
-        fun getLocalizedDayMonthYear(date: Date, locale: Locale = Locale.getDefault()): String {
+        fun getLocalizedDayMonthYearString(
+            date: Date,
+            locale: Locale = Locale.getDefault()
+        ): String {
             val skeletonPattern = "ddMMYYYY"
             val workingFormat =
                 android.text.format.DateFormat.getBestDateTimePattern(locale, skeletonPattern)
             return SimpleDateFormat(workingFormat, locale).format(date)
+        }
+
+        @JvmStatic
+        fun getLocalizedDateFormatPatternFromSkeleton(
+            skeleton: String,
+            locale: Locale = Locale.getDefault()
+        ): String {
+            return android.text.format.DateFormat.getBestDateTimePattern(locale, skeleton)
+        }
+
+        @JvmStatic
+        fun parseStringToDateWithPattern(
+            pattern: String,
+            dateString: String,
+            locale: Locale = Locale.getDefault()
+        ): Date {
+            val workingFormat =
+                android.text.format.DateFormat.getBestDateTimePattern(locale, pattern)
+            val separatorChar = if (workingFormat.contains("-")) {
+                "-"
+            } else if (workingFormat.contains(".")) {
+                "."
+            } else {
+                "/"
+            }
+
+            //replace all non digits with a unified localized sperator string
+            val modifiedDateString = dateString.replace("""\W""".toRegex(), separatorChar)
+            return parseStringToDate(modifiedDateString, DateFormat.DATE_FIELD)
         }
 
         const val Name: String = "EventDate"

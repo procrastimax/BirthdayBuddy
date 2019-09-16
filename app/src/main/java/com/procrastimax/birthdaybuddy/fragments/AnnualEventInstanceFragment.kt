@@ -99,9 +99,9 @@ class AnnualEventInstanceFragment : EventInstanceFragment() {
 
                     if (annualEvent.hasStartYear) {
                         editDate.text =
-                            EventDate.parseDateToString(this.eventDate, DateFormat.DEFAULT)
+                            EventDate.getLocalizedDayMonthYearString(this.eventDate)
                     } else {
-                        editDate.text = EventDate.getLocalizedDayAndMonth(this.eventDate)
+                        editDate.text = EventDate.getLocalizedDayAndMonthString(this.eventDate)
                     }
 
                     editName.setText(annualEvent.name)
@@ -160,7 +160,7 @@ class AnnualEventInstanceFragment : EventInstanceFragment() {
         } else {
             setToolbarTitle(context!!.resources.getString(R.string.toolbar_title_add_annual_event))
             btn_fragment_annual_event_instance_delete.visibility = Button.INVISIBLE
-            editDate.hint = EventDate.parseDateToString(this.eventDate, DateFormat.DEFAULT)
+            editDate.hint = EventDate.getLocalizedDayMonthYearString(this.eventDate)
         }
 
         editDate.setOnClickListener {
@@ -178,17 +178,17 @@ class AnnualEventInstanceFragment : EventInstanceFragment() {
                         this.eventDate = cal.time
                     }
 
-                    editDate.text = EventDate.parseDateToString(this.eventDate, DateFormat.DEFAULT)
+                    editDate.text = EventDate.getLocalizedDayMonthYearString(this.eventDate)
                     //year is not given
                 } else {
-                    editDate.text = EventDate.getLocalizedDayAndMonth(this.eventDate)
+                    editDate.text = EventDate.getLocalizedDayAndMonthString(this.eventDate)
                 }
             } else {
                 if (isChecked) {
-                    editDate.hint = EventDate.parseDateToString(this.eventDate, DateFormat.DEFAULT)
+                    editDate.hint = EventDate.getLocalizedDayMonthYearString(this.eventDate)
 
                 } else {
-                    editDate.hint = EventDate.getLocalizedDayAndMonth(this.eventDate)
+                    editDate.hint = EventDate.getLocalizedDayAndMonthString(this.eventDate)
                 }
             }
         }
@@ -226,10 +226,10 @@ class AnnualEventInstanceFragment : EventInstanceFragment() {
                     } else {
                         this.eventDate = c.time
                         if (switchIsYearGiven.isChecked) {
-                            editDate.text = EventDate.parseDateToString(c.time, DateFormat.DEFAULT)
+                            editDate.text = EventDate.getLocalizedDayMonthYearString(this.eventDate)
                         } else {
                             editDate.text =
-                                EventDate.getLocalizedDayAndMonth(c.time)
+                                EventDate.getLocalizedDayAndMonthString(this.eventDate)
                         }
                     }
                 },

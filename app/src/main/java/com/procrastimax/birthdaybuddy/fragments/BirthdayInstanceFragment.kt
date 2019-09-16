@@ -106,8 +106,8 @@ class BirthdayInstanceFragment : EventInstanceFragment() {
      * editDate is the TextEdit used for editing/ showing the date of the birthday
      * It is lazy initialized
      */
-    private val editDate: TextView by lazy {
-        view!!.findViewById<TextView>(R.id.edit_add_fragment_date)
+    private val editDate: EditText by lazy {
+        view!!.findViewById<EditText>(R.id.edit_add_fragment_date)
     }
 
     /**
@@ -118,8 +118,26 @@ class BirthdayInstanceFragment : EventInstanceFragment() {
         view!!.findViewById<EditText>(R.id.edit_add_fragment_note)
     }
 
-    private val dateEditRegexNoYear = Regex("""\d\d\W\d\d\W""")
-    private val dateEditRegexWithYear = Regex("""\d\d\W\d\d\W\d\d\d\d""")
+    private fun getDateRegexFromDateFormatSkeletonPattern(skeletonPattern: String): Regex {
+        val dateFormatPattern = EventDate.getLocalizedDateFormatPatternFromSkeleton(skeletonPattern)
+        var dateRegex = dateFormatPattern
+
+        var dateRegexArray = dateRegex.split("""\W""".toRegex())
+        dateRegexArray = dateRegexArray.map {
+            it.replace("""[a-zA-Z]""".toRegex(), """\\d""")
+        }
+
+        dateRegex = dateRegexArray.joinToString("""\W""")
+
+        return dateRegex.toRegex()
+    }
+
+    private val dateEditRegexNoYear by lazy {
+        getDateRegexFromDateFormatSkeletonPattern("ddMM")
+    }
+    private val dateEditRegexWithYear by lazy {
+        getDateRegexFromDateFormatSkeletonPattern("ddMMYYYY")
+    }
 
     /**
      * switchIsYearGiven is the Switch to indicate wether the user wants to provide a date with a year or without a year
@@ -179,14 +197,14 @@ class BirthdayInstanceFragment : EventInstanceFragment() {
 
                     if (birthday.isYearGiven) {
                         startDate =
-                            EventDate.getLocalizedDayMonthYear(this.eventDate)
+                            EventDate.getLocalizedDayMonthYearString(this.eventDate)
                     } else {
                         startDate =
-                            EventDate.getLocalizedDayAndMonth(this.eventDate)
+                            EventDate.getLocalizedDayAndMonthString(this.eventDate)
                     }
 
                     if (!isCalendarViewSelected) {
-                        editDate.text = startDate
+                        editDate.setText(startDate)
                         editDate.hint = startDate
                     } else {
                         editDateCalendarview.text = startDate
@@ -263,9 +281,10 @@ class BirthdayInstanceFragment : EventInstanceFragment() {
             btn_birthday_add_fragment_delete.visibility = Button.INVISIBLE
 
             if (isCalendarViewSelected) {
-                editDateCalendarview.hint = EventDate.getLocalizedDayMonthYear(this.eventDate)
+                editDateCalendarview.hint =
+                    EventDate.getLocalizedDateFormatPatternFromSkeleton("ddMMYYYY")
             } else {
-                editDate.hint = EventDate.getLocalizedDayMonthYear(this.eventDate)
+                editDate.hint = EventDate.getLocalizedDateFormatPatternFromSkeleton("ddMMYYYY")
             }
         }
 
@@ -361,8 +380,8 @@ class BirthdayInstanceFragment : EventInstanceFragment() {
         }
 
         switchIsYearGiven.setOnCheckedChangeListener { _, isChecked ->
-            var dateText: String
-            var dateHint: String
+            val dateText: String
+            val dateHint: String
             //year is given
             if (isChecked) {
                 val cal = Calendar.getInstance()
@@ -373,36 +392,20 @@ class BirthdayInstanceFragment : EventInstanceFragment() {
                 }
 
                 dateText =
-                    EventDate.getLocalizedDayMonthYear(this.eventDate)
-                dateHint =
-                    EventDate.getLocalizedDayMonthYear(Calendar.getInstance().time)
-
-                //expand existing date string in dateEdit with year
-                if (!isCalendarViewSelected) {
-                    if (dateEditRegexNoYear.matches(editDate.text)) {
-                        dateText =
-                            editDate.text.toString() + Calendar.getInstance().get(Calendar.YEAR).toString()
-                    }
-                }
+                    EventDate.getLocalizedDayMonthYearString(this.eventDate)
+                dateHint = EventDate.getLocalizedDateFormatPatternFromSkeleton("ddMMYYYY")
 
                 //year is not given
             } else {
-                dateText = EventDate.getLocalizedDayAndMonth(this.eventDate)
-                dateHint = EventDate.getLocalizedDayAndMonth(Calendar.getInstance().time)
-
-                //truncate existing date string in dateEdit
-                if (!isCalendarViewSelected) {
-                    if (dateEditRegexWithYear.matches(editDate.text)) {
-                        dateText = editDate.text.substring(0..5)
-                    }
-                }
+                dateText = EventDate.getLocalizedDayAndMonthString(this.eventDate)
+                dateHint = EventDate.getLocalizedDateFormatPatternFromSkeleton("ddMM")
             }
 
             if (isCalendarViewSelected) {
-                if (editDate.text.isNotBlank()) editDateCalendarview.text = dateText
+                if (editDateCalendarview.text.isNotBlank()) editDateCalendarview.text = dateText
                 editDateCalendarview.hint = dateHint
             } else {
-                if (editDate.text.isNotBlank()) editDate.text = dateText
+                if (editDate.text.isNotBlank()) editDate.setText(dateText)
                 editDate.hint = dateHint
             }
         }
@@ -516,7 +519,7 @@ class BirthdayInstanceFragment : EventInstanceFragment() {
                 //already existent birthday entry, overwrite old entry in map
             } else {
                 EventHandler.getEventToEventIndex(eventID)?.let { event ->
-                    if (event is EventBirthday && wasChangeMade(event)) {
+                    if (event is EventBirthday) {
                         EventHandler.changeEventAt(eventID, birthday, context!!, true)
                         Snackbar.make(
                             view!!,
@@ -570,10 +573,10 @@ class BirthdayInstanceFragment : EventInstanceFragment() {
                         this.eventDate = c.time
                         if (showYear) {
                             editDateCalendarview.text =
-                                EventDate.parseDateToString(c.time, DateFormat.DEFAULT)
+                                EventDate.getLocalizedDayMonthYearString(c.time)
                         } else {
                             editDateCalendarview.text =
-                                EventDate.getLocalizedDayAndMonth(c.time)
+                                EventDate.getLocalizedDayAndMonthString(c.time)
                         }
                     }
                 },
@@ -590,55 +593,6 @@ class BirthdayInstanceFragment : EventInstanceFragment() {
             context.resources.getText(R.string.future_birthday_error),
             Toast.LENGTH_LONG
         ).show()
-    }
-
-    /**
-     * wasChangeMade checks whether a change to the edit fields was made or not
-     * This is used to avoid unnecessary operations
-     * @param event: EventBirthday, is the comparative object to check against the TextEdit fields
-     * @return Boolean, returns false if nothing has changed
-     */
-    private fun wasChangeMade(event: EventBirthday): Boolean {
-        if (switchIsYearGiven.isChecked) {
-            if (editDateCalendarview.text != event.dateToPrettyString(DateFormat.FULL)) return true
-            if (editDate.text != EventDate.getLocalizedDayMonthYear(event.eventDate)) return true
-        } else {
-            if (editDateCalendarview.text != event.dateToPrettyString(DateFormat.DATE_FIELD).subSequence(
-                    0..5
-                ).toString()
-            ) return true
-            if (editDate.text != EventDate.getLocalizedDayAndMonth(event.eventDate)) return true
-        }
-
-        if (editNote.text.isNotBlank() && event.note == null) {
-            return true
-        } else {
-            if (event.note != null) {
-                if (editNote.text.toString() != event.note!!) return true
-            }
-        }
-
-        if (editNickname.text.isNotBlank() && event.nickname == null) {
-            return true
-        } else {
-            if (event.nickname != null) {
-                if (editNickname.text.toString() != event.nickname!!) return true
-            }
-        }
-
-        if (editSurname.text.isNotBlank() && event.surname == null) {
-            return true
-        } else {
-            if (event.surname != null) {
-                if (editSurname.text.toString() != event.surname!!) return true
-            }
-        }
-
-        if (editForename.text.toString() != event.forename) return true
-        if (switchIsYearGiven.isChecked != event.isYearGiven) return true
-        if (avatarImgWasEdited) return true
-
-        return false
     }
 
     private fun validateAndSetEditTextDateInput(dateInput: String): Boolean {
@@ -662,32 +616,36 @@ class BirthdayInstanceFragment : EventInstanceFragment() {
             ).show()
             return false
         } else {
+
             // input matches regex, then set it as birthdayevent date
-
-            val dateValues = dateInput.split("""\W""".toRegex())
-            val cal = Calendar.getInstance()
-            cal.set(Calendar.HOUR, 12)
             this.eventDate = if (switchIsYearGiven.isChecked) {
-                cal.set(Calendar.DAY_OF_MONTH, dateValues[0].toInt() - 1)
-                cal.set(Calendar.MONTH, dateValues[1].toInt() - 1)
-
-                if (dateValues[2].toInt() == 0) {
-                    Toast.makeText(context!!, "Man, that's too old.", Toast.LENGTH_SHORT).show()
-                    cal.set(Calendar.YEAR, 1)
-                } else {
-                    cal.set(Calendar.YEAR, dateValues[2].toInt())
-                }
-
-                cal.time
+                EventDate.parseStringToDateWithPattern("ddMMYYYY", dateInput)
             } else {
-                cal.set(Calendar.DAY_OF_MONTH, dateValues[0].toInt() - 1)
-                cal.set(Calendar.MONTH, dateValues[1].toInt() - 1)
-                cal.set(Calendar.YEAR, 2016)
-
-                cal.time
+                //check if last character in the string is a date seperator char, if not, then append one before adding the year
+                if (checkForLastDateSeperatorChar(dateInput)) {
+                    EventDate.parseStringToDateWithPattern("ddMMYYYY", "${dateInput}2016")
+                } else {
+                    EventDate.parseStringToDateWithPattern("ddMMYYYY", """${dateInput}/2016""")
+                }
+            }
+            if (this.eventDate.before(
+                    EventDate.parseStringToDate(
+                        "01.01.0001",
+                        DateFormat.DATE_FIELD,
+                        Locale.GERMAN
+                    )
+                )
+            ) {
+                Toast.makeText(context, "Man this is too old!", Toast.LENGTH_SHORT).show()
+                this.eventDate =
+                    EventDate.parseStringToDate("01.01.0001", DateFormat.DATE_FIELD, Locale.GERMAN)
             }
         }
         return true
+    }
+
+    private fun checkForLastDateSeperatorChar(dateString: String): Boolean {
+        return (dateString.last().toString().matches("""\W""".toRegex()))
     }
 
     companion object {

@@ -44,6 +44,15 @@ object EventHandler {
         addBitmap: Boolean = true
 
     ) {
+
+        if (event !is MonthDivider) {
+            val cal = Calendar.getInstance()
+            cal.time = event.eventDate
+            cal.set(Calendar.HOUR_OF_DAY, 0)
+            cal.set(Calendar.SECOND, 1)
+            event.eventDate = cal.time
+        }
+
         this.event_map[event.eventID] = event
 
         if (event is EventBirthday && addBitmap) {
@@ -100,7 +109,8 @@ object EventHandler {
             if (newEvent !is MonthDivider) {
                 val cal = Calendar.getInstance()
                 cal.time = newEvent.eventDate
-                cal.set(Calendar.HOUR_OF_DAY, 12)
+                cal.set(Calendar.HOUR_OF_DAY, 0)
+                cal.set(Calendar.SECOND, 1)
                 newEvent.eventDate = cal.time
             }
 

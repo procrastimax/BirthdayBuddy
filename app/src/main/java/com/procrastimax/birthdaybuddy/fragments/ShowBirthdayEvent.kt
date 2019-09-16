@@ -108,7 +108,7 @@ class ShowBirthdayEvent : ShowEventFragment() {
                     )
 
                 } else {
-                    date = EventDate.getLocalizedDayAndMonth(birthdayEvent.eventDate)
+                    date = EventDate.getLocalizedDayAndMonthString(birthdayEvent.eventDate)
 
                     this.tv_show_birthday_years_old.visibility = TextView.GONE
                 }

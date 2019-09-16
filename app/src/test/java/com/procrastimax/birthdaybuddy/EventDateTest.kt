@@ -10,22 +10,9 @@ class EventDateTest {
 
     @Test
     fun dateToString() {
-        val date = EventDate(EventDate.parseStringToDate("06.02.01", DateFormat.DEFAULT, Locale.GERMAN))
+        val date =
+            EventDate(EventDate.parseStringToDate("06.02.01", DateFormat.DEFAULT, Locale.GERMAN))
         Assert.assertEquals("EventDate||Date::06.02.0001", date.toString())
-    }
-
-    @Test
-    fun dateFormatTest() {
-       /* val cal = Calendar.getInstance()
-        println(EventDate.parseDateToString(cal.time, DateFormat.SHORT))
-
-        val dateString = EventDate.getDayMonthDateString(cal.time, Locale.JAPANESE)
-        println(dateString)
-
-        //val fmtOut = SimpleDateFormat(dateFormat.toString())
-        //println(fmtOut.format(cal.time))*/
-
-        assert(true)
     }
 
     @Test
@@ -76,13 +63,13 @@ class EventDateTest {
     }
 
     @Test
-    fun weeksUntilTest(){
+    fun weeksUntilTest() {
         val calender = Calendar.getInstance()
         calender.time = Calendar.getInstance().time
         calender.set(Calendar.DAY_OF_YEAR, Calendar.getInstance().get(Calendar.DAY_OF_YEAR) + 15)
 
         val date = EventDate(calender.time)
-        Assert.assertEquals("2,2", date.getWeeksUntilAsString())
+        Assert.assertEquals("2,1", date.getWeeksUntilAsString())
 
     }
 }
