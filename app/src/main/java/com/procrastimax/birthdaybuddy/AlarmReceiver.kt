@@ -324,7 +324,7 @@ class AlarmReceiver : BroadcastReceiver() {
             returnString += "\n${context.resources.getString(
                 R.string.notification_content_birthday_years_old,
                 birthday.getNicknameOrForename(),
-                birthday.getYearsSince() + 1
+                birthday.getTurningAgeValue()
             )}"
         }
         return returnString
@@ -361,8 +361,8 @@ class AlarmReceiver : BroadcastReceiver() {
         if (annualEvent.hasStartYear) {
             returnString += "\n${context.resources.getQuantityString(
                 R.plurals.annual_event_years,
-                annualEvent.getYearsSince() + 1,
-                annualEvent.getYearsSince() + 1
+                annualEvent.getXTimesSinceStarting(),
+                annualEvent.getXTimesSinceStarting()
             )}"
         }
         return returnString

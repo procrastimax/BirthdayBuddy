@@ -239,9 +239,9 @@ object EventHandler {
     private fun getSortedListBy(
         identifier: SortIdentifier = EventDate.Identifier.Date
     ): List<EventDate> {
-        if(identifier == EventDate.Identifier.Date){
+        if (identifier == EventDate.Identifier.Date) {
             return event_map.values.sorted()
-        }else{
+        } else {
             return emptyList()
         }
     }
