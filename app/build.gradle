@@ -9,7 +9,7 @@ android {
         applicationId "com.procrastimax.birthdaybuddy"
         minSdkVersion 21
         targetSdkVersion 28
-        versionCode 12
+        versionCode 13
         versionName "1.1.1"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
