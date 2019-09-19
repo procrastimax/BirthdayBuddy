@@ -27,7 +27,7 @@ open class EventDate(var eventDate: Date) : Comparable<EventDate> {
     /**
      * compareTo is the implementation of the comparable interface
      * @param other : EventDay
-     * @return Int negative for if compares instance is less than, 0 for equal and positive value if compares instance is greater than this instance
+     * @return Int negative if compared instance is less than, 0 for equal and positive value if compares instance is greater than this instance
      */
     override fun compareTo(other: EventDate): Int {
         val calL = Calendar.getInstance()
@@ -36,23 +36,34 @@ open class EventDate(var eventDate: Date) : Comparable<EventDate> {
         val calR = Calendar.getInstance()
         calR.time = other.eventDate
 
-        val daysOfYearL = calL.get(Calendar.DAY_OF_YEAR)
-        val daysOfYearR = calR.get(Calendar.DAY_OF_YEAR)
+        //set same year for both dates, normalizes times
+        calR.set(Calendar.YEAR, calL.get(Calendar.YEAR))
 
-        //if days of year less than days of year from other instance
-        if (daysOfYearL < daysOfYearR) {
-            return -1
-        }
-        //if days of years are equal, check year
-        else if (daysOfYearL == daysOfYearR) {
-            //if years of left instance is less than years of right, return negative value (-1)
-            return if (calL.get(Calendar.YEAR) < calR.get(Calendar.YEAR)) {
-                -1
-            } else if (calL.get(Calendar.YEAR) > calR.get(Calendar.YEAR)) {
+        calL.set(Calendar.HOUR_OF_DAY, 0)
+        calL.set(Calendar.MINUTE, 0)
+        calL.set(Calendar.SECOND, 0)
+        calL.set(Calendar.MILLISECOND, 0)
+
+        calR.set(Calendar.HOUR_OF_DAY, 0)
+        calR.set(Calendar.MINUTE, 0)
+        calR.set(Calendar.SECOND, 0)
+        calR.set(Calendar.MILLISECOND, 0)
+
+        return if (calL.time == calR.time) {
+            // when equal, check if the compared one is a month divider, then rank it lower by returning 1
+            if (other is MonthDivider) {
                 return 1
-            } else 0
-            //else the right value has to be smaller
-        } else return 1
+            }
+
+            // when equal, check if this one is a month divider, if that is the case, rank it lower by returning -1
+            if (this is MonthDivider) {
+                return -1
+            }
+
+            0
+        } else if (calL.before(calR)) {
+            -1
+        } else 1
     }
 
     /**
@@ -126,12 +137,14 @@ open class EventDate(var eventDate: Date) : Comparable<EventDate> {
                 return 0
             }
 
-            return TimeUnit.MILLISECONDS.toDays(nextYear.timeInMillis - currentDayCal.timeInMillis).toInt()
+            return TimeUnit.MILLISECONDS.toDays(nextYear.timeInMillis - currentDayCal.timeInMillis)
+                .toInt()
         } else {
             val nextYear = Calendar.getInstance()
             nextYear.time = eventDate
             nextYear.set(Calendar.YEAR, Calendar.getInstance().get(Calendar.YEAR) + 1)
-            return TimeUnit.MILLISECONDS.toDays(nextYear.timeInMillis - currentDayCal.timeInMillis).toInt()
+            return TimeUnit.MILLISECONDS.toDays(nextYear.timeInMillis - currentDayCal.timeInMillis)
+                .toInt()
         }
     }
 
@@ -184,6 +197,10 @@ open class EventDate(var eventDate: Date) : Comparable<EventDate> {
         pastDateCal.time = this.eventDate
 
         val currentCal = Calendar.getInstance()
+        currentCal.set(Calendar.HOUR_OF_DAY, pastDateCal.get(Calendar.HOUR_OF_DAY))
+        currentCal.set(Calendar.MINUTE, pastDateCal.get(Calendar.MINUTE))
+        currentCal.set(Calendar.SECOND, pastDateCal.get(Calendar.SECOND))
+        currentCal.set(Calendar.MILLISECOND, pastDateCal.get(Calendar.MILLISECOND))
 
         return if (dateToCurrentYear().before(currentCal.time)) {
             (currentCal.get(Calendar.YEAR) - pastDateCal.get(Calendar.YEAR))

@@ -14,7 +14,7 @@ class BirthdayEventTests {
         birthday.set(Calendar.YEAR, birthday.get(Calendar.YEAR) - 5)
         val birthdayEvent = EventBirthday(birthday.time, "testName", true)
 
-        Assert.assertEquals(5, birthdayEvent.getYearsSince())
+        Assert.assertEquals(5, birthdayEvent.getTurningAgeValue())
 
         // Birthday would be tomorrow, so still 4 years old
         val birthday2 = Calendar.getInstance()
@@ -22,15 +22,15 @@ class BirthdayEventTests {
         birthday2.set(Calendar.DAY_OF_YEAR, birthday2.get(Calendar.DAY_OF_YEAR) + 1)
         val birthdayEvent2 = EventBirthday(birthday2.time, "testName", true)
 
-        Assert.assertEquals(4, birthdayEvent2.getYearsSince())
+        Assert.assertEquals(5, birthdayEvent2.getTurningAgeValue())
 
-        // Birthday was yesterday, so person in 5 years old
+        // Birthday was yesterday, so person is 5 years old
         val birthday3 = Calendar.getInstance()
         birthday3.set(Calendar.YEAR, birthday3.get(Calendar.YEAR) - 5)
         birthday3.set(Calendar.DAY_OF_YEAR, birthday3.get(Calendar.DAY_OF_YEAR) - 1)
         val birthdayEvent3 = EventBirthday(birthday3.time, "testName", true)
 
-        Assert.assertEquals(5, birthdayEvent3.getYearsSince())
+        Assert.assertEquals(6, birthdayEvent3.getTurningAgeValue())
     }
 
     @Test

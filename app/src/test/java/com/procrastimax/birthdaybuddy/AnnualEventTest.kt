@@ -14,7 +14,7 @@ class AnnualEventTest {
         annual.set(Calendar.YEAR, annual.get(Calendar.YEAR) - 1)
         val annualEvent = AnnualEvent(annual.time, "testName", true)
 
-        Assert.assertEquals(1, annualEvent.getYearsSince())
+        Assert.assertEquals(0, annualEvent.getYearsSince())
         Assert.assertEquals(1, annualEvent.getXTimesSinceStarting())
 
         // 1 day after happening for first time -> takes place for 2nd time since 1 year

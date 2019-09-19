@@ -72,4 +72,45 @@ class EventDateTest {
         Assert.assertEquals("2,1", date.getWeeksUntilAsString())
 
     }
+
+    @Test
+    fun dateComparingTest1() {
+        val calenderL = Calendar.getInstance()
+        calenderL.time = Calendar.getInstance().time
+        calenderL.set(Calendar.DAY_OF_YEAR, Calendar.getInstance().get(Calendar.DAY_OF_YEAR) + 15)
+        val eventL = EventDate(calenderL.time)
+
+        val calenderR = Calendar.getInstance()
+        calenderR.time = Calendar.getInstance().time
+        val eventR = EventDate(calenderR.time)
+
+        Assert.assertEquals(1, eventL.compareTo(eventR))
+    }
+
+    @Test
+    fun dateComparingTest2() {
+        val calenderL = Calendar.getInstance()
+        calenderL.time = Calendar.getInstance().time
+        calenderL.set(Calendar.DAY_OF_YEAR, Calendar.getInstance().get(Calendar.DAY_OF_YEAR) - 15)
+        val eventL = EventDate(calenderL.time)
+
+        val calenderR = Calendar.getInstance()
+        calenderR.time = Calendar.getInstance().time
+        val eventR = EventDate(calenderR.time)
+
+        Assert.assertEquals(-1, eventL.compareTo(eventR))
+    }
+
+    @Test
+    fun dateComparingTest3() {
+        val calenderL = Calendar.getInstance()
+        calenderL.time = Calendar.getInstance().time
+        val eventL = EventDate(calenderL.time)
+
+        val calenderR = Calendar.getInstance()
+        calenderR.time = Calendar.getInstance().time
+        val eventR = EventDate(calenderR.time)
+
+        Assert.assertEquals(0, eventL.compareTo(eventR))
+    }
 }

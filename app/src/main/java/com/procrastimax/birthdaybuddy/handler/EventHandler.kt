@@ -239,16 +239,10 @@ object EventHandler {
     private fun getSortedListBy(
         identifier: SortIdentifier = EventDate.Identifier.Date
     ): List<EventDate> {
-        return if (identifier == EventDate.Identifier.Date) {
-            event_map.values.sortedWith(
-                compareBy(
-                    { it.getDayOfYear() },
-                    { it.getDayOfMonth() },
-                    { it.getYear() },
-                    { it.eventID })
-            )
-        } else {
-            emptyList()
+        if(identifier == EventDate.Identifier.Date){
+            return event_map.values.sorted()
+        }else{
+            return emptyList()
         }
     }
 }
