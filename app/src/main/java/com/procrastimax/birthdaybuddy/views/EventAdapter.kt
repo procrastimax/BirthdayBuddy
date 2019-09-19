@@ -376,7 +376,7 @@ class EventAdapter(private val context: Context, private val fragmentManager: Fr
                         //set years since, if specified
                         if (annualEvent.hasStartYear) {
                             holder.itemView.tv_years_since_annual_value.text =
-                                annualEvent.getYearsSince().toString()
+                                annualEvent.getXTimesSinceStarting().toString()
                         } else {
                             holder.itemView.tv_years_since_annual_value.text = "-"
                         }
