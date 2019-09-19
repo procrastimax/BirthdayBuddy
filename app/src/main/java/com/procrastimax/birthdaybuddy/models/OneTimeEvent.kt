@@ -82,14 +82,23 @@ class OneTimeEvent(_eventdate: Date, var name: String) : EventDate(_eventdate) {
     }
 
     override fun getDaysUntil(): Int {
+        val currentDayCal = Calendar.getInstance()
+        currentDayCal.set(Calendar.HOUR_OF_DAY, 0)
+        currentDayCal.set(Calendar.MINUTE, 0)
+        currentDayCal.set(Calendar.SECOND, 0)
+        currentDayCal.set(Calendar.MILLISECOND, 0)
 
-        val currentCal = Calendar.getInstance()
-        currentCal.set(Calendar.HOUR_OF_DAY, 0)
-        currentCal.set(Calendar.MINUTE, 0)
-        currentCal.set(Calendar.SECOND, 0)
+        val nextYear = Calendar.getInstance()
+        nextYear.time = eventDate
 
-        val diff: Long = this.eventDate.time - currentCal.timeInMillis
-        return TimeUnit.DAYS.convert(diff, TimeUnit.MILLISECONDS).toInt()
+        if (nextYear.get(Calendar.DAY_OF_MONTH) == Calendar.getInstance().get(Calendar.DAY_OF_MONTH) &&
+            nextYear.get(Calendar.MONTH) == Calendar.getInstance().get(Calendar.MONTH)
+        ) {
+            return 0
+        }
+
+        return TimeUnit.MILLISECONDS.toDays(nextYear.timeInMillis - currentDayCal.timeInMillis)
+            .toInt()
     }
 
     companion object {

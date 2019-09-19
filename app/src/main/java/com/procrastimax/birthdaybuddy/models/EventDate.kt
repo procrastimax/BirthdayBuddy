@@ -17,12 +17,27 @@ import java.util.concurrent.TimeUnit
  * Can be used for other eventType classes f.e. birthdayEvent, anniversaryEvent, ...
  * The used date format used in the app is dd.MM.yyyy
  *
- * @param eventDate The date of the event
+ * @param _eventDate the date of the event
  * @author Procrastimax
  */
-open class EventDate(var eventDate: Date) : Comparable<EventDate> {
+open class EventDate(_eventDate: Date) : Comparable<EventDate> {
 
     var eventID: Int = IOHandler.getHighestIndex() + 1
+
+    var eventDate : Date = Calendar.getInstance().time
+    set(value) {
+        val currCal = Calendar.getInstance()
+        currCal.time = value
+        currCal.set(Calendar.HOUR_OF_DAY, 0)
+        currCal.set(Calendar.MINUTE, 0)
+        currCal.set(Calendar.SECOND, 0)
+        currCal.set(Calendar.MILLISECOND, 0)
+        field = currCal.time
+    }
+
+    init {
+     this.eventDate = _eventDate
+    }
 
     /**
      * compareTo is the implementation of the comparable interface
@@ -38,12 +53,6 @@ open class EventDate(var eventDate: Date) : Comparable<EventDate> {
 
         //set same year for both dates, normalizes times
         calR.set(Calendar.YEAR, calL.get(Calendar.YEAR))
-
-        calL.set(Calendar.HOUR_OF_DAY, 0)
-        calL.set(Calendar.MINUTE, 0)
-        calL.set(Calendar.SECOND, 0)
-        calL.set(Calendar.MILLISECOND, 0)
-
         calR.set(Calendar.HOUR_OF_DAY, 0)
         calR.set(Calendar.MINUTE, 0)
         calR.set(Calendar.SECOND, 0)
@@ -120,11 +129,11 @@ open class EventDate(var eventDate: Date) : Comparable<EventDate> {
      * @return Int
      */
     open fun getDaysUntil(): Int {
-
         val currentDayCal = Calendar.getInstance()
         currentDayCal.set(Calendar.HOUR_OF_DAY, 0)
         currentDayCal.set(Calendar.MINUTE, 0)
         currentDayCal.set(Calendar.SECOND, 0)
+        currentDayCal.set(Calendar.MILLISECOND, 0)
 
         if (!eventAlreadyOccurred()) {
             val nextYear = Calendar.getInstance()
@@ -256,7 +265,9 @@ open class EventDate(var eventDate: Date) : Comparable<EventDate> {
                 )
             }
             dateInCurrentTimeContext.set(Calendar.HOUR_OF_DAY, 0)
-            dateInCurrentTimeContext.set(Calendar.SECOND, 1)
+            dateInCurrentTimeContext.set(Calendar.SECOND, 0)
+            dateInCurrentTimeContext.set(Calendar.MINUTE, 0)
+            dateInCurrentTimeContext.set(Calendar.MILLISECOND, 0)
             return dateInCurrentTimeContext.time
         }
 

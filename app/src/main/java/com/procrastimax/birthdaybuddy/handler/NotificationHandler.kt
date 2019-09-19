@@ -44,22 +44,22 @@ object NotificationHandler {
 
                     //set reminder for reminding times
                     if (isMonthReminder == true) {
-                        setUpNotification(context, event, NotificationHandler.ReminderStart.MONTH)
+                        setUpNotification(context, event, ReminderStart.MONTH)
                     }
 
                     if (isWeekReminder == true) {
-                        setUpNotification(context, event, NotificationHandler.ReminderStart.WEEK)
+                        setUpNotification(context, event, ReminderStart.WEEK)
                     }
 
                     if (isDayReminder == true) {
-                        setUpNotification(context, event, NotificationHandler.ReminderStart.DAY)
+                        setUpNotification(context, event, ReminderStart.DAY)
                     }
 
                     if (isEventDayReminder == true) {
                         setUpNotification(
                             context,
                             event,
-                            NotificationHandler.ReminderStart.EVENTDATE
+                            ReminderStart.EVENTDATE
                         )
                     }
                 }
@@ -80,22 +80,22 @@ object NotificationHandler {
 
                     //set reminder for reminding times
                     if (isMonthReminder == true) {
-                        setUpNotification(context, event, NotificationHandler.ReminderStart.MONTH)
+                        setUpNotification(context, event, ReminderStart.MONTH)
                     }
 
                     if (isWeekReminder == true) {
-                        setUpNotification(context, event, NotificationHandler.ReminderStart.WEEK)
+                        setUpNotification(context, event, ReminderStart.WEEK)
                     }
 
                     if (isDayReminder == true) {
-                        setUpNotification(context, event, NotificationHandler.ReminderStart.DAY)
+                        setUpNotification(context, event, ReminderStart.DAY)
                     }
 
                     if (isEventDayReminder == true) {
                         setUpNotification(
                             context,
                             event,
-                            NotificationHandler.ReminderStart.EVENTDATE
+                            ReminderStart.EVENTDATE
                         )
                     }
                 }
@@ -117,22 +117,22 @@ object NotificationHandler {
 
                     //set reminder for reminding times
                     if (isMonthReminder == true) {
-                        setUpNotification(context, event, NotificationHandler.ReminderStart.MONTH)
+                        setUpNotification(context, event, ReminderStart.MONTH)
                     }
 
                     if (isWeekReminder == true) {
-                        setUpNotification(context, event, NotificationHandler.ReminderStart.WEEK)
+                        setUpNotification(context, event, ReminderStart.WEEK)
                     }
 
                     if (isDayReminder == true) {
-                        setUpNotification(context, event, NotificationHandler.ReminderStart.DAY)
+                        setUpNotification(context, event, ReminderStart.DAY)
                     }
 
                     if (isEventDayReminder == true) {
                         setUpNotification(
                             context,
                             event,
-                            NotificationHandler.ReminderStart.EVENTDATE
+                            ReminderStart.EVENTDATE
                         )
                     }
                 }
@@ -184,7 +184,7 @@ object NotificationHandler {
                 )
                 println(
                     " ---> AnnualEvent notification added on " + notificationTime + " with ID: " +
-                            getRequestCode(event, reminderStart)
+                            getRequestCode(event, reminderStart) + " name: " + event.name
                 )
             }
             is OneTimeEvent -> {
@@ -242,22 +242,22 @@ object NotificationHandler {
 
         when (reminderStart) {
             //set notification time a month before event day
-            NotificationHandler.ReminderStart.MONTH -> {
+            ReminderStart.MONTH -> {
                 cal.set(Calendar.MONTH, cal.get(Calendar.MONTH) - 1)
             }
 
             //set notification time a week before event day
-            NotificationHandler.ReminderStart.WEEK -> {
+            ReminderStart.WEEK -> {
                 cal.set(Calendar.WEEK_OF_YEAR, cal.get(Calendar.WEEK_OF_YEAR) - 1)
             }
 
             //set notification time a day before event day
-            NotificationHandler.ReminderStart.DAY -> {
+            ReminderStart.DAY -> {
                 cal.set(Calendar.DAY_OF_YEAR, cal.get(Calendar.DAY_OF_YEAR) - 1)
             }
 
             //set notification time on event day
-            NotificationHandler.ReminderStart.EVENTDATE -> {
+            ReminderStart.EVENTDATE -> {
 
             }
         }
