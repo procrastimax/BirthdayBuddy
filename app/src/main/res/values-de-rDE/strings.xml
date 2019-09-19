@@ -278,5 +278,5 @@
     <string name="permissions_toast_import_error">Fehler - Etwas lief schief beim Lesen der Daten</string>
     <string name="permissions_toast_export_error">Fehler - Etwas lief schief beim Schreiben deiner Daten!</string>
     <string name="error_retry_save_file">Erstelle neue Save-File mit den jetzigen Events!</string>
-    <string name="setting_use_calendarview">Benutze Kalenderansicht</string>
+    <string name="setting_use_calendarview">Benutze Kalenderansicht für Datum</string>
 </resources>

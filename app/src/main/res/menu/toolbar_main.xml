@@ -24,8 +24,4 @@
             android:id="@+id/item_help"
             app:showAsAction="never"
             android:title="@string/main_menu_item_help"/>
-
-    <item
-        app:showAsAction="never"
-        android:title="Test notification"/>
 </menu>

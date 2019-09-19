@@ -224,7 +224,7 @@
     <string name="delete_all_dialog_body">Are you sure you want delete all of your event data?</string>
     <string name="delete_all_dialog_confirmation">All events have been deleted</string>
 
-    <string name="setting_use_calendarview">Use a calendar view</string>
+    <string name="setting_use_calendarview">Use a calendar view for date</string>
 
     <!-- Searching -->
     <string name="searching_toolbar_title">Search for: %1$s</string>
