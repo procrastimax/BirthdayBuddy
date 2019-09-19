@@ -63,7 +63,7 @@ class AnnualEvent(_eventDate: Date, var name: String, var hasStartYear: Boolean)
         ) {
             return 0
         }
-        
+
         return getYearsSince() + 1
     }
 
