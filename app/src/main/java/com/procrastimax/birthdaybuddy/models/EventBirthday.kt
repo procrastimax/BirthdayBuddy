@@ -86,6 +86,15 @@ class EventBirthday(
      * This respects that on a birthday-day a person is still turning the age beforehand and not the age+1
      */
     fun getTurningAgeValue(): Int {
+        val currCal = Calendar.getInstance()
+
+        if (currCal.get(Calendar.DAY_OF_MONTH) == this.getDayOfMonth() && currCal.get(Calendar.MONTH) == this.getMonth() && currCal.get(
+                Calendar.YEAR
+            ) == this.getYear()
+        ) {
+            return 0
+        }
+
         return getYearsSince() + 1
     }
 
