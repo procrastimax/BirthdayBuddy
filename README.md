@@ -26,4 +26,4 @@ You can also add future one-time events like graduation dates, which are automat
 - [ ] F-Droid (coming)
 
 # How can I contribute?
-When you want to inform me about bugs or just want to add any thoughts to this project, feel free to contact me via E-mail (*heykeroth.dev@gmail.com*) or create a Pull-Request and add your own ideas directly in the code.
+When you want to inform me about bugs or just want to add any thoughts to this project, feel free to contact me via E-mail (*heykeroth.dev@gmail.com*) or create a Pull-Request and add your own ideas directly in the code. If you want to contribute otherwise, you could gift me a coffee for my next project using this PayPal link: paypal.me/Procrastimax.
