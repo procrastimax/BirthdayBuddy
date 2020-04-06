@@ -549,12 +549,10 @@ class SettingsAdapter(private val context: Context) :
 
     private fun changeEnabledStatus(view: View, isEnabled: Boolean) {
         val constraintLayout = view.findViewById<ConstraintLayout>(R.id.constraintLayout_card_view_settings)
-        Log.d("changeEnabledStatus", "child count: " + constraintLayout.childCount)
 
         // differentiate between the count of childs in the birthday constraint settings layout and the rest
         // the birthday settings card currently has 9 childs
         if (constraintLayout.childCount == 9) {
-            Log.i("changeEnabledStatus", "here at 7 childs")
             for (i in 3 until constraintLayout.childCount) {
                 if (isEnabled) {
                     constraintLayout.getChildAt(i).visibility = View.VISIBLE
@@ -563,7 +561,6 @@ class SettingsAdapter(private val context: Context) :
                 }
             }
         } else {
-            Log.i("changeEnabledStatus", "here at NOT 7 childs")
             for (i in 2 until constraintLayout.childCount) {
                 if (isEnabled) {
                     constraintLayout.getChildAt(i).visibility = View.VISIBLE
