@@ -169,11 +169,6 @@ object NotificationHandler {
                     NOTIFICATION_WINDOW_LENGTH,
                     alarmIntent
                 )
-                println(
-                    " ---> EventBirthday notification added on " + notificationTime + " with ID: " +
-                            getRequestCode(event, reminderStart)
-                            + " name: " + event.forename
-                )
             }
             is AnnualEvent -> {
                 alarmManager.setWindow(
@@ -181,10 +176,6 @@ object NotificationHandler {
                     notificationTime.time,
                     NOTIFICATION_WINDOW_LENGTH,
                     alarmIntent
-                )
-                println(
-                    " ---> AnnualEvent notification added on " + notificationTime + " with ID: " +
-                            getRequestCode(event, reminderStart) + " name: " + event.name
                 )
             }
             is OneTimeEvent -> {
@@ -200,10 +191,6 @@ object NotificationHandler {
                         notificationTime.time,
                         NOTIFICATION_WINDOW_LENGTH,
                         alarmIntent
-                    )
-                    println(
-                        " ---> OneTimeEvent notification added on " + notificationTime + " with ID: " +
-                                getRequestCode(event, reminderStart)
                     )
                 }
             }
