@@ -44,6 +44,7 @@
                 android:hint="@string/event_property_date"
                 android:textColor="@color/dark"
                 android:textSize="@dimen/larger_text_size"
+                android:backgroundTint="@color/dark"
                 app:layout_constraintEnd_toEndOf="@+id/edit_add_fragment_name_one_time_event"
                 app:layout_constraintStart_toEndOf="@+id/iv_onetime_date"
                 app:layout_constraintTop_toBottomOf="@+id/edit_add_fragment_name_one_time_event" />
