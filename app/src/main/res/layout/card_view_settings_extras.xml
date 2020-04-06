@@ -18,6 +18,20 @@
         android:orientation="vertical">
 
 
+        <Switch
+            android:id="@+id/sw_dark_mode"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            android:text="@string/settings_extra_title_darkmode"
+            android:textColor="@color/textVeryDark"
+            android:textSize="18sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
         <android.support.constraint.ConstraintLayout
             android:id="@+id/layout_delete_all_data"
             android:layout_width="match_parent"
@@ -69,13 +83,14 @@
             android:id="@+id/layout_export_data"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
             android:background="@drawable/ripple_recycler_view_item"
             android:clickable="true"
             android:focusable="true"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+            app:layout_constraintTop_toBottomOf="@+id/sw_dark_mode">
 
             <TextView
                 android:layout_width="wrap_content"

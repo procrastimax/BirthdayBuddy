@@ -74,6 +74,7 @@
                 android:textColor="@color/dark"
                 android:textSize="@dimen/larger_text_size"
                 android:visibility="visible"
+                android:backgroundTint="@color/dark"
                 app:layout_constraintEnd_toStartOf="@+id/sw_is_year_given"
                 app:layout_constraintStart_toEndOf="@+id/iv_birthday_date"
                 app:layout_constraintTop_toBottomOf="@+id/edit_add_fragment_nickname" />
@@ -85,10 +86,11 @@
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
                 android:layout_marginEnd="8dp"
-                android:visibility="invisible"
                 android:inputType="date"
                 android:textColor="@color/dark"
                 android:textSize="@dimen/larger_text_size"
+                android:visibility="invisible"
+                android:backgroundTint="@color/dark"
                 app:layout_constraintEnd_toStartOf="@+id/sw_is_year_given"
                 app:layout_constraintStart_toEndOf="@+id/iv_birthday_date"
                 app:layout_constraintTop_toBottomOf="@+id/edit_add_fragment_nickname" />
@@ -101,7 +103,7 @@
                 android:showText="false"
                 android:splitTrack="false"
                 android:text="@string/event_property_year"
-                android:textColor="#808080"
+                android:textColor="@color/textDark"
                 app:layout_constraintBottom_toBottomOf="@+id/edit_add_fragment_date"
                 app:layout_constraintEnd_toEndOf="@+id/edit_add_fragment_nickname"
                 app:layout_constraintTop_toTopOf="@+id/edit_add_fragment_date" />

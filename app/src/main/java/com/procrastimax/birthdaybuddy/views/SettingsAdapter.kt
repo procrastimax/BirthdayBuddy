@@ -11,6 +11,7 @@ import android.support.constraint.ConstraintLayout
 import android.support.v4.app.ActivityCompat
 import android.support.v4.content.ContextCompat
 import android.support.v7.widget.RecyclerView
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -484,6 +485,22 @@ class SettingsAdapter(private val context: Context) :
                     getNotificationDateValueStringFromBooleanArray(notificationDateArray)
             }
             4 -> {
+                val useDarkMode = IOHandler.getBooleanFromKey(IOHandler.SharedPrefKeys.key_use_dark_mode)
+                if (useDarkMode != null) {
+                    holder.itemView.sw_dark_mode.isChecked = useDarkMode
+                }
+
+                holder.itemView.sw_dark_mode.setOnCheckedChangeListener { _, b ->
+                    if (b) {
+                        //set default night module
+                        IOHandler.writeSetting(IOHandler.SharedPrefKeys.key_use_dark_mode, true)
+                    } else {
+                        //set default night module
+                        IOHandler.writeSetting(IOHandler.SharedPrefKeys.key_use_dark_mode, false)
+                    }
+                    (context as MainActivity).recreate()
+                }
+
                 //delete all layout was pressed
                 holder.itemView.layout_delete_all_data.setOnClickListener {
                     showDeletAllDialog()
@@ -531,12 +548,28 @@ class SettingsAdapter(private val context: Context) :
     }
 
     private fun changeEnabledStatus(view: View, isEnabled: Boolean) {
-        val constraintLayout = view.findViewById<ConstraintLayout>(R.id.constraintLayout_card_view)
-        for (i in 3 until constraintLayout.childCount) {
-            if (isEnabled) {
-                constraintLayout.getChildAt(i).visibility = View.VISIBLE
-            } else {
-                constraintLayout.getChildAt(i).visibility = View.GONE
+        val constraintLayout = view.findViewById<ConstraintLayout>(R.id.constraintLayout_card_view_settings)
+        Log.d("changeEnabledStatus", "child count: " + constraintLayout.childCount)
+
+        // differentiate between the count of childs in the birthday constraint settings layout and the rest
+        // the birthday settings card currently has 9 childs
+        if (constraintLayout.childCount == 9) {
+            Log.i("changeEnabledStatus", "here at 7 childs")
+            for (i in 3 until constraintLayout.childCount) {
+                if (isEnabled) {
+                    constraintLayout.getChildAt(i).visibility = View.VISIBLE
+                } else {
+                    constraintLayout.getChildAt(i).visibility = View.GONE
+                }
+            }
+        } else {
+            Log.i("changeEnabledStatus", "here at NOT 7 childs")
+            for (i in 2 until constraintLayout.childCount) {
+                if (isEnabled) {
+                    constraintLayout.getChildAt(i).visibility = View.VISIBLE
+                } else {
+                    constraintLayout.getChildAt(i).visibility = View.GONE
+                }
             }
         }
     }

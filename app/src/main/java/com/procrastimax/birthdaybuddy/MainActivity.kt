@@ -9,6 +9,8 @@ import android.support.design.widget.CoordinatorLayout
 import android.support.design.widget.Snackbar
 import android.support.v4.app.Fragment
 import android.support.v7.app.AppCompatActivity
+import android.support.v7.app.AppCompatDelegate
+import android.support.v7.app.AppCompatDelegate.*
 import android.util.Log
 import android.util.TypedValue
 import android.widget.Toast
@@ -26,6 +28,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         setContentView(R.layout.activity_main)
         setSupportActionBar(toolbar)
 
@@ -44,16 +47,18 @@ class MainActivity : AppCompatActivity() {
             IOHandler.initializeAllSettings()
 
             addMonthDivider()
+        }
 
-            EventHandler.addEvent(
-                EventBirthday(
-                    EventDate.parseStringToDate("06.02.19", DateFormat.DEFAULT, Locale.GERMAN),
-                    "Procrastimax",
-                    false
-                ),
-                this,
-                true
-            )
+        //set default night module
+        val useDarkMode = IOHandler.getBooleanFromKey(IOHandler.SharedPrefKeys.key_use_dark_mode)
+        if (useDarkMode == null) {
+            AppCompatDelegate.setDefaultNightMode(MODE_NIGHT_NO)
+        } else {
+            if (useDarkMode) {
+                AppCompatDelegate.setDefaultNightMode(MODE_NIGHT_YES)
+            } else {
+                AppCompatDelegate.setDefaultNightMode(MODE_NIGHT_NO)
+            }
         }
 
         if (savedInstanceState == null) {
