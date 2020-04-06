@@ -213,6 +213,7 @@
     <string name="settings_extra_title_delete_all">Delete all data</string>
     <string name="settings_extra_title_export">Save data</string>
     <string name="settings_extra_title_import">Import data</string>
+    <string name="settings_extra_title_darkmode">Activate Dark Mode</string>
     <string name="settings_title_notifications">Notifications</string>
     <string name="settings_title_sound">Sound</string>
     <string name="settings_title_vibration">Vibration</string>
