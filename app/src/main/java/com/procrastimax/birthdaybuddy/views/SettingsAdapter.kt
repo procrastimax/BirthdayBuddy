@@ -10,6 +10,7 @@ import android.os.Environment
 import android.support.constraint.ConstraintLayout
 import android.support.v4.app.ActivityCompat
 import android.support.v4.content.ContextCompat
+import android.support.v7.app.AppCompatDelegate
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
@@ -484,6 +485,22 @@ class SettingsAdapter(private val context: Context) :
                     getNotificationDateValueStringFromBooleanArray(notificationDateArray)
             }
             4 -> {
+                val useDarkMode = IOHandler.getBooleanFromKey(IOHandler.SharedPrefKeys.key_use_dark_mode)
+                if (useDarkMode != null) {
+                    holder.itemView.sw_dark_mode.isChecked = useDarkMode
+                }
+
+                holder.itemView.sw_dark_mode.setOnCheckedChangeListener { _, b ->
+                    if (b) {
+                        //set default night module
+                        IOHandler.writeSetting(IOHandler.SharedPrefKeys.key_use_dark_mode, true)
+                    } else {
+                        //set default night module
+                        IOHandler.writeSetting(IOHandler.SharedPrefKeys.key_use_dark_mode, false)
+                    }
+                    (context as MainActivity).recreate()
+                }
+
                 //delete all layout was pressed
                 holder.itemView.layout_delete_all_data.setOnClickListener {
                     showDeletAllDialog()
@@ -532,7 +549,7 @@ class SettingsAdapter(private val context: Context) :
 
     private fun changeEnabledStatus(view: View, isEnabled: Boolean) {
         val constraintLayout = view.findViewById<ConstraintLayout>(R.id.constraintLayout_card_view)
-        for (i in 3 until constraintLayout.childCount) {
+        for (i in 2 until constraintLayout.childCount) {
             if (isEnabled) {
                 constraintLayout.getChildAt(i).visibility = View.VISIBLE
             } else {

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#262626</color>
+    <color name="colorPrimaryDark">#0d0d0d</color>
+    <color name="colorPrimaryLight">#737373</color>
+    <color name="colorAccent">#cf3f5c</color>
+
+    <!-- Grey color values -->
+    <color name="brightGrey">@color/colorPrimaryLight</color>
+    <color name="veryBrightGrey">#ffffff</color>
+    <color name="darkGrey">#ffffff</color>
+    <color name="textDark">#f2f2f2</color>
+    <color name="textVeryDark">#ffffff</color>
+    <color name="dark">#ffffff</color>
+    <color name="white">#212121</color>
+
+    <!-- NOTIFICATION LIGHTS -->
+    <color name="notification_light_white">#ffffff</color>
+    <color name="notification_light_red">#ff0000</color>
+    <color name="notification_light_green">#00ff00</color>
+    <color name="notification_light_blue">#0066ff</color>
+</resources>

@@ -64,6 +64,8 @@ object IOHandler {
 
         // extra settings
         const val key_date_as_calendar_view = "dateAsCalendarView"
+        const val key_use_dark_mode = "useDarkMode"
+
     }
 
     //Filename of shared preference to store event data and settings data
@@ -131,6 +133,7 @@ object IOHandler {
 
         // use a calendarview for setting the date of events, standard (true)
         writeSetting(SharedPrefKeys.key_date_as_calendar_view, true)
+        writeSetting(SharedPrefKeys.key_use_dark_mode, false)
     }
 
     private fun settingsContainsKey(key: String): Boolean {

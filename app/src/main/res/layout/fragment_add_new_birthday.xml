@@ -101,7 +101,7 @@
                 android:showText="false"
                 android:splitTrack="false"
                 android:text="@string/event_property_year"
-                android:textColor="#808080"
+                android:textColor="@color/textDark"
                 app:layout_constraintBottom_toBottomOf="@+id/edit_add_fragment_date"
                 app:layout_constraintEnd_toEndOf="@+id/edit_add_fragment_nickname"
                 app:layout_constraintTop_toTopOf="@+id/edit_add_fragment_date" />
