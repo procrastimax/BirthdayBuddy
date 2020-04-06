@@ -47,16 +47,6 @@ class MainActivity : AppCompatActivity() {
             IOHandler.initializeAllSettings()
 
             addMonthDivider()
-
-            EventHandler.addEvent(
-                EventBirthday(
-                    EventDate.parseStringToDate("06.02.19", DateFormat.DEFAULT, Locale.GERMAN),
-                    "Procrastimax",
-                    false
-                ),
-                this,
-                true
-            )
         }
 
         //set default night module
