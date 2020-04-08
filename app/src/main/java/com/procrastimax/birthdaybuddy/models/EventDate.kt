@@ -373,7 +373,7 @@ open class EventDate(_eventDate: Date) : Comparable<EventDate> {
             date: Date,
             locale: Locale = Locale.getDefault()
         ): String {
-            val skeletonPattern = "ddMMYYYY"
+            val skeletonPattern = "ddMMyyyy"
             val workingFormat =
                 android.text.format.DateFormat.getBestDateTimePattern(locale, skeletonPattern)
             return SimpleDateFormat(workingFormat, locale).format(date)
