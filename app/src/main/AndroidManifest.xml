@@ -1,69 +1,68 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-          xmlns:tools="http://schemas.android.com/tools"
-          package="com.procrastimax.birthdaybuddy">
+    xmlns:tools="http://schemas.android.com/tools"
+    package="com.procrastimax.birthdaybuddy">
 
-    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
-    <uses-permission android:name="android.permission.WAKE_LOCK"/>
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
     <application
-            android:allowBackup="true"
-            android:roundIcon="@drawable/ic_birthdaybuddy_icon"
-            android:icon="@drawable/ic_birthdaybuddy_icon"
-            android:label="@string/app_name"
-            android:supportsRtl="true"
-            android:theme="@style/AppTheme"
-            tools:ignore="GoogleAppIndexingWarning"
-            android:fullBackupContent="true"
-            android:restoreAnyVersion="true">
+        android:allowBackup="true"
+        android:fullBackupContent="true"
+        android:icon="@drawable/ic_birthdaybuddy_icon"
+        android:label="@string/app_name"
+        android:restoreAnyVersion="true"
+        android:roundIcon="@drawable/ic_birthdaybuddy_icon"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme"
+        tools:ignore="GoogleAppIndexingWarning">
 
         <!-- Main activity -->
         <activity
-                android:name=".MainActivity"
-                android:label="@string/app_name"
-                android:screenOrientation="portrait"
-                android:theme="@style/AppTheme.NoActionBar"
-                android:windowSoftInputMode="adjustResize"
-                android:launchMode="singleTask">
+            android:name=".MainActivity"
+            android:label="@string/app_name"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:windowSoftInputMode="adjustResize">
 
             <!-- enable the search widget to send searches to SearchableActivity -->
             <meta-data
-                    android:name="android.app.default_searchable"
-                    android:value=".SearchableActivity"/>
+                android:name="android.app.default_searchable"
+                android:value=".SearchableActivity" />
             <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
-                <category android:name="android.intent.category.LAUNCHER"/>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
 
         <!-- Search activity -->
         <activity
-                android:name=".SearchableActivity"
-                android:theme="@style/AppTheme.NoActionBar"
-                android:windowSoftInputMode="adjustResize">
+            android:name=".SearchableActivity"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:windowSoftInputMode="adjustResize">
             <intent-filter>
-                <action android:name="android.intent.action.SEARCH"/>
+                <action android:name="android.intent.action.SEARCH" />
             </intent-filter>
 
             <meta-data
-                    android:name="android.app.searchable"
-                    android:resource="@xml/searchable"/>
+                android:name="android.app.searchable"
+                android:resource="@xml/searchable" />
         </activity>
 
-        <receiver android:name=".AlarmReceiver">
-        </receiver>
+        <receiver android:name=".AlarmReceiver"></receiver>
 
         <receiver android:name=".BootReceiver">
             <intent-filter>
-                <action android:name="android.intent.action.BOOT_COMPLETED"/>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
             </intent-filter>
         </receiver>
 
         <service
-                android:name=".BootNotificationService"
-                android:permission="android.permission.BIND_JOB_SERVICE"/>
+            android:name=".BootNotificationService"
+            android:permission="android.permission.BIND_JOB_SERVICE" />
 
     </application>
 </manifest>

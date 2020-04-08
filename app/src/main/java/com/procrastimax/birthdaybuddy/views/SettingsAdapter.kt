@@ -10,6 +10,9 @@ import android.os.Environment
 import android.support.constraint.ConstraintLayout
 import android.support.v4.app.ActivityCompat
 import android.support.v4.content.ContextCompat
+import android.support.v7.app.AppCompatDelegate
+import android.support.v7.app.AppCompatDelegate.MODE_NIGHT_NO
+import android.support.v7.app.AppCompatDelegate.MODE_NIGHT_YES
 import android.support.v7.widget.RecyclerView
 import android.util.Log
 import android.view.LayoutInflater

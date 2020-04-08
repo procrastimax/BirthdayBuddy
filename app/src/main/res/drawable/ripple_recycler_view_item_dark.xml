@@ -1,10 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ripple xmlns:android="http://schemas.android.com/apk/res/android"
-        android:color="@color/dark">
-    <item
-            android:id="@android:id/mask"
-            android:drawable="@color/white"/>
+        android:color="@color/recycler_view_item_ripple_dark">
     <item
             android:id="@android:id/background"
-            android:drawable="@color/white"/>
+            android:drawable="@color/recycler_view_item_background_dark"/>
 </ripple>

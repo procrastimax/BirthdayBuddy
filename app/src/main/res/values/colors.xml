@@ -5,6 +5,20 @@
     <color name="colorPrimaryLight">#859cb1</color>
     <color name="colorAccent">#cf3f5c</color>
 
+    <color name="recycler_view_item_ripple_dark">#606060</color>
+    <color name="recycler_view_item_mask_dark">#ffffff</color>
+    <color name="recycler_view_item_background_dark">#d0d9e1</color>
+
+    <color name="recycler_view_item_ripple">#a0a0a0</color>
+    <color name="recycler_view_item_mask">#ffffff</color>
+    <color name="recycler_view_item_background">#ffffff</color>
+
+    <color name="horizontal_divider_line">#BDC3C7</color>
+    <color name="month_divider_background_color">@color/colorPrimaryLight</color>
+    <color name="month_divider_text_color">#ffffff</color>
+
+    <color name="event_item_view_title_right">#9fa7ad</color>
+
     <!-- Grey color values -->
     <color name="brightGrey">#BDC3C7</color>
     <color name="veryBrightGrey">#e3e6e8</color>

@@ -49,15 +49,18 @@ class MainActivity : AppCompatActivity() {
             addMonthDivider()
         }
 
+
         //set default night module
         val useDarkMode = IOHandler.getBooleanFromKey(IOHandler.SharedPrefKeys.key_use_dark_mode)
         if (useDarkMode == null) {
+            //if dark mode variable was not set before, set it now
+            IOHandler.writeSetting(IOHandler.SharedPrefKeys.key_use_dark_mode, false)
             AppCompatDelegate.setDefaultNightMode(MODE_NIGHT_NO)
         } else {
             if (useDarkMode) {
-                AppCompatDelegate.setDefaultNightMode(MODE_NIGHT_YES)
+               AppCompatDelegate.setDefaultNightMode(MODE_NIGHT_YES)
             } else {
-                AppCompatDelegate.setDefaultNightMode(MODE_NIGHT_NO)
+               AppCompatDelegate.setDefaultNightMode(MODE_NIGHT_NO)
             }
         }
 

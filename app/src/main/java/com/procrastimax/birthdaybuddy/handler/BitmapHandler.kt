@@ -11,11 +11,13 @@ import android.graphics.drawable.Drawable
 import android.net.Uri
 import android.provider.MediaStore
 import android.support.v4.graphics.drawable.RoundedBitmapDrawableFactory
+import android.widget.Toast
 import com.procrastimax.birthdaybuddy.R
 import com.procrastimax.birthdaybuddy.models.EventBirthday
 import java.io.ByteArrayOutputStream
 import java.io.File
 import java.io.FileOutputStream
+import java.lang.IndexOutOfBoundsException
 
 object BitmapHandler {
 
@@ -108,17 +110,22 @@ object BitmapHandler {
      */
     fun loadAllBitmaps(context: Context): Boolean {
         var success = true
-        for (i in 0 until EventHandler.getList().size) {
-            if (EventHandler.getList()[i] is EventBirthday) {
-                if ((EventHandler.getList()[i] as EventBirthday).avatarImageUri != null) {
-                    success =
-                        addDrawable(
-                            EventHandler.getList()[i].eventID,
-                            Uri.parse((EventHandler.getList()[i] as EventBirthday).avatarImageUri),
-                            context,
-                            readBitmapFromGallery = false
-                        )
+        for (i: Int in EventHandler.getList().indices) {
+            try {
+                if (EventHandler.getList()[i] is EventBirthday) {
+                    if ((EventHandler.getList()[i] as EventBirthday).avatarImageUri != null) {
+                        success =
+                            addDrawable(
+                                EventHandler.getList()[i].eventID,
+                                Uri.parse((EventHandler.getList()[i] as EventBirthday).avatarImageUri),
+                                context,
+                                readBitmapFromGallery = false
+                            )
+                    }
                 }
+            }catch (e : IndexOutOfBoundsException){
+                val toast = Toast.makeText(context,"Something went wrong when trying to load the images :(" , Toast.LENGTH_SHORT)
+                toast.show()
             }
         }
         return success

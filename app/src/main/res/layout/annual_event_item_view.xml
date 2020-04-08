@@ -46,7 +46,7 @@
         android:layout_marginTop="4dp"
         android:layout_marginEnd="16dp"
         android:text="@string/event_property_date"
-        android:textColor="@color/brightGrey"
+        android:textColor="@color/event_item_view_title_right"
         app:layout_constraintEnd_toStartOf="@+id/tv_days_until_annual_title"
         app:layout_constraintTop_toTopOf="@+id/iv_annual_item" />
 
@@ -57,7 +57,7 @@
         android:layout_marginTop="4dp"
         android:layout_marginEnd="16dp"
         android:text="@string/event_property_days"
-        android:textColor="@color/brightGrey"
+        android:textColor="@color/event_item_view_title_right"
         app:layout_constraintEnd_toStartOf="@+id/tv_years_since_annual_title"
         app:layout_constraintTop_toTopOf="@+id/iv_annual_item" />
 
@@ -68,7 +68,7 @@
         android:layout_marginTop="4dp"
         android:layout_marginEnd="16dp"
         android:text="@string/event_property_years"
-        android:textColor="@color/brightGrey"
+        android:textColor="@color/event_item_view_title_right"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@+id/iv_annual_item" />
 
