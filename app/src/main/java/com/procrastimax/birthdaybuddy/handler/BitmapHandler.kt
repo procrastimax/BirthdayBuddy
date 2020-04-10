@@ -123,7 +123,7 @@ object BitmapHandler {
                             )
                     }
                 }
-            }catch (e : IndexOutOfBoundsException){
+            }catch (e : Exception){
                 val toast = Toast.makeText(context,"Something went wrong when trying to load the images :(" , Toast.LENGTH_SHORT)
                 toast.show()
             }
