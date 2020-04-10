@@ -91,7 +91,8 @@ class OneTimeEvent(_eventdate: Date, var name: String) : EventDate(_eventdate) {
         val nextYear = Calendar.getInstance()
         nextYear.time = eventDate
 
-        if (nextYear.get(Calendar.DAY_OF_MONTH) == Calendar.getInstance().get(Calendar.DAY_OF_MONTH) &&
+        if (nextYear.get(Calendar.DAY_OF_MONTH) == Calendar.getInstance()
+                .get(Calendar.DAY_OF_MONTH) &&
             nextYear.get(Calendar.MONTH) == Calendar.getInstance().get(Calendar.MONTH)
         ) {
             return 0

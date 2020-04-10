@@ -309,7 +309,9 @@ class AnnualEventInstanceFragment : EventInstanceFragment() {
         if (switchIsYearGiven.isChecked) {
             if (editDate.text != event.dateToPrettyString(DateFormat.FULL)) return true
         } else {
-            if (editDate.text != event.dateToPrettyString(DateFormat.DATE_FIELD).subSequence(0..5).toString()) return true
+            if (editDate.text != event.dateToPrettyString(DateFormat.DATE_FIELD).subSequence(0..5)
+                    .toString()
+            ) return true
         }
 
         if (editNote.text.isNotBlank() && event.note == null) {

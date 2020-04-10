@@ -24,19 +24,19 @@ open class EventDate(_eventDate: Date) : Comparable<EventDate> {
 
     var eventID: Int = IOHandler.getHighestIndex() + 1
 
-    var eventDate : Date = Calendar.getInstance().time
-    set(value) {
-        val currCal = Calendar.getInstance()
-        currCal.time = value
-        currCal.set(Calendar.HOUR_OF_DAY, 0)
-        currCal.set(Calendar.MINUTE, 0)
-        currCal.set(Calendar.SECOND, 0)
-        currCal.set(Calendar.MILLISECOND, 0)
-        field = currCal.time
-    }
+    var eventDate: Date = Calendar.getInstance().time
+        set(value) {
+            val currCal = Calendar.getInstance()
+            currCal.time = value
+            currCal.set(Calendar.HOUR_OF_DAY, 0)
+            currCal.set(Calendar.MINUTE, 0)
+            currCal.set(Calendar.SECOND, 0)
+            currCal.set(Calendar.MILLISECOND, 0)
+            field = currCal.time
+        }
 
     init {
-     this.eventDate = _eventDate
+        this.eventDate = _eventDate
     }
 
     /**
@@ -140,7 +140,8 @@ open class EventDate(_eventDate: Date) : Comparable<EventDate> {
             nextYear.time = eventDate
             nextYear.set(Calendar.YEAR, Calendar.getInstance().get(Calendar.YEAR))
 
-            if (nextYear.get(Calendar.DAY_OF_MONTH) == Calendar.getInstance().get(Calendar.DAY_OF_MONTH) &&
+            if (nextYear.get(Calendar.DAY_OF_MONTH) == Calendar.getInstance()
+                    .get(Calendar.DAY_OF_MONTH) &&
                 nextYear.get(Calendar.MONTH) == Calendar.getInstance().get(Calendar.MONTH)
             ) {
                 return 0
@@ -192,7 +193,8 @@ open class EventDate(_eventDate: Date) : Comparable<EventDate> {
         val current = Calendar.getInstance().apply {
             time = dateToCurrentYear()
         }
-        return (current.get(Calendar.DAY_OF_YEAR) < Calendar.getInstance().get(Calendar.DAY_OF_YEAR))
+        return (current.get(Calendar.DAY_OF_YEAR) < Calendar.getInstance()
+            .get(Calendar.DAY_OF_YEAR))
     }
 
     /**

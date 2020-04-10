@@ -10,7 +10,8 @@ import android.support.design.widget.Snackbar
 import android.support.v4.app.Fragment
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.app.AppCompatDelegate
-import android.support.v7.app.AppCompatDelegate.*
+import android.support.v7.app.AppCompatDelegate.MODE_NIGHT_NO
+import android.support.v7.app.AppCompatDelegate.MODE_NIGHT_YES
 import android.util.Log
 import android.util.TypedValue
 import android.widget.Toast
@@ -18,10 +19,12 @@ import com.procrastimax.birthdaybuddy.fragments.*
 import com.procrastimax.birthdaybuddy.handler.BitmapHandler
 import com.procrastimax.birthdaybuddy.handler.EventHandler
 import com.procrastimax.birthdaybuddy.handler.IOHandler
-import com.procrastimax.birthdaybuddy.models.*
+import com.procrastimax.birthdaybuddy.models.AnnualEvent
+import com.procrastimax.birthdaybuddy.models.EventBirthday
+import com.procrastimax.birthdaybuddy.models.MonthDivider
+import com.procrastimax.birthdaybuddy.models.OneTimeEvent
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_event_list.*
-import java.text.DateFormat
 import java.util.*
 
 class MainActivity : AppCompatActivity() {
@@ -58,9 +61,9 @@ class MainActivity : AppCompatActivity() {
             AppCompatDelegate.setDefaultNightMode(MODE_NIGHT_NO)
         } else {
             if (useDarkMode) {
-               AppCompatDelegate.setDefaultNightMode(MODE_NIGHT_YES)
+                AppCompatDelegate.setDefaultNightMode(MODE_NIGHT_YES)
             } else {
-               AppCompatDelegate.setDefaultNightMode(MODE_NIGHT_NO)
+                AppCompatDelegate.setDefaultNightMode(MODE_NIGHT_NO)
             }
         }
 

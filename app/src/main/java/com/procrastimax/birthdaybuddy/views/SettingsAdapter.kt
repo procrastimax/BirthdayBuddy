@@ -10,11 +10,7 @@ import android.os.Environment
 import android.support.constraint.ConstraintLayout
 import android.support.v4.app.ActivityCompat
 import android.support.v4.content.ContextCompat
-import android.support.v7.app.AppCompatDelegate
-import android.support.v7.app.AppCompatDelegate.MODE_NIGHT_NO
-import android.support.v7.app.AppCompatDelegate.MODE_NIGHT_YES
 import android.support.v7.widget.RecyclerView
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -488,7 +484,8 @@ class SettingsAdapter(private val context: Context) :
                     getNotificationDateValueStringFromBooleanArray(notificationDateArray)
             }
             4 -> {
-                val useDarkMode = IOHandler.getBooleanFromKey(IOHandler.SharedPrefKeys.key_use_dark_mode)
+                val useDarkMode =
+                    IOHandler.getBooleanFromKey(IOHandler.SharedPrefKeys.key_use_dark_mode)
                 if (useDarkMode != null) {
                     holder.itemView.sw_dark_mode.isChecked = useDarkMode
                 }
@@ -551,7 +548,8 @@ class SettingsAdapter(private val context: Context) :
     }
 
     private fun changeEnabledStatus(view: View, isEnabled: Boolean) {
-        val constraintLayout = view.findViewById<ConstraintLayout>(R.id.constraintLayout_card_view_settings)
+        val constraintLayout =
+            view.findViewById<ConstraintLayout>(R.id.constraintLayout_card_view_settings)
 
         // differentiate between the count of childs in the birthday constraint settings layout and the rest
         // the birthday settings card currently has 9 childs

@@ -11,13 +11,12 @@ import android.graphics.drawable.Drawable
 import android.net.Uri
 import android.provider.MediaStore
 import android.support.v4.graphics.drawable.RoundedBitmapDrawableFactory
-import android.widget.Toast
+import android.util.Log
 import com.procrastimax.birthdaybuddy.R
 import com.procrastimax.birthdaybuddy.models.EventBirthday
 import java.io.ByteArrayOutputStream
 import java.io.File
 import java.io.FileOutputStream
-import java.lang.IndexOutOfBoundsException
 
 object BitmapHandler {
 
@@ -123,9 +122,8 @@ object BitmapHandler {
                             )
                     }
                 }
-            }catch (e : Exception){
-                val toast = Toast.makeText(context,"Something went wrong when trying to load the images :(" , Toast.LENGTH_SHORT)
-                toast.show()
+            } catch (e: IndexOutOfBoundsException) {
+                Log.e("loadAllBitmaps", "could not load bitmaps")
             }
         }
         return success
