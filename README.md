@@ -23,7 +23,7 @@ You can also add future one-time events like graduation dates, which are automat
 
 # Where is this app available?
 - [X] [Google Play](https://play.google.com/store/apps/details?id=com.procrastimax.birthdaybuddy)
-- [ ] F-Droid (coming)
+- [X] [F-Droid](https://f-droid.org/en/packages/com.procrastimax.birthdaybuddy/)
 
 # How can I contribute?
 When you want to inform me about bugs or just want to add any thoughts to this project, feel free to contact me via E-mail (*heykeroth.dev@gmail.com*) or create a Pull-Request and add your own ideas directly in the code.
