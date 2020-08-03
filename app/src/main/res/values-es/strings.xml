@@ -38,7 +38,7 @@
     <string name="event_property_forename">Nombre</string>
     <string name="event_property_surname">Apellido</string>
     <string name="event_property_nickname">Apodo</string>
-    <string name="event_property_note">Noticia</string>
+    <string name="event_property_note">Notas adicionales</string>
     <string name="event_type_birthday">Cumpleaños</string>
     <string name="event_type_annual_event">Evento anual</string>
     <string name="event_type_one_time_event">Evento único</string>
@@ -213,8 +213,8 @@
     <string name="settings_title_notifications">Notificaciones</string>
     <string name="settings_title_sound">Sonido</string>
     <string name="settings_title_vibration">Vibración</string>
-    <string name="settings_title_notification_time">Tiempo de la notificación</string>
-    <string name="settings_title_notification_day">Día de la notificación</string>
+    <string name="settings_title_notification_time">Hora de la notificación</string>
+    <string name="settings_title_notification_day">Lanzar una notificación</string>
 
     <string name="dialog_title_notification_light">Luz de la notificación</string>
     <string name="delete_all_dialog_title">Borrar todos los datos?</string>
@@ -280,10 +280,10 @@
 
     <string name="error_retry_save_file">¡Estás tratando de reescribir un archivo de exportación con eventos actuales!</string>
 
-    <string name="dialog_export_data_title">Guardando eventos</string>
-    <string name="dialog_import_data_title">Importando eventos</string>
-    <string name="dialog_import_data_text">Importará todos eventos previamente exportados desde la ruta de tu almacenamiento externo.\n\nEn caso de fallar, comprobará que existan datos en la siguiente ruta: %1$s/birthdaybuddy</string>
-    <string name="dialog_export_data_text">Exportará todos tus eventos a tu almacenamiento externo, en texto plano. Desde allí podrás consultar tus datos cuando quieras. La exportación no guardará ninguna imagen.\nSi tu almacenamiento externo es una tarjeta SD, podrás importar los datos en otros teléfonos.\n\n La ruta será: %1$s/birthdaybuddy</string>
+    <string name="dialog_export_data_title">Exportar eventos</string>
+    <string name="dialog_import_data_title">Importar eventos</string>
+    <string name="dialog_import_data_text">Se importarán todos eventos previamente exportados desde la ruta del almacenamiento externo de tu dispositivo.\n\nEn caso de fallar, comprobará que existan datos en la siguiente ruta: %1$s/birthdaybuddy</string>
+    <string name="dialog_export_data_text">Se exportarán todos tus eventos al almacenamiento externo de tu dispositivo, en texto plano. Desde allí podrás consultar tus datos cuando quieras. La exportación no guardará ninguna imagen.\n\nSi tu almacenamiento externo es una tarjeta SD, podrás importar los datos en otros teléfonos.\n\nTus datos se guardarán en: %1$s/birthdaybuddy</string>
     <string name="settings_extra_title_export">Exportar datos</string>
     <string name="settings_extra_title_import">Importar datos</string>
     <string name="settings_extra_title_darkmode">Activar modo oscuro</string>
