@@ -6,7 +6,7 @@
     <string name="no">No</string>
     <string name="apply">Aplicar</string>
     <string name="today">hoy</string>
-    <string name="noEntries">Ninguna entradas :(</string>
+    <string name="noEntries">No tienes ninguna entrada aún :(</string>
     <string name="noEventsFound">No se han encontrado los eventos :(</string>
     <string name="cntnue">Continuar</string>
     <string name="edit">Editar</string>
@@ -44,22 +44,22 @@
     <string name="event_type_one_time_event">Evento único</string>
 
     <!-- birthday event view -->
-    <string name="alert_dialog_missing_avatar_img_title">Error mientras intentado cargar el imagen</string>
-    <string name="alert_dialog_missing_avatar_img_text">Un error ha ocurrido mientras el intento de cargar un imagen de avatar.\nLa referencia del imagen se va a borrar.</string>
+    <string name="alert_dialog_missing_avatar_img_title">Error al intentar cargar la imagen</string>
+    <string name="alert_dialog_missing_avatar_img_text">Ha ocurrido un error al intentar cargar la imagen del avatar.\nLa referencia de la imagen se borrará.</string>
 
     <!-- fragment add new birthday -->
     <string name="toolbar_title_add_birthday">Añadir nuevo cumpleaños</string>
     <string name="toolbar_title_edit_birthday">Editar cumpleaños</string>
-    <string name="future_birthday_error">No se puede añadir los cumpleaños en el futuro!\nSolamente se añaden los cumpleaños que tengan con las fechas en el pasado.</string>
+    <string name="future_birthday_error">No se pueden añadir fechas de nacimiento en el futuro!\nSolamente se pueden añadir fechas de nacimiento pasadas.</string>
     <string name="empty_fields_error_birthday">¡Asegurate de llenar los campos del nombre y la fecha!</string>
     <string name="person_added_notification">Se ha añadido el cumpleaños</string>
     <string name="person_changed_notification">Se ha cambiado el cumpleaños</string>
     <string name="person_deleted_notification">Se ha añadido el cumpleaños</string>
     <string name="btn_birthday_delete">Borrar el cumpleaños</string>
 
-    <string name="avatar_btn_clicked_menu_item_select_photo">Seleccionar el foto</string>
+    <string name="avatar_btn_clicked_menu_item_select_photo">Seleccionar la foto</string>
     <!--<string name="avatar_btn_clicked_menu_item_take_new_photo">Tomar un foto nuevo</string>-->
-    <string name="avatar_btn_clicked_menu_item_delete_photo">Borrar el foto</string>
+    <string name="avatar_btn_clicked_menu_item_delete_photo">Borrar la foto</string>
 
     <!-- alert dialog delete -->
     <string name="alert_dialog_title_delete_birthday">Borrar el cumpleaños</string>
@@ -68,7 +68,7 @@
     <!-- fragment show birthday -->
     <string name="intent_share_chooser_title">Seleccionar una app para compartir</string>
     <string name="person_show_date">Nacido el %1$s</string>
-    <string name="person_days_until_today">%1$s tiene su cumpleaños hoy!</string>
+    <string name="person_days_until_today">¡%1$s cumple años hoy!</string>
 
     <plurals name="person_days_until">
         <item quantity="one">El próximo cumpleaños de %1$s es en %2$d día el %3$s</item>
@@ -83,7 +83,7 @@
     <string name="share_birthday_name">%1$s</string>
     <string name="share_birthday_date_start">Nacido el: %1$s</string>
     <string name="share_birthday_date_next">Próximo cumpleaños: %1$s</string>
-    <string name="share_birthday_days_today">Es hoy!</string>
+    <string name="share_birthday_days_today">¡Es hoy!</string>
     <plurals name="share_birthday_days">
         <item quantity="one">En %1$d día</item>
         <item quantity="other">En %1$d días</item>
@@ -92,7 +92,7 @@
     <!-- birthday event notifications -->
     <string name="notification_title_birthday">%1$s</string>
     <string name="notification_content_birthday_future">El cumpleaños de %1$s es en %2$d días.</string>
-    <string name="notification_content_birthday_tomorrow">¡El cumpleaños de %1$s en mañana!</string>
+    <string name="notification_content_birthday_tomorrow">¡El cumpleaños de %1$s es mañana!</string>
     <string name="notification_content_birthday_today">¡El cumpleaños de %1$s es HOY!</string>
     <string name="notification_content_birthday_years_old">%1$s cumple %2$d años.</string>
 
@@ -102,28 +102,28 @@
     <!-- fragment add new annual event -->
     <string name="toolbar_title_add_annual_event">Añadir un evento anual</string>
     <string name="toolbar_title_edit_annual_event">Editar un evento anual</string>
-    <string name="future_annual_event_error">No puedes añadir un evento del futuro!</string>
-    <string name="empty_fields_error_annual_event">Asegúrate de que llenes los campos nombre y fecha!</string>
-    <string name="annual_event_added_notification">%1$s se ha añadio</string>
+    <string name="future_annual_event_error">¡No puedes añadir un evento del futuro!</string>
+    <string name="empty_fields_error_annual_event">¡Asegúrate de llenar los campos de nombre y fecha!</string>
+    <string name="annual_event_added_notification">%1$s se ha añadido</string>
     <string name="annual_event_changed_notification">%1$s se ha cambiado</string>
     <string name="annual_event_deleted_notification">%1$s se ha borrado</string>
     <string name="edit_annual_event_name_hint">Nombre del evento</string>
     <string name="btn_annual_event_delete">Borrar el evento anual</string>
 
     <!-- alert dialog delete annual event -->
-    <string name="alert_dialog_body_message_annual_event">Seguramente quieres borrar este evento anual?</string>
+    <string name="alert_dialog_body_message_annual_event">¿Realmente quieres borrar este evento anual?</string>
 
     <!-- fragment show annual event -->
     <string name="annual_event_start_date">Empezó el %1$s</string>
-    <string name="annual_event_show_date_tomorrow">La próxima vez es mañana a las %1$s!</string>
-    <string name="annual_event_show_date_today">%1$s es HOY!</string>
+    <string name="annual_event_show_date_tomorrow">¡La próxima vez es mañana a las %1$s!</string>
+    <string name="annual_event_show_date_today">¡%1$s es HOY!</string>
     <plurals name="annual_event_show_date">
         <item quantity="one">La proxima vez es en %1$d día el %2$s</item>
         <item quantity="other">La proxima vez es en %1$d días el %2$s</item>
     </plurals>
     <plurals name="annual_event_years">
-        <item quantity="one">¡La primera vez desde empezó!</item>
-        <item quantity="other">¡La %1$d. vez desde empezó!</item>
+        <item quantity="one">¡La primera vez desde que empezó!</item>
+        <item quantity="other">¡La %1$d. vez desde que empezó!</item>
     </plurals>
 
     <!-- sharing strings annual event -->
@@ -141,8 +141,8 @@
 
     <!-- annual_event notifications -->
     <string name="notification_title_annual_event">%1$s</string>
-    <string name="notification_content_annual_event_future">%1$s en en %2$d días</string>
-    <string name="notification_content_annual_event_tomorrow">%¡1$s es mañana!</string>
+    <string name="notification_content_annual_event_future">%1$s es en %2$d días</string>
+    <string name="notification_content_annual_event_tomorrow">¡%¡1$s es mañana!</string>
     <string name="notification_content_annual_event_today">¡%1$s es HOY!</string>
 
     <!-- ONE TIME EVENT -->
@@ -157,7 +157,7 @@
     <string name="btn_one_time_event_delete">Borrar evento</string>
 
     <!-- alert dialog delete one_time event -->
-    <string name="alert_dialog_body_message_one_time_event">Seguramente quieres borrar este evento</string>
+    <string name="alert_dialog_body_message_one_time_event">¿Realmente quieres borrar este evento?</string>
 
     <!-- fragment show one time event -->
     <string name="one_time_event_today">es HOY!</string>
@@ -193,9 +193,9 @@
 
     <!-- settings fragment -->
 
-    <string name="tv_notification_interval_month">El mes antes</string>
-    <string name="tv_notification_interval_week">La semana antes</string>
-    <string name="tv_notification_interval_day">El día antes</string>
+    <string name="tv_notification_interval_month">El mes anterior</string>
+    <string name="tv_notification_interval_week">La semana anterior</string>
+    <string name="tv_notification_interval_day">El día anterior</string>
     <string name="tv_notification_interval_eventday">El día del evento</string>
 
     <string name="notification_channel_name">BirthdayBuddyNotification</string>
@@ -218,17 +218,17 @@
 
     <string name="dialog_title_notification_light">Luz de la notificación</string>
     <string name="delete_all_dialog_title">Borrar todos los datos?</string>
-    <string name="delete_all_dialog_body">¿Seguremente quieres borrar todos los datos?</string>
+    <string name="delete_all_dialog_body">¿Realmente quieres borrar todos los datos?</string>
     <string name="delete_all_dialog_confirmation">Todos los eventos se han borrado</string>
 
     <!-- Searching -->
     <string name="searching_toolbar_title">Buscar por: %1$s</string>
-    <string name="searching_toolbar_actionview_hint">Busca</string>
+    <string name="searching_toolbar_actionview_hint">Buscar</string>
 
     <!-- main menu -->
-    <string name="main_menu_item_about">Sobre</string>
+    <string name="main_menu_item_about">Acerca de</string>
     <string name="main_menu_item_help">Ayuda</string>
-    <string name="fab_event_list_birthday_title">Nuevo cunpleaños</string>
+    <string name="fab_event_list_birthday_title">Nuevo cumpleaños</string>
     <string name="fab_event_list_annual_event_title">Nuevo evento anual</string>
     <string name="fab_event_list_one_time_event_title">Nuevo evento sin repetición</string>
 
@@ -245,7 +245,7 @@
     <string name="about_title_thanks">Reconocimientos</string>
 
     <string name="about_content_license">This app underlies the terms and conditions of the GNU General Public License v3.0.\nFor more detailed information read this: https://www.gnu.org/licenses/gpl-3.0.en.html</string>
-    <string name="about_content_openSource">BirthdayBuddy es un projecto privado y sin fines de lucro. Mi idea basica era aprender más sobre el framework de Android y Kotlin (y encima tener una herramienta ostia para recordar los cumpleaños). Por eso el código esté proyecto se encuentra para todo el mundo en mi página de Github (https://github.com/procrastimax/BirthdayBuddy). Si quieres contribuir a este proyecto con ideas creativas, o simplemente quieres critizar el código, puedes crear un issue en Github o forcalo y crea un Merge Request :)</string>
+    <string name="about_content_openSource">BirthdayBuddy es un projecto privado y sin fines de lucro. Mi idea básica era aprender más sobre el framework de Android y Kotlin (y encima tener una herramienta de la ostia para recordar los cumpleaños). Por eso el código esté proyecto se encuentra para todo el mundo en mi página de Github (https://github.com/procrastimax/BirthdayBuddy). Si quieres contribuir a este proyecto con ideas creativas, o simplemente quieres critizar el código, puedes crear un issue en Github o forcalo y crea un Merge Request :)</string>
     <string name="about_content_contact">correo electronico: heykeroth.dev@gmail.com\nGitHub: procrastimax</string>
     <string name="about_content_thanks">Quiero dar las gracias a todas las personas que me han apoyado y ayudado con este aplicación con respecto a traducirlo y testarlo.\n¡Pues gracias, Dascha, Paula, Carl, Daniel, Denis and Jarvis!</string>
 
@@ -257,35 +257,35 @@
     <string name="help_title_support">¿Cómo puedo apoyarte como desarrollador?</string>
     <string name="help_title_notifications">Mis notificaciones no aparecen corectamente</string>
 
-    <string name="help_content_reason">El objetivo de esta aplicación es recordar al usuario sobre los cumpleaños, eventos anuales y aniversarios en una manera simple y sencilla.\n¿Pero, porque no simplemente usar los existentes funcionalidades de Facebook birthdays o del calendario de google?\nPara esta aplicación no hay que crear una cuenta en Facebook (de hecho, no hay que crear ningún tipo de cuenta). Además, no hay anuncios innecesarios ni pop-ups como en otras aplicaciones.\nOtra cosa importante es la privacidad. Esta aplicación guarda todos los datos de los cumpleaños y eventos solamente en tu móvil. Nadie puede accessar tus datos y todo está seguro.</string>
-    <string name="help_content_Birthday">Los eventos de cumpleaños dan la posibilidad de guardar la fecha de nacimiento de una persona con características como poner el año de nacimiento o calcular la edad de la persona. Además puedes poner una imagen única para personalizar la página del cumpleaños de esta persona. La aplicación te va a recordar cada año a este cumpleaños.</string>
-    <string name="help_content_Annual">Los eventos anuales ocurren una vez cada año, como aniversarios o fiestas especiales. Puedes poner la fecha con el año del comienzo. De esta manera, la aplicación calcula desde cuando el evento ocurre, que es útil para aniversarios. La aplicación te va a recordar cada año al evento.
+    <string name="help_content_reason">El objetivo de esta aplicación es recordar al usuario sobre los cumpleaños, eventos anuales y aniversarios en una manera simple y sencilla.\n¿Pero, porque no simplemente usar los existentes funcionalidades de Facebook birthdays o del calendario de google?\nPara esta aplicación no hay que crear una cuenta en Facebook (de hecho, no hay que crear ningún tipo de cuenta). Además, no hay anuncios innecesarios ni pop-ups como en otras aplicaciones.\nOtra cosa importante es la privacidad. Esta aplicación guarda todos los datos de los cumpleaños y eventos únicamente en tu móvil. Nadie puede acceder a tus datos y todo está seguro.</string>
+    <string name="help_content_Birthday">Los eventos de cumpleaños te dan la posibilidad de guardar la fecha de nacimiento de una persona con características como poner el año de nacimiento o calcular la edad de la persona. Además puedes poner una imagen única para personalizar la página del cumpleaños de esta persona. La aplicación te va a recordar cada año a este cumpleaños.</string>
+    <string name="help_content_Annual">Los eventos anuales ocurren una vez cada año, como aniversarios o fiestas especiales. Puedes poner la fecha con el año de comienzo. De esta manera, la aplicación calcula desde cuando el evento ocurre, lo cual es útil para aniversarios. La aplicación te recordará el evento cada año.
     </string>
-    <string name="help_content_OneTime">Los eventos sin repetición solamente tienen lugar una vez en el futuro. El día después, todos los datos sobre el evento se borran. Este tipo de evento pueda ser un examen en el futuro o la fecha de tu graduacion o qualquier tipo de cosa de cual realmente quieres ser recordado.
+    <string name="help_content_OneTime">Los eventos sin repetición solamente tienen lugar una vez en el futuro. El día después, todos los datos sobre el evento se borran. Este tipo de evento pueda ser un examen en el futuro o la fecha de tu graduacion o cualquier tipo de cosa de la cual quieras ser recordado.
     </string>
-    <string name="help_content_support">Para mí, desarrollar aplicaciones o programas para otros es estupendo. Aún está más divertido sí a la gente en el fondo le gusta lo que haces, o si puede contribuir a tu proyecto de una manera productiva.\n Si te gusta esta aplicación y quieres apoyarme, hay muchas formas de hacerlo. Lo más sencillo sería evaluar la aplicación en el app store ;)\n Si eres un desarrollador, podrías mira a mi página de GitHub (veáse \'Sobre\') y contribuir a este proyecto.\nSi quieres también puedes donar a mi página de Github para que pueda permitirme más café para mi proxima app :)
+    <string name="help_content_support">Para mí, desarrollar aplicaciones o programas para otros es estupendo. Aún es más divertido sí a la gente en el fondo le gusta lo que haces, o si puede contribuir a tu proyecto de una manera productiva.\n Si te gusta esta aplicación y quieres apoyarme, hay muchas formas de hacerlo. Lo más sencillo sería evaluar la aplicación en el app store ;)\n Si eres un desarrollador, podrías mira a mi página de GitHub (veáse \'Acerca de\') y contribuir a este proyecto.\nSi quieres también puedes donar a mi página de Github para que pueda permitirme más café para mi proxima app :)
     </string>
-    <string name="help_content_notifications">Si encuentras el problema, que tus notificaiones de eventos no aparecen corectamente: Va a las ajustes de tu móvil y revisa las configuraciones para esta aplicación. Puede ser que tengas que dar esta aplicación una prioridad más alta o que tengas que checar el ajuste para que las banderas aparecen encima de la barra del estatus (si existe).
+    <string name="help_content_notifications">Si te encuentras con el problema de que tus notificaciones de eventos no aparecen corectamente: Va a las ajustes de tu móvil y revisa las configuraciones para esta aplicación. Puede ser que tengas que dar esta aplicación una prioridad más alta o que tengas que comprobar los ajustes para que las banderas aparecen encima de la barra del estatus (si existe).
     </string>
 
-    <string name="setting_use_calendarview">Use a calendar view for date</string>
-    <string name="permissions_toast_denied_write">This apps needs the rights to write all events on your external storage!</string>
-    <string name="permissions_toast_denied_read">This apps needs the rights to read the events from your external storage!</string>
-    <string name="permissions_toast_no_sd">Error - Can\'t access your external storage!</string>
-    <string name="permissions_toast_export_error">Error - Something went wrong when trying to write to your external storage!</string>
-    <string name="permissions_toast_import_error">Error - Something went wrong when trying to read from your external storage!</string>
+    <string name="setting_use_calendarview">Usar la vista de calendario para las fechas</string>
+    <string name="permissions_toast_denied_write">Esta aplicación necesita los permisos para poder exportar todos los eventos en la memoria externa del dispositivo</string>
+    <string name="permissions_toast_denied_read">Esta aplicación necesita los permisos para poder leer todos los eventos de la memoria externa del dispositivo</string>
+    <string name="permissions_toast_no_sd">Error - No se puede acceder a la memoria externa del dispositivo</string>
+    <string name="permissions_toast_export_error">Error - Algo anduvo mal al tratar de exportar en la memoria externa del dispositivo</string>
+    <string name="permissions_toast_import_error">Error - Algo anduvo mal al tratar de leer desde la memoria externa del dispositivo</string>
 
-    <string name="permissions_snackbar_granted_write">Events successfully saved</string>
-    <string name="permissions_snackbar_granted_read">Events successfully imported</string>
+    <string name="permissions_snackbar_granted_write">Los eventos fueron exportados exitosamente</string>
+    <string name="permissions_snackbar_granted_read">Los eventos fueron importados exitosamente</string>
 
-    <string name="error_retry_save_file">Trying to rewrite save-file with current events!</string>
+    <string name="error_retry_save_file">¡Estás tratando de reescribir un archivo de exportación con eventos actuales!</string>
 
-    <string name="dialog_export_data_title">Saving events</string>
-    <string name="dialog_import_data_title">Importing events</string>
-    <string name="dialog_import_data_text">This is going to try to import all your events from your external storage path.\n\nIf this fails, check if the event data exists in the following path: %1$s/birthdaybuddy</string>
-    <string name="dialog_export_data_text">This is going to save all your event data in clear-text on your external storage. From there you can retrieve the data at any time. This will not save any images.\nIf your external storage is a SD-Card you can import the data from different phones.\n\nData path: %1$s/birthdaybuddy</string>
-    <string name="settings_extra_title_export">Save data</string>
-    <string name="settings_extra_title_import">Import data</string>
-    <string name="settings_extra_title_darkmode">Activate Dark Mode</string>
-    <string name="verification_edit_date_input">The date input does not match the required date format!\nPlease use a format like: %1$s</string>
+    <string name="dialog_export_data_title">Guardando eventos</string>
+    <string name="dialog_import_data_title">Importando eventos</string>
+    <string name="dialog_import_data_text">Importará todos eventos previamente exportados desde la ruta de tu almacenamiento externo.\n\nEn caso de fallar, comprobará que existan datos en la siguiente ruta: %1$s/birthdaybuddy</string>
+    <string name="dialog_export_data_text">Exportará todos tus eventos a tu almacenamiento externo, en texto plano. Desde allí podrás consultar tus datos cuando quieras. La exportación no guardará ninguna imagen.\nSi tu almacenamiento externo es una tarjeta SD, podrás importar los datos en otros teléfonos.\n\n La ruta será: %1$s/birthdaybuddy</string>
+    <string name="settings_extra_title_export">Exportar datos</string>
+    <string name="settings_extra_title_import">Importar datos</string>
+    <string name="settings_extra_title_darkmode">Activar modo oscuro</string>
+    <string name="verification_edit_date_input">La fecha ingresada no coincide con el formato requerido\nPor favor, utiliza el siguiente formato: %1$s</string>
 </resources>
