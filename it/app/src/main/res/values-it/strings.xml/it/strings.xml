@@ -1,0 +1,248 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- _________globals____________ -->
+    <string name="app_name">Birthday Buddy</string>
+    <string name="undo">Annulla</string>
+    <string name="yes">Sì</string>
+    <string name="no">No</string>
+    <string name="apply">Applica</string>
+    <string name="cntnue">Continua</string>
+    <string name="edit">Modifica</string>
+    <string name="share">Condividi</string>
+    <string name="abort">Interrompi</string>
+    <string name="today">oggi</string>
+    <string name="noEntries">Nessun evento :(</string>
+    <string name="noEventsFound">Nessun evento trovato :(</string>
+    <string name="necessary">(obbligatorio)</string>
+    <string-array name="month_names">
+        <item>Gennaio</item>
+        <item>Febbraio</item>
+        <item>Marzo</item>
+        <item>Aprile</item>
+        <item>Maggio</item>
+        <item>Giugno</item>
+        <item>Luglio</item>
+        <item>Agosto</item>
+        <item>Settembre</item>
+        <item>Ottobre</item>
+        <item>Novembre</item>
+        <item>Dicembre</item>
+    </string-array>
+    <!-- BIRTHDAY -->
+    <string name="event_property_days">Giorni</string>
+    <string name="event_property_years">Anni</string>
+    <string name="event_property_year">Anno</string>
+    <string name="event_property_turns">ne compie</string>
+    <string name="event_property_date">Data</string>
+    <string name="event_property_forename">Nome</string>
+    <string name="event_property_surname">Cognome</string>
+    <string name="event_property_nickname">Soprannome</string>
+    <string name="event_property_note">Note</string>
+    <string name="event_type_birthday">Compleanno</string>
+    <string name="event_type_annual_event">Evento annuale</string>
+    <string name="event_type_one_time_event">Evento unico</string>
+    <!-- birthday event view -->
+    <string name="alert_dialog_missing_avatar_img_title">Errore nel caricamento dell\'immagine!</string>
+    <string name="alert_dialog_missing_avatar_img_text">Si è verificato un errore nel caricamento dell\'immagine dell\'evento.\nL\'azione non è andata a buon fine.</string>
+    <!-- fragment add new birthday -->
+    <string name="toolbar_title_add_birthday">Aggiungi nuovo compleanno</string>
+    <string name="toolbar_title_edit_birthday">Modifica compleanno</string>
+    <string name="future_birthday_error">Non puoi prevedere il futuro!\nAggiungi solo date di nascita passate.</string>
+    <string name="empty_fields_error_birthday">Assicurati di riempire i campi nome e data!</string>
+    <string name="person_added_notification">Compleanno aggiunto</string>
+    <string name="person_changed_notification">Compleanno modificato</string>
+    <string name="person_deleted_notification">Compleanno eliminato</string>
+    <string name="btn_birthday_delete">Elimina compleanno</string>
+    <string name="verification_edit_date_input">La data inserita non corrisponde al formato richiesto!\nUsa il formato: %1$s</string>
+    <string name="avatar_btn_clicked_menu_item_select_photo">Scegli dalla galleria</string>
+    <!--<string name="avatar_btn_clicked_menu_item_take_new_photo">Take new photo</string>-->
+    <string name="avatar_btn_clicked_menu_item_delete_photo">Rimuovi foto</string>
+    <!-- alert dialog delete -->
+    <string name="alert_dialog_title_delete_birthday">Elimina compleanno</string>
+    <string name="alert_dialog_body_message">Vuoi davvero eliminare questo compleanno?</string>
+    <!-- fragment show birthday -->
+    <string name="intent_share_chooser_title">Condividi su</string>
+    <string name="person_show_date">Data di nascita: %1$s</string>
+    <string name="person_days_until_today">Il compleanno di %1$s è oggi!</string>
+    <plurals name="person_days_until">
+        <item quantity="one">Il prossimo compleanno di %1$s è tra %2$d giorno, %3$s</item>
+        <item quantity="other">Il prossimo compleanno di %1$s è tra %2$d giorni, %3$s.\nMancano %4$s settimane.</item>
+    </plurals>
+    <plurals name="person_years_old">
+        <item quantity="one">%1$s compie %2$d anno</item>
+        <item quantity="other">%1$s compie %2$d anni</item>
+    </plurals>
+    <!-- sharing strings birthday -->
+    <string name="share_birthday_name">%1$s</string>
+    <string name="share_birthday_date_start">Data di nascita: %1$s</string>
+    <string name="share_birthday_date_next">Prossimo compleanno: %1$s</string>
+    <string name="share_birthday_days_today">È oggi!</string>
+    <plurals name="share_birthday_days">
+        <item quantity="one">Tra %1$d giorno</item>
+        <item quantity="other">Tra %1$d giorni</item>
+    </plurals>
+    <!-- birthday event notifications -->
+    <string name="notification_title_birthday">%1$s</string>
+    <string name="notification_content_birthday_future">Il compleanno di %1$s è tra %2$d giorni.</string>
+    <string name="notification_content_birthday_tomorrow">Il compleanno di %1$s è domani!</string>
+    <string name="notification_content_birthday_today">Il compleanno di %1$s è OGGI!</string>
+    <string name="notification_content_birthday_years_old">%1$s compie %2$d</string>
+    <!--- ANNUAL EVENT -->
+    <!-- annual event view -->
+    <!-- fragment add new annual event -->
+    <string name="toolbar_title_add_annual_event">Aggiungi nuovo evento annuale</string>
+    <string name="toolbar_title_edit_annual_event">Modifica evento annuale</string>
+    <string name="future_annual_event_error">Non puoi aggiungere un evento annuale futuro!</string>
+    <string name="empty_fields_error_annual_event">Assicurati di riempire i campi nome e data!</string>
+    <string name="annual_event_added_notification">%1$s è stato aggiunto</string>
+    <string name="annual_event_changed_notification">%1$s è stato modificato</string>
+    <string name="annual_event_deleted_notification">%1$s è stato eliminato</string>
+    <string name="edit_annual_event_name_hint">Nome dell\'evento</string>
+    <string name="btn_annual_event_delete">Elimina evento annuale</string>
+    <!-- alert dialog delete annual event -->
+    <string name="alert_dialog_body_message_annual_event">Vuoi davvero eliminare questo evento annuale?</string>
+    <!-- fragment show annual event -->
+    <string name="annual_event_start_date">È iniziato %1$s</string>
+    <string name="annual_event_show_date_tomorrow">Prossima volta domani, %1$s!</string>
+    <string name="annual_event_show_date_today">%1$s è OGGI!</string>
+    <plurals name="annual_event_show_date">
+        <item quantity="one">Prossima volta tra %1$d giorno, %2$s</item>
+        <item quantity="other">Prossima volta tra %1$d giorni, %2$s.\nMancano %3$s settimane.</item>
+    </plurals>
+    <plurals name="annual_event_years">
+        <item quantity="one">Per la prima volta dalla creazione dell\'evento!</item>
+        <item quantity="other">Per la %1$dª volta dalla creazione dell\'evento!</item>
+    </plurals>
+    <!-- sharing strings annual event -->
+    <string name="share_annual_event_name">%1$s</string>
+    <string name="share_annual_event_date_next">Prossima volta: %1$s</string>
+    <string name="share_annual_event_date_start">Prima volta: %1$s</string>
+    <plurals name="share_annual_event_days">
+        <item quantity="one">Tra %1$d giorno</item>
+        <item quantity="other">Tra %1$d giorni</item>
+    </plurals>
+    <plurals name="share_annual_event_year">
+        <item quantity="one">Da %1$d anno</item>
+        <item quantity="other">Da %1$d anni</item>
+    </plurals>
+    <!-- annual_event notifications -->
+    <string name="notification_title_annual_event">%1$s</string>
+    <string name="notification_content_annual_event_future">%1$s è tra %2$d giorni</string>
+    <string name="notification_content_annual_event_tomorrow">%1$s è domani!</string>
+    <string name="notification_content_annual_event_today">%1$s è OGGI!</string>
+    <!-- ONE TIME EVENT -->
+    <!-- fragment add new  one time event -->
+    <string name="toolbar_title_add_one_time_event">Aggiungi nuovo evento unico</string>
+    <string name="toolbar_title_edit_one_time_event">Modifica evento unico</string>
+    <string name="error_past_one_time_event_error">Puoi aggiungere solo eventi unici futuri!</string>
+    <string name="one_time_event_added_notification">%1$s è stato aggiunto</string>
+    <string name="one_time_event_changed_notification">%1$s è stato modificato</string>
+    <string name="one_time_event_deleted_notification">%1$s è stato eliminato</string>
+    <string name="edit_one_time_event_name_hint">Nome dell\'evento</string>
+    <string name="btn_one_time_event_delete">Elimina evento unico</string>
+    <!-- alert dialog delete one_time event -->
+    <string name="alert_dialog_body_message_one_time_event">Vuoi davvero eliminare questo evento unico?</string>
+    <!-- fragment show one time event -->
+    <string name="one_time_event_today">è OGGI!</string>
+    <string name="one_time_event_tomorrow">è domani!</string>
+    <plurals name="one_time_event_show_date">
+        <item quantity="one">tra %1$d giorno, %2$s</item>
+        <item quantity="other">tra %1$d giorni, %2$s.\nMancano %3$s settimane.</item>
+    </plurals>
+    <plurals name="one_time_event_years">
+        <item quantity="one">Tra %1$d anno</item>
+        <item quantity="other">Tra %1$d anni</item>
+    </plurals>
+    <!-- sharing strings one_time event -->
+    <string name="share_one_time_event_name">%1$s</string>
+    <string name="share_one_time_event_date_next">%1$s</string>
+    <string name="share_one_time_event_days_today">È oggi!</string>
+    <plurals name="share_one_time_event_days">
+        <item quantity="one">È tra %1$d giorno</item>
+        <item quantity="other">È tra %1$d giorni</item>
+    </plurals>
+    <plurals name="share_one_time_event_year">
+        <item quantity="one">Tra %1$d anno</item>
+        <item quantity="other">Tra %1$d anni</item>
+    </plurals>
+    <!-- one-time event notifications -->
+    <string name="notification_title_one_time_event">%1$s</string>
+    <string name="notification_content_one_time_event_future">%1$s è tra %2$d giorni</string>
+    <string name="notification_content_one_time_event_tomorrow">%1$s è domani!</string>
+    <string name="notification_content_one_time_event_today">%1$s è OGGI!</string>
+    <!-- settings fragment -->
+    <string name="tv_notification_interval_month">Un mese prima</string>
+    <string name="tv_notification_interval_week">Una settimana prima</string>
+    <string name="tv_notification_interval_day">Il giorno prima</string>
+    <string name="tv_notification_interval_eventday">Il giorno dell\'evento</string>
+    <string name="notification_channel_description">Invia una notifica all\'utente per gli eventi</string>
+    <string-array name="light_modes">
+        <item>nessuna luce</item>
+        <item>bianca</item>
+        <item>rossa</item>
+        <item>verde</item>
+        <item>blu</item>
+    </string-array>
+    <string name="settings_extra_title_delete_all">Elimina tutti i dati</string>
+    <string name="settings_extra_title_export">Salva dati</string>
+    <string name="settings_extra_title_import">Importa dati</string>
+    <string name="settings_extra_title_darkmode">Modalità notte</string>
+    <string name="settings_title_notifications">Notifiche</string>
+    <string name="settings_title_sound">Suono</string>
+    <string name="settings_title_vibration">Vibrazione</string>
+    <string name="settings_title_notification_time">Ora della notifica</string>
+    <string name="settings_title_notification_day">Giorno della notifica</string>
+    <string name="dialog_title_notification_light">Luce della notifica</string>
+    <string name="delete_all_dialog_title">Eliminare tutti i dati?</string>
+    <string name="delete_all_dialog_body">Vuoi eliminare tutti i dati dell\'evento?</string>
+    <string name="delete_all_dialog_confirmation">Tutti gli eventi sono stati eliminati</string>
+    <string name="setting_use_calendarview">Scegli data dal calendario</string>
+    <!-- Searching -->
+    <string name="searching_toolbar_title">Cerca: %1$s</string>
+    <string name="searching_toolbar_actionview_hint">Cerca</string>
+    <!-- main menu -->
+    <string name="main_menu_item_about">Informazioni</string>
+    <string name="main_menu_item_help">Aiuto</string>
+    <string name="fab_event_list_birthday_title">Nuovo compleanno</string>
+    <string name="fab_event_list_annual_event_title">Nuovo evento annuale</string>
+    <string name="fab_event_list_one_time_event_title">Nuovo evento unico</string>
+    <!-- settings -->
+    <string name="settings_title">Impostazioni</string>
+    <!-- About information -->
+    <string name="about_title_version">Versione</string>
+    <string name="about_title_appName">Nome dell\'applicazione</string>
+    <string name="about_title_buildNumber">Numero di build</string>
+    <string name="about_title_license">Licenza</string>
+    <string name="about_title_openSource">OpenSource</string>
+    <string name="about_title_contactInformation">Contatti</string>
+    <string name="about_title_thanks">Ringraziamenti</string>
+    <string name="about_content_license">Questa applicazione è soggetta a termini e condizioni della GNU General Public License v3.0.\nPer maggiori informazioni vedi: https://www.gnu.org/licenses/gpl-3.0.en.html</string>
+    <string name="about_content_openSource">BirthdayBuddy è un progetto privato senza scopo di lucro. La mia idea di base era saperne di più sulla struttura Android e kotlin (e avere inoltre uno strumento utile per ricordare i compleanni). Perciò, il codice di questo progetto android scritto in kotlin è pubblico sulla mia pagina github (https://github.com/procrastimax/BirthdayBuddy). Usa le funzioni di Github se vuoi contribuire a questo progetto con idee creative o vuoi semplicemente criticare il mio codice :)</string>
+    <string name="about_content_thanks">Vorrei ringraziare tutti coloro che mi hanno sostenuto e mi hanno aiutato con questa applicazione per quanto riguarda le traduzioni e i test. Ringrazio Dascha, Paula, Carl, Daniel, Denis e Jarvis!</string>
+    <string name="about_content_contact">Email: heykeroth.dev@gmail.com\nGitHub: procrastimax</string>
+    <string name="permissions_toast_denied_write">Questa applicazione ha bisogno dei diritti per scrivere tutti gli eventi sulla tua memoria esterna!</string>
+    <string name="permissions_toast_denied_read">Questa applicazione ha bisogno dei diritti per leggere gli eventi dalla tua memoria esterna!</string>
+    <string name="permissions_toast_no_sd">Errore: impossibile accedere alla memoria esterna!</string>
+    <string name="permissions_toast_export_error">Errore: qualcosa è andato storto durante il tentativo di scrittura sulla memoria esterna!</string>
+    <string name="permissions_toast_import_error">Errore: qualcosa è andato storto durante il tentativo di lettura dalla memoria esterna!</string>
+    <string name="permissions_snackbar_granted_write">Eventi salvati correttamente</string>
+    <string name="permissions_snackbar_granted_read">Eventi importati correttamente</string>
+    <string name="error_retry_save_file">Tentativo di riscrivere il file di salvataggio con gli eventi attuali!</string>
+    <string name="dialog_export_data_title">Salvataggio eventi</string>
+    <string name="dialog_import_data_title">Importazione eventi</string>
+    <string name="dialog_import_data_text">Tentativo di importazione di tutti i tuoi eventi dal percorso di archiviazione esterno.\n\nSe non funziona, controlla se i dati dell\'evento sono presenti nel seguente percorso: %1$s/birthdaybuddy</string>
+    <string name="dialog_export_data_text">Salvataggio di tutti i dati dell\'evento in testo in chiaro sulla memoria esterna. Da lì puoi recuperare tutti i dati in qualsiasi momento. Le immagini non verranno salvate.\nSe la tua memoria esterna è una scheda SD, puoi importare i dati da diversi telefoni.\n\nPercorso dati: %1$s/birthdaybuddy</string>
+    <!-- help texts -->
+    <string name="help_title_reason">Perché usare questa applicazione?</string>
+    <string name="help_title_Birthday">Che cosa sono gli eventi di compleanno?</string>
+    <string name="help_title_Annual">Che cosa sono gli eventi annuali?</string>
+    <string name="help_title_OneTime">Che cosa sono gli eventi unici?</string>
+    <string name="help_title_support">In che modo posso sostenerti come sviluppatore?</string>
+    <string name="help_title_notifications">Le mie notifiche non vengono visualizzate correttamente</string>
+    <string name="help_content_reason">Lo scopo di questa applicazione è quello di ricordare all\'utente compleanni, eventi annuali e anniversari in maniera semplice e immediata.\nMa perché non usare i promemoria già esistenti dei compleanni di Facebook o Google Calendar?\nPer questa applicazione non è necessario creare un account Facebook (in realtà non serve nessun tipo di account). Inoltre non ci sono pubblicità o pop-up inutili come in altre applicazioni.\nUn altro punto saliente è la privacy. Questa applicazione salva tutti i dati dei tuoi compleanni e degli eventi esclusivamente sul tuo telefono. Nessuno può leggere/modificare i tuoi dati tranne te, ed è tutto privato.</string>
+    <string name="help_content_Birthday">Gli eventi di compleanno permettono di salvare la data di nascita di una persona insieme ad alcuni dettagli come il suo anno di nascita, per calcolarne l\'età, o un\'immagine per personalizzare la schermata del compleanno. Con questa applicazione non dimenticherai mai nessun compleanno!</string>
+    <string name="help_content_Annual">Gli eventi annuali sono quegli eventi che si verificano una volta l\'anno, come anniversari o feste speciali. Puoi impostare la data insieme all\'anno d\'inizio dell\'evento. In questo modo l\'applicazione calcola da quando si verifica l\'evento (il che è utile per gli anniversari). L\'applicazione ti ricorderà l\'evento ogni anno.</string>
+    <string name="help_content_OneTime">Gli eventi unici sono eventi speciali che si verificano una tantum. Il giorno dopo l\'evento tutti i suoi dati vengono eliminati. Può trattarsi di un esame futuro o una data di laurea o semplicemente qualcosa che non dovresti dimenticare e vuoi che ti venga ricordato. </string>
+    <string name="help_content_support">Sviluppare applicazioni e programmi per altre persone è una cosa fantastica per me. È ancora più divertente se alla gente piace davvero quello che faccio e contribuisce al progetto in maniera produttiva.\nSe ti piace questa applicazione e vuoi aiutarmi, ci sono molti modi per farlo. Il modo più semplice sarebbe quello di valutare questa applicazione nell\'App store ;)\nSe sei uno sviluppatore potresti provare a controllare il mio GitHub (vedi \'Informazioni\') e contribuire a questo progetto.</string>
+    <string name="help_content_notifications">Se riscontri un problema per cui le notifiche dell\'evento non appaiono correttamente, vai alle impostazioni di notifica sul tuo dispositivo android e controllale per questa applicazione. In alcuni casi devi dare una priorità maggiore a questa applicazione o impostare \"Banner: mostra sopra la barra di stato\" (se esistente).</string>
+</resources>
